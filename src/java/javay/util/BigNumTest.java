@@ -34,7 +34,7 @@ public class BigNumTest {
 //        BigNum test4 = new BigNum("126.0257");
 //        System.out.println(test4.toString());
 //        System.out.println("---------------");
-        BigNum test5 = new BigNum("37");
+//        BigNum test5 = new BigNum("37");
 //        System.out.println(test5.toString());
 //        System.out.println("---------------");
 //        BigNum test6 = new BigNum("+655.36");
