@@ -8,10 +8,9 @@ package javay.util;
  *
  */
 public class BigNum implements Comparable<BigNum> {
-    /** 符号:+:1,-:-1 */
+    /** 符号:正号:1,负号:-1 */
     private byte signed;
     /** 数据 十进制 一位对应一位 */
-    // private short[] datas;
     private byte[] datas;
     /** 数据的长度 */
     private int length;
@@ -21,20 +20,18 @@ public class BigNum implements Comparable<BigNum> {
 //    public static BigNum ZERO = new BigNum("0");
 //    public static BigNum ONE  = new BigNum("1");
 
-    public BigNum(byte si, byte[] da, int len, int sca) {
-        this.signed = si;
-        this.datas = da;
-        this.length = len;
-        this.scale = sca;
-    }
-
+    /**
+     * 构造函数
+     * @param str 字符串
+     */
     public BigNum(String str) {
         this(str.toCharArray(), 0 , str.toCharArray().length);
 //        System.out.println("★String:" + str);
     }
+
     /**
-     *
-     * @param in 输入数据
+     * 构造函数
+     * @param in 输入数据 字符数组
      * @param offset 起始位置
      * @param len 长度
      * @param system 进制系统
@@ -67,7 +64,7 @@ public class BigNum implements Comparable<BigNum> {
             this.datas[idy] = (byte) (in[idx] - '0');
             idy ++;
         }
-        System.out.println("aaa scale=" + this.scale);
+//        System.out.println("aaa scale=" + this.scale);
 
         this.length = idy;
         if (this.scale <= 0) {
@@ -76,13 +73,37 @@ public class BigNum implements Comparable<BigNum> {
 
         /* DEBUG:print */
 //        printary(datas);
-        System.out.println("datas=" + String.valueOf(toCharary(datas, datas.length)));
+//        System.out.println("datas=" + String.valueOf(toCharary(datas, datas.length)));
     }
 
+    /**
+     * 构造函数
+     * @param si 符号
+     * @param da 数据
+     * @param len 长度
+     * @param sca 小数点位置
+     */
+    public BigNum(byte si, byte[] da, int len, int sca) {
+        this.signed = si;
+        this.datas = da;
+        this.length = len;
+        this.scale = sca;
+    }
+
+    /**
+     * 加法
+     * @param augend 加数
+     * @return 和
+     */
     public BigNum add(BigNum augend) {
         if (augend.isZero()) {
+            // 
             return this;
         }
+        if (this.isZero()) {
+            return augend;
+        }
+
         if (this.signed == augend.signed) {
             /* 整数部长度 */
             int scaleS = this.scale;
@@ -135,14 +156,23 @@ public class BigNum implements Comparable<BigNum> {
 
             return new BigNum(this.signed, dataS, lengthS, scaleS + 1);
         } else {
-            return this.subtract(new BigNum((byte)(0-augend.signed), augend.datas, augend.length, augend.scale));
+            return this.subtract(new BigNum((byte)(0x00-augend.signed), augend.datas, augend.length, augend.scale));
         }
     }
 
+    /**
+     * 
+     * @param subtrahend
+     * @return
+     */
     public BigNum subtract(BigNum subtrahend) {
         if (subtrahend.isZero()) {
             return this;
         }
+        if (this.isZero()) {
+            return new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale);
+        }
+
         if (this.signed == subtrahend.signed) {
             /* 整数部长度 */
             int scaleS = this.scale;
@@ -223,12 +253,26 @@ public class BigNum implements Comparable<BigNum> {
 
             return new BigNum(signeds, dataS, lengthS, scaleS + 1);
         } else {
-            return this.add(new BigNum((byte)(0-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale));
+            return this.add(new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale));
         }
     }
 
+    /**
+     * 
+     * @param multiplicand
+     * @return
+     */
     public BigNum multiply(BigNum multiplicand) {
         if (multiplicand.isZero()) {
+            return multiplicand;
+        }
+        if (multiplicand.equals("1")) {
+            return this;
+        }
+        if (this.isZero()) {
+            return this;
+        }
+        if (this.equals("1")) {
             return multiplicand;
         }
         /* 符号 */
@@ -309,14 +353,24 @@ public class BigNum implements Comparable<BigNum> {
         return new BigNum(signed, result, len, scale);
     }
 
+    /**
+     * 
+     * @param divisor
+     * @param decimal_len
+     * @param roundmode
+     * @return
+     */
     public BigNum divide(BigNum divisor, int decimal_len, int roundmode) {
         if (divisor.isZero()) {
             // 除数为零时
             throw new ArithmeticException("Division by zero");
         }
-//        if (divisor == 1) {
-//            return this;
-//        }
+        if (divisor.equals("1")) {
+            return this;
+        }
+        if (this.isZero()) {
+            return this;
+        }
 
         // 符号
         byte osigned = 0x01;
@@ -542,6 +596,33 @@ public class BigNum implements Comparable<BigNum> {
         return res;
     }
 
+    /**
+     * 
+     * @param n
+     * @return
+     */
+    public BigNum mod(BigNum n) {
+    	return null;
+    }
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof BigNum) {
+			return this.compareTo((BigNum) obj) == 0;
+		} else if (obj instanceof String) {
+			return this.compareTo(new BigNum((String) obj)) == 0;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 
+	 */
+	@Override
     public String toString() {
         StringBuffer buf = new StringBuffer();
         if (this.signed == -1) {
@@ -612,6 +693,10 @@ public class BigNum implements Comparable<BigNum> {
         }
 
         return this.signed * result;
+    }
+
+    public BigNum round(int scale, int roundmode) {
+        return null;
     }
 
     /** for DEBUG */

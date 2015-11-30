@@ -17,6 +17,7 @@ public class BigNumTest {
         System.out.println("short" + Short.MIN_VALUE + "...-" + Short.MAX_VALUE); // 16
         System.out.println("int" + Integer.MIN_VALUE + "...-" + Integer.MAX_VALUE); // 32
         System.out.println("long" + Long.MIN_VALUE + "..." + Long.MAX_VALUE); // 64
+        System.out.println(BigNumRound.UP.ordinal());
 
 //        BigNum test1 = new BigNum("0");
 //        System.out.println("---------------");
