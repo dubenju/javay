@@ -1,4 +1,4 @@
-package javay.util;
+package javay.math;
 
 /**
  *
@@ -37,6 +37,7 @@ public class BigNum implements Comparable<BigNum> {
      * @param system 进制系统
      */
     public BigNum(char[] in, int offset, int len) {
+    	// TODO:exception
         /* 初始化 */
         this.signed = 0x01;
         this.datas = new byte[len];
@@ -90,6 +91,13 @@ public class BigNum implements Comparable<BigNum> {
         this.scale = sca;
     }
 
+    public BigNum(BigNum o) {
+    	this.scale = o.scale;
+    	this.signed = o.signed;
+    	this.datas = o.datas;
+    	this.length = o.length;
+    }
+    
     /**
      * 加法
      * @param augend 加数
@@ -172,7 +180,7 @@ public class BigNum implements Comparable<BigNum> {
         if (this.isZero()) {
             return new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale);
         }
-
+        // TODO:大小调整
         if (this.signed == subtrahend.signed) {
             /* 整数部长度 */
             int scaleS = this.scale;
@@ -602,58 +610,34 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum mod(BigNum n) {
-    	return null;
-    }
-
-	/**
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof BigNum) {
-			return this.compareTo((BigNum) obj) == 0;
-		} else if (obj instanceof String) {
-			return this.compareTo(new BigNum((String) obj)) == 0;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * 
-	 */
-	@Override
-    public String toString() {
-        StringBuffer buf = new StringBuffer();
-        if (this.signed == -1) {
-            buf.append("-");
-        }
-        int idx = 0;
-        String tmp;
-        for(idx = 0; idx < length; idx ++) {
-            short ch = this.datas[idx];
-            if (ch >= 62) {
-                tmp = ch + ",";
-            } else if (ch >= 36) {
-                tmp = String.valueOf((char)('a' + ch - 36));
-            } else if (ch >= 10) {
-                tmp = String.valueOf((char)('A' + ch - 10));
-            } else {
-                tmp = String.valueOf((char)('0' + ch));
-            }
-            buf.append(tmp);
-            if((idx + 1) == this.scale) {
-                buf.append(".");
-            }
-        }
-        buf.append("[length=" + this.length + ",scale=" + this.scale + "]");
-        return buf.toString();
+    	// TODO:un
+        return null;
     }
 
     /**
-     *
+     * 
+     * @param o
+     * @return
      */
-    @Override
+    public BigNum pow(long n) {
+    	if (n < 0) {
+    		throw new ArithmeticException("Invalid operation");
+    	}
+    	BigNum result = new BigNum("1");
+    	if (n == 0) {
+    		return result;
+    	}
+    	long idx = 0;
+    	while(idx < n) {
+    		idx ++;
+    		result = result.multiply(this);
+    	}
+        return result;
+    }
+
+    /**
+     * 比较大小
+     */
     public int compareTo(BigNum o) {
         int result = 0;
         if (this.signed > o.signed) {
@@ -695,8 +679,93 @@ public class BigNum implements Comparable<BigNum> {
         return this.signed * result;
     }
 
+    /**
+     * 是否相等
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof BigNum) {
+			return this.compareTo((BigNum) obj) == 0;
+		} else if (obj instanceof String) {
+			return this.compareTo(new BigNum((String) obj)) == 0;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 
+	 * @param o
+	 * @return
+	 */
+    public BigNum max(BigNum o) {
+    	return (this.compareTo(o) >= 0 ? this : o);
+    }
+    /**
+     * 
+     * @param o
+     * @return
+     */
+    public BigNum min(BigNum o) {
+    	return (this.compareTo(o) <= 0 ? this : o);
+    }
+    /**
+     * 
+     * @return
+     */
+    public BigNum negate() {
+    	return new BigNum((byte) (0x00 - this.signed), this.datas, this.length, this.scale);
+    }
+    /**
+     * 
+     * @return
+     */
+    public BigNum plus() {
+    	return this;
+    }
+    /**
+     * 
+     * @return
+     */
+    public BigNum abs() {
+    	return (this.signed  < 0 ? negate() : this);
+    }
+
+	/**
+	 * 
+	 */
+	@Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        if (this.signed == -1) {
+            buf.append("-");
+        }
+        int idx = 0;
+        String tmp;
+        for(idx = 0; idx < length; idx ++) {
+            short ch = this.datas[idx];
+            if (ch >= 62) {
+                tmp = ch + ",";
+            } else if (ch >= 36) {
+                tmp = String.valueOf((char)('a' + ch - 36));
+            } else if (ch >= 10) {
+                tmp = String.valueOf((char)('A' + ch - 10));
+            } else {
+                tmp = String.valueOf((char)('0' + ch));
+            }
+            buf.append(tmp);
+            if((idx + 1) == this.scale) {
+                buf.append(".");
+            }
+        }
+        buf.append("[length=" + this.length + ",scale=" + this.scale + "]");
+        return buf.toString();
+    }
+
     public BigNum round(int scale, int roundmode) {
-        return null;
+        // TODO:wait 
+    	return null;
     }
 
     /** for DEBUG */

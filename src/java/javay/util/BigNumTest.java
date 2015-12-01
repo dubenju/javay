@@ -3,6 +3,9 @@
  */
 package javay.util;
 
+import javay.math.BigNum;
+import javay.math.BigNumRound;
+
 /**
  * @author DBJ
  *

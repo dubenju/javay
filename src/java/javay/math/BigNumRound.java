@@ -1,4 +1,4 @@
-package javay.util;
+package javay.math;
 
 public enum BigNumRound {
 
