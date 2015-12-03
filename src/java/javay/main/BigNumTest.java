@@ -1,7 +1,7 @@
 /**
  *
  */
-package javay.util;
+package javay.main;
 
 import javay.math.BigNum;
 import javay.math.BigNumRound;
@@ -86,7 +86,13 @@ public class BigNumTest {
 //        }
 //        System.out.println("End.");
 
-        System.out.println(new BigNum("10").divide(new BigNum("3"), 1, 0));
+//        System.out.println(new BigNum("10").divide(new BigNum("3"), 1, 0));
+        BigNum test12 = new BigNum("12");
+        System.out.println(test12);
+        BigNum test23 = new BigNum("23");
+        System.out.println(test23);
+        BigNum value = test12.add(test23);
+        System.out.println(value);
     }
 
 }

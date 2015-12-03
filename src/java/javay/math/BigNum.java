@@ -541,7 +541,7 @@ public class BigNum implements Comparable<BigNum> {
         return c2;
     }
 
-    protected boolean isZero() {
+    public boolean isZero() {
         boolean result = true;
         for (byte b : this.datas) {
             if (b != 0x00) {
@@ -630,6 +630,27 @@ public class BigNum implements Comparable<BigNum> {
     	long idx = 0;
     	while(idx < n) {
     		idx ++;
+    		result = result.multiply(this);
+    	}
+        return result;
+    }
+
+    /**
+     * 
+     * @param o
+     * @return
+     */
+    public BigNum pow(BigNum n) {
+    	if (n.compareTo(new BigNum("0")) < 0) {
+    		throw new ArithmeticException("Invalid operation");
+    	}
+    	BigNum result = new BigNum("1");
+    	if (n.isZero()) {
+    		return result;
+    	}
+    	BigNum idx = new BigNum("0");
+    	while(idx.compareTo(n) < 0) {
+    		idx.add(new BigNum("1"));
     		result = result.multiply(this);
     	}
         return result;
