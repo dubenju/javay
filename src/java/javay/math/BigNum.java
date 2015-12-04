@@ -147,16 +147,18 @@ public class BigNum implements Comparable<BigNum> {
             /* 整数部 */
             for (int idx = 0; idx <= scaleS; idx ++) {
                 System.out.println("a2=" + a);
-                if ((this.scale - idx) >= 0) {
+                if ((this.scale - idx) >= 0 && (this.scale - idx) < this.datas.length) {
                     a = a + this.datas[this.scale - idx];
                     System.out.println("a=" + this.datas[this.scale - idx]);
                 }
-                if ((augend.scale - idx) >= 0) {
+                if ((augend.scale - idx) >= 0  && (augend.scale - idx) < augend.datas.length) {
                     System.out.println("a=" + augend.datas[augend.scale - idx]);
                     a = a + augend.datas[augend.scale - idx];
                 }
                 System.out.println("a=" + a);
-                dataS[1 + scaleS - idx] = (byte) (0xFF & (a % 10));
+                if ((1 + scaleS - idx) < dataS.length) {
+                	dataS[1 + scaleS - idx] = (byte) (0xFF & (a % 10));
+                }
                 a = a / 10;
             }
             System.out.println("a3=" + a);
@@ -225,11 +227,11 @@ public class BigNum implements Comparable<BigNum> {
             /* 整数部 */
             for (int idx = 0; idx <= scaleS; idx ++) {
                 System.out.println("a2=" + a);
-                if ((this.scale - idx) >= 0) {
+                if ((this.scale - idx) >= 0 && (this.scale - idx) < this.datas.length) {
                     System.out.println("a=" + this.datas[this.scale - idx]);
                     a = a + this.datas[this.scale - idx];
                 }
-                if ((subtrahend.scale - idx) >= 0) {
+                if ((subtrahend.scale - idx) >= 0 && (subtrahend.scale - idx) < subtrahend.datas.length) {
                     System.out.println("a=" + subtrahend.datas[subtrahend.scale - idx]);
                     a = a - subtrahend.datas[subtrahend.scale - idx];
                 }
@@ -238,8 +240,10 @@ public class BigNum implements Comparable<BigNum> {
                     a = 10 + a;
                     carry = -1;
                 }
-                dataS[1 + scaleS - idx] = (byte) (0xFF & (a % 10));
-                carryS[1 + scaleS - idx] = carry;
+                if ((1 + scaleS - idx) < dataS.length) {
+	                dataS[1 + scaleS - idx] = (byte) (0xFF & (a % 10));
+	                carryS[1 + scaleS - idx] = carry;
+                }
                 a = a /10;
 //                a = a + carry;
                 carry = 0;
