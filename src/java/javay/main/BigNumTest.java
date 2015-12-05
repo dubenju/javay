@@ -87,12 +87,36 @@ public class BigNumTest {
 //        System.out.println("End.");
 
 //        System.out.println(new BigNum("10").divide(new BigNum("3"), 1, 0));
-        BigNum test12 = new BigNum("12");
-        System.out.println(test12);
-        BigNum test23 = new BigNum("23");
-        System.out.println(test23);
-        BigNum value = test12.add(test23);
-        System.out.println(value);
+
+//        BigNum test121p = new BigNum("+12.0");
+//        System.out.println(test121p);
+//        BigNum test120p = new BigNum("+12.");
+//        System.out.println(test120p);
+//        BigNum test12p = new BigNum("+12");
+//        System.out.println(test12p);
+//        BigNum test121 = new BigNum("12.0");
+//        System.out.println(test121);
+//        BigNum test120 = new BigNum("12.");
+//        System.out.println(test120);
+//        BigNum test12 = new BigNum("12");
+//        System.out.println(test12);
+//        BigNum test121n = new BigNum("-12.0");
+//        System.out.println(test121n);
+//        BigNum test120n = new BigNum("-12.");
+//        System.out.println(test120n);
+//        BigNum test12n = new BigNum("-12");
+//        System.out.println(test12n);
+
+//        BigNum test23 = new BigNum("23");
+//        System.out.println(test23);
+//        BigNum value = test12.add(test23);
+//        System.out.println(value);
+
+        // BigNum test744 = new BigNum("6006");
+        BigNum test744 = new BigNum("9223372036854775808");
+        // BigNum test744 = new BigNum("22222222222222222222");
+        BigNum test2 = new BigNum("9223372036854775808");
+        System.out.println(test744.divide(test2, 0, 0));
     }
 
 }

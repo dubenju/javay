@@ -1,9 +1,12 @@
 package javay.game.othello;
 
+import java.awt.MenuItem;
+
 import javay.game.AbstractGameApp;
 
 public class Othello extends AbstractGameApp {
     private OX oxBoard;
+    private MenuItem black, white;
 
     private Othello() {
         super("Othello");

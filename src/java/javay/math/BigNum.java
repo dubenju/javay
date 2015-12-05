@@ -26,7 +26,7 @@ public class BigNum implements Comparable<BigNum> {
      */
     public BigNum(String str) {
         this(str.toCharArray(), 0 , str.toCharArray().length);
-//        System.out.println("★String:" + str);
+        System.out.println("★String:" + str);
     }
 
     /**
@@ -68,8 +68,19 @@ public class BigNum implements Comparable<BigNum> {
 //        System.out.println("aaa scale=" + this.scale);
 
         this.length = idy;
-        if (this.scale <= 0) {
+        if (this.scale <= 0 || this.scale == this.length) {
             this.scale = this.length;
+            this.length ++;
+            byte[] buf = new byte[this.datas.length];
+            System.arraycopy(this.datas, 0, buf, 0, this.datas.length);
+            this.datas = new byte[this.length];
+            int size = this.length;
+            if (size > buf.length) {
+            	size = buf.length;
+            }
+            this.datas[this.datas.length - 1] = 0;
+            System.arraycopy(buf, 0, this.datas, 0, size);
+            buf = null;
         }
 
         /* DEBUG:print */
@@ -419,16 +430,12 @@ public class BigNum implements Comparable<BigNum> {
         int ido = 0;
         while(true) {
             int c = cmp_ary(tmp, len_tmp, divisor.datas);
-            if (c > 0) {
+            if (c >= 0) {
                 out[ido] = (byte) (out[ido] + 1);
                 // shift postition
                 tmp = sub(tmp, len_tmp, divisor.datas);
                 System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
-                System.out.println("out[ido]=" + out[ido]);
-            }
-            if (c == 0) {
-                out[ido] = (byte) (out[ido] + 1);
-                break;
+                System.out.println("out["+ ido + "]=" + out[ido]);
             }
             if (c < 0) {
                 byte[] temp;
@@ -784,7 +791,10 @@ public class BigNum implements Comparable<BigNum> {
                 buf.append(".");
             }
         }
-        buf.append("[length=" + this.length + ",scale=" + this.scale + "]");
+        // buf.append("[length=" + this.length + ",scale=" + this.scale + "]");
+        if (idx == this.scale) {
+        	buf.append("0");
+        }
         return buf.toString();
     }
 

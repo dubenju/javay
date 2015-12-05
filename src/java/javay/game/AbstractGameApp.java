@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javay.game.othello.CloseWindow;
 import javay.game.othello.ErrorDialog;
 import javay.game.othello.MyDialog;
+import javay.game.othello.OX;
 
 /**
  * @author DBJ
@@ -18,8 +19,7 @@ import javay.game.othello.MyDialog;
  */
 public abstract class AbstractGameApp extends JFrame implements ActionListener {
     private MenuItem black, white;
-
-	/**
+    private OX oxBoard;	/**
 	 *
 	 */
 	public AbstractGameApp(String title) {
