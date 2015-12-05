@@ -12,6 +12,7 @@ import javay.math.BigNumRound;
  */
 public class BigNumTest {
 
+    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
      */
