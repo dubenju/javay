@@ -17,11 +17,19 @@ public class BigNum implements Comparable<BigNum> {
     /** 小数点的起始位置 */
     private int scale;
 
-    public static BigNum ZERO = new BigNum("0");
-    public static BigNum ONE  = new BigNum("1");
+    public static final BigNum ZERO = new BigNum("0");
+    public static final BigNum ONE  = new BigNum("1");
     //                                    3.14159265358979323846
     //                                    3.1415926535897932384626433832795
-    public static BigNum PI = new BigNum("3.14159265358979323846264338327950288419716939937510");
+    public static final BigNum PI = new BigNum("3.14159265358979323846264338327950288419716939937510");
+    public static final BigNum BYTE_MIN_VALUE = new BigNum("-128");
+    public static final BigNum BYTE_MAX_VALUE = new BigNum( "127");
+    public static final BigNum SHORT_MIN_VALUE = new BigNum("-32768");
+    public static final BigNum SHORT_MAX_VALUE = new BigNum( "32767");
+    public static final BigNum INT_MIN_VALUE = new BigNum("-2147483648");
+    public static final BigNum INT_MAX_VALUE = new BigNum( "2147483647");
+    public static final BigNum LONG_MIN_VALUE = new BigNum("-9223372036854775808");
+    public static final BigNum LONG_MAX_VALUE = new BigNum( "9223372036854775807");
 
     /**
      * 构造函数
@@ -112,6 +120,22 @@ public class BigNum implements Comparable<BigNum> {
     	this.length = o.length;
     }
 
+    public BigNum(byte b) {
+    	this(Byte.toString(b));
+    }
+    public BigNum(short s) {
+    	this(Short.toString(s));
+    }
+    public BigNum(int i) {
+    	this(Integer.toString(i));
+    }
+    
+    public BigNum(long l) {
+    	this(Long.toString(l));
+    }
+    
+    
+    
     /**
      * 加法
      * @param augend 加数
@@ -182,7 +206,12 @@ public class BigNum implements Comparable<BigNum> {
 
             return new BigNum(this.signed, dataS, dataS.length, dataS.length - lengthS + scaleS + 1);
         } else {
-            return this.subtract(new BigNum((byte)(0x00-augend.signed), augend.datas, augend.length, augend.scale));
+        	if (this.signed < 0) {
+        		System.out.println("-----");
+        		return augend.subtract(new BigNum((byte)(0x00-this.signed), this.datas, this.length, this.scale));
+        	} else {
+        		return this.subtract(new BigNum((byte)(0x00-augend.signed), augend.datas, augend.length, augend.scale));
+        	}
         }
     }
 
@@ -199,15 +228,24 @@ public class BigNum implements Comparable<BigNum> {
             return new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale);
         }
         if (this.signed == subtrahend.signed) {
-            // TODO:大小调整
+            byte signeds = 0x01;
+        	// TODO:大小调整
+            BigNum minuend = this;
+            if (minuend.abs().compareTo(subtrahend.abs()) < 0) {
+            	System.out.println("CHG:" + minuend.abs() + " vs " + subtrahend.abs() + "=");
+            	minuend = subtrahend;
+            	subtrahend = this;
+            	signeds = -1;
+            }
 
+            System.out.println(minuend + " - " + subtrahend + "=");
             /* 整数部长度 */
-            int scaleS = this.scale;
+            int scaleS = minuend.scale;
             if (subtrahend.scale > scaleS) {
                 scaleS = subtrahend.scale;
             }
             /* 小数部长度 */
-            int decS = this.length - this.scale - 1;
+            int decS = minuend.length - minuend.scale - 1;
             if ((subtrahend.length - subtrahend.scale - 1) > decS) {
                 decS = subtrahend.length - subtrahend.scale;
             }
@@ -222,9 +260,9 @@ public class BigNum implements Comparable<BigNum> {
             /* 小数部 */
             for(int idx = decS; idx > 0; idx --) {
                 System.out.println("a1=" + a);
-                if ((this.scale + idx) <= this.length) {
-                    System.out.println("a=" + this.datas[this.scale + idx]);
-                    a = a + this.datas[this.scale + idx];
+                if ((minuend.scale + idx) <= minuend.length) {
+                    System.out.println("a=" + minuend.datas[minuend.scale + idx]);
+                    a = a + minuend.datas[minuend.scale + idx];
                 }
                 if ((subtrahend.scale + idx) <= subtrahend.length) {
                     System.out.println("a=" + subtrahend.datas[subtrahend.scale + idx]);
@@ -238,15 +276,15 @@ public class BigNum implements Comparable<BigNum> {
                 dataS[1 + scaleS + idx] = (byte) (0xFF & (a % 10));
                 carryS[1 + scaleS + idx] = carry;
                 a = a / 10;
-                // a = a + carry;
+                a = a + carry;
                 carry = 0;
             }
             /* 整数部 */
             for (int idx = 0; idx <= scaleS; idx ++) {
                 System.out.println("整数部a2=" + a);
-                if ((this.scale - idx) >= 0 && (this.scale - idx) < this.datas.length) {
-                    System.out.println("整数部("+ (this.scale - idx) +")=" + this.datas[this.scale - idx]);
-                    a = a + this.datas[this.scale - idx];
+                if ((minuend.scale - idx) >= 0 && (minuend.scale - idx) < minuend.datas.length) {
+                    System.out.println("整数部("+ (minuend.scale - idx) +")=" + minuend.datas[minuend.scale - idx]);
+                    a = a + minuend.datas[minuend.scale - idx];
                 }
                 if ((subtrahend.scale - idx) >= 0 && (subtrahend.scale - idx) < subtrahend.datas.length) {
                     System.out.println("整数部a=" + subtrahend.datas[subtrahend.scale - idx]);
@@ -257,12 +295,13 @@ public class BigNum implements Comparable<BigNum> {
                     a = 10 + a;
                     carry = -1;
                 }
+                System.out.println("整数部(1 + scaleS - idx)=" + (1 + scaleS - idx) +",dataS.length=" + dataS.length + ",a=" + a + ",carry=" + carry);
                 if ((1 + scaleS - idx) < dataS.length) {
 	                dataS[1 + scaleS - idx] = (byte) (0xFF & (a % 10));
 	                carryS[1 + scaleS - idx] = carry;
                 }
-                a = a /10;
-//                a = a + carry;
+                a = a / 10;
+                a = a + carry;
                 carry = 0;
             }
 
@@ -276,10 +315,10 @@ public class BigNum implements Comparable<BigNum> {
 //            printary(carryS);
             System.out.println("carryS=" + String.valueOf(toCharary(carryS, carryS.length)));
 
-            byte signeds = 0x01;
-            if (carry == -1) {
-                signeds = -1;
-            }
+
+//            if (carry == -1) {
+//                signeds = -1;
+//            }
 
             dataS = removeFirstZero(dataS, lengthS);
 
@@ -692,43 +731,80 @@ public class BigNum implements Comparable<BigNum> {
      * 比较大小
      */
     public int compareTo(BigNum o) {
+    	System.out.print(this + " vs " + o + " = ");
         int result = 0;
         if (this.signed > o.signed) {
+        	System.out.println(1);
             return 1;
         }
         if (this.signed < o.signed) {
+        	System.out.println(-1);
             return -1;
         }
+        int max = this.scale;
+        int pre = max - o.scale;
+        boolean bReadThis = true;
+        if (max < o.scale) {
+        	max = o.scale;
+        	pre = max - this.scale;
+        	bReadThis = false;
+        }
         int a , b;
-        for (a = this.scale - 1, b = o.scale - 1; a >= 0 && b >= 0; a --, b --) {
-            result = this.datas[a] - o.datas[b];
-            if( result != 0 ) {
-                break;
-            }
+        if (pre > 0) {
+        	if (bReadThis) {
+        		for (a = 0; a < pre; a ++) {
+	        		if (this.datas[a] > 0) {
+	        			result = 1;
+	        			break;
+	        		}
+        		}
+        	} else {
+        		for (a = 0; a < pre; a ++) {
+            		if (o.datas[a] > 0) {
+            			result = -1;
+            			break;
+            		}
+            	}
+        	}
         }
         if (result == 0) {
-            if (a >= 0) {
-                result = 1;
-            } else if (b >= 0) {
-                result = -1;
-            }
+	        // 整数部
+	        // for (a = this.scale - 1, b = o.scale - 1; a >= 0 && b >= 0; a --, b --) {
+        	for (a = 0, b = 0; a < this.scale && b < o.scale; a ++, b ++) {
+	            result = this.datas[a] - o.datas[b];
+	            if( result != 0 ) {
+	                break;
+	            }
+	        }
+	        System.out.println("比较result1=" + result);
+//	        if (result == 0) {
+//	            if (a >= 0) {
+//	                result = 1;
+//	            } else if (b >= 0) {
+//	                result = -1;
+//	            }
+//	        }
         }
+        System.out.println("比较result2=" + result);
         if (result == 0) {
+        	// 小数部
             for (a = this.scale, b = o.scale; a < this.length && b < o.length; a ++, b ++) {
                 result = this.datas[a] - o.datas[b];
                 if( result != 0 ) {
                     break;
                 }
             }
+	        System.out.println("比较result3=" + result);
+	        if (result == 0) {
+	            if (a < this.length) {
+	                result = 1;
+	            } else if (b < o.length) {
+	                result = -1;
+	            }
+	        }
         }
-        if (result == 0) {
-            if (a < this.length) {
-                result = 1;
-            } else if (b < o.length) {
-                result = -1;
-            }
-        }
-
+        System.out.println("比较result4=" + result);
+        System.out.println(this.signed * result + "(" + this.signed + result + ")");
         return this.signed * result;
     }
 
@@ -819,6 +895,46 @@ public class BigNum implements Comparable<BigNum> {
         return buf.toString();
     }
 
+	public byte toByte() {
+		if (this.compareTo(BigNum.BYTE_MIN_VALUE) < 0 || this.compareTo(BigNum.BYTE_MAX_VALUE) > 0) {
+			throw new java.lang.ArithmeticException("Overflow");
+		}
+		byte result = 0;
+		for (int i = 0; i < this.scale; i ++) {
+			result = (byte) (result * 10 + this.datas[i]);
+		}
+		return (byte) (this.signed * result);
+	}
+	public short toShort() {
+		if (this.compareTo(BigNum.SHORT_MIN_VALUE) < 0 || this.compareTo(BigNum.SHORT_MAX_VALUE) > 0) {
+			throw new java.lang.ArithmeticException("Overflow");
+		}
+		short result = 0;
+		for (int i = 0; i < this.scale; i ++) {
+			result = (short) (result * 10 + this.datas[i]);
+		}
+		return (short) (this.signed * result);
+	}
+	public int toInt() {
+		if (this.compareTo(BigNum.INT_MIN_VALUE) < 0 || this.compareTo(BigNum.INT_MAX_VALUE) > 0) {
+			throw new java.lang.ArithmeticException("Overflow");
+		}
+		int result = 0;
+		for (int i = 0; i < this.scale; i ++) {
+			result = (int) (result * 10 + this.datas[i]);
+		}
+		return (int) (this.signed * result);
+	}
+	public long toLong() {
+		if (this.compareTo(BigNum.LONG_MIN_VALUE) < 0 || this.compareTo(BigNum.LONG_MAX_VALUE) > 0) {
+			throw new java.lang.ArithmeticException("Overflow");
+		}
+		long result = 0;
+		for (int i = 0; i < this.scale; i ++) {
+			result = (long) (result * 10 + this.datas[i]);
+		}
+		return (long) (this.signed * result);
+	}
     public BigNum round(int scale, int roundmode) {
         // TODO:wait
     	return null;

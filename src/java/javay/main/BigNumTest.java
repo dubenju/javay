@@ -11,12 +11,75 @@ import javay.math.BigNumRound;
  *
  */
 public class BigNumTest {
-
+	public void testbyte() throws Exception {
+		byte b = Byte.MIN_VALUE;
+		BigNum testa = BigNum.BYTE_MIN_VALUE;
+		while(b != Byte.MAX_VALUE) {
+			testa = testa.add(BigNum.ONE);
+			b ++;
+			if (b != testa.toByte()) {
+				System.out.println(b + "<>" + testa);
+				break ;
+			} else {
+				System.out.println(b + "==" + testa);
+			}
+		}
+	}
+	public void testshort() throws Exception {
+		short b = Short.MIN_VALUE;
+		BigNum testa = BigNum.SHORT_MIN_VALUE;
+		while(b != Short.MAX_VALUE) {
+			testa = testa.add(BigNum.ONE);
+			b ++;
+			if (b != testa.toShort()) {
+				System.out.println(b + "<>" + testa);
+				throw new Exception(b + "<>" + testa);
+				// break ;
+			} else {
+				System.out.println(b + "==" + testa);
+			}
+		}
+	}
+	public void testint() throws Exception {
+		int b = Integer.MIN_VALUE;
+		BigNum testa = BigNum.INT_MIN_VALUE;
+		while(b != Integer.MAX_VALUE) {
+			testa = testa.add(BigNum.ONE);
+			b ++;
+			if (b != testa.toInt()) {
+				System.out.println(b + "<>" + testa);
+				throw new Exception(b + "<>" + testa);
+				// break ;
+			} else {
+				System.out.println(b + "==" + testa);
+			}
+		}
+	}
+	public void testlong() throws Exception {
+		long b = Long.MIN_VALUE;
+		BigNum testa = BigNum.LONG_MIN_VALUE;
+		while(b != Long.MAX_VALUE) {
+			testa = testa.add(BigNum.ONE);
+			b ++;
+			if (b != testa.toLong()) {
+				System.out.println(b + "<>" + testa);
+				throw new Exception(b + "<>" + testa);
+				// break ;
+			} else {
+				System.out.println(b + "==" + testa);
+			}
+		}
+	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+    	BigNumTest proc = new BigNumTest();
+    	proc.testbyte();
+    	proc.testshort();
+    	proc.testint();
+    	proc.testlong();
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16
 //        System.out.println("int" + Integer.MIN_VALUE + "...＋" + Integer.MAX_VALUE); // 32
@@ -39,10 +102,15 @@ public class BigNumTest {
 //        BigNum test2 = new BigNum("2");
 //        BigNum test3 = test1.add(test2);
 //        System.out.println(test3);
-    	BigNum test40 = new BigNum("40");
-      	BigNum test4 = new BigNum("4");
-      	BigNum test36 = test40.subtract(test4);
-      	System.out.println(test36);
+//    	BigNum test40 = new BigNum("40");
+//    	System.out.println(test40.abs() + "," + test40.toByte());
+//      	BigNum test4 = new BigNum("4");
+//      	System.out.println(test4.abs());
+//      	if (test40.abs().compareTo(test4.abs()) < 0) {
+//      		System.out.println("<");
+//      	}
+//      	BigNum test36 = test40.subtract(test4);
+//      	System.out.println(test36);
 //        BigNum test20 = new BigNum("2.0");
 //        BigNum test12 = test1.multiply(test2);
 //        System.out.println(test12);
