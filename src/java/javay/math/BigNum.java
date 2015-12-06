@@ -17,8 +17,10 @@ public class BigNum implements Comparable<BigNum> {
     /** 小数点的起始位置 */
     private int scale;
 
-//    public static BigNum ZERO = new BigNum("0");
-//    public static BigNum ONE  = new BigNum("1");
+    public static BigNum ZERO = new BigNum("0");
+    public static BigNum ONE  = new BigNum("1");
+    //                                    3.14159265358979323846
+    public static BigNum PI = new BigNum("3.14159265358979323846264338327950288419716939937510");
 
     /**
      * 构造函数
@@ -289,13 +291,13 @@ public class BigNum implements Comparable<BigNum> {
         if (multiplicand.isZero()) {
             return multiplicand;
         }
-        if (multiplicand.equals("1")) {
+        if (multiplicand.equals(BigNum.ONE)) {
             return this;
         }
         if (this.isZero()) {
             return this;
         }
-        if (this.equals("1")) {
+        if (this.equals(BigNum.ONE)) {
             return multiplicand;
         }
         /* 符号 */
@@ -388,7 +390,7 @@ public class BigNum implements Comparable<BigNum> {
             // 除数为零时
             throw new ArithmeticException("Division by zero");
         }
-        if (divisor.equals("1")) {
+        if (divisor.equals(BigNum.ONE)) {
             return this;
         }
         if (this.isZero()) {
@@ -652,7 +654,7 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum pow(BigNum n) {
-    	if (n.compareTo(new BigNum("0")) < 0) {
+    	if (n.compareTo(BigNum.ZERO) < 0) {
     		throw new ArithmeticException("Invalid operation");
     	}
     	BigNum result = new BigNum("1");
@@ -661,12 +663,21 @@ public class BigNum implements Comparable<BigNum> {
     	}
     	BigNum idx = new BigNum("0");
     	while(idx.compareTo(n) < 0) {
-    		idx.add(new BigNum("1"));
+    		idx.add(BigNum.ONE);
     		result = result.multiply(this);
     	}
         return result;
     }
 
+    /**
+     * 阶乘
+     * 一个正整数的阶乘/层（英语：factorial）是所有小于及等于该数的正整数的积，并且有0的阶乘为1。自然数n的阶乘写作n!。1808年，基斯顿·卡曼引进这个表示法。
+     * 素数阶乘是所有小于或等于该数且大于或等于2的素数的积，自然数n的素数阶乘，写作n#。
+     * @return
+     */
+    public BigNum factorial() {
+    	return null;
+    }
     /**
      * 比较大小
      */
@@ -803,6 +814,33 @@ public class BigNum implements Comparable<BigNum> {
     	return null;
     }
 
+    /**
+     * 手动开平方
+     * 1．将被开方数的整数部分从个位起向左每隔两位划为一段，用撇号分开，分成几段，
+     *    表示所求平方根是几位数；小数部分从最高位向后两位一段隔开，段数以需要的精度+1为准。
+     * 2．根据左边第一段里的数，求得平方根的最高位上的数。（在右边例题中，比5小的平方数是4，所以平方根的最高位为2。）
+     * 3．从第一段的数减去最高位上数的平方，在它们的差的右边写上第二段数组成第一个余数。
+     * 4．把第二步求得的最高位的数乘以20去试除第一个余数，所得的最大整数作为试商。（右例中的试商即为[152/(2×20)]＝[3.8]＝3。）
+     * 5．用第二步求得的的最高位数的20倍加上这个试商再乘以试商。如果所得的积小于或等于余数，试商就是平方根的第二位数；如果所得的积大于余数，就把试商减小再试，得到的第一个小于余数的试商作为平方根的第二个数。（即3为平方根的第二位。）
+     * 6．用同样的方法，继续求平方根的其他各位上的数。用上一个余数减去上法中所求的积（即152－129＝23），与第三段数组成新的余数（即2325）。这时再求试商，要用前面所得到的平方根的前两位数（即23）乘以20去试除新的余数（2325），所得的最大整数为新的试商。（2325/(23×20)的整数部分为5。）
+     * 7．对新试商的检验如前法。（右例中最后的余数为0，刚好开尽，则235为所求的平方根。）
+     * @param scale
+     * @param roundmode
+     * @return
+     */
+    public BigNum sqrt(int scale, int roundmode) {
+        if(this.compareTo(BigNum.ZERO) < 0) {
+        	throw new ArithmeticException("sqrt with negative");
+        }
+    	return null;
+    }
+
+    public BigNum nthroot(int n, int scale, int roundmode) {
+        if(this.compareTo(BigNum.ZERO) < 0) {
+        	throw new ArithmeticException("sqrt with negative");
+        }
+        return null;
+    }
     /** for DEBUG */
     public void printary(char[] in) {
         for(char ch: in) {
