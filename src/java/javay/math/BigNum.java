@@ -20,6 +20,7 @@ public class BigNum implements Comparable<BigNum> {
     public static BigNum ZERO = new BigNum("0");
     public static BigNum ONE  = new BigNum("1");
     //                                    3.14159265358979323846
+    //                                    3.1415926535897932384626433832795
     public static BigNum PI = new BigNum("3.14159265358979323846264338327950288419716939937510");
 
     /**
@@ -110,7 +111,7 @@ public class BigNum implements Comparable<BigNum> {
     	this.datas = o.datas;
     	this.length = o.length;
     }
-    
+
     /**
      * 加法
      * @param augend 加数
@@ -118,7 +119,7 @@ public class BigNum implements Comparable<BigNum> {
      */
     public BigNum add(BigNum augend) {
         if (augend.isZero()) {
-            // 
+            //
             return this;
         }
         if (this.isZero()) {
@@ -177,14 +178,16 @@ public class BigNum implements Comparable<BigNum> {
             System.out.println("a3=" + a);
             dataS[0] = (byte) (0xFF & a);
 
-            return new BigNum(this.signed, dataS, lengthS, scaleS + 1);
+            dataS = removeFirstZero(dataS, lengthS);
+
+            return new BigNum(this.signed, dataS, dataS.length, dataS.length - lengthS + scaleS + 1);
         } else {
             return this.subtract(new BigNum((byte)(0x00-augend.signed), augend.datas, augend.length, augend.scale));
         }
     }
 
     /**
-     * 
+     *
      * @param subtrahend
      * @return
      */
@@ -195,8 +198,9 @@ public class BigNum implements Comparable<BigNum> {
         if (this.isZero()) {
             return new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale);
         }
-        // TODO:大小调整
         if (this.signed == subtrahend.signed) {
+            // TODO:大小调整
+
             /* 整数部长度 */
             int scaleS = this.scale;
             if (subtrahend.scale > scaleS) {
@@ -239,16 +243,16 @@ public class BigNum implements Comparable<BigNum> {
             }
             /* 整数部 */
             for (int idx = 0; idx <= scaleS; idx ++) {
-                System.out.println("a2=" + a);
+                System.out.println("整数部a2=" + a);
                 if ((this.scale - idx) >= 0 && (this.scale - idx) < this.datas.length) {
-                    System.out.println("a=" + this.datas[this.scale - idx]);
+                    System.out.println("整数部("+ (this.scale - idx) +")=" + this.datas[this.scale - idx]);
                     a = a + this.datas[this.scale - idx];
                 }
                 if ((subtrahend.scale - idx) >= 0 && (subtrahend.scale - idx) < subtrahend.datas.length) {
-                    System.out.println("a=" + subtrahend.datas[subtrahend.scale - idx]);
+                    System.out.println("整数部a=" + subtrahend.datas[subtrahend.scale - idx]);
                     a = a - subtrahend.datas[subtrahend.scale - idx];
                 }
-                System.out.println("a=" + a);
+                System.out.println("整数部a=" + a);
                 if (a < 0) {
                     a = 10 + a;
                     carry = -1;
@@ -261,6 +265,7 @@ public class BigNum implements Comparable<BigNum> {
 //                a = a + carry;
                 carry = 0;
             }
+
             System.out.println("a3=" + a);
             if (a < 0) {
                 a = 10 + a;
@@ -276,14 +281,16 @@ public class BigNum implements Comparable<BigNum> {
                 signeds = -1;
             }
 
-            return new BigNum(signeds, dataS, lengthS, scaleS + 1);
+            dataS = removeFirstZero(dataS, lengthS);
+
+            return new BigNum(signeds, dataS, dataS.length, dataS.length - lengthS + scaleS + 1);
         } else {
             return this.add(new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale));
         }
     }
 
     /**
-     * 
+     *
      * @param multiplicand
      * @return
      */
@@ -375,11 +382,14 @@ public class BigNum implements Comparable<BigNum> {
             // ERROR
         }
 
-        return new BigNum(signed, result, len, scale);
+        // TODO:remove zero;
+        result = removeFirstZero(result, len);
+
+        return new BigNum(signed, result, result.length, result.length - len + scale);
     }
 
     /**
-     * 
+     *
      * @param divisor
      * @param decimal_len
      * @param roundmode
@@ -618,7 +628,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     /**
-     * 
+     *
      * @param n
      * @return
      */
@@ -628,7 +638,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     /**
-     * 
+     *
      * @param o
      * @return
      */
@@ -649,7 +659,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     /**
-     * 
+     *
      * @param o
      * @return
      */
@@ -663,7 +673,7 @@ public class BigNum implements Comparable<BigNum> {
     	}
     	BigNum idx = new BigNum("0");
     	while(idx.compareTo(n) < 0) {
-    		idx.add(BigNum.ONE);
+    		idx = idx.add(BigNum.ONE);
     		result = result.multiply(this);
     	}
         return result;
@@ -738,7 +748,7 @@ public class BigNum implements Comparable<BigNum> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param o
 	 * @return
 	 */
@@ -746,7 +756,7 @@ public class BigNum implements Comparable<BigNum> {
     	return (this.compareTo(o) >= 0 ? this : o);
     }
     /**
-     * 
+     *
      * @param o
      * @return
      */
@@ -754,21 +764,21 @@ public class BigNum implements Comparable<BigNum> {
     	return (this.compareTo(o) <= 0 ? this : o);
     }
     /**
-     * 
+     *
      * @return
      */
     public BigNum negate() {
     	return new BigNum((byte) (0x00 - this.signed), this.datas, this.length, this.scale);
     }
     /**
-     * 
+     *
      * @return
      */
     public BigNum plus() {
     	return this;
     }
     /**
-     * 
+     *
      * @return
      */
     public BigNum abs() {
@@ -776,7 +786,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
 	/**
-	 * 
+	 *
 	 */
 	@Override
     public String toString() {
@@ -786,7 +796,7 @@ public class BigNum implements Comparable<BigNum> {
         }
         int idx = 0;
         String tmp;
-        for(idx = 0; idx < length; idx ++) {
+        for(idx = 0; idx < this.length; idx ++) {
             short ch = this.datas[idx];
             if (ch >= 62) {
                 tmp = ch + ",";
@@ -802,7 +812,7 @@ public class BigNum implements Comparable<BigNum> {
                 buf.append(".");
             }
         }
-        // buf.append("[length=" + this.length + ",scale=" + this.scale + "]");
+//        buf.append("[length=" + this.length + ",scale=" + this.scale + "]");
         if (idx == this.scale) {
         	buf.append("0");
         }
@@ -810,7 +820,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     public BigNum round(int scale, int roundmode) {
-        // TODO:wait 
+        // TODO:wait
     	return null;
     }
 

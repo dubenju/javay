@@ -1,10 +1,10 @@
 /**
- * 
+ *
  */
 package javay.awt;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+//import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.Menu;
@@ -26,7 +26,7 @@ import javay.swing.CalcultorPanel;
 public class CalcultorFrame extends Frame {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -34,8 +34,8 @@ public class CalcultorFrame extends Frame {
 	 * @throws HeadlessException
 	 */
 	public CalcultorFrame() throws HeadlessException {
-        MenuBar menuBar = new MenuBar();
-        Menu menuFile = new Menu();
+        MenuBar  menuBar      = new MenuBar();
+        Menu     menuFile     = new Menu();
         MenuItem menuFileExit = new MenuItem();
 
         menuFile.setLabel("File");
@@ -52,9 +52,9 @@ public class CalcultorFrame extends Frame {
         menuFile.add(menuFileExit);
         menuBar.add(menuFile);
 
-        setTitle("Calculator");
+        setTitle("计算器");
         setMenuBar(menuBar);
-        setSize(new Dimension(400, 400));
+        // setSize(new Dimension(400, 400));
 
         // Add window listener.
         this.addWindowListener (
@@ -64,8 +64,9 @@ public class CalcultorFrame extends Frame {
                 }
             }
         );
-      JPanel panel=new CalcultorPanel();
-      add(panel, BorderLayout.CENTER);
+
+        JPanel panel=new CalcultorPanel();
+        add(panel, BorderLayout.CENTER);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package javay.main;
 
@@ -11,18 +11,19 @@ import javay.awt.CalcultorFrame;
  */
 public class Calculator {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// create application frame
-		CalcultorFrame frame = new CalcultorFrame();
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        // create application frame
+        CalcultorFrame frame = new CalcultorFrame();
 
-		//show frame
-		frame.setBounds(600, 50, 640, 480);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		frame.setLocation(600, 50);
-	}
+        //show frame
+        // frame.setLayout(new BorderLayout());
+        frame.setBounds(600, 50, 560, 360);
+        frame.setLocation(600, 50);
+        frame.setResizable(false);
+        frame.setVisible(true);
+    }
 
 }

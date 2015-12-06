@@ -12,16 +12,16 @@ import javay.math.BigNumRound;
  */
 public class BigNumTest {
 
-    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
+//    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
-        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16
-        System.out.println("int" + Integer.MIN_VALUE + "...＋" + Integer.MAX_VALUE); // 32
-        System.out.println("long" + Long.MIN_VALUE + "...＋" + Long.MAX_VALUE); // 64
-        System.out.println(BigNumRound.UP.ordinal());
+//        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
+//        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16
+//        System.out.println("int" + Integer.MIN_VALUE + "...＋" + Integer.MAX_VALUE); // 32
+//        System.out.println("long" + Long.MIN_VALUE + "...＋" + Long.MAX_VALUE); // 64
+//        System.out.println(BigNumRound.UP.ordinal());
 
 //        BigNum test1 = new BigNum("0");
 //        System.out.println("---------------");
@@ -35,6 +35,25 @@ public class BigNumTest {
 //            BigNum t = new BigNum("" + i);
 //        }
 
+//        BigNum test1 = new BigNum("1");
+//        BigNum test2 = new BigNum("2");
+//        BigNum test3 = test1.add(test2);
+//        System.out.println(test3);
+    	BigNum test40 = new BigNum("40");
+      	BigNum test4 = new BigNum("4");
+      	BigNum test36 = test40.subtract(test4);
+      	System.out.println(test36);
+//        BigNum test20 = new BigNum("2.0");
+//        BigNum test12 = test1.multiply(test2);
+//        System.out.println(test12);
+
+//        BigNum test3 = new BigNum("3");
+//        BigNum test203 = test2.multiply(test3);
+//        System.out.println("2=" + test2 + ",*3=" + test3 + ",=" + test203);
+//        BigNum test4 = new BigNum("4");
+//
+//        BigNum test43 = test4.subtract(test3);
+//        System.out.println(test43);
 //        System.out.println("---------------");
 //        BigNum test4 = new BigNum("126.0257");
 //        System.out.println(test4.toString());
@@ -113,21 +132,21 @@ public class BigNumTest {
 //        BigNum value = test12.add(test23);
 //        System.out.println(value);
 
-        // BigNum test744 = new BigNum("6006");
-        BigNum test744 = new BigNum("9223372036854775808");
-        // BigNum test744 = new BigNum("22222222222222222222");
-        BigNum test2 = new BigNum("9223372036854775808");
-        System.out.println(test744.divide(test2, 0, 0));
+//        // BigNum test744 = new BigNum("6006");
+//        BigNum test744 = new BigNum("9223372036854775808");
+//        // BigNum test744 = new BigNum("22222222222222222222");
+//        BigNum test2744 = new BigNum("9223372036854775808");
+//        System.out.println(test744.divide(test2744, 0, 0));
     }
 
 }
 /*
-访问控制	
+访问控制
 private	私有的
 protected	受保护的
 public	公共的
 
-类、方法和变量修饰符	
+类、方法和变量修饰符
 abstract	声明抽象
 class	类
 extends	扩允,继承
@@ -142,7 +161,7 @@ synchronized	线程,同步
 transient	短暂
 volatile	易失
 
-程序控制语句	
+程序控制语句
 break	跳出循环
 continue	继续
 return	返回
@@ -156,7 +175,7 @@ switch	根据值选择执行
 case	定义一个值以供switch选择
 default	默认
 
-错误处理	
+错误处理
 assert	断言表达式是否为真
 catch	捕捉异常
 finally	有没有异常都执行
@@ -164,11 +183,11 @@ throw	抛出一个异常对象
 throws	声明一个异常可能被抛出
 try	捕获异常
 
-包相关	
+包相关
 import	引入
 package	包
 
-基本类型	
+基本类型
 boolean	布尔型
 byte	字节型
 char	字符型
@@ -179,11 +198,11 @@ long	长整型
 short	短整型
 null	空
 
-变量引用	
+变量引用
 super	父类,超类
 this	本类
 void	无返回值
 
-保留关键字	
+保留关键字
 goto	是关键字，但不能使用
 */

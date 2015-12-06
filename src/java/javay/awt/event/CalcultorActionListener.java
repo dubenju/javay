@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package javay.awt.event;
 
@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 import javay.math.BigNum;
+import javay.swing.CalcultorConts;
 
 /**
  * @author dubenju
@@ -17,7 +18,7 @@ import javay.math.BigNum;
 public class CalcultorActionListener implements ActionListener {
 
 	JTextField textField;
-	//integer1 ,integer2 
+	//integer1 ,integer2
 	String op1, op2, operator;
 	String errMsg = "Error";
 	//the state for now ,begin state = 0
@@ -33,7 +34,7 @@ public class CalcultorActionListener implements ActionListener {
 	int state = 0;
 
 	/**
-	 * 
+	 *
 	 */
 	public CalcultorActionListener(JTextField tf) {
 		textField = tf;
@@ -66,7 +67,7 @@ public class CalcultorActionListener implements ActionListener {
 			System.exit(1);
 		}
 	}
-	
+
 	private boolean isDigit( String s ) {
 		boolean b;
 		b = s.equals("0")||s.equals("1")||s.equals("2")||s.equals("3")||s.equals("4")
@@ -78,20 +79,21 @@ public class CalcultorActionListener implements ActionListener {
 		if ( fop1 == 0 || fop1 == 1 ) {
 			ruslt = 1;
 		} else {
-			ruslt = (int) (fop1 * fN(fop1-1) ); 
+			ruslt = (int) (fop1 * fN(fop1-1) );
 		}
 		return ruslt;
 	}
 	private boolean isOperator(String s) {
-		return s.equals("+")||s.equals("-")||s.equals("*")||s.equals("/")
-				||s.equals("x^2")||s.equals("x^3")||s.equals("x^y")
+		return s.equals(CalcultorConts.ADD) || s.equals(CalcultorConts.SUBTRACT) ||
+				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) || s.equals(CalcultorConts.MOD)
+				||s.equals(CalcultorConts.X2)||s.equals(CalcultorConts.X3)||s.equals(CalcultorConts.XY)
 				||s.equals("sqrt")||s.equals("sin")||s.equals("cos")
 				||s.equals("tan")||s.equals("n!")||s.equals("(")||s.equals(")");
 	}
-	
+
 	//state 0 start
 	private void inputState0( String s ) {
-		if ( isDigit(s) || s.equals("+/-") || s.equals(".") ) {
+		if ( isDigit(s) || s.equals(CalcultorConts.POS_MINUS) || s.equals(CalcultorConts.DOT) ) {
 			state = 2; // 数值输入中
 			textField.setText("0");
 			inputState2(s);
@@ -101,15 +103,15 @@ public class CalcultorActionListener implements ActionListener {
 			operator = s;
 			state = 4; // 操作符号输入完了
 		}
-		if ( s.equals("1/x") ) {
+		if ( s.equals(CalcultorConts.DIVIDE1) ) {
 			textField.setText(errMsg);
 			state = 1; // 错误状态
 		}
 	}
-	
+
 	//state 1 error
 	private void inputState1( String s ) {
-		if ( isDigit(s)||s.equals("+/-")||s.equals(".") ) {
+		if ( isDigit(s)||s.equals(CalcultorConts.POS_MINUS)||s.equals(CalcultorConts.DOT) ) {
 			textField.setText("0");
 			state = 0; // 初期状态
 			inputState0(s);
@@ -118,7 +120,7 @@ public class CalcultorActionListener implements ActionListener {
 			textField.setText("0");
 		}
 	}
-	
+
 	//state 2 op1 reading,op1 is being input
 	private void inputState2( String s ) {
 		if ( isDigit(s) ) {
@@ -130,15 +132,15 @@ public class CalcultorActionListener implements ActionListener {
 			}
 			textField.setText(text);
 		}
-		
-		if ( s.equals(".") ) {
+
+		if ( s.equals(CalcultorConts.DOT) ) {
 			String text = textField.getText();
 			if ( !text.contains(".") ) {
 				text = text + s;
 				textField.setText(text);
 			}
 		}
-		if ( s.equals("+/-") ) {
+		if ( s.equals(CalcultorConts.POS_MINUS) ) {
 			String text = textField.getText();
 			if ( text.charAt(0) == '-' ) {
 				text = text.substring(1);
@@ -147,12 +149,12 @@ public class CalcultorActionListener implements ActionListener {
 			}
 			textField.setText(text);
 		}
-		if ( isOperator(s)||s.equals("1/x") ) {
+		if ( isOperator(s) || s.equals(CalcultorConts.DIVIDE1) ) {
 			state = 3; // 得出结果
 			op1 = textField.getText();
 			inputState3(s);
 		}
-		if ( s.equals("=") ) {
+		if ( s.equals(CalcultorConts.EQUAL) ) {
 			state = 3; // 得出结果
 			op1 = textField.getText();
 		}
@@ -171,28 +173,28 @@ public class CalcultorActionListener implements ActionListener {
 
 	//state 3 op1 read only, only op1 was input ,op2 = operator = null
 	private void inputState3( String s ) {
-		if ( isDigit(s)||s.equals(".") ) {
+		if ( isDigit(s) || s.equals(CalcultorConts.DOT) ) {
 			op1 = "";
 			textField.setText("0");
 			state = 2; // 数值输入中
 			inputState2(s);
 		}
-		if ( s.equals("+/-") ) {
+		if ( s.equals(CalcultorConts.POS_MINUS) ) {
 			state = 2; // 数值输入中
 			op1 = "";
 			inputState2(s);
 		}
-		
+
 		if ( isOperator(s) ) {
 			operator = s;
 			state = 4; // 操作符号输入完了
-			if (operator.equals("x^2")|| operator.equals("x^3")||operator.equals("sin")
+			if (operator.equals(CalcultorConts.X2)|| operator.equals(CalcultorConts.X3)||operator.equals("sin")
 					||operator.equals("cos")||operator.equals("tan")||operator.equals("sqrt")
 					||operator.equals("n!")) {
 				inputState6(s);
 			}
 		}
-		if ( s.equals("1/x") ) {
+		if ( s.equals(CalcultorConts.DIVIDE1) ) {
 			//Float fOp1 = new Float(op1);
 			BigNum nOp1 = new BigNum(op1);
 			//if ( fOp1.floatValue() == 0.0 ) {
@@ -208,25 +210,25 @@ public class CalcultorActionListener implements ActionListener {
 				textField.setText(op1);
 			}
 		}
-		
+
 		if ( s.equals("C") || s.equals("Backspace") ) {
 			state = 0; // 初期状态
 			textField.setText("0");
 		}
 	}
-	
-	//state 2, op1 and operator are read, op2 = null 
+
+	//state 2, op1 and operator are read, op2 = null
 	private void inputState4( String s ) {
-		if ( isDigit(s)||s.equals("+/-") || s.equals(".") ) {
+		if ( isDigit(s)||s.equals(CalcultorConts.POS_MINUS) || s.equals(CalcultorConts.DOT) ) {
 			textField.setText("0");
 			state = 5; // 第二个数值输入中
 			inputState5(s);
 		}
-		
+
 		if ( isOperator(s)) {
 			operator = s;
 		}
-		if ( s.equals("1/x") ) {
+		if ( s.equals(CalcultorConts.DIVIDE1) ) {
 			state = 3;
 			operator = "";
 			inputState3(s);
@@ -236,7 +238,7 @@ public class CalcultorActionListener implements ActionListener {
 			textField.setText("0");
 		}
 	}
-	
+
 	//state5,op2 reading,in reading of op2
 	private void inputState5( String s ) {
 		if ( isDigit(s) ) {
@@ -248,14 +250,14 @@ public class CalcultorActionListener implements ActionListener {
 			}
 			textField.setText(text);
 		}
-		if ( s.equals(".") ) {
+		if ( s.equals(CalcultorConts.DOT) ) {
 			String text = textField.getText();
 			if ( !text.contains(".") ) {
 				text = text + s;
 				textField.setText(text);
 			}
 		}
-		if ( s.equals("+/-") ) {
+		if ( s.equals(CalcultorConts.POS_MINUS) ) {
 			String text = textField.getText();
 			if (text.charAt(0) == '-' ) {
 				text = text.substring(1);
@@ -264,20 +266,28 @@ public class CalcultorActionListener implements ActionListener {
 			}
 			textField.setText(text);
 		}
-		
+
 		if ( isOperator(s) ) {
 			op2 = textField.getText();
 			BigNum nOp1 = new BigNum(op1);
 			BigNum nOp2 = new BigNum(op2);
-			if ( operator.equals("+") ) {
+			if ( operator.equals(CalcultorConts.ADD) ) {
 				nOp1 = nOp1.add(nOp2);
-			} else if ( operator.equals("-") ) {
+			} else if ( operator.equals(CalcultorConts.SUBTRACT) ) {
 				nOp1 = nOp1.subtract(nOp2);
-			} else if ( operator.equals("*") ) {
+			} else if ( operator.equals(CalcultorConts.MULTIPLY) ) {
 				nOp1 = nOp1.multiply(nOp2);
-			} else if ( operator.equals("/") ) {
+			} else if ( operator.equals(CalcultorConts.DIVIDE) ) {
 				if (nOp2.isZero() == false) {
 					nOp1 = nOp1.divide(nOp2, 0, 0);
+				} else {
+					state = 1; // 错误状态
+					textField.setText(errMsg);
+					return;
+				}
+			} else if ( operator.equals(CalcultorConts.MOD) ) {
+				if (nOp2.isZero() == false) {
+					nOp1 = nOp1.mod(nOp2);
 				} else {
 					state = 1; // 错误状态
 					textField.setText(errMsg);
@@ -289,30 +299,30 @@ public class CalcultorActionListener implements ActionListener {
 				textField.setText(errMsg);
 				return;
 			}
-			
+
 			//here we got good calculating result
 			op1 = nOp1.toString();
 			textField.setText(op1);
 			operator = s;
 			state = 4;
 		}
-		if ( s.equals("1/x") ) {
+		if ( s.equals(CalcultorConts.DIVIDE1) ) {
 			op1 = textField.getText();
 			state = 3;
 			inputState3(s);
 		}
-		if ( s.equals("=") ) {
+		if ( s.equals(CalcultorConts.EQUAL) ) {
 			op2 = textField.getText();
 			System.out.println("op1=" + op1 + " " + operator + " " + "op2=" + op2 + "=");
 			BigNum nOp1 = new BigNum(op1);
 			BigNum nOp2 = new BigNum(op2);
-			if ( operator.equals("+") ) {
+			if ( operator.equals(CalcultorConts.ADD) ) {
 				nOp1 = nOp1.add(nOp2);
-			} else if ( operator.equals("-") ) {
+			} else if ( operator.equals(CalcultorConts.SUBTRACT) ) {
 				nOp1 = nOp1.subtract(nOp2);
-			} else if ( operator.equals("*") ) {
+			} else if ( operator.equals(CalcultorConts.MULTIPLY) ) {
 				nOp1 = nOp1.multiply(nOp2);
-			} else if ( operator.equals("/") ) {
+			} else if ( operator.equals(CalcultorConts.DIVIDE) ) {
 				if (nOp2.isZero() == false) {
 					nOp1 = nOp1.divide(nOp2, 0, 0);
 				} else {
@@ -320,7 +330,15 @@ public class CalcultorActionListener implements ActionListener {
 					textField.setText(errMsg);
 					return;
 				}
-			} else if ( operator.equals("x^y") ) {
+			} else if ( operator.equals(CalcultorConts.MOD) ) {
+				if (nOp2.isZero() == false) {
+					nOp1 = nOp1.mod(nOp2);
+				} else {
+					state = 1; // 错误状态
+					textField.setText(errMsg);
+					return;
+				}
+			} else if ( operator.equals(CalcultorConts.XY) ) {
 				nOp1 = nOp1.pow(nOp2);
 			} else {
 				System.out.println("Unknown operator error!operator=" + operator);
@@ -328,7 +346,7 @@ public class CalcultorActionListener implements ActionListener {
 				textField.setText(errMsg);
 				return;
 			}
-			
+
 			//here we got good calculating result
 			op1 = nOp1.toString();
 			textField.setText(op1);
@@ -347,7 +365,7 @@ public class CalcultorActionListener implements ActionListener {
 			}
 		}
 	}
-	
+
 	//state6, new calculation
 	private void inputState6( String s ) {
 		Float f1;
@@ -361,9 +379,9 @@ public class CalcultorActionListener implements ActionListener {
 			} else {
 				fop1 = (float) Math.sqrt( fop1 );
 			}
-		} else if ( operator.equals("x^2") ) {
+		} else if ( operator.equals(CalcultorConts.X2) ) {
 			fop1 = fop1 * fop1;
-		} else if ( operator.equals("x^3") ) {
+		} else if ( operator.equals(CalcultorConts.X3) ) {
 			fop1 = fop1 * fop1 * fop1;
 		} else if ( operator.equals("sin") ) {
 			fop1 = (float) Math.sin( fop1 );
