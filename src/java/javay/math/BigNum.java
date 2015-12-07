@@ -554,12 +554,24 @@ public class BigNum implements Comparable<BigNum> {
             return c;
         }
 
+        int offsetb = 0;
+        while(b.length > (lena + offsetb)) {
+        	if (b[offsetb] > 0) {
+        		c = 1;
+        		break;
+        	}
+        	offsetb ++;
+        }
+        if (c != 0) {
+            System.out.println("c:" + String.valueOf(toCharary(a, lena)) + "_vs_" + String.valueOf(toCharary(b, b.length)) + "=" + c + ",offset=" + offset);
+            return c;
+        }
         for (int idx = 0; idx < b.length; idx ++) {
-            if (a[idx + offset] > b[idx]) {
+            if (a[idx + offset] > b[idx + offsetb]) {
                 c = 1;
                 break;
             }
-            if (a[idx + offset] < b[idx]) {
+            if (a[idx + offset] < b[idx + offsetb]) {
                 c = -1;
                 break;
             }
@@ -593,7 +605,7 @@ public class BigNum implements Comparable<BigNum> {
             c2[posa] = a[posa];
             posa --;
         }
-        while (carry < 0) {
+        while (posa >= 0 && carry < 0) {
             c2[posa] = (byte) (a[posa] + carry);
 //            System.out.println("□" + a[posa] + "-" + carry + "=" + c2[posa]);
             carry = 0;
@@ -693,12 +705,15 @@ public class BigNum implements Comparable<BigNum> {
         int dlen = divisor.length;
         int tlen = this.length;
         int olen = tlen - dlen + 1;
+        System.out.println("长度:=" + olen + ",tlen=" + tlen + ",dlen=" + dlen);
 
         // 小数点位置
         int dscale = divisor.scale;
         int tscale = this.scale;
         // 被除数同步
-        tscale += dlen - dscale;
+        int off = dlen - dscale;
+        tscale += off;
+        System.out.println("小数点对齐长度：" + off);
 
         // 小数部长度
         int odecimal_len = tlen - tscale;
@@ -740,33 +755,56 @@ public class BigNum implements Comparable<BigNum> {
                 if (idx < this.datas.length) {
                     System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
                 } else {
-//                    // 向小数部延长
-//                    if (odecimal_len <= decimal_len) {
-//                        temp[temp.length - 1] = 0;
-//                        odecimal_len ++;
-//                        olen ++;
-//                        byte[] out2 = new byte[olen];
-//                        System.arraycopy(out, 0, out2, 0, out.length);
-//                        out = out2;
-//                    } else {
-//                        // 超过指定长度结束。
-//                        break;
-//                    }
+                    // 超过指定长度结束。
+                	System.out.println("WARNINGGGGGGG");
+                	out = tmp;
                 	break;
                 }
                 idx_next ++;
                 ido ++;
+                if (ido >= olen) {
+                	// end
+                	//tmp
+                	// 小数点
+                	int oscale = olen - odecimal_len;
+                	int lead = 0;
+                	if ((oscale - off) <= 0) {
+                		lead = 1 - oscale + off;
+                		System.out.println(oscale + "," + off);
+                	}
+
+                	// 数值
+                	int lent = tmp.length;
+                	int leny = this.datas.length - 1 - idx;
+                	if (lent + leny +lead == 0) {
+                		out = new byte[1];
+                    	out[0] = 0;
+                	} else {
+                		out = new byte[lent + leny + lead];
+                		for(int i = 0; i < lead; i ++) {
+                			out[i] = 0;
+                		}
+                	}
+                	if (lent > 0) {
+                		System.arraycopy(tmp, 0, out, lead, lent);
+                	}
+                	if (leny > 0) {
+                		System.arraycopy(this.datas, idx, out, lead + lent, leny);
+                	}
+                	System.out.println("结果长度：" + out.length + ",lent=" + lent + ",leny=" + leny);
+                	break;
+                }
 
                 tmp = temp;
                 len_tmp = tmp.length;
 //                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
             }
         }
-        System.out.println("out1=" + String.valueOf(toCharary(out, out.length)));
-        out = removeFirstZero(out, olen - odecimal_len);
-        System.out.println("out2=" + String.valueOf(toCharary(out, out.length)));
-        System.out.println(this.toString() + "/" + divisor.toString() + "=");
-        return new BigNum(osigned, out, out.length, out.length - odecimal_len);
+//        System.out.println("out1=" + String.valueOf(toCharary(out, out.length)));
+//        out = removeFirstZero(out, olen - odecimal_len);
+//        System.out.println("out2=" + String.valueOf(toCharary(out, out.length)));
+//        System.out.println(this.toString() + "/" + divisor.toString() + "=");
+        return new BigNum(osigned, out, out.length, out.length - odecimal_len - off);
     }
 
     /**
@@ -1100,4 +1138,9 @@ public class BigNum implements Comparable<BigNum> {
         return res;
     }
 
+    public void test_cmp_ary() {
+    	byte[] a = { 2, 4};
+    	byte[] b = { 0, 3, 0};
+    	System.out.println(cmp_ary(a, 2, b));
+    }
 }
