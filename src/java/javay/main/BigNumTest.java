@@ -70,16 +70,72 @@ public class BigNumTest {
 			}
 		}
 	}
+	public void testSubtract() throws Exception {
+		byte b = Byte.MAX_VALUE;
+		BigNum testa = BigNum.BYTE_MAX_VALUE;
+		while(b != Byte.MIN_VALUE) {
+			testa = testa.subtract(BigNum.ONE);
+			b --;
+			if (b != testa.toByte()) {
+				System.out.println(b + "<>" + testa);
+				break ;
+			} else {
+				System.out.println(b + "==" + testa);
+			}
+		}
+	}
+	public void print99() throws Exception {
+		for(int i = 1; i <= 9; i ++) {
+			for (int j = 1; j <= 9; j ++) {
+				BigNum val = new BigNum("" + i).multiply(new BigNum("" + j));
+				if ((i * j) != val.toLong()) {
+					System.out.println((i * j) + "<>" + val.toLong());
+					throw new Exception((i * j) + "<>" + val.toLong());
+				} else {
+					System.out.println((i * j) + "==" + val.toLong());
+				}
+			}
+			System.out.println();
+		}
+	}
+	public void testDivide() throws Exception {
+		byte b = Byte.MAX_VALUE;
+		BigNum testa = BigNum.BYTE_MAX_VALUE;
+		while(b != Byte.MIN_VALUE) {
+			BigNum testc = testa.divide(new BigNum("2"), 0, 0);
+			byte c = (byte) (b / 2);
+			testa = testa.subtract(BigNum.ONE);
+			b --;
+			if (c != testc.toByte()) {
+				System.out.println(c + "<>" + testc);
+				throw new Exception(c + "<>" + testc);
+//				break ;
+			} else {
+				System.out.println(c + "==" + testc);
+			}
+		}
+	}
+	
+	public void testMod() {
+		BigNum test324 = new BigNum("3.24");
+		BigNum test03 = new BigNum("0.3");
+		BigNum test = test324.mod(test03);
+		System.out.println(test);
+	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
      */
     public static void main(String[] args) throws Exception {
     	BigNumTest proc = new BigNumTest();
-    	proc.testbyte();
-    	proc.testshort();
-    	proc.testint();
-    	proc.testlong();
+//    	proc.testbyte();
+//    	proc.testshort();
+//    	proc.testint();
+//    	proc.testlong();
+//    	proc.testSubtract();
+//    	proc.print99();
+//    	proc.testDivide();
+    	proc.testMod();
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16
 //        System.out.println("int" + Integer.MIN_VALUE + "...＋" + Integer.MAX_VALUE); // 32

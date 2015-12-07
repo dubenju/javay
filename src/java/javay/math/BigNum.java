@@ -668,12 +668,105 @@ public class BigNum implements Comparable<BigNum> {
 
     /**
      *
-     * @param n
+     * @param divisor
      * @return
      */
-    public BigNum mod(BigNum n) {
-    	// TODO:un
-        return null;
+    public BigNum mod(BigNum divisor) {
+        if (divisor.isZero()) {
+            // 除数为零时
+            throw new ArithmeticException("Division by zero");
+        }
+        if (divisor.equals(BigNum.ONE)) {
+            return this;
+        }
+        if (this.isZero()) {
+            return this;
+        }
+
+        // 符号
+        byte osigned = 0x01;
+        if (this.signed != divisor.signed) {
+            osigned = -1;
+        }
+
+        // 位数
+        int dlen = divisor.length;
+        int tlen = this.length;
+        int olen = tlen - dlen + 1;
+
+        // 小数点位置
+        int dscale = divisor.scale;
+        int tscale = this.scale;
+        // 被除数同步
+        tscale += dlen - dscale;
+
+        // 小数部长度
+        int odecimal_len = tlen - tscale;
+        if (tlen < dlen) {
+            odecimal_len += dlen - tlen;
+        }
+        System.out.println("小数点长度:" + odecimal_len + "=" + tscale + "/" + dscale + ",tlen=" + tlen + ",dlen=" + dlen);
+
+        int idx = 0, idx_next = 0;
+        byte[] tmp = new byte[dlen];
+        int len_tmp = tmp.length;
+        System.arraycopy(this.datas, idx, tmp, idx, len_tmp);
+//        System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
+        idx_next = len_tmp;
+
+        byte[] out = new byte[olen];
+        int ido = 0;
+        while(true) {
+            int c = cmp_ary(tmp, len_tmp, divisor.datas);
+            if (c >= 0) {
+                out[ido] = (byte) (out[ido] + 1);
+                // shift postition
+                tmp = sub(tmp, len_tmp, divisor.datas);
+                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
+                System.out.println("out["+ ido + "]=" + out[ido]);
+            }
+            if (c < 0) {
+                byte[] temp;
+                if (tmp[0] == 0) {
+                    temp = new byte[tmp.length];
+                    System.arraycopy(tmp, 1, temp, 0, tmp.length - 1);
+                } else {
+                    temp = new byte[tmp.length + 1];
+                    System.arraycopy(tmp, 0, temp, 0, tmp.length);
+                }
+                System.out.println("temp=" + String.valueOf(toCharary(temp, temp.length)));
+
+                idx = idx_next;
+                if (idx < this.datas.length) {
+                    System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
+                } else {
+//                    // 向小数部延长
+//                    if (odecimal_len <= decimal_len) {
+//                        temp[temp.length - 1] = 0;
+//                        odecimal_len ++;
+//                        olen ++;
+//                        byte[] out2 = new byte[olen];
+//                        System.arraycopy(out, 0, out2, 0, out.length);
+//                        out = out2;
+//                    } else {
+//                        // 超过指定长度结束。
+//                        break;
+//                    }
+                	break;
+                }
+                idx_next ++;
+                ido ++;
+
+                tmp = temp;
+                len_tmp = tmp.length;
+//                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
+            }
+        }
+        System.out.println("out1=" + String.valueOf(toCharary(out, out.length)));
+        out = removeFirstZero(out, olen - odecimal_len);
+        System.out.println("out2=" + String.valueOf(toCharary(out, out.length)));
+        System.out.println(this.toString() + "/" + divisor.toString() + "=");
+        return new BigNum(osigned, out, out.length, out.length - odecimal_len);
     }
 
     /**
