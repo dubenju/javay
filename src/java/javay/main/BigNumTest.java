@@ -115,13 +115,13 @@ public class BigNumTest {
 			}
 		}
 	}
-	
+
 	public void testMod() {
 		BigNum test324 = new BigNum("3.24");
 		BigNum test03 = new BigNum("0.3");
 		BigNum test = test324.mod(test03);
 		System.out.println(test);
-		
+
 		BigNum test3 = new BigNum("3");
 		test = test3.mod(test3);
 		System.out.println("3 % 3 = " + test);
@@ -129,15 +129,17 @@ public class BigNumTest {
 		BigNum test324a = new BigNum("324");
 		test = test324a.mod(test3);
 		System.out.println("324 % 3 = " + test);
-		
-//		BigNum test324 = new BigNum("3.24");
+
+		test324 = new BigNum("3.24");
 		BigNum test003 = new BigNum("0.03");
 		test = test324.mod(test003);
 		System.out.println("3.24 % 0.03 = " + test);
-		
-		
 	}
-	
+
+	public void test003() {
+		BigNum test003 = new BigNum("0.03");
+		System.out.println("0.03=" + test003);
+	}
 	public void testCmp() {
 		BigNum test = new BigNum(0);
 		test.test_cmp_ary();
@@ -155,8 +157,10 @@ public class BigNumTest {
 //    	proc.testSubtract();
 //    	proc.print99();
 //    	proc.testDivide();
-    	proc.testMod();
+//    	proc.test003();
 //    	proc.testCmp();
+    	proc.testMod();
+
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16
 //        System.out.println("int" + Integer.MIN_VALUE + "...＋" + Integer.MAX_VALUE); // 32

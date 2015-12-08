@@ -51,7 +51,6 @@ public class BigNum implements Comparable<BigNum> {
     	// TODO:exception
         /* 初始化 */
         this.signed = 0x01;
-        this.datas = new byte[len];
 
         /* 符号判断 */
         int idx = offset;
@@ -66,6 +65,7 @@ public class BigNum implements Comparable<BigNum> {
         int idy = 0;
         this.scale = -1;
         int cnt = 0;
+        byte[] dats = new byte[len];
         for(; idx < len; idx ++) {
             if(in[idx] == '.') {
                 this.scale = cnt;
@@ -73,30 +73,32 @@ public class BigNum implements Comparable<BigNum> {
             }
             cnt ++;
 
-            this.datas[idy] = (byte) (in[idx] - '0');
+            dats[idy] = (byte) (in[idx] - '0');
             idy ++;
         }
 //        System.out.println("aaa scale=" + this.scale);
 
         this.length = idy;
         if (this.scale <= 0 || this.scale == this.length) {
+        	// 整数a.的时候，补成a.0的形式。
             this.scale = this.length;
             this.length ++;
-            byte[] buf = new byte[this.datas.length];
-            System.arraycopy(this.datas, 0, buf, 0, this.datas.length);
             this.datas = new byte[this.length];
             int size = this.length;
-            if (size > buf.length) {
-            	size = buf.length;
+            if (size > dats.length) {
+            	size = dats.length;
             }
             this.datas[this.datas.length - 1] = 0;
-            System.arraycopy(buf, 0, this.datas, 0, size);
-            buf = null;
+            System.arraycopy(dats, 0, this.datas, 0, size);
+            dats = null;
+        } else {
+        	this.datas = new byte[idy];
+        	System.arraycopy(dats, 0, this.datas, 0, idy);
+        	dats = null;
         }
 
         /* DEBUG:print */
-//        printary(datas);
-//        System.out.println("datas=" + String.valueOf(toCharary(datas, datas.length)));
+        System.out.println("datas=" + String.valueOf(toCharary(datas, datas.length)));
     }
 
     /**
@@ -129,13 +131,13 @@ public class BigNum implements Comparable<BigNum> {
     public BigNum(int i) {
     	this(Integer.toString(i));
     }
-    
+
     public BigNum(long l) {
     	this(Long.toString(l));
     }
-    
-    
-    
+
+
+
     /**
      * 加法
      * @param augend 加数
@@ -684,6 +686,8 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum mod(BigNum divisor) {
+    	System.out.println("this=" + String.valueOf(toCharary(this.datas, this.datas.length)));
+    	System.out.println("divisor=" + String.valueOf(toCharary(divisor.datas, divisor.datas.length)));
         if (divisor.isZero()) {
             // 除数为零时
             throw new ArithmeticException("Division by zero");
@@ -770,7 +774,7 @@ public class BigNum implements Comparable<BigNum> {
                 	int lead = 0;
                 	if ((oscale - off) <= 0) {
                 		lead = 1 - oscale + off;
-                		System.out.println(oscale + "," + off);
+                		System.out.println("lead=" + lead + ",oscale=" + oscale + ",off=" + off);
                 	}
 
                 	// 数值
