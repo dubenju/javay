@@ -74,15 +74,7 @@ public class CalcultorActionListener implements ActionListener {
 			||s.equals("5")||s.equals("6")||s.equals("7")||s.equals("8")||s.equals("9");
 		return b;
 	}
-	private int fN( float fop1 ) {
-		int ruslt=0;
-		if ( fop1 == 0 || fop1 == 1 ) {
-			ruslt = 1;
-		} else {
-			ruslt = (int) (fop1 * fN(fop1-1) );
-		}
-		return ruslt;
-	}
+
 	private boolean isOperator(String s) {
 		return s.equals(CalcultorConts.ADD) || s.equals(CalcultorConts.SUBTRACT) ||
 				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) || s.equals(CalcultorConts.MOD)
@@ -368,31 +360,30 @@ public class CalcultorActionListener implements ActionListener {
 
 	//state6, new calculation
 	private void inputState6( String s ) {
-		Float f1;
-		f1 = new Float(op1);
-		float fop1;
-		fop1 = f1.floatValue();
+//		Float f1 = new Float(op1);
+//		float fop1 = f1.floatValue();
+		BigNum bop1 = new BigNum(op1);
 		if ( operator.equals("sqrt") ) {
-			if ( fop1 < 0 ) {
-				textField.setText(errMsg);
-				return;
-			} else {
-				fop1 = (float) Math.sqrt( fop1 );
-			}
+//			if ( fop1 < 0 ) {
+//				textField.setText(errMsg);
+//				return;
+//			} else {
+//				fop1 = (float) Math.sqrt( fop1 );
+//			}
 		} else if ( operator.equals(CalcultorConts.X2) ) {
-			fop1 = fop1 * fop1;
+			bop1 = bop1.pow(2);
 		} else if ( operator.equals(CalcultorConts.X3) ) {
-			fop1 = fop1 * fop1 * fop1;
-		} else if ( operator.equals("sin") ) {
-			fop1 = (float) Math.sin( fop1 );
-		} else if ( operator.equals("cos") ) {
-			fop1 = (float) Math.cos( fop1 );
-		} else if ( operator.equals("tan") ) {
-			fop1 = (float) Math.tan( fop1 );
+			bop1 = bop1.pow(3);
+//		} else if ( operator.equals("sin") ) {
+//			fop1 = (float) Math.sin( fop1 );
+//		} else if ( operator.equals("cos") ) {
+//			fop1 = (float) Math.cos( fop1 );
+//		} else if ( operator.equals("tan") ) {
+//			fop1 = (float) Math.tan( fop1 );
 		} else if( operator.equals("n!") ) {
-			fop1 = this.fN(fop1);
+			bop1 = bop1.factorial();
 		}
-		op1 = String.valueOf(fop1);
+		op1 = String.valueOf(bop1);
 		textField.setText(op1);
 	}
 }

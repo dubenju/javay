@@ -20,7 +20,7 @@ public class Calculator {
 
         //show frame
         // frame.setLayout(new BorderLayout());
-        frame.setBounds(600, 50, 560, 360);
+        frame.setBounds(600, 50, 900, 360);
         frame.setLocation(600, 50);
         frame.setResizable(false);
         frame.setVisible(true);

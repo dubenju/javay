@@ -38,7 +38,6 @@ public class CalcultorPanel extends JPanel {
     	JPanel mainPanel = new JPanel();
     	mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 //    	mainPanel.setLayout(new GridLayout(4, 1));
-//    	mainPanel.setLayout(new GridBagLayout());
 
         //create the text field
         JTextField textField = new JTextField( 34 );
@@ -50,6 +49,7 @@ public class CalcultorPanel extends JPanel {
         textField.setFont(new Font("Dialog", 1, 36));
 
 
+        /* A */
         JPanel option = new JPanel();
         mainPanel.add(option);
 
@@ -89,6 +89,7 @@ public class CalcultorPanel extends JPanel {
 		optionRight.add(rad);
 		optionRight.add(grad);
 
+		/* B */
         JPanel exOption = new JPanel();
         mainPanel.add(exOption);
         JPanel exOptLeft = new JPanel();
@@ -116,6 +117,7 @@ public class CalcultorPanel extends JPanel {
         exOptRight.add( btnCe ).setForeground(Color.red);
         exOptRight.add( btnClear ).setForeground(Color.red);
 
+        /* C */
         //create button panel
         JPanel buttonPanel = new JPanel();
         mainPanel.add(buttonPanel);
@@ -306,6 +308,10 @@ public class CalcultorPanel extends JPanel {
         //create the control
         CalcultorActionListener controler = new CalcultorActionListener( textField );
 
+//        btnBackspace.addActionListener( controler );
+//        btnCe.addActionListener( controler );
+//        btnClear.addActionListener( controler );
+
         bntFE.addActionListener( controler );
         btnLeft.addActionListener( controler );
         btnRight.addActionListener( controler );
@@ -329,10 +335,6 @@ public class CalcultorPanel extends JPanel {
         bntMS.addActionListener( controler );
         bntMP.addActionListener( controler );
         bntMN.addActionListener( controler );
-
-        btnBackspace.addActionListener( controler );
-        btnCe.addActionListener( controler );
-        btnClear.addActionListener( controler );
 
         //add let the control listen to the buttons
         for( int i = 0; i < 10; i++ ) {

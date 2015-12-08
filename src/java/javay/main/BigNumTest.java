@@ -150,13 +150,13 @@ public class BigNumTest {
      */
     public static void main(String[] args) throws Exception {
     	BigNumTest proc = new BigNumTest();
-//    	proc.testbyte();
+    	proc.testbyte();
 //    	proc.testshort();
 //    	proc.testint();
 //    	proc.testlong();
-//    	proc.testSubtract();
-//    	proc.print99();
-//    	proc.testDivide();
+    	proc.testSubtract();
+    	proc.print99();
+    	proc.testDivide();
 //    	proc.test003();
 //    	proc.testCmp();
     	proc.testMod();

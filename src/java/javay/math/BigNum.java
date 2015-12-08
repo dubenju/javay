@@ -22,6 +22,7 @@ public class BigNum implements Comparable<BigNum> {
     //                                    3.14159265358979323846
     //                                    3.1415926535897932384626433832795
     public static final BigNum PI = new BigNum("3.14159265358979323846264338327950288419716939937510");
+    public static final BigNum E  = new BigNum("2.71828182845904523536028747135266249775724709369995");
     public static final BigNum BYTE_MIN_VALUE = new BigNum("-128");
     public static final BigNum BYTE_MAX_VALUE = new BigNum( "127");
     public static final BigNum SHORT_MIN_VALUE = new BigNum("-32768");
@@ -860,7 +861,17 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum factorial() {
-    	return null;
+    	if(this.compareTo(BigNum.ZERO) <= 0) {
+    		return this;
+    	}
+    	
+    	BigNum result = new BigNum(this);
+    	BigNum next = this.subtract(BigNum.ONE);
+    	while(next.compareTo(BigNum.ZERO) > 0) {
+    		result = result.multiply(next);
+    		next = next.subtract(BigNum.ONE);
+    	}
+    	return result;
     }
     /**
      * 比较大小
