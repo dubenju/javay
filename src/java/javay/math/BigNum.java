@@ -1,5 +1,7 @@
 package javay.math;
 
+import sun.misc.FloatingDecimal;
+
 /**
  *
  * 0123456789
@@ -138,6 +140,17 @@ public class BigNum implements Comparable<BigNum> {
     }
 
 
+    public BigNum(float f) {
+    	this(Float.toString(f));
+    }
+
+    public BigNum(double d) {
+    	this(Double.toString(d));
+    }
+
+    /* ********************************************
+     * Option
+     * ********************************************/
 
     /**
      * 加法
@@ -864,7 +877,7 @@ public class BigNum implements Comparable<BigNum> {
     	if(this.compareTo(BigNum.ZERO) <= 0) {
     		return this;
     	}
-    	
+
     	BigNum result = new BigNum(this);
     	BigNum next = this.subtract(BigNum.ONE);
     	while(next.compareTo(BigNum.ZERO) > 0) {
@@ -1081,6 +1094,17 @@ public class BigNum implements Comparable<BigNum> {
 		}
 		return (long) (this.signed * result);
 	}
+	public float toFloat() {
+		//float res = 0.0f;
+		//return res;
+		return FloatingDecimal.parseFloat(this.toString());
+	}
+	public double toDouble() {
+//		double res = 0.0d;
+//		return res;
+		return FloatingDecimal.parseDouble(this.toString());
+	}
+
     public BigNum round(int scale, int roundmode) {
         // TODO:wait
     	return null;
