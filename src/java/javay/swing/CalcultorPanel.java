@@ -170,7 +170,7 @@ public class CalcultorPanel extends JPanel {
         // x的y次方
         Button btnXY    = new Button(CalcultorConts.XY);
         // 阶乘
-        Button btnN     = new Button("n!");
+        Button btnN     = new Button(CalcultorConts.N);
         // 倒数
         Button btnDivide1   = new Button(CalcultorConts.DIVIDE1);
 
@@ -180,9 +180,9 @@ public class CalcultorPanel extends JPanel {
         // 右括号
         Button btnRight = new Button(")");
         Button bntDMS = new Button("dms");
-        Button bntExp = new Button("exp");
-        Button bntLn = new Button("ln");
-        Button bntLog = new Button("log");
+        Button bntExp = new Button(CalcultorConts.EXP);
+        Button bntLn = new Button(CalcultorConts.LN);
+        Button bntLog = new Button(CalcultorConts.LOG);
 
         // 正弦
         Button btnSin   = new Button("sin");

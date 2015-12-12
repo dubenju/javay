@@ -78,9 +78,10 @@ public class CalcultorActionListener implements ActionListener {
 	private boolean isOperator(String s) {
 		return s.equals(CalcultorConts.ADD) || s.equals(CalcultorConts.SUBTRACT) ||
 				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) || s.equals(CalcultorConts.MOD)
-				||s.equals(CalcultorConts.X2)||s.equals(CalcultorConts.X3)||s.equals(CalcultorConts.XY)
-				||s.equals("sqrt")||s.equals("sin")||s.equals("cos")
-				||s.equals("tan")||s.equals("n!")||s.equals("(")||s.equals(")");
+				||s.equals(CalcultorConts.X2)||s.equals(CalcultorConts.X3)||s.equals(CalcultorConts.XY)||s.equals(CalcultorConts.EXP)
+				||s.equals("sqrt")||s.equals("sin")||s.equals("cos") || s.equals("tan")
+				||s.equals(CalcultorConts.N)||s.equals(CalcultorConts.LN)||s.equals(CalcultorConts.LOG)
+				||s.equals("(")||s.equals(")");
 	}
 
 	//state 0 start
@@ -180,9 +181,11 @@ public class CalcultorActionListener implements ActionListener {
 		if ( isOperator(s) ) {
 			operator = s;
 			state = 4; // 操作符号输入完了
-			if (operator.equals(CalcultorConts.X2)|| operator.equals(CalcultorConts.X3)||operator.equals("sin")
-					||operator.equals("cos")||operator.equals("tan")||operator.equals("sqrt")
-					||operator.equals("n!")) {
+			if (operator.equals(CalcultorConts.X2)|| operator.equals(CalcultorConts.X3)
+					||operator.equals("sin") ||operator.equals("cos")||operator.equals("tan")
+					||operator.equals(CalcultorConts.N)||operator.equals(CalcultorConts.EXP)
+					||operator.equals("sqrt")
+					||operator.equals(CalcultorConts.LN)) {
 				inputState6(s);
 			}
 		}
@@ -380,8 +383,12 @@ public class CalcultorActionListener implements ActionListener {
 //			fop1 = (float) Math.cos( fop1 );
 //		} else if ( operator.equals("tan") ) {
 //			fop1 = (float) Math.tan( fop1 );
-		} else if( operator.equals("n!") ) {
+		} else if( operator.equals(CalcultorConts.N) ) {
 			bop1 = bop1.factorial();
+		} else if( operator.equals(CalcultorConts.LN) ) {
+			bop1 = bop1.ln();
+		} else if( operator.equals(CalcultorConts.EXP) ) {
+			bop1 = BigNum.E.pow(bop1);
 		}
 		op1 = String.valueOf(bop1);
 		textField.setText(op1);

@@ -186,11 +186,11 @@ public class BigNum implements Comparable<BigNum> {
             /* 小数部 */
             for(int idx = decS; idx > 0; idx --) {
                 System.out.println("a1=" + a);
-                if ((this.scale + idx) <= this.length) {
+                if ((this.scale + idx) < this.length) {
                     System.out.println("a=" + this.datas[this.scale + idx]);
                     a = a + this.datas[this.scale + idx];
                 }
-                if ((augend.scale + idx) <= augend.length) {
+                if ((augend.scale + idx) < augend.length) {
                     System.out.println("a=" + augend.datas[augend.scale + idx]);
                     a = a + augend.datas[augend.scale + idx];
                 }
@@ -245,7 +245,7 @@ public class BigNum implements Comparable<BigNum> {
         }
         if (this.signed == subtrahend.signed) {
             byte signeds = 0x01;
-        	// TODO:大小调整
+        	// 大小调整
             BigNum minuend = this;
             if (minuend.abs().compareTo(subtrahend.abs()) < 0) {
             	System.out.println("CHG:" + minuend.abs() + " vs " + subtrahend.abs() + "=");
@@ -437,7 +437,7 @@ public class BigNum implements Comparable<BigNum> {
             // ERROR
         }
 
-        // TODO:remove zero;
+        // remove zero;
         result = removeFirstZero(result, len);
 
         return new BigNum(signed, result, result.length, result.length - len + scale);
@@ -1047,7 +1047,8 @@ public class BigNum implements Comparable<BigNum> {
                 buf.append(".");
             }
         }
-//        buf.append("[length=" + this.length + ",scale=" + this.scale + "]");
+        //buf.append("[length=" + this.length + ",scale=" + this.scale + "]");
+        System.out.println("[length=" + this.length + ",scale=" + this.scale + "]");
         if (idx == this.scale) {
         	buf.append("0");
         }
@@ -1137,6 +1138,38 @@ public class BigNum implements Comparable<BigNum> {
         }
         return null;
     }
+
+    public BigNum log10() {
+    	int a = this.scale - 1;
+
+    	BigNum b = new BigNum(this.signed, this.datas, this.length, 1);
+    	System.out.println("b=" + b);
+    	double c = b.toDouble();
+    	System.out.println("c=" + c);
+    	double d = StrictMath.log10(c);
+    	System.out.println("d=" + d);
+    	BigNum e = new BigNum(d);
+    	System.out.println("e=" + e);
+    	BigNum res = new BigNum(a);
+    	res = res.add(e);
+    	System.out.println("res=" + res);
+    	return res;
+    }
+
+    public BigNum lg () {
+    	return this.log10();
+    }
+
+    public BigNum ln() {
+    	return log(BigNum.E);
+    }
+
+    public BigNum log(BigNum a) {
+    	BigNum t = this.log10();
+    	BigNum b = a.log10();
+    	return t.divide(b, 2, 0);
+    }
+
     /** for DEBUG */
     public void printary(char[] in) {
         for(char ch: in) {

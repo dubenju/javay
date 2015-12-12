@@ -21,6 +21,10 @@ public interface CalcultorConts {
 	public static final String X2 = "x²";
 	public static final String X3 = "x³";
 	public static final String XY = "mⁿ";
+	public static final String EXP = "exp";
 
 	public static final String DIVIDE1 = "1/x";
+	public static final String LN = "ln";
+	public static final String LOG = "log";
+	public static final String N = "N!";
 }

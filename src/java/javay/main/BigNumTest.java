@@ -144,22 +144,34 @@ public class BigNumTest {
 		BigNum test = new BigNum(0);
 		test.test_cmp_ary();
 	}
+
+	public void testDouble() {
+		double a = 15.3;
+		BigNum b = new BigNum(a);
+		System.out.println(a + "=" + b.toString() + "," + b.toDouble() + "------------------------>");
+		BigNum c = b.log10();
+		System.out.println("<---------------------log10(" + b + ")=" + c + "," + Math.log10(a));
+
+		BigNum e = b.ln();
+		System.out.println("<---------------------ln(" + b + ")=" + e + "," + Math.log1p(a));
+	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
      */
     public static void main(String[] args) throws Exception {
     	BigNumTest proc = new BigNumTest();
-    	proc.testbyte();
-//    	proc.testshort();
-//    	proc.testint();
-//    	proc.testlong();
-    	proc.testSubtract();
-    	proc.print99();
-    	proc.testDivide();
-//    	proc.test003();
-//    	proc.testCmp();
-    	proc.testMod();
+//    	proc.testbyte();
+////    	proc.testshort();
+////    	proc.testint();
+////    	proc.testlong();
+//    	proc.testSubtract();
+//    	proc.print99();
+//    	proc.testDivide();
+////    	proc.test003();
+////    	proc.testCmp();
+//    	proc.testMod();
+    	proc.testDouble();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16
