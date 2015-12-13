@@ -117,7 +117,7 @@ public class BigNumTest {
 //		}
 		BigNum bg15 = new BigNum("15.0");
 		BigNum bg180 = new BigNum("180.0");
-		BigNum r = bg15.divide(bg180, 2, 0);
+		BigNum r = bg15.divide(bg180, 3, BigNumRound.HALF_EVENT);
 		System.out.println(r);
 	}
 
@@ -157,7 +157,7 @@ public class BigNumTest {
 		BigNum c = b.log10();
 		System.out.println("<---------------------log10(" + b + ")=" + c + "," + Math.log10(a));
 
-		BigNum e = b.ln();
+		BigNum e = b.ln(3, BigNumRound.HALF_EVENT);
 		System.out.println("<---------------------ln(" + b + ")=" + e + "," + Math.log1p(a));
 	}
 	
@@ -211,13 +211,13 @@ public class BigNumTest {
 ////    	proc.testlong();
 //    	proc.testSubtract();
 //    	proc.print99();
-//    	proc.testDivide();
+    	proc.testDivide();
 ////    	proc.test003();
-////    	proc.testCmp();
+    	proc.testCmp();
 //    	proc.testMod();
 //    	proc.testDouble();
 //    	proc.testRD();
-    	proc.testRound();
+//    	proc.testRound();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16

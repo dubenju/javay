@@ -468,34 +468,45 @@ public class BigNum implements Comparable<BigNum> {
         if (this.signed != divisor.signed) {
             osigned = -1;
         }
-
-        // 位数
-        int dlen = divisor.length;
-        int tlen = this.length;
-        int olen = tlen - dlen + 1;
+        System.out.println("⚫⚫⚫️符号" + osigned);
 
         // 小数点位置
         int dscale = divisor.scale;
         int tscale = this.scale;
+        int dlen = divisor.length;
+        int tlen = this.length;
+        int ddeclen = dlen - dscale;
+        int tdeclen = tlen - tscale;
+        System.out.println("信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
+
         // 被除数同步
-        tscale += dlen - dscale;
+        tscale += divisor.length - dscale;
+        System.out.println("小数点位置:" + tscale + "/" + dscale);
 
         // 小数部长度
         int odecimal_len = tlen - tscale;
-        if (tlen < dlen) {
-            odecimal_len += dlen - tlen;
+        System.out.println("⚫⚫⚫小数点长度:" + odecimal_len + "=" + tscale + "/" + dscale + ",tlen=" + tlen + ",dlen=" + dlen);
+        int max_decimal_len = decimal_len;
+        if (BigNumRound.HALF_EVENT.equals(roundmode)) {
+        	max_decimal_len ++;
         }
-        System.out.println("小数点长度:" + odecimal_len + "=" + tscale + "/" + dscale + ",tlen=" + tlen + ",dlen=" + dlen);
-
         int idx = 0, idx_next = 0;
         byte[] tmp = new byte[dlen];
         int len_tmp = tmp.length;
         if (this.datas.length < tmp.length) {
+        	// TODO:??
         	len_tmp = this.datas.length;
         }
         System.arraycopy(this.datas, idx, tmp, idx, len_tmp);
 //        System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
         idx_next = len_tmp;
+
+        // 位数
+        int olen = tlen - dlen + 1;
+        if (olen <= 0) {
+        	olen = 2; // 0.0
+        }
+        System.out.println("⚫⚫⚫️长度" + olen);
 
         byte[] out = new byte[olen];
         int ido = 0;
@@ -514,8 +525,8 @@ public class BigNum implements Comparable<BigNum> {
                     temp = new byte[tmp.length];
                     System.arraycopy(tmp, 1, temp, 0, tmp.length - 1);
                 } else {
-                    temp = new byte[tmp.length + 1];
-                    System.arraycopy(tmp, 0, temp, 0, tmp.length);
+                    temp = new byte[len_tmp + 1];
+                    System.arraycopy(tmp, 0, temp, 0, len_tmp);
                 }
                 System.out.println("temp=" + String.valueOf(toCharary(temp, temp.length)));
 
@@ -524,7 +535,9 @@ public class BigNum implements Comparable<BigNum> {
                     System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
                 } else {
                     // 向小数部延长
-                    if (odecimal_len <= decimal_len) {
+                	System.out.println(odecimal_len + "vs" + max_decimal_len);
+                    if (odecimal_len <= max_decimal_len) {
+                	// if (ido <= olen) {
                         temp[temp.length - 1] = 0;
                         odecimal_len ++;
                         olen ++;
@@ -533,9 +546,9 @@ public class BigNum implements Comparable<BigNum> {
                         out = out2;
                     } else {
                         // 超过指定长度结束。
+                    	// banker
                         break;
                     }
-
                 }
                 idx_next ++;
                 ido ++;
@@ -549,7 +562,7 @@ public class BigNum implements Comparable<BigNum> {
         out = removeFirstZero(out, olen - odecimal_len);
         System.out.println("out2=" + String.valueOf(toCharary(out, out.length)));
         System.out.println(this.toString() + "/" + divisor.toString() + "=");
-        return new BigNum(osigned, out, out.length, out.length - odecimal_len);
+        return new BigNum(osigned, out, out.length, out.length - odecimal_len - 1);
     }
 
     /**
@@ -577,7 +590,7 @@ public class BigNum implements Comparable<BigNum> {
         int offsetb = 0;
         while(b.length > (lena + offsetb)) {
         	if (b[offsetb] > 0) {
-        		c = 1;
+        		c = -1;
         		break;
         	}
         	offsetb ++;
@@ -1279,14 +1292,14 @@ public class BigNum implements Comparable<BigNum> {
     	return this.log10();
     }
 
-    public BigNum ln() {
-    	return log(BigNum.E);
+    public BigNum ln(int decimal, BigNumRound round) {
+    	return log(BigNum.E, decimal, round);
     }
 
-    public BigNum log(BigNum a) {
+    public BigNum log(BigNum a, int decimal, BigNumRound round) {
     	BigNum t = this.log10();
     	BigNum b = a.log10();
-    	return t.divide(b, 2, 0);
+    	return t.divide(b, decimal, round);
     }
 
     /** for DEBUG */
@@ -1333,6 +1346,9 @@ public class BigNum implements Comparable<BigNum> {
     	byte[] a = { 2, 4};
     	byte[] b = { 0, 3, 0};
     	System.out.println(cmp_ary(a, 2, b));
+    	a = new byte[] {1, 5, 0};
+    	b = new byte[] {1, 8, 0, 0};
+    	System.out.println(cmp_ary(a, 3, b));
     }
     
     public void test_add_ary() {

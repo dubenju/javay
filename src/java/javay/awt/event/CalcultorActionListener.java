@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 import javay.math.BigNum;
+import javay.math.BigNumRound;
 import javay.swing.CalcultorConts;
 
 /**
@@ -199,7 +200,7 @@ public class CalcultorActionListener implements ActionListener {
 				textField.setText(errMsg);
 			} else {
 				// float f = 1.0f/fOp1.floatValue();
-				BigNum value = new BigNum("1").divide(nOp1, 0, 0);
+				BigNum value = new BigNum("1").divide(nOp1, 0, BigNumRound.HALF_EVENT);
 				// op1 = String.valueOf(f);
 				op1 = value.toString();
 				textField.setText(op1);
@@ -274,7 +275,7 @@ public class CalcultorActionListener implements ActionListener {
 				nOp1 = nOp1.multiply(nOp2);
 			} else if ( operator.equals(CalcultorConts.DIVIDE) ) {
 				if (nOp2.isZero() == false) {
-					nOp1 = nOp1.divide(nOp2, 0, 0);
+					nOp1 = nOp1.divide(nOp2, 0, BigNumRound.HALF_EVENT);
 				} else {
 					state = 1; // 错误状态
 					textField.setText(errMsg);
@@ -319,7 +320,7 @@ public class CalcultorActionListener implements ActionListener {
 				nOp1 = nOp1.multiply(nOp2);
 			} else if ( operator.equals(CalcultorConts.DIVIDE) ) {
 				if (nOp2.isZero() == false) {
-					nOp1 = nOp1.divide(nOp2, 0, 0);
+					nOp1 = nOp1.divide(nOp2, 0, BigNumRound.HALF_EVENT);
 				} else {
 					state = 1; // 错误状态
 					textField.setText(errMsg);
@@ -386,7 +387,7 @@ public class CalcultorActionListener implements ActionListener {
 		} else if( operator.equals(CalcultorConts.N) ) {
 			bop1 = bop1.factorial();
 		} else if( operator.equals(CalcultorConts.LN) ) {
-			bop1 = bop1.ln();
+			bop1 = bop1.ln(2, BigNumRound.HALF_EVENT);
 		} else if( operator.equals(CalcultorConts.EXP) ) {
 			bop1 = BigNum.E.pow(bop1);
 		}

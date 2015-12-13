@@ -8,7 +8,7 @@ public class MathBn {
 	 * @return
 	 */
     public static BigNum toRadians(BigNum degrees) {
-    	BigNum res = degrees.divide(DEGREES_180, 2, 0);
+    	BigNum res = degrees.divide(DEGREES_180, 2, BigNumRound.HALF_EVENT);
         return  res.multiply(BigNum.PI);
     }
     
@@ -19,6 +19,6 @@ public class MathBn {
      */
     public static BigNum toDegrees(BigNum radians) {
     	BigNum res = radians.multiply(DEGREES_180);
-        return res.divide(BigNum.PI, 0, 0);
+        return res.divide(BigNum.PI, 0, BigNumRound.HALF_EVENT);
     }
 }
