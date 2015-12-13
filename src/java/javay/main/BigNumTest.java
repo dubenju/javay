@@ -5,6 +5,7 @@ package javay.main;
 
 import javay.math.BigNum;
 import javay.math.BigNumRound;
+import javay.math.MathBn;
 
 /**
  * @author DBJ
@@ -99,21 +100,25 @@ public class BigNumTest {
 		}
 	}
 	public void testDivide() throws Exception {
-		byte b = Byte.MAX_VALUE;
-		BigNum testa = BigNum.BYTE_MAX_VALUE;
-		while(b != Byte.MIN_VALUE) {
-			BigNum testc = testa.divide(new BigNum("2"), 0, 0);
-			byte c = (byte) (b / 2);
-			testa = testa.subtract(BigNum.ONE);
-			b --;
-			if (c != testc.toByte()) {
-				System.out.println(c + "<>" + testc);
-				throw new Exception(c + "<>" + testc);
-//				break ;
-			} else {
-				System.out.println(c + "==" + testc);
-			}
-		}
+//		byte b = Byte.MAX_VALUE;
+//		BigNum testa = BigNum.BYTE_MAX_VALUE;
+//		while(b != Byte.MIN_VALUE) {
+//			BigNum testc = testa.divide(new BigNum("2"), 0, 0);
+//			byte c = (byte) (b / 2);
+//			testa = testa.subtract(BigNum.ONE);
+//			b --;
+//			if (c != testc.toByte()) {
+//				System.out.println(c + "<>" + testc);
+//				throw new Exception(c + "<>" + testc);
+////				break ;
+//			} else {
+//				System.out.println(c + "==" + testc);
+//			}
+//		}
+		BigNum bg15 = new BigNum("15.0");
+		BigNum bg180 = new BigNum("180.0");
+		BigNum r = bg15.divide(bg180, 2, 0);
+		System.out.println(r);
 	}
 
 	public void testMod() {
@@ -155,6 +160,45 @@ public class BigNumTest {
 		BigNum e = b.ln();
 		System.out.println("<---------------------ln(" + b + ")=" + e + "," + Math.log1p(a));
 	}
+	
+	public void testRD() {
+		for (int i = 0; i <= 180; i += 15) {
+			BigNum r = MathBn.toRadians(new BigNum(i));
+			BigNum d = MathBn.toDegrees(r);
+			System.out.println(i + "=" + r + "," + d);
+		}
+	}
+	public void testRound() {
+		
+		BigNum data = new BigNum("1.2345");
+//		data.test_add_ary();
+		BigNum dat = data.round(1, BigNumRound.UP);
+		System.out.println(dat);
+		dat = data.round(1, BigNumRound.DOWN);
+		System.out.println(dat);
+		dat = data.round(1, BigNumRound.CELLING);
+		System.out.println(dat);
+		dat = data.round(1, BigNumRound.FLOOR);
+		System.out.println(dat);
+		dat = data.round(1, BigNumRound.HALF_UP);
+		System.out.println(dat);
+		dat = data.round(1, BigNumRound.HALF_DOWN);
+		System.out.println(dat);
+		dat = data.round(1, BigNumRound.HALF_EVENT);
+		System.out.println(dat);
+		data = new BigNum("5.2254");
+		dat = data.round(2, BigNumRound.HALF_EVENT);
+		System.out.println(dat);
+		data = new BigNum("5.215");
+		dat = data.round(2, BigNumRound.HALF_EVENT);
+		System.out.println(dat);
+		data = new BigNum("5.225");
+		dat = data.round(2, BigNumRound.HALF_EVENT);
+		System.out.println(dat);
+		data = new BigNum("5.214");
+		dat = data.round(2, BigNumRound.HALF_EVENT);
+		System.out.println(dat);
+	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
@@ -171,7 +215,9 @@ public class BigNumTest {
 ////    	proc.test003();
 ////    	proc.testCmp();
 //    	proc.testMod();
-    	proc.testDouble();
+//    	proc.testDouble();
+//    	proc.testRD();
+    	proc.testRound();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16

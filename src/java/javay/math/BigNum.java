@@ -450,7 +450,8 @@ public class BigNum implements Comparable<BigNum> {
      * @param roundmode
      * @return
      */
-    public BigNum divide(BigNum divisor, int decimal_len, int roundmode) {
+    public BigNum divide(BigNum divisor, int decimal_len, BigNumRound roundmode) {
+    	System.out.println("⚫⚫⚫️被除数" + this + "除数" + divisor +"等于");
         if (divisor.isZero()) {
             // 除数为零时
             throw new ArithmeticException("Division by zero");
@@ -489,6 +490,9 @@ public class BigNum implements Comparable<BigNum> {
         int idx = 0, idx_next = 0;
         byte[] tmp = new byte[dlen];
         int len_tmp = tmp.length;
+        if (this.datas.length < tmp.length) {
+        	len_tmp = this.datas.length;
+        }
         System.arraycopy(this.datas, idx, tmp, idx, len_tmp);
 //        System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
         idx_next = len_tmp;
@@ -500,7 +504,7 @@ public class BigNum implements Comparable<BigNum> {
             if (c >= 0) {
                 out[ido] = (byte) (out[ido] + 1);
                 // shift postition
-                tmp = sub(tmp, len_tmp, divisor.datas);
+                tmp = sub_ary(tmp, len_tmp, divisor.datas);
                 System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
                 System.out.println("out["+ ido + "]=" + out[ido]);
             }
@@ -602,7 +606,7 @@ public class BigNum implements Comparable<BigNum> {
      * @param b
      * @return a - b
      */
-    protected byte[] sub(byte[] a, int lena, byte[] b) {
+    protected byte[] sub_ary(byte[] a, int lena, byte[] b) {
         byte[] c2 = new byte[lena];
         long m = 0;
         long carry = 0;
@@ -754,7 +758,7 @@ public class BigNum implements Comparable<BigNum> {
             if (c >= 0) {
                 out[ido] = (byte) (out[ido] + 1);
                 // shift postition
-                tmp = sub(tmp, len_tmp, divisor.datas);
+                tmp = sub_ary(tmp, len_tmp, divisor.datas);
                 System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
                 System.out.println("out["+ ido + "]=" + out[ido]);
             }
@@ -1106,9 +1110,124 @@ public class BigNum implements Comparable<BigNum> {
 		return FloatingDecimal.parseDouble(this.toString());
 	}
 
-    public BigNum round(int scale, int roundmode) {
-        // TODO:wait
-    	return null;
+	protected byte[] add_ary(byte[] data, int pos, byte val) {
+		int carry = val;
+		int a = 0;
+		for (int i = pos; i >= 0; i --) {
+			a = data[i] + carry;
+			if ((a / 10) > 0) {
+				carry = a / 10;
+			} else {
+				carry = 0;
+			}
+			data[i] = (byte) (a % 10);
+		}
+		if (carry != 0) {
+			byte[] tmp = new byte[data.length + 1];
+			tmp[0] = (byte) carry;
+			System.arraycopy(data, 0, tmp, 1, data.length);
+			data = tmp;
+		}
+		return data;
+	}
+	protected boolean is_zero_ary(byte[] data, int pos) {
+		for(int i = pos; i < data.length; i ++) {
+			if (data[i] != 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+    public BigNum round(int scale, BigNumRound roundmode) {
+        int pos = this.scale + scale - 1;
+        int pos_next = pos + 1;
+        int pos_prev = pos - 1;
+    	if (pos < 0 || pos > this.length) {
+    		return this;
+    	}
+    	byte cur_val = this.datas[pos];
+    	
+    	byte pre_val = 0;
+    	if (pos_prev >= 0 && pos_prev < this.length) {
+    		pre_val = this.datas[pos_prev];
+    	}
+    	System.out.println("pos" + pos_prev + ",val" + pre_val);
+    	System.out.println("pos" + pos + ",val" + cur_val);
+    	byte nex_val = 0;
+    	if (pos_next >= 0 && pos_next < this.length) {
+    		nex_val = this.datas[pos_next];
+    	}
+    	System.out.println("pos" + pos_next + ",val" + nex_val);
+    	byte signed = this.signed;
+    	int scaleo = this.scale;
+    	int length = scaleo;
+    	if (pos > scaleo) {
+    		length = pos;
+    	}
+    	length ++;
+    	byte[] datas = new byte[length];
+    	System.arraycopy(this.datas, 0, datas, 0, length);
+
+    	if (BigNumRound.UP.equals(roundmode)) {
+    		// 远离零方向舍入,> 0 进上
+    		if (nex_val != 0) {
+    			datas = add_ary(datas, pos, (byte) 1);
+    		}
+    	}
+    	if (BigNumRound.DOWN.equals(roundmode)) {
+    		// 趋向零方向舍入,> 0 舍下
+    	}
+    	if (BigNumRound.CELLING.equals(roundmode)) {
+    		// 向正无穷方向舍入,
+    		if (signed > 0) {
+        		if (nex_val != 0) {
+        			datas = add_ary(datas, pos, (byte) 1);
+        		}
+    		}
+    	}
+    	if (BigNumRound.FLOOR.equals(roundmode)) {
+    		// 向负无穷方向舍入,
+    		if (signed < 0) {
+        		if (nex_val != 0) {
+        			datas = add_ary(datas, pos, (byte) 1);
+        		}
+    		}
+    	}
+    	if (BigNumRound.HALF_UP.equals(roundmode)) {
+    		// 最近数字舍入(5进)。这是我们最经典的四舍五入。
+    		if (nex_val > 4) {
+    			datas = add_ary(datas, pos, (byte) 1);
+    		}
+    	}
+    	if (BigNumRound.HALF_DOWN.equals(roundmode)) {
+    		// 最近数字舍入(5舍)。在这里5是要舍弃的。五舍六入。
+    		if (nex_val > 5) {
+    			datas = add_ary(datas, pos, (byte) 1);
+    		}
+    	}
+    	if (BigNumRound.HALF_EVENT.equals(roundmode)) {
+    		// 银行家舍入法。
+    		if (nex_val > 5) {
+    			// （2）如果保留位数的后一位如果是6，则进上去。例如5.216保留两位小数为5.22。
+    			datas = add_ary(datas, pos, (byte) 1);
+    		}
+    		if (nex_val == 5) {
+    			if (is_zero_ary(this.datas, pos_next + 1) == false) {
+    				// is not zero
+    				// （4）如果保留位数的后一位如果是5，而且5后面仍有数。例如5.2254保留两位小数为5.23，也就是说如果5后面还有数据，则无论奇偶都要进入。
+    				datas = add_ary(datas, pos, (byte) 1);
+    			} else {
+    				System.out.println("prev" + pos_prev + ",val" + pre_val);
+    				if ((cur_val % 2) != 0) {
+    					// （3）如果保留位数的后一位如果是5，而且5后面不再有数，要根据应看尾数“5”的前一位决定是舍去还是进入: 如果是奇数则进入，如果是偶数则舍去。
+    					datas = add_ary(datas, pos, (byte) 1);
+    				}
+    			}
+    		}
+    		// （1）要求保留位数的后一位如果是4，则舍去。例如5.214保留两位小数为5.21。
+    	}
+    	return new BigNum(signed, datas, length, scaleo);
     }
 
     /**
@@ -1214,5 +1333,11 @@ public class BigNum implements Comparable<BigNum> {
     	byte[] a = { 2, 4};
     	byte[] b = { 0, 3, 0};
     	System.out.println(cmp_ary(a, 2, b));
+    }
+    
+    public void test_add_ary() {
+    	byte[] a = { 9, 9, 9};
+    	byte[] b = add_ary(a, 1, (byte) 0x01);
+    	System.out.println("datas=" + String.valueOf(toCharary(b, b.length)));
     }
 }
