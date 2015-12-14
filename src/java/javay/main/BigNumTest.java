@@ -119,6 +119,11 @@ public class BigNumTest {
 		BigNum bg180 = new BigNum("180.0");
 		BigNum r = bg15.divide(bg180, 3, BigNumRound.HALF_EVENT);
 		System.out.println(r);
+		
+		BigNum bg104508 = new BigNum("10.4508");
+		BigNum bg2 = new BigNum("2.0");
+		r = bg104508.divide(bg2, 2, BigNumRound.HALF_EVENT);
+		System.out.println("r=" + r);
 	}
 
 	public void testMod() {

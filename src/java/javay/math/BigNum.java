@@ -444,14 +444,14 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     /**
-     *
+     * 除法
      * @param divisor
      * @param decimal_len
      * @param roundmode
      * @return
      */
     public BigNum divide(BigNum divisor, int decimal_len, BigNumRound roundmode) {
-    	System.out.println("⚫⚫⚫️被除数" + this + "除数" + divisor +"等于");
+    	System.out.println("⚫⚫⚫️" + this + "÷" + divisor +"等于");
         if (divisor.isZero()) {
             // 除数为零时
             throw new ArithmeticException("Division by zero");
@@ -471,10 +471,10 @@ public class BigNum implements Comparable<BigNum> {
         System.out.println("⚫⚫⚫️符号" + osigned);
 
         // 小数点位置
-        int dscale = divisor.scale;
-        int tscale = this.scale;
-        int dlen = divisor.length;
-        int tlen = this.length;
+        int dscale  = divisor.scale;
+        int tscale  = this.scale;
+        int dlen    = divisor.length;
+        int tlen    = this.length;
         int ddeclen = dlen - dscale;
         int tdeclen = tlen - tscale;
         System.out.println("信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
@@ -507,6 +507,7 @@ public class BigNum implements Comparable<BigNum> {
         	olen = 2; // 0.0
         }
         System.out.println("⚫⚫⚫️长度" + olen);
+        int oscale = 0;
 
         byte[] out = new byte[olen];
         int ido = 0;
@@ -531,9 +532,29 @@ public class BigNum implements Comparable<BigNum> {
                 System.out.println("temp=" + String.valueOf(toCharary(temp, temp.length)));
 
                 idx = idx_next;
+                System.out.println("input pos=" + idx + "tscale=" + tscale + "ido=" + ido);
+                if (idx == tscale) {
+                	// 小数点位置
+                	oscale = ido + 1;
+                	System.out.println("★小数点位置oscale=" + oscale );
+                }
                 if (idx < this.datas.length) {
                     System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
                 } else {
+                	if(BigNumRound.HALF_EVENT.equals(roundmode)) {
+                		// 银行家算法
+                		// ==5, after is zero?
+                		if (0 <= (oscale + decimal_len) && (oscale + decimal_len) < ido) {
+                			if (out[oscale + decimal_len] == 5) {
+                				if (out[ido] != 0) {
+                					break;
+                				}
+                				if (odecimal_len > max_decimal_len + 10) {
+                					break;
+                				}
+                			}
+                		}
+                	}
                     // 向小数部延长
                 	System.out.println(odecimal_len + "vs" + max_decimal_len);
                     if (odecimal_len <= max_decimal_len) {
@@ -557,12 +578,34 @@ public class BigNum implements Comparable<BigNum> {
                 len_tmp = tmp.length;
 //                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
             }
+            System.out.println("out=" + String.valueOf(toCharary(out, out.length)));
         }
-        System.out.println("out1=" + String.valueOf(toCharary(out, out.length)));
-        out = removeFirstZero(out, olen - odecimal_len);
-        System.out.println("out2=" + String.valueOf(toCharary(out, out.length)));
+        
+        System.out.println("pos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
+        if (BigNumRound.HALF_EVENT.equals(roundmode)) {
+        	System.out.println("pos=" + (oscale + decimal_len) + ",val=" + out[(oscale + decimal_len)]);
+        	if (5 == out[(oscale + decimal_len)]) {
+        		if (is_zero_ary(out, (oscale + decimal_len + 1))) {
+        			if (out[(oscale + decimal_len - 1)] % 2 != 0) {
+        				add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+        			}
+        		} else {
+        			add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+        		}
+        	}
+        	if (5 < out[(oscale + decimal_len)]) {
+        		add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+        	}
+        }
+        
+        System.out.println("out1=" + String.valueOf(toCharary(out, out.length)) + "小数点位置=" + oscale);
+        byte[] out2 = removeFirstZero(out, oscale);
+        oscale = oscale - out.length + out2.length;
+        System.out.println("out2=" + String.valueOf(toCharary(out2, out2.length)) + "小数点位置=" + oscale);
         System.out.println(this.toString() + "/" + divisor.toString() + "=");
-        return new BigNum(osigned, out, out.length, out.length - odecimal_len - 1);
+        
+        // return new BigNum(osigned, out, out.length, out.length - odecimal_len - 1);
+        return new BigNum(osigned, out2, out2.length, oscale);
     }
 
     /**
