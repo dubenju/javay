@@ -275,7 +275,7 @@ public class CalcultorActionListener implements ActionListener {
 				nOp1 = nOp1.multiply(nOp2);
 			} else if ( operator.equals(CalcultorConts.DIVIDE) ) {
 				if (nOp2.isZero() == false) {
-					nOp1 = nOp1.divide(nOp2, 0, BigNumRound.HALF_EVENT);
+					nOp1 = nOp1.divide(nOp2, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 				} else {
 					state = 1; // 错误状态
 					textField.setText(errMsg);
@@ -320,7 +320,7 @@ public class CalcultorActionListener implements ActionListener {
 				nOp1 = nOp1.multiply(nOp2);
 			} else if ( operator.equals(CalcultorConts.DIVIDE) ) {
 				if (nOp2.isZero() == false) {
-					nOp1 = nOp1.divide(nOp2, 0, BigNumRound.HALF_EVENT);
+					nOp1 = nOp1.divide(nOp2, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 				} else {
 					state = 1; // 错误状态
 					textField.setText(errMsg);

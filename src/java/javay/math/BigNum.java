@@ -517,8 +517,8 @@ public class BigNum implements Comparable<BigNum> {
                 out[ido] = (byte) (out[ido] + 1);
                 // shift postition
                 tmp = sub_ary(tmp, len_tmp, divisor.datas);
-                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
-                System.out.println("out["+ ido + "]=" + out[ido]);
+//                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
+//                System.out.println("out["+ ido + "]=" + out[ido]);
             }
             if (c < 0) {
                 byte[] temp;
@@ -529,10 +529,10 @@ public class BigNum implements Comparable<BigNum> {
                     temp = new byte[len_tmp + 1];
                     System.arraycopy(tmp, 0, temp, 0, len_tmp);
                 }
-                System.out.println("temp=" + String.valueOf(toCharary(temp, temp.length)));
+//                System.out.println("temp=" + String.valueOf(toCharary(temp, temp.length)));
 
                 idx = idx_next;
-                System.out.println("input pos=" + idx + "tscale=" + tscale + "ido=" + ido);
+//                System.out.println("input pos=" + idx + "tscale=" + tscale + "ido=" + ido);
                 if (idx == tscale) {
                 	// 小数点位置
                 	oscale = ido + 1;
@@ -556,7 +556,7 @@ public class BigNum implements Comparable<BigNum> {
                 		}
                 	}
                     // 向小数部延长
-                	System.out.println(odecimal_len + "vs" + max_decimal_len);
+//                	System.out.println(odecimal_len + "vs" + max_decimal_len);
                     if (odecimal_len <= max_decimal_len) {
                 	// if (ido <= olen) {
                         temp[temp.length - 1] = 0;
@@ -581,26 +581,69 @@ public class BigNum implements Comparable<BigNum> {
             System.out.println("out=" + String.valueOf(toCharary(out, out.length)));
         }
         
-        System.out.println("pos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
+        System.out.println("apos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
+    	if (BigNumRound.UP.equals(roundmode)) {
+    		// 远离零方向舍入,> 0 进上
+    		if (out[(oscale + decimal_len - 1)] != 0) {
+    			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+    		}
+    	}
+    	if (BigNumRound.DOWN.equals(roundmode)) {
+    		// 趋向零方向舍入,> 0 舍下
+    	}
+    	if (BigNumRound.CELLING.equals(roundmode)) {
+    		// 向正无穷方向舍入,
+    		if (osigned > 0) {
+        		if (out[(oscale + decimal_len - 1)] != 0) {
+        			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+        		}
+    		}
+    	}
+    	if (BigNumRound.FLOOR.equals(roundmode)) {
+    		// 向负无穷方向舍入,
+    		if (osigned < 0) {
+        		if (out[(oscale + decimal_len - 1)] != 0) {
+        			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+        		}
+    		}
+    	}
+    	if (BigNumRound.HALF_UP.equals(roundmode)) {
+    		// 最近数字舍入(5进)。这是我们最经典的四舍五入。
+    		if (out[(oscale + decimal_len - 1)] > 4) {
+    			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+    		}
+    	}
+    	if (BigNumRound.HALF_DOWN.equals(roundmode)) {
+    		// 最近数字舍入(5舍)。在这里5是要舍弃的。五舍六入。
+    		if (out[(oscale + decimal_len - 1)] > 5) {
+    			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+    		}
+    	}
         if (BigNumRound.HALF_EVENT.equals(roundmode)) {
+        	// 银行家舍入法。
         	System.out.println("pos=" + (oscale + decimal_len) + ",val=" + out[(oscale + decimal_len)]);
+        	if (5 < out[(oscale + decimal_len)]) {
+        		// （2）如果保留位数的后一位如果是6，则进上去。例如5.216保留两位小数为5.22。
+        		out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+        	}
         	if (5 == out[(oscale + decimal_len)]) {
-        		if (is_zero_ary(out, (oscale + decimal_len + 1))) {
-        			if (out[(oscale + decimal_len - 1)] % 2 != 0) {
-        				add_ary(out, (oscale + decimal_len - 1), (byte) 1);
-        			}
+        		if (is_zero_ary(out, (oscale + decimal_len + 1)) == false) {
+        			// （4）如果保留位数的后一位如果是5，而且5后面仍有数。例如5.2254保留两位小数为5.23，也就是说如果5后面还有数据，则无论奇偶都要进入。
+        			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
         		} else {
-        			add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+        			if (out[(oscale + decimal_len - 1)] % 2 != 0) {
+        				// （3）如果保留位数的后一位如果是5，而且5后面不再有数，要根据应看尾数“5”的前一位决定是舍去还是进入: 如果是奇数则进入，如果是偶数则舍去。
+        				out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
+        			}
         		}
         	}
-        	if (5 < out[(oscale + decimal_len)]) {
-        		add_ary(out, (oscale + decimal_len - 1), (byte) 1);
-        	}
+        	// （1）要求保留位数的后一位如果是4，则舍去。例如5.214保留两位小数为5.21。
         }
-        
-        System.out.println("out1=" + String.valueOf(toCharary(out, out.length)) + "小数点位置=" + oscale);
-        byte[] out2 = removeFirstZero(out, oscale);
-        oscale = oscale - out.length + out2.length;
+        byte[] out3 = new byte[(oscale + decimal_len)];
+        System.arraycopy(out, 0, out3, 0, out3.length);
+        System.out.println("out1=" + String.valueOf(toCharary(out3, out3.length)) + "小数点位置=" + oscale);
+        byte[] out2 = removeFirstZero(out3, oscale);
+        oscale = oscale - out3.length + out2.length;
         System.out.println("out2=" + String.valueOf(toCharary(out2, out2.length)) + "小数点位置=" + oscale);
         System.out.println(this.toString() + "/" + divisor.toString() + "=");
         
@@ -626,7 +669,7 @@ public class BigNum implements Comparable<BigNum> {
             offset ++;
         }
         if (c != 0) {
-            System.out.println("a:" + String.valueOf(toCharary(a, lena)) + "_vs_" + String.valueOf(toCharary(b, b.length)) + "=" + c + ",offset=" + offset);
+//            System.out.println("a:" + String.valueOf(toCharary(a, lena)) + "_vs_" + String.valueOf(toCharary(b, b.length)) + "=" + c + ",offset=" + offset);
             return c;
         }
 
@@ -639,7 +682,7 @@ public class BigNum implements Comparable<BigNum> {
         	offsetb ++;
         }
         if (c != 0) {
-            System.out.println("c:" + String.valueOf(toCharary(a, lena)) + "_vs_" + String.valueOf(toCharary(b, b.length)) + "=" + c + ",offset=" + offset);
+//            System.out.println("c:" + String.valueOf(toCharary(a, lena)) + "_vs_" + String.valueOf(toCharary(b, b.length)) + "=" + c + ",offset=" + offset);
             return c;
         }
         for (int idx = 0; idx < b.length; idx ++) {
@@ -653,7 +696,7 @@ public class BigNum implements Comparable<BigNum> {
             }
         }
 
-        System.out.println("b:" + String.valueOf(toCharary(a, lena)) + "_vs_" + String.valueOf(toCharary(b, b.length)) + "=" + c);
+//        System.out.println("b:" + String.valueOf(toCharary(a, lena)) + "_vs_" + String.valueOf(toCharary(b, b.length)) + "=" + c);
         return c;
     }
     /**

@@ -9,6 +9,7 @@ package javay.swing;
  */
 public interface CalcultorConts {
 
+	public static final int    DECIMAL_LEN = 11;
 	public static final String POS_MINUS = "±";
 	public static final String DOT = ".";
 	public static final String ADD = "＋";
