@@ -186,11 +186,11 @@ public class BigNum implements Comparable<BigNum> {
             /* 小数部 */
             for(int idx = decS; idx > 0; idx --) {
                 System.out.println("a1=" + a);
-                if ((this.scale + idx) < this.length) {
+                if (0<= (this.scale + idx) && (this.scale + idx) < this.length) {
                     System.out.println("a=" + this.datas[this.scale + idx]);
                     a = a + this.datas[this.scale + idx];
                 }
-                if ((augend.scale + idx) < augend.length) {
+                if (0 <= (augend.scale + idx) && (augend.scale + idx) < augend.length) {
                     System.out.println("a=" + augend.datas[augend.scale + idx]);
                     a = a + augend.datas[augend.scale + idx];
                 }
@@ -201,11 +201,11 @@ public class BigNum implements Comparable<BigNum> {
             /* 整数部 */
             for (int idx = 0; idx <= scaleS; idx ++) {
                 System.out.println("a2=" + a);
-                if ((this.scale - idx) >= 0 && (this.scale - idx) < this.datas.length) {
+                if (0 <= (this.scale - idx) && (this.scale - idx) < this.datas.length) {
                     a = a + this.datas[this.scale - idx];
                     System.out.println("a=" + this.datas[this.scale - idx]);
                 }
-                if ((augend.scale - idx) >= 0  && (augend.scale - idx) < augend.datas.length) {
+                if (0 <= (augend.scale - idx)  && (augend.scale - idx) < augend.datas.length) {
                     System.out.println("a=" + augend.datas[augend.scale - idx]);
                     a = a + augend.datas[augend.scale - idx];
                 }
@@ -218,9 +218,10 @@ public class BigNum implements Comparable<BigNum> {
             System.out.println("a3=" + a);
             dataS[0] = (byte) (0xFF & a);
 
-            dataS = removeFirstZero(dataS, lengthS);
-
-            return new BigNum(this.signed, dataS, dataS.length, dataS.length - lengthS + scaleS + 1);
+            scaleS ++;
+            byte[] dataS1 = removeFirstZero(dataS, scaleS);
+            
+            return new BigNum(this.signed, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
         } else {
         	if (this.signed < 0) {
         		System.out.println("-----");
@@ -276,11 +277,11 @@ public class BigNum implements Comparable<BigNum> {
             /* 小数部 */
             for(int idx = decS; idx > 0; idx --) {
                 System.out.println("a1=" + a);
-                if ((minuend.scale + idx) <= minuend.length) {
+                if (0 <= (minuend.scale + idx) && (minuend.scale + idx) < minuend.length) {
                     System.out.println("a=" + minuend.datas[minuend.scale + idx]);
                     a = a + minuend.datas[minuend.scale + idx];
                 }
-                if ((subtrahend.scale + idx) <= subtrahend.length) {
+                if (0 <= (subtrahend.scale + idx) && (subtrahend.scale + idx) < subtrahend.length) {
                     System.out.println("a=" + subtrahend.datas[subtrahend.scale + idx]);
                     a = a - subtrahend.datas[subtrahend.scale + idx];
                 }
@@ -375,8 +376,9 @@ public class BigNum implements Comparable<BigNum> {
         /* 小数点位置 */
         int scale1 = this.scale;
         int scale2 = multiplicand.scale;
-        int scale = len - ((len1 - scale1) + (len2 - scale2));
-        System.out.println("scale =" + scale + "scale1=" + scale1 + "scale2" + scale2);
+        // 小数部长度
+        int decimal_len = len - ((len1 - scale1) + (len2 - scale2));
+        System.out.println("小数部长度 =" + decimal_len + "scale1=" + scale1 + "scale2" + scale2);
 
         /* 数据 */
         long[][] data = new long[len][len];
@@ -438,9 +440,9 @@ public class BigNum implements Comparable<BigNum> {
         }
 
         // remove zero;
-        result = removeFirstZero(result, len);
+        byte[] result1 = removeFirstZero(result, decimal_len);
 
-        return new BigNum(signed, result, result.length, result.length - len + scale);
+        return new BigNum(signed, result1, result1.length, result1.length - result.length + decimal_len);
     }
 
     /**
@@ -756,18 +758,19 @@ public class BigNum implements Comparable<BigNum> {
         System.out.println("@removeFirstZero:in的长度=" + in.length + ",整数部的长度=" + dotpos + ",小数部长度=" + decimal_len + ",in:" + String.valueOf(toCharary(in, in.length)));
         int i = 0;
         boolean bFlag = false;
-        for(i = 0;0 < dotpos && i < dotpos; i ++) {
+        for(i = 0; 0 < dotpos && i < dotpos; i ++) {
 //            System.out.println("i=" + i + "in[i]=" + in[i]);
             bFlag = true;
             if (in[i] != 0) {
+            	i ++;
                 break;
             }
         }
 
         System.out.println("@removeFirstZero:i=" + i + ",bFlag=" + bFlag);
-        if (bFlag && (i + decimal_len == in.length)) {
-            // 去除个数+小数部长度=数据长度的话，不需要格式化
-//            System.out.println("@removeFirstZero:return by equal");
+        if (bFlag && i == 1 && (i + decimal_len == in.length)) {
+            // 0.* 去除个数+小数部长度=数据长度的话，不需要格式化
+            System.out.println("@removeFirstZero:return by equal");
             return in;
         }
 
@@ -785,8 +788,12 @@ public class BigNum implements Comparable<BigNum> {
             }
         }
 
-        if (bFlag == false) {
-            i = -1;
+//        if (bFlag == false) {
+//            i = -1;
+//        }
+        i --;
+        if (i < -1) {
+        	i = -1;
         }
         System.out.println("@removeFirstZero:res.length=" + res.length + ",in.length=" + in.length + ",i=" + i);
         if (res.length <= in.length) {
@@ -1050,7 +1057,7 @@ public class BigNum implements Comparable<BigNum> {
         System.out.println("比较result2=" + result);
         if (result == 0) {
         	// 小数部
-            for (a = this.scale, b = o.scale; a < this.length && b < o.length; a ++, b ++) {
+            for (a = this.scale, b = o.scale; 0 <= a && a < this.length && 0<= b && b < o.length; a ++, b ++) {
                 result = this.datas[a] - o.datas[b];
                 if( result != 0 ) {
                     break;

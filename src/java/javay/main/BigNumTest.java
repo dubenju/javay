@@ -6,6 +6,7 @@ package javay.main;
 import javay.math.BigNum;
 import javay.math.BigNumRound;
 import javay.math.MathBn;
+import javay.swing.CalcultorConts;
 
 /**
  * @author DBJ
@@ -117,12 +118,20 @@ public class BigNumTest {
 //		}
 		BigNum bg15 = new BigNum("15.0");
 		BigNum bg180 = new BigNum("180.0");
-		BigNum r = bg15.divide(bg180, 3, BigNumRound.HALF_EVENT);
+		BigNum r = bg15.divide(bg180, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 		System.out.println(r);
 		
 		BigNum bg104508 = new BigNum("10.4508");
 		BigNum bg2 = new BigNum("2.0");
-		r = bg104508.divide(bg2, 2, BigNumRound.HALF_EVENT);
+		r = bg104508.divide(bg2, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+		System.out.println("r=" + r);
+		
+		BigNum bg30 = new BigNum("30.0");
+		r = bg30.divide(bg180, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+		System.out.println("r=" + r);
+		
+		BigNum bg45 = new BigNum("45.0");
+		r = bg45.divide(bg180, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 		System.out.println("r=" + r);
 	}
 
@@ -204,6 +213,44 @@ public class BigNumTest {
 		dat = data.round(2, BigNumRound.HALF_EVENT);
 		System.out.println(dat);
 	}
+	public void testToRadians() {
+		for (int degree = 0; degree <= 360; degree += 15) {
+            if (degree % 30 == 0 || degree % 45 == 0) {
+            	BigNum d = new BigNum(degree);
+            	BigNum r1 = MathBn.toRadians(d);
+                double r2     = Math.toRadians(degree);
+                System.out.println(String.format("%3d : %s - %13.10f = %13.10f", degree, r1, r2, r1.toDouble() - r2));
+                System.out.println();
+            }
+        }
+	}
+	public void testSin() {
+        for (int degree = 0; degree <= 360; degree += 15) {
+            if (degree % 30 == 0 || degree % 45 == 0) {
+            	BigNum d = new BigNum(degree);
+            	BigNum radian = MathBn.toRadians(d);
+            	BigNum d1     = MathBn.sin(radian);
+                double d2     = Math.sin(radian.toDouble());
+                System.out.println(String.format("%3d : %s - %13.10f = %13.10f", degree, d1, d2, d1.toDouble() - d2));
+                System.out.println();
+            }
+        }
+	}
+	public void testMultiply() {
+		BigNum a = new BigNum("0.25");
+		BigNum b = a.multiply(BigNum.PI);
+		System.out.println("0.25 * PI =" + b);
+		BigNum n4 = new BigNum("4.0");
+		BigNum c = BigNum.PI.divide(n4, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+		System.out.println(c);
+		a = new BigNum("0.5");
+		BigNum d = a.multiply(BigNum.PI);
+		System.out.println("0.5 * PI =" + d);
+	}
+	public void testAdd() {
+		BigNum s = BigNum.PI.add(BigNum.PI);
+		System.out.println("2pi=" + s);
+	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
@@ -216,13 +263,17 @@ public class BigNumTest {
 ////    	proc.testlong();
 //    	proc.testSubtract();
 //    	proc.print99();
-    	proc.testDivide();
+//    	proc.testMultiply();
+//    	proc.testDivide();
 ////    	proc.test003();
-    	proc.testCmp();
+//    	proc.testCmp();
 //    	proc.testMod();
 //    	proc.testDouble();
 //    	proc.testRD();
 //    	proc.testRound();
+//    	proc.testToRadians();
+    	proc.testAdd();
+    	proc.testSin();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16

@@ -200,7 +200,7 @@ public class CalcultorActionListener implements ActionListener {
 				textField.setText(errMsg);
 			} else {
 				// float f = 1.0f/fOp1.floatValue();
-				BigNum value = new BigNum("1").divide(nOp1, 0, BigNumRound.HALF_EVENT);
+				BigNum value = new BigNum("1").divide(nOp1, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 				// op1 = String.valueOf(f);
 				op1 = value.toString();
 				textField.setText(op1);
