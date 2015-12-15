@@ -122,19 +122,24 @@ public class BigNumTest {
 		BigNum bg180 = new BigNum("180.0");
 		BigNum r = bg15.divide(bg180, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 		System.out.println(r);
-		
+
 		BigNum bg104508 = new BigNum("10.4508");
 		BigNum bg2 = new BigNum("2.0");
 		r = bg104508.divide(bg2, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 		System.out.println("r=" + r);
-		
+
 		BigNum bg30 = new BigNum("30.0");
 		r = bg30.divide(bg180, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 		System.out.println("r=" + r);
-		
+
 		BigNum bg45 = new BigNum("45.0");
 		r = bg45.divide(bg180, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 		System.out.println("r=" + r);
+
+		BigNum a = new BigNum("0.143547577225009399403922177216000");
+		BigNum b = new BigNum("121645100408832000.000000000");
+		BigNum c = a.divide(b, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+		System.out.println("c=" + c);
 	}
 
 	public void testMod() {
@@ -176,7 +181,7 @@ public class BigNumTest {
 		BigNum e = b.ln(3, BigNumRound.HALF_EVENT);
 		System.out.println("<---------------------ln(" + b + ")=" + e + "," + Math.log1p(a));
 	}
-	
+
 	public void testRD() {
 		for (int i = 0; i <= 180; i += 15) {
 			BigNum r = MathBn.toRadians(new BigNum(i));
@@ -185,7 +190,7 @@ public class BigNumTest {
 		}
 	}
 	public void testRound() {
-		
+
 		BigNum data = new BigNum("1.2345");
 //		data.test_add_ary();
 		BigNum dat = data.round(1, BigNumRound.UP);
@@ -248,6 +253,9 @@ public class BigNumTest {
 		a = new BigNum("0.5");
 		BigNum d = a.multiply(BigNum.PI);
 		System.out.println("0.5 * PI =" + d);
+		a = new BigNum("30.0");
+		BigNum e = a.multiply(BigNum.PI);
+		System.out.println("30.0 * PI =" + e);
 	}
 	public void testAdd() {
 		BigNum s = BigNum.PI.add(BigNum.PI);
@@ -266,7 +274,7 @@ public class BigNumTest {
 //    	proc.testSubtract();
 //    	proc.print99();
 //    	proc.testMultiply();
-//    	proc.testDivide();
+    	proc.testDivide();
 ////    	proc.test003();
 //    	proc.testCmp();
 //    	proc.testMod();
@@ -276,7 +284,7 @@ public class BigNumTest {
 //    	proc.testToRadians();
 //    	proc.testSubtract();
 //    	proc.testAdd();
-    	proc.testSin();
+//    	proc.testSin();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16
