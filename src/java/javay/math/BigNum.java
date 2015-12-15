@@ -160,7 +160,7 @@ public class BigNum implements Comparable<BigNum> {
     public BigNum add(BigNum augend) {
     	System.out.println("加法●●●●" + this + "＋" + augend +"等于");
         if (augend.isZero()) {
-            //
+            // a + 0 = a
             return this;
         }
         if (this.isZero()) {
@@ -225,7 +225,13 @@ public class BigNum implements Comparable<BigNum> {
             scaleS ++;
             byte[] dataS1 = removeFirstZero(dataS, scaleS);
 
-            return new BigNum(this.signed, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
+            BigNum res = new BigNum(this.signed, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
+            System.out.println(res);
+            double chksum = this.toDouble() + augend.toDouble();
+            if (chksum != res.toDouble()) {
+            	throw new ArithmeticException("[ERROR]" + this + "+" + augend + "=" + res + "=>" + res.toDouble() + "<>" + chksum);
+            }
+            return res;
         } else {
         	if (this.signed < 0) {
 //        		System.out.println("-----");
@@ -348,7 +354,13 @@ public class BigNum implements Comparable<BigNum> {
             scaleS += 1;
             byte[] dataS1 = removeFirstZero(dataS, scaleS);
 
-            return new BigNum(signeds, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
+            BigNum res = new BigNum(signeds, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
+            System.out.println(res);
+            double chksum = this.toDouble() - subtrahend.toDouble();
+            if (chksum != res.toDouble()) {
+            	throw new ArithmeticException("[ERROR]" + this + "-" + subtrahend + "=" + res + "=>" + res.toDouble() + "<>" + chksum);
+            }
+            return res;
         } else {
             return this.add(new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale));
         }
@@ -452,7 +464,13 @@ public class BigNum implements Comparable<BigNum> {
         // remove zero;
         byte[] result1 = removeFirstZero(result, decimal_len);
 
-        return new BigNum(signed, result1, result1.length, result1.length - result.length + decimal_len);
+        BigNum res = new BigNum(signed, result1, result1.length, result1.length - result.length + decimal_len);
+        System.out.println(res);
+        double chksum = this.toDouble() * multiplicand.toDouble();
+        if (chksum != res.toDouble()) {
+        	throw new ArithmeticException("[ERROR]" + this + "*" + multiplicand + "=" + res + "=>" + res.toDouble() + "<>" + chksum + "=" + this.toDouble() + "*" + multiplicand.toDouble());
+        }
+        return res;
     }
 
     /**
@@ -480,7 +498,6 @@ public class BigNum implements Comparable<BigNum> {
         if (this.signed != divisor.signed) {
             osigned = -1;
         }
-//        System.out.println("除法⚫⚫⚫️符号" + osigned);
 
         // 小数点位置
         int dscale  = divisor.scale;
@@ -489,40 +506,45 @@ public class BigNum implements Comparable<BigNum> {
         int tlen    = this.length;
         int ddeclen = dlen - dscale;
         int tdeclen = tlen - tscale;
-//        System.out.println("除法信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
-
+        System.out.println("除法信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
         // 被除数同步
         tscale += divisor.length - dscale;
-//        System.out.println("除法小数点位置:" + tscale + "/" + dscale);
+        System.out.println("除法调整后被除数小数点位置:" + tscale + "/除数" + dscale + "=>" + divisor.length + "被除数整数部长度" + tscale + "vs除数长度" + divisor.length + "小于时需移位,大于等于时则开始量取");
 
-        // 小数部长度
-        int odecimal_len = tlen - tscale;
-//        System.out.println("除法⚫⚫⚫小数点长度:" + odecimal_len + "=" + tscale + "/" + dscale + ",tlen=" + tlen + ",dlen=" + dlen);
+        // 最大精度，小数部长度
         int max_decimal_len = decimal_len;
         if (BigNumRound.HALF_EVENT.equals(roundmode)) {
         	max_decimal_len ++;
         }
-        int idx = 0, idx_next = 0;
+
+        int ido = 0;
+        int oscale = 0; // 小数点位置
+        int odecimal_cnt = -1; // 小数位数
+        // 假定商的位数＝被除数的整数部－除数的长度（已无小数）＋1（至少是个数所以+1）
+        int olen = tscale - dlen + 1;
+        if (olen <= 0) {
+        	olen = 2 - olen; // 0.0
+        	oscale = 1;
+        	odecimal_cnt = olen - 1;
+        	ido = odecimal_cnt;
+        }
+        System.out.println("除法⚫⚫⚫️长度" + olen + ",oscale" + oscale + ",odecimal_cnt" + odecimal_cnt + ",ido=" + ido);
+        byte[] out = new byte[olen];
+
+        int idx = 0;
+        int idx_next = 0;
         byte[] tmp = new byte[dlen];
         int len_tmp = tmp.length;
         if (this.datas.length < tmp.length) {
-        	// TODO:??
-        	len_tmp = this.datas.length;
+        	// 不足位零补齐
+        	System.arraycopy(this.datas, idx, tmp, idx, this.datas.length);
+        } else {
+        	System.arraycopy(this.datas, idx, tmp, idx, len_tmp);
         }
-        System.arraycopy(this.datas, idx, tmp, idx, len_tmp);
-//        System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
+        
+        System.out.println("除法tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
         idx_next = len_tmp;
 
-        // 位数
-        int olen = tlen - dlen + 1;
-        if (olen <= 0) {
-        	olen = 2; // 0.0
-        }
-//        System.out.println("除法⚫⚫⚫️长度" + olen);
-        int oscale = 0;
-
-        byte[] out = new byte[olen];
-        int ido = 0;
         while(true) {
             int c = cmp_ary(tmp, len_tmp, divisor.datas);
             if (c >= 0) {
@@ -543,11 +565,15 @@ public class BigNum implements Comparable<BigNum> {
                 }
 //                System.out.println("temp=" + String.valueOf(toCharary(temp, temp.length)));
 
+                if (odecimal_cnt >= 0) {
+                	odecimal_cnt ++;
+                }
                 idx = idx_next;
-//                System.out.println("input pos=" + idx + "tscale=" + tscale + "ido=" + ido);
+                System.out.println("input pos=" + idx + "tscale=" + tscale + "ido=" + ido);
                 if (idx == tscale) {
                 	// 小数点位置
                 	oscale = ido + 1;
+                	odecimal_cnt = 0;
 //                	System.out.println("除法★小数点位置oscale=" + oscale );
                 }
                 if (idx < this.datas.length) {
@@ -561,28 +587,27 @@ public class BigNum implements Comparable<BigNum> {
                 				if (out[ido] != 0) {
                 					break;
                 				}
-                				if (odecimal_len > max_decimal_len + 10) {
+                				//if (odecimal_len > max_decimal_len + 10) {
+                				if (odecimal_cnt > (max_decimal_len + 10)) {
                 					break;
                 				}
                 			}
                 		}
                 	}
                     // 向小数部延长
-                	System.out.println("olen=" + olen + "," + odecimal_len + "vs" + max_decimal_len);
-                    if (odecimal_len <= max_decimal_len) {
-                	// if (ido <= olen) {
-                        temp[temp.length - 1] = 0;
-                        odecimal_len ++;
-                        olen ++;
-                        byte[] out2 = new byte[olen];
-                        System.arraycopy(out, 0, out2, 0, out.length);
-                        out = out2;
-                    } else {
+//                	System.out.println("olen=" + olen + ",odecimal_cnt=" + odecimal_cnt + "," + odecimal_len + "vs" + max_decimal_len);
+                    if (odecimal_cnt > max_decimal_len) {
                         // 超过指定长度结束。
                     	// banker
                         break;
                     }
                 }
+                // 向右移位
+                olen ++;
+                byte[] out2 = new byte[olen];
+                System.arraycopy(out, 0, out2, 0, out.length);
+                out = out2;
+                    
                 idx_next ++;
                 ido ++;
 
@@ -659,8 +684,13 @@ public class BigNum implements Comparable<BigNum> {
 //        System.out.println("除法out2=" + String.valueOf(toCharary(out2, out2.length)) + "小数点位置=" + oscale);
 //        System.out.println(this.toString() + "/" + divisor.toString() + "=");
 
-        // return new BigNum(osigned, out, out.length, out.length - odecimal_len - 1);
-        return new BigNum(osigned, out2, out2.length, oscale);
+        BigNum res = new BigNum(osigned, out2, out2.length, oscale);
+        System.out.println(res);
+        double chksum = this.toDouble() / divisor.toDouble();
+        if (chksum != res.toDouble()) {
+        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + res.toDouble() + "<>" + chksum);
+        }
+        return res;
     }
 
     /**
