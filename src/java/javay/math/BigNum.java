@@ -181,42 +181,45 @@ public class BigNum implements Comparable<BigNum> {
             int lengthS = 2 + scaleS + decS;
             byte[] dataS = new byte[lengthS];
 
-            System.out.println("scaleS=" + scaleS + ",decS=" + decS + ",lengthS=" + lengthS);
+            System.out.println("加法scaleS=" + scaleS + ",decS=" + decS + ",lengthS=" + lengthS);
             long a = 0;
             /* 小数部 */
             for(int idx = decS; idx > 0; idx --) {
-                System.out.println("a1=" + a);
+//                System.out.println("a1=" + a);
                 if (0<= (this.scale + idx) && (this.scale + idx) < this.length) {
-                    System.out.println("a=" + this.datas[this.scale + idx]);
+//                    System.out.println("a=" + this.datas[this.scale + idx]);
                     a = a + this.datas[this.scale + idx];
                 }
                 if (0 <= (augend.scale + idx) && (augend.scale + idx) < augend.length) {
-                    System.out.println("a=" + augend.datas[augend.scale + idx]);
+//                    System.out.println("a=" + augend.datas[augend.scale + idx]);
                     a = a + augend.datas[augend.scale + idx];
                 }
-                System.out.println("a=" + a);
+//                System.out.println("a=" + a);
                 dataS[1 + scaleS + idx] = (byte) (0xFF & (a % 10));
                 a = a / 10;
+//                System.out.println("加法dataS=" + String.valueOf(toCharary(dataS, dataS.length)));
             }
             /* 整数部 */
             for (int idx = 0; idx <= scaleS; idx ++) {
-                System.out.println("a2=" + a);
+//                System.out.println("a2=" + a);
                 if (0 <= (this.scale - idx) && (this.scale - idx) < this.datas.length) {
                     a = a + this.datas[this.scale - idx];
-                    System.out.println("a=" + this.datas[this.scale - idx]);
+//                    System.out.println("a=" + this.datas[this.scale - idx]);
                 }
                 if (0 <= (augend.scale - idx)  && (augend.scale - idx) < augend.datas.length) {
-                    System.out.println("a=" + augend.datas[augend.scale - idx]);
+//                    System.out.println("a=" + augend.datas[augend.scale - idx]);
                     a = a + augend.datas[augend.scale - idx];
                 }
-                System.out.println("a=" + a);
+//                System.out.println("a=" + a);
                 if ((1 + scaleS - idx) < dataS.length) {
                 	dataS[1 + scaleS - idx] = (byte) (0xFF & (a % 10));
                 }
                 a = a / 10;
+//                System.out.println("加法dataS=" + String.valueOf(toCharary(dataS, dataS.length)));
             }
-            System.out.println("a3=" + a);
+//            System.out.println("a3=" + a);
             dataS[0] = (byte) (0xFF & a);
+            System.out.println("加法dataS=" + String.valueOf(toCharary(dataS, dataS.length)));
 
             scaleS ++;
             byte[] dataS1 = removeFirstZero(dataS, scaleS);
@@ -249,7 +252,7 @@ public class BigNum implements Comparable<BigNum> {
         	// 大小调整
             BigNum minuend = this;
             if (minuend.abs().compareTo(subtrahend.abs()) < 0) {
-            	System.out.println("CHG:" + minuend.abs() + " vs " + subtrahend.abs() + "=");
+            	System.out.println("减法CHG:" + minuend.abs() + " vs " + subtrahend.abs() + "=");
             	minuend = subtrahend;
             	subtrahend = this;
             	signeds = -1;
@@ -271,21 +274,21 @@ public class BigNum implements Comparable<BigNum> {
             byte[] dataS = new byte[lengthS];
             byte[] carryS = new byte[lengthS];
 
-            System.out.println("scaleS=" + scaleS + ",decS=" + decS + ",lengthS=" + lengthS);
+            System.out.println("减法scaleS=" + scaleS + ",decS=" + decS + ",lengthS=" + lengthS);
             long a = 0;
             byte carry = 0;
             /* 小数部 */
             for(int idx = decS; idx > 0; idx --) {
-                System.out.println("a1=" + a);
+//                System.out.println("a1=" + a);
                 if (0 <= (minuend.scale + idx) && (minuend.scale + idx) < minuend.length) {
-                    System.out.println("a=" + minuend.datas[minuend.scale + idx]);
+//                    System.out.println("a=" + minuend.datas[minuend.scale + idx]);
                     a = a + minuend.datas[minuend.scale + idx];
                 }
                 if (0 <= (subtrahend.scale + idx) && (subtrahend.scale + idx) < subtrahend.length) {
-                    System.out.println("a=" + subtrahend.datas[subtrahend.scale + idx]);
+//                    System.out.println("a=" + subtrahend.datas[subtrahend.scale + idx]);
                     a = a - subtrahend.datas[subtrahend.scale + idx];
                 }
-                System.out.println("a=" + a);
+//                System.out.println("a=" + a);
                 if (a < 0) {
                     a = 10 + a;
                     carry = -1;
@@ -295,24 +298,25 @@ public class BigNum implements Comparable<BigNum> {
                 a = a / 10;
                 a = a + carry;
                 carry = 0;
+//                System.out.println("减法dataS=" + String.valueOf(toCharary(dataS, dataS.length)));
             }
             /* 整数部 */
             for (int idx = 0; idx <= scaleS; idx ++) {
-                System.out.println("整数部a2=" + a);
+//                System.out.println("整数部a2=" + a);
                 if ((minuend.scale - idx) >= 0 && (minuend.scale - idx) < minuend.datas.length) {
-                    System.out.println("整数部("+ (minuend.scale - idx) +")=" + minuend.datas[minuend.scale - idx]);
+//                    System.out.println("整数部("+ (minuend.scale - idx) +")=" + minuend.datas[minuend.scale - idx]);
                     a = a + minuend.datas[minuend.scale - idx];
                 }
                 if ((subtrahend.scale - idx) >= 0 && (subtrahend.scale - idx) < subtrahend.datas.length) {
-                    System.out.println("整数部a=" + subtrahend.datas[subtrahend.scale - idx]);
+//                    System.out.println("整数部a=" + subtrahend.datas[subtrahend.scale - idx]);
                     a = a - subtrahend.datas[subtrahend.scale - idx];
                 }
-                System.out.println("整数部a=" + a);
+//                System.out.println("整数部a=" + a);
                 if (a < 0) {
                     a = 10 + a;
                     carry = -1;
                 }
-                System.out.println("整数部(1 + scaleS - idx)=" + (1 + scaleS - idx) +",dataS.length=" + dataS.length + ",a=" + a + ",carry=" + carry);
+//                System.out.println("整数部(1 + scaleS - idx)=" + (1 + scaleS - idx) +",dataS.length=" + dataS.length + ",a=" + a + ",carry=" + carry);
                 if ((1 + scaleS - idx) < dataS.length) {
 	                dataS[1 + scaleS - idx] = (byte) (0xFF & (a % 10));
 	                carryS[1 + scaleS - idx] = carry;
@@ -320,9 +324,10 @@ public class BigNum implements Comparable<BigNum> {
                 a = a / 10;
                 a = a + carry;
                 carry = 0;
+//                System.out.println("减法dataS=" + String.valueOf(toCharary(dataS, dataS.length)));
             }
 
-            System.out.println("a3=" + a);
+//            System.out.println("a3=" + a);
             if (a < 0) {
                 a = 10 + a;
                 carry = -1;
@@ -330,16 +335,18 @@ public class BigNum implements Comparable<BigNum> {
             dataS[0] = (byte) (0xFF & a);
             carryS[0] = carry;
 //            printary(carryS);
-            System.out.println("carryS=" + String.valueOf(toCharary(carryS, carryS.length)));
+//            System.out.println("减法dataS=" + String.valueOf(toCharary(dataS, dataS.length)));
+            System.out.println("减法carryS=" + String.valueOf(toCharary(carryS, carryS.length)));
 
 
 //            if (carry == -1) {
 //                signeds = -1;
 //            }
 
-            dataS = removeFirstZero(dataS, lengthS);
+            scaleS += 1;
+            byte[] dataS1 = removeFirstZero(dataS, scaleS);
 
-            return new BigNum(signeds, dataS, dataS.length, dataS.length - lengthS + scaleS + 1);
+            return new BigNum(signeds, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
         } else {
             return this.add(new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale));
         }
@@ -378,7 +385,7 @@ public class BigNum implements Comparable<BigNum> {
         int scale2 = multiplicand.scale;
         // 小数部长度
         int decimal_len = len - ((len1 - scale1) + (len2 - scale2));
-        System.out.println("小数部长度 =" + decimal_len + "scale1=" + scale1 + "scale2" + scale2);
+        System.out.println("乘法小数部长度 =" + decimal_len + "scale1=" + scale1 + "scale2" + scale2);
 
         /* 数据 */
         long[][] data = new long[len][len];
@@ -391,7 +398,7 @@ public class BigNum implements Comparable<BigNum> {
             x ++;
             y = x;
         }
-        printary(data);
+//        printary(data);
 
         long[] dat = new long[len];
         long carry = 0;
@@ -407,7 +414,7 @@ public class BigNum implements Comparable<BigNum> {
             }
             dat[n] = value;
         }
-        printary(dat);
+//        printary(dat);
 
         byte[] result = new byte[len];
         if (carry != 0) {
@@ -453,7 +460,7 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum divide(BigNum divisor, int decimal_len, BigNumRound roundmode) {
-    	System.out.println("⚫⚫⚫️" + this + "÷" + divisor +"等于");
+    	System.out.println("除法⚫⚫⚫️" + this + "÷" + divisor +"等于");
         if (divisor.isZero()) {
             // 除数为零时
             throw new ArithmeticException("Division by zero");
@@ -470,7 +477,7 @@ public class BigNum implements Comparable<BigNum> {
         if (this.signed != divisor.signed) {
             osigned = -1;
         }
-        System.out.println("⚫⚫⚫️符号" + osigned);
+        System.out.println("除法⚫⚫⚫️符号" + osigned);
 
         // 小数点位置
         int dscale  = divisor.scale;
@@ -479,15 +486,15 @@ public class BigNum implements Comparable<BigNum> {
         int tlen    = this.length;
         int ddeclen = dlen - dscale;
         int tdeclen = tlen - tscale;
-        System.out.println("信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
+        System.out.println("除法信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
 
         // 被除数同步
         tscale += divisor.length - dscale;
-        System.out.println("小数点位置:" + tscale + "/" + dscale);
+        System.out.println("除法小数点位置:" + tscale + "/" + dscale);
 
         // 小数部长度
         int odecimal_len = tlen - tscale;
-        System.out.println("⚫⚫⚫小数点长度:" + odecimal_len + "=" + tscale + "/" + dscale + ",tlen=" + tlen + ",dlen=" + dlen);
+        System.out.println("除法⚫⚫⚫小数点长度:" + odecimal_len + "=" + tscale + "/" + dscale + ",tlen=" + tlen + ",dlen=" + dlen);
         int max_decimal_len = decimal_len;
         if (BigNumRound.HALF_EVENT.equals(roundmode)) {
         	max_decimal_len ++;
@@ -508,7 +515,7 @@ public class BigNum implements Comparable<BigNum> {
         if (olen <= 0) {
         	olen = 2; // 0.0
         }
-        System.out.println("⚫⚫⚫️长度" + olen);
+        System.out.println("除法⚫⚫⚫️长度" + olen);
         int oscale = 0;
 
         byte[] out = new byte[olen];
@@ -538,7 +545,7 @@ public class BigNum implements Comparable<BigNum> {
                 if (idx == tscale) {
                 	// 小数点位置
                 	oscale = ido + 1;
-                	System.out.println("★小数点位置oscale=" + oscale );
+                	System.out.println("除法★小数点位置oscale=" + oscale );
                 }
                 if (idx < this.datas.length) {
                     System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
@@ -580,10 +587,10 @@ public class BigNum implements Comparable<BigNum> {
                 len_tmp = tmp.length;
 //                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
             }
-            System.out.println("out=" + String.valueOf(toCharary(out, out.length)));
+//            System.out.println("除法out=" + String.valueOf(toCharary(out, out.length)));
         }
         
-        System.out.println("apos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
+        System.out.println("除法apos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
     	if (BigNumRound.UP.equals(roundmode)) {
     		// 远离零方向舍入,> 0 进上
     		if (out[(oscale + decimal_len - 1)] != 0) {
@@ -623,7 +630,7 @@ public class BigNum implements Comparable<BigNum> {
     	}
         if (BigNumRound.HALF_EVENT.equals(roundmode)) {
         	// 银行家舍入法。
-        	System.out.println("pos=" + (oscale + decimal_len) + ",val=" + out[(oscale + decimal_len)]);
+        	System.out.println("除法pos=" + (oscale + decimal_len) + ",val=" + out[(oscale + decimal_len)]);
         	if (5 < out[(oscale + decimal_len)]) {
         		// （2）如果保留位数的后一位如果是6，则进上去。例如5.216保留两位小数为5.22。
         		out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
@@ -643,10 +650,10 @@ public class BigNum implements Comparable<BigNum> {
         }
         byte[] out3 = new byte[(oscale + decimal_len)];
         System.arraycopy(out, 0, out3, 0, out3.length);
-        System.out.println("out1=" + String.valueOf(toCharary(out3, out3.length)) + "小数点位置=" + oscale);
+        System.out.println("除法out1=" + String.valueOf(toCharary(out3, out3.length)) + "小数点位置=" + oscale);
         byte[] out2 = removeFirstZero(out3, oscale);
         oscale = oscale - out3.length + out2.length;
-        System.out.println("out2=" + String.valueOf(toCharary(out2, out2.length)) + "小数点位置=" + oscale);
+        System.out.println("除法out2=" + String.valueOf(toCharary(out2, out2.length)) + "小数点位置=" + oscale);
         System.out.println(this.toString() + "/" + divisor.toString() + "=");
         
         // return new BigNum(osigned, out, out.length, out.length - odecimal_len - 1);

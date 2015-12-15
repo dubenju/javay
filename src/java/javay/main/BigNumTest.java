@@ -73,18 +73,20 @@ public class BigNumTest {
 		}
 	}
 	public void testSubtract() throws Exception {
-		byte b = Byte.MAX_VALUE;
-		BigNum testa = BigNum.BYTE_MAX_VALUE;
-		while(b != Byte.MIN_VALUE) {
-			testa = testa.subtract(BigNum.ONE);
-			b --;
-			if (b != testa.toByte()) {
-				System.out.println(b + "<>" + testa);
-				break ;
-			} else {
-				System.out.println(b + "==" + testa);
-			}
-		}
+//		byte b = Byte.MAX_VALUE;
+//		BigNum testa = BigNum.BYTE_MAX_VALUE;
+//		while(b != Byte.MIN_VALUE) {
+//			testa = testa.subtract(BigNum.ONE);
+//			b --;
+//			if (b != testa.toByte()) {
+//				System.out.println(b + "<>" + testa);
+//				break ;
+//			} else {
+//				System.out.println(b + "==" + testa);
+//			}
+//		}
+		BigNum s = BigNum.PI.subtract(new BigNum("0.1"));
+		System.out.println(s);
 	}
 	public void print99() throws Exception {
 		for(int i = 1; i <= 9; i ++) {
@@ -232,7 +234,7 @@ public class BigNumTest {
             	BigNum d1     = MathBn.sin(radian);
                 double d2     = Math.sin(radian.toDouble());
                 System.out.println(String.format("%3d : %s - %13.10f = %13.10f", degree, d1, d2, d1.toDouble() - d2));
-                System.out.println();
+                System.out.println("****************************************************************");
             }
         }
 	}
@@ -272,7 +274,8 @@ public class BigNumTest {
 //    	proc.testRD();
 //    	proc.testRound();
 //    	proc.testToRadians();
-    	proc.testAdd();
+//    	proc.testSubtract();
+//    	proc.testAdd();
     	proc.testSin();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
