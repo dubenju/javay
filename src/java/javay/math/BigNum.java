@@ -1,5 +1,6 @@
 package javay.math;
 
+import javay.swing.CalcultorConts;
 import sun.misc.FloatingDecimal;
 
 /**
@@ -21,8 +22,11 @@ public class BigNum implements Comparable<BigNum> {
 
     public static final BigNum ZERO = new BigNum("0");
     public static final BigNum ONE  = new BigNum("1");
-    //                                    3.14159265358979323846
-    //                                    3.1415926535897932384626433832795
+
+    //                                          3.14159265358979323846
+    //                                          3.1415926535897932384626433832795
+    //                                          0.00000000011111111112222222222333333333344444444445
+    //                                          0.12345678901234567890123456789012345678901234567890
     public static final BigNum PI = new BigNum("3.14159265358979323846264338327950288419716939937510");
     public static final BigNum E  = new BigNum("2.71828182845904523536028747135266249775724709369995");
     public static final BigNum BYTE_MIN_VALUE = new BigNum("-128");
@@ -227,9 +231,9 @@ public class BigNum implements Comparable<BigNum> {
 
             BigNum res = new BigNum(this.signed, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
             System.out.println(res);
-            double chksum = this.toDouble() + augend.toDouble();
-            if (chksum != res.toDouble()) {
-            	throw new ArithmeticException("[ERROR]" + this + "+" + augend + "=" + res + "=>" + res.toDouble() + "<>" + chksum);
+            double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + augend.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
+            if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
+            	throw new ArithmeticException("[ERROR]" + this + "+" + augend + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum);
             }
             return res;
         } else {
@@ -356,9 +360,9 @@ public class BigNum implements Comparable<BigNum> {
 
             BigNum res = new BigNum(signeds, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
             System.out.println(res);
-            double chksum = this.toDouble() - subtrahend.toDouble();
-            if (chksum != res.toDouble()) {
-            	throw new ArithmeticException("[ERROR]" + this + "-" + subtrahend + "=" + res + "=>" + res.toDouble() + "<>" + chksum);
+            double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) - subtrahend.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
+            if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
+            	throw new ArithmeticException("[ERROR]" + this + "-" + subtrahend + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum);
             }
             return res;
         } else {
@@ -466,9 +470,9 @@ public class BigNum implements Comparable<BigNum> {
 
         BigNum res = new BigNum(signed, result1, result1.length, result1.length - result.length + decimal_len);
         System.out.println(res);
-        double chksum = this.toDouble() * multiplicand.toDouble();
-        if (chksum != res.toDouble()) {
-        	throw new ArithmeticException("[ERROR]" + this + "*" + multiplicand + "=" + res + "=>" + res.toDouble() + "<>" + chksum + "=" + this.toDouble() + "*" + multiplicand.toDouble());
+        double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) * multiplicand.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
+        if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
+        	throw new ArithmeticException("[ERROR]" + this + "*" + multiplicand + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum + "=" + this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "*" + multiplicand.toDouble(CalcultorConts.MAX_DOUBLE_SCALE));
         }
         return res;
     }
@@ -686,9 +690,9 @@ public class BigNum implements Comparable<BigNum> {
 
         BigNum res = new BigNum(osigned, out2, out2.length, oscale);
         System.out.println(res);
-        double chksum = this.toDouble() / divisor.toDouble();
-        if (chksum != res.toDouble()) {
-        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + res.toDouble() + "<>" + chksum);
+        double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) / divisor.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
+        if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
+        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum);
         }
         return res;
     }
@@ -1250,10 +1254,37 @@ public class BigNum implements Comparable<BigNum> {
 		//return res;
 		return FloatingDecimal.parseFloat(this.toString());
 	}
-	public double toDouble() {
+	public double toDouble(int scale) {
 //		double res = 0.0d;
 //		return res;
-		return FloatingDecimal.parseDouble(this.toString());
+//		return FloatingDecimal.parseDouble(this.toString());
+		double res = 0.0;
+		String str = this.toString();
+		int idx_pot = str.indexOf('.');
+		if (idx_pot > 0) {
+		} else {
+			idx_pot = 0;
+		}
+		byte[] bys = str.getBytes();
+
+		int start_pos = idx_pot + scale;
+		if (start_pos >= bys.length) {
+			start_pos = bys.length - 1;
+		}
+		double a = 1.0;
+		int c = 0;
+		for(int i = start_pos; i >= 0; i --) {
+			byte by = bys[i];
+			if ((char) by == '.') {
+				a = 1.0;
+				c = -1;
+			} else {
+				a = Math.pow(10.0, idx_pot - i + c);
+				double b = a * (by - '0');
+				res = res + b;
+			}
+		}
+		return res;
 	}
 
 	protected byte[] add_ary(byte[] data, int pos, byte val) {
@@ -1409,7 +1440,7 @@ public class BigNum implements Comparable<BigNum> {
 
     	BigNum b = new BigNum(this.signed, this.datas, this.length, 1);
 //    	System.out.println("b=" + b);
-    	double c = b.toDouble();
+    	double c = b.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
 //    	System.out.println("c=" + c);
     	double d = StrictMath.log10(c);
 //    	System.out.println("d=" + d);

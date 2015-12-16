@@ -179,7 +179,7 @@ public class BigNumTest {
 	public void testDouble() {
 		double a = 15.3;
 		BigNum b = new BigNum(a);
-		System.out.println(a + "=" + b.toString() + "," + b.toDouble() + "------------------------>");
+		System.out.println(a + "=" + b.toString() + "," + b.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "------------------------>");
 		BigNum c = b.log10();
 		System.out.println("<---------------------log10(" + b + ")=" + c + "," + Math.log10(a));
 
@@ -231,7 +231,7 @@ public class BigNumTest {
             	BigNum d = new BigNum(degree);
             	BigNum r1 = MathBn.toRadians(d);
                 double r2     = Math.toRadians(degree);
-                System.out.println(String.format("%3d : %s - %13.10f = %13.10f", degree, r1, r2, r1.toDouble() - r2));
+                System.out.println(String.format("%3d : %s - %13.10f = %13.10f", degree, r1, r2, r1.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) - r2));
                 System.out.println();
             }
         }
@@ -242,8 +242,8 @@ public class BigNumTest {
             	BigNum d = new BigNum(degree);
             	BigNum radian = MathBn.toRadians(d);
             	BigNum d1     = MathBn.sin(radian);
-                double d2     = Math.sin(radian.toDouble());
-                System.out.println(String.format("%3d : %s - %13.10f = %13.10f", degree, d1, d2, d1.toDouble() - d2));
+                double d2     = Math.sin(radian.toDouble(CalcultorConts.MAX_DOUBLE_SCALE));
+                System.out.println(String.format("%3d : %s - %13.10f = %13.10f", degree, d1, d2, d1.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) - d2));
                 System.out.println("****************************************************************");
             }
         }
