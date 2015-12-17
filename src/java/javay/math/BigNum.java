@@ -469,10 +469,13 @@ public class BigNum implements Comparable<BigNum> {
         byte[] result1 = removeFirstZero(result, decimal_len);
 
         BigNum res = new BigNum(signed, result1, result1.length, result1.length - result.length + decimal_len);
+        double dres = res.toDouble(13);
         System.out.println(res);
-        double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) * multiplicand.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
-        if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
-        	throw new ArithmeticException("[ERROR]" + this + "*" + multiplicand + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum + "=" + this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "*" + multiplicand.toDouble(CalcultorConts.MAX_DOUBLE_SCALE));
+        double t1 = this.toDouble(14);
+        double t2 = multiplicand.toDouble(14);
+        double chksum = t1 * t2;
+        if (dres != chksum) {
+        	throw new ArithmeticException("[ERROR]" + this + "*" + multiplicand + "=" + res + "=>" + dres + "<>" + chksum + "=" + t1 + "*" + t2);
         }
         return res;
     }
@@ -545,7 +548,7 @@ public class BigNum implements Comparable<BigNum> {
         } else {
         	System.arraycopy(this.datas, idx, tmp, idx, len_tmp);
         }
-        
+
         System.out.println("除法tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
         idx_next = len_tmp;
 
@@ -611,7 +614,7 @@ public class BigNum implements Comparable<BigNum> {
                 byte[] out2 = new byte[olen];
                 System.arraycopy(out, 0, out2, 0, out.length);
                 out = out2;
-                    
+
                 idx_next ++;
                 ido ++;
 
@@ -689,10 +692,13 @@ public class BigNum implements Comparable<BigNum> {
 //        System.out.println(this.toString() + "/" + divisor.toString() + "=");
 
         BigNum res = new BigNum(osigned, out2, out2.length, oscale);
+        double dres = res.toDouble(16);
         System.out.println(res);
-        double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) / divisor.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
-        if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
-        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum);
+        double t1 = this.toDouble(14);
+        double t2 = divisor.toDouble(14);
+        double chksum = t1 / t2;
+        if (dres != chksum) {
+        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + dres + "<>" + chksum + "=" + t1 + "/" + t2);
         }
         return res;
     }
