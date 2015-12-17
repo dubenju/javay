@@ -1,5 +1,8 @@
 package javay.math;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import javay.swing.CalcultorConts;
 import sun.misc.FloatingDecimal;
 
@@ -231,10 +234,11 @@ public class BigNum implements Comparable<BigNum> {
 
             BigNum res = new BigNum(this.signed, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
             System.out.println(res);
-            double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + augend.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
-            if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
-            	throw new ArithmeticException("[ERROR]" + this + "+" + augend + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum);
-            }
+            check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
+//            double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + augend.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
+//            if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
+//            	throw new ArithmeticException("[ERROR]" + this + "+" + augend + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum);
+//            }
             return res;
         } else {
         	if (this.signed < 0) {
@@ -251,21 +255,22 @@ public class BigNum implements Comparable<BigNum> {
      * @param subtrahend
      * @return
      */
-    public BigNum subtract(BigNum subtrahend) {
-    	System.out.println("减法●●●●" + this + "－" + subtrahend +"等于");
-        if (subtrahend.isZero()) {
+    public BigNum subtract(BigNum subtrahendi) {
+    	System.out.println("减法●●●●" + this + "－" + subtrahendi +"等于");
+        if (subtrahendi.isZero()) {
             return this;
         }
         if (this.isZero()) {
-            return new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale);
+            return new BigNum((byte)(0x00-subtrahendi.signed), subtrahendi.datas, subtrahendi.length, subtrahendi.scale);
         }
-        if (this.signed == subtrahend.signed) {
+        if (this.signed == subtrahendi.signed) {
             byte signeds = 0x01;
         	// 大小调整
             BigNum minuend = this;
-            if (minuend.abs().compareTo(subtrahend.abs()) < 0) {
+            BigNum subtrahend = subtrahendi;
+            if (minuend.abs().compareTo(subtrahendi.abs()) < 0) {
 //            	System.out.println("减法CHG:" + minuend.abs() + " vs " + subtrahend.abs() + "=");
-            	minuend = subtrahend;
+            	minuend = subtrahendi;
             	subtrahend = this;
             	signeds = -1;
             }
@@ -360,13 +365,14 @@ public class BigNum implements Comparable<BigNum> {
 
             BigNum res = new BigNum(signeds, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
             System.out.println(res);
-            double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) - subtrahend.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
-            if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
-            	throw new ArithmeticException("[ERROR]" + this + "-" + subtrahend + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum);
-            }
+            check(this, subtrahendi, res, "-", 0, RoundingMode.UNNECESSARY);
+//            double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) - subtrahend.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
+//            if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
+//            	throw new ArithmeticException("[ERROR]" + this + "-" + subtrahend + "=" + res + "=>" + res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "<>" + chksum);
+//            }
             return res;
         } else {
-            return this.add(new BigNum((byte)(0x00-subtrahend.signed), subtrahend.datas, subtrahend.length, subtrahend.scale));
+            return this.add(new BigNum((byte)(0x00-subtrahendi.signed), subtrahendi.datas, subtrahendi.length, subtrahendi.scale));
         }
     }
 
@@ -471,12 +477,13 @@ public class BigNum implements Comparable<BigNum> {
         BigNum res = new BigNum(signed, result1, result1.length, result1.length - result.length + decimal_len);
         double dres = res.toDouble(13);
         System.out.println(res);
-        double t1 = this.toDouble(14);
-        double t2 = multiplicand.toDouble(14);
-        double chksum = t1 * t2;
-        if (dres != chksum) {
-        	throw new ArithmeticException("[ERROR]" + this + "*" + multiplicand + "=" + res + "=>" + dres + "<>" + chksum + "=" + t1 + "*" + t2);
-        }
+        check(this, multiplicand, res, "*", 0, RoundingMode.UNNECESSARY);
+//        double t1 = this.toDouble(14);
+//        double t2 = multiplicand.toDouble(14);
+//        double chksum = t1 * t2;
+//        if (dres != chksum) {
+//        	throw new ArithmeticException("[ERROR]" + this + "*" + multiplicand + "=" + res + "=>" + dres + "<>" + chksum + "=" + t1 + "*" + t2);
+//        }
         return res;
     }
 
@@ -576,7 +583,7 @@ public class BigNum implements Comparable<BigNum> {
                 	odecimal_cnt ++;
                 }
                 idx = idx_next;
-                System.out.println("input pos=" + idx + "tscale=" + tscale + "ido=" + ido);
+//                System.out.println("input pos=" + idx + "tscale=" + tscale + "ido=" + ido);
                 if (idx == tscale) {
                 	// 小数点位置
                 	oscale = ido + 1;
@@ -622,20 +629,24 @@ public class BigNum implements Comparable<BigNum> {
                 len_tmp = tmp.length;
 //                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
             }
-            System.out.println("除法out=" + String.valueOf(toCharary(out, out.length)));
+//            System.out.println("除法out=" + String.valueOf(toCharary(out, out.length)));
         }
 
 //        System.out.println("除法apos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
+        RoundingMode rm = RoundingMode.UNNECESSARY;
     	if (BigNumRound.UP.equals(roundmode)) {
+    		rm = RoundingMode.UP;
     		// 远离零方向舍入,> 0 进上
     		if (out[(oscale + decimal_len - 1)] != 0) {
     			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
     		}
     	}
     	if (BigNumRound.DOWN.equals(roundmode)) {
+    		rm = RoundingMode.DOWN;
     		// 趋向零方向舍入,> 0 舍下
     	}
     	if (BigNumRound.CELLING.equals(roundmode)) {
+    		rm = RoundingMode.CEILING;
     		// 向正无穷方向舍入,
     		if (osigned > 0) {
         		if (out[(oscale + decimal_len - 1)] != 0) {
@@ -644,6 +655,7 @@ public class BigNum implements Comparable<BigNum> {
     		}
     	}
     	if (BigNumRound.FLOOR.equals(roundmode)) {
+    		rm = RoundingMode.FLOOR;
     		// 向负无穷方向舍入,
     		if (osigned < 0) {
         		if (out[(oscale + decimal_len - 1)] != 0) {
@@ -652,18 +664,21 @@ public class BigNum implements Comparable<BigNum> {
     		}
     	}
     	if (BigNumRound.HALF_UP.equals(roundmode)) {
+    		rm = RoundingMode.HALF_UP;
     		// 最近数字舍入(5进)。这是我们最经典的四舍五入。
     		if (out[(oscale + decimal_len - 1)] > 4) {
     			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
     		}
     	}
     	if (BigNumRound.HALF_DOWN.equals(roundmode)) {
+    		rm = RoundingMode.HALF_DOWN;
     		// 最近数字舍入(5舍)。在这里5是要舍弃的。五舍六入。
     		if (out[(oscale + decimal_len - 1)] > 5) {
     			out = add_ary(out, (oscale + decimal_len - 1), (byte) 1);
     		}
     	}
         if (BigNumRound.HALF_EVENT.equals(roundmode)) {
+        	rm = RoundingMode.HALF_EVEN;
         	// 银行家舍入法。
 //        	System.out.println("除法pos=" + (oscale + decimal_len) + ",val=" + out[(oscale + decimal_len)]);
         	if (5 < out[(oscale + decimal_len)]) {
@@ -692,14 +707,15 @@ public class BigNum implements Comparable<BigNum> {
 //        System.out.println(this.toString() + "/" + divisor.toString() + "=");
 
         BigNum res = new BigNum(osigned, out2, out2.length, oscale);
-        double dres = res.toDouble(16);
         System.out.println(res);
-        double t1 = this.toDouble(14);
-        double t2 = divisor.toDouble(14);
-        double chksum = t1 / t2;
-        if (dres != chksum) {
-        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + dres + "<>" + chksum + "=" + t1 + "/" + t2);
-        }
+        check(this, divisor, res, "/", decimal_len, rm);
+//        double dres = res.toDouble(16);
+//        double t1 = this.toDouble(14);
+//        double t2 = divisor.toDouble(14);
+//        double chksum = t1 / t2;
+//        if (dres != chksum) {
+//        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + dres + "<>" + chksum + "=" + t1 + "/" + t2);
+//        }
         return res;
     }
 
@@ -1208,7 +1224,7 @@ public class BigNum implements Comparable<BigNum> {
                 buf.append(".");
             }
         }
-        System.out.println("[length=" + this.length + ",scale=" + this.scale + "]");
+//        System.out.println("[length=" + this.length + ",scale=" + this.scale + "]");
         if (idx == this.scale) {
         	buf.append("0");
         }
@@ -1473,6 +1489,45 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     /** for DEBUG */
+    // TODO:DEBUG
+    public static boolean check(BigNum a, BigNum b, BigNum c, String optionS, int scale, RoundingMode roundingMode) {
+    	boolean res = false;
+    	String stra = null;
+    	BigDecimal bda = null;
+    	if (a != null) {
+    		stra = a.toString();
+    		bda = new BigDecimal(stra);
+    	}
+    	String strb = null;
+    	BigDecimal bdb = null;
+    	if (b != null) {
+    		strb = b.toString();
+    		bdb = new BigDecimal(strb);
+    	}
+    	String strc = null;
+    	BigDecimal bdc = null;
+    	if (c != null) {
+    		strc = c.toString();
+    		bdc = new BigDecimal(strc);
+    	}
+    	BigDecimal bdd = null;
+    	if ("+".equals(optionS)) {
+    		bdd = bda.add(bdb);
+    	} else if ("-".equals(optionS)) {
+    		bdd = bda.subtract(bdb);
+    	} else if ("*".equals(optionS)) {
+    		bdd = bda.multiply(bdb);
+    	} else if ("/".equals(optionS)) {
+    		bdd = bda.divide(bdb, scale, roundingMode);
+    	}
+    	if (bdc.compareTo(bdd) == 0) {
+    		res = true;
+    	}
+    	if (!res) {
+    		throw new ArithmeticException("[ERROR]" + a + optionS + b + "=" + c + "=>" + bdc + "<>" + bdd);
+            }
+    	return res;
+    }
     public void printary(char[] in) {
         for(char ch: in) {
             System.out.print(ch);
