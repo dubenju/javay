@@ -23,9 +23,9 @@ public class MathBn {
     	BigNum res = radians.multiply(DEGREES_180);
         return res.divide(BigNum.PI, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
     }
-    
+
     /**
-     * 
+     *
      * @param radian
      * @return
      */
@@ -54,18 +54,19 @@ public class MathBn {
     }
     private static BigNum myCos(BigNum x, int n, boolean nega, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
         int m       = 2 * n;
-        denominator = denominator * m * (m - 1);
-        numerator   = numerator   * x * x;
-        double a    = numerator / denominator;
-        // 十分な精度になったら処理を抜ける
-        if (a <= 0.00000000001)
-            return y;
-        else
-            return y + myCos(x, ++n, !nega, numerator, denominator, nega ? a : -a);
+        long k = m * (m - 1);
+        denominator = denominator.multiply(new BigNum(k));
+        BigNum numeratorb   = numerator.multiply(x.pow(2));
+        BigNum a    = numeratorb.divide(new BigNum(denominator), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        if (cnt > 11) {
+        	return y;
+        }
+        cnt ++;
+        return y.add(myCos(x, ++n, !nega, numerator, denominator, nega ? a : a.negate(), cnt));
     }
-    
+
     /**
-     * 
+     *
      * @param radian
      * @return
      */
@@ -74,35 +75,35 @@ public class MathBn {
     	return  myTan(radian, x2, 15, new BigNum("0.0"));
     }
     private static BigNum myTan(BigNum x, BigNum x2, int n, BigNum t) {
-        t = x2 / (n - t);
+        t = x2.divide(new BigNum(n).subtract(t), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
         n -= 2;
-        if (n <= 1)
-            return x / (1 - t);
-        else
-            return myTan(x, x2, n, t);
+        if (n <= 1) {
+            return x.divide(new BigNum(1).subtract(t), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        }
+        return myTan(x, x2, n, t);
     }
-    
+
     /**
-     * 
+     *
      * @param x
      * @return
      */
     public static BigNum exp(BigNum x) {
-    	return myExp(x, 1, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"));
+    	return myExp(x, 1, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"), 1);
     }
-    private static BigNum myExp(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y) {
-        denominator = denominator * n;
-        numerator   = numerator   * x;
-        double a    = numerator / denominator;
-        // 十分な精度になったら処理を抜ける
-        if (Math.abs(a) <= 0.00000000001)
+    private static BigNum myExp(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
+        denominator = denominator.multiply(new BigNum(n));
+        numerator   = numerator.multiply(x);
+        BigNum a    = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        if (cnt > 11) {
             return y;
-        else
-            return y + myExp(x, ++n, numerator, denominator, a);
+        }
+        cnt ++;
+        return y.add(myExp(x, ++n, numerator, denominator, a, cnt));
     }
-    
+
     /**
-     * 
+     *
      * @param x
      * @return
      */
@@ -111,96 +112,99 @@ public class MathBn {
     	return myExp(x, x2, 30, new BigNum("0.0"));
     }
     private static BigNum myExp(BigNum x, BigNum x2, int n, BigNum t) {
-        t = x2 / (n + t);
+        t = x2.divide((new BigNum(n).add(t)), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
         n -= 4;
 
-        if (n < 6)
-            return 1 + ((2 * x) / (2 - x + t));
-        else
-            return myExp(x, x2, n, t);
+        if (n < 6) {
+            return (x.multiply(new BigNum(2))).divide(x.add(t).subtract(new BigNum(2)), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT).add(new BigNum(1));
+        }
+        return myExp(x, x2, n, t);
     }
-    
+
     /**
-     * 
+     *
      * @param x
      * @return
      */
     public static BigNum log(BigNum x) {
-    	double x2 = (x - 1) / (x + 1);  
-        double d2 = 2 * myLog(x2, x2, 1.0, x2);
+    	BigNum x2 = (x.subtract(new BigNum(1))).divide((x.add(new BigNum(1))), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+    	BigNum d2 = new BigNum(2).multiply(myLog(x2, x2, new BigNum(1.0), x2, 1));
+    	return d2;
     }
-    private static BigNum myLog(BigNum x2, BigNum numerator, BigNum denominator, BigNum y) {
-        denominator = denominator + 2;
-        numerator   = numerator   * x2 * x2;
-        double a    = numerator / denominator;
-        // 十分な精度になったら処理を抜ける
-        if (Math.abs(a) <= 0.00000000001)
+    private static BigNum myLog(BigNum x2, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
+        denominator = denominator.add(new BigNum(2));
+        numerator   = numerator.multiply(x2.pow(2));
+        BigNum a    = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        if (cnt > 11) {
             return y;
-        else
-            return y + myLog(x2, numerator, denominator, a);
+        }
+        cnt ++;
+        return y.add(myLog(x2, numerator, denominator, a, cnt));
     }
-    
+
     /**
-     * 
+     *
      * @param x
      * @return
      */
     public static BigNum log2(BigNum x) {
-    	return myLog(x - 1, 27, 0.0);
+    	return myLog(x.subtract(new BigNum(1)), 27, new BigNum(0.0));
     }
-    private static double myLog(double x, int n, double t) {
+    private static BigNum myLog(BigNum x, int n, BigNum t) {
         int    n2 = n;
-        double x2 = x;
+        BigNum x2 = x;
         if (n > 3) {
             if (n % 2 == 0)
                 n2 = 2;
-            x2 = x * (n / 2);
+            x2 = x.multiply(new BigNum(n / 2));
         }
-        t = x2 / (n2 + t);
+        t = x2.divide((new BigNum(n2).add(t)), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 
-        if (n <= 2)
-            return x / (1 + t);
-        else
-            return myLog(x, --n, t);
+        if (n <= 2) {
+            return x.divide((new BigNum(1).add(t)), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        }
+        return myLog(x, --n, t);
     }
-    
+
     /**
-     * 
+     *
      * @param x
      * @return
      */
     public static BigNum sinh(BigNum x) {
-    	return mySinh(x, 1, x, 1.0, x);
-    })
-    private static BigNum mySinh(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y) {
-        int m       = 2 * n;
-        denominator = denominator * (m + 1) * m;
-        numerator   = numerator   * x * x;
-        double a    = numerator / denominator;
-        // 十分な精度になったら処理を抜ける
-        if (Math.abs(a) <= 0.00000000001)
-            return y;
-        else
-            return y + mySinh(x, ++n, numerator, denominator, a);
+    	return mySinh(x, 1, x, new BigNum(1.0), x, 1);
     }
-    
+    private static BigNum mySinh(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
+        int m       = 2 * n;
+        long k = (m + 1) * m;
+        denominator = denominator.multiply(new BigNum(k));
+        numerator   = numerator.multiply(x.pow(2));
+        BigNum a    = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        if (cnt > 11) {
+            return y;
+        }
+        cnt ++;
+        return y.add(mySinh(x, ++n, numerator, denominator, a, cnt));
+    }
+
     /**
-     * 
+     *
      * @param x
      * @return
      */
     public static BigNum cosh(BigNum x) {
-    	return myCosh(x, 1, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"));
+    	return myCosh(x, 1, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"), 1);
     }
-    private static BigNum myCosh(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y) {
+    private static BigNum myCosh(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
         int m       = 2 * n;
-        denominator = denominator * m * (m - 1);
-        numerator   = numerator   * x * x;
-        double a    = numerator / denominator;
-        // 十分な精度になったら処理を抜ける
-        if (Math.abs(a) <= 0.00000000001)
+        long k = m * (m - 1);
+        denominator = denominator.multiply(new BigNum(k));
+        numerator   = numerator.multiply(x.pow(2));
+        BigNum a    = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        if (cnt > 11) {
             return y;
-        else
-            return y + myCosh(x, ++n, numerator, denominator, a);
+        }
+        cnt ++;
+        return y.add(myCosh(x, ++n, numerator, denominator, a, cnt));
     }
 }
