@@ -5,9 +5,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
+import javay.swing.CalcultorPanel;
+
 public class CalcultorKeyAdapter extends KeyAdapter {
-	 private JPanel panel;
-	 public CalcultorKeyAdapter(JPanel panel) {
+	 private CalcultorPanel panel;
+	 public CalcultorKeyAdapter(CalcultorPanel panel) {
         this.panel = panel;
         System.out.println("init-------------------");
     }
@@ -20,35 +22,19 @@ public class CalcultorKeyAdapter extends KeyAdapter {
 		int k = e.getKeyCode();
 		System.out.println("KeyCode=" + k);
 		switch(k){
-        case KeyEvent.VK_0: {
-        	//this.panel.
-        	break ;
-        }
-        case KeyEvent.VK_1:{
-        	break ;
-        }
-        case KeyEvent.VK_2:{
-        	break ;
-        }
-        case KeyEvent.VK_3:{
-        	break ;
-        }
-        case KeyEvent.VK_4:{
-        	break ;
-        }
-        case KeyEvent.VK_5:{
-        	break ;
-        }
-        case KeyEvent.VK_6:{
-        	break ;
-        }
-        case KeyEvent.VK_7:{
-        	break ;
-        }
-        case KeyEvent.VK_8:{
-        	break ;
-        }
-        case KeyEvent.VK_9:{
+        case KeyEvent.VK_0:
+        case KeyEvent.VK_1:
+        case KeyEvent.VK_2:
+        case KeyEvent.VK_3:
+        case KeyEvent.VK_4:
+        case KeyEvent.VK_5:
+        case KeyEvent.VK_6:
+        case KeyEvent.VK_7:
+        case KeyEvent.VK_8:
+        case KeyEvent.VK_9: {
+        	String str = this.panel.textField.getText();
+        	str = str + "" + (k - '0');
+        	this.panel.textField.setText(str);
         	break ;
         }
         case KeyEvent.VK_A:{
