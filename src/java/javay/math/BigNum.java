@@ -443,7 +443,7 @@ public class BigNum implements Comparable<BigNum> {
 
         byte[] result = new byte[len];
         if (carry != 0) {
-            // TODO:carry是最高位。
+            // carry是最高位。
             len ++;
             result = new byte[len];
         }
@@ -475,7 +475,7 @@ public class BigNum implements Comparable<BigNum> {
         byte[] result1 = removeFirstZero(result, decimal_len);
 
         BigNum res = new BigNum(signed, result1, result1.length, result1.length - result.length + decimal_len);
-        double dres = res.toDouble(13);
+//        double dres = res.toDouble(13);
         System.out.println(res);
         check(this, multiplicand, res, "*", 0, RoundingMode.UNNECESSARY);
 //        double t1 = this.toDouble(14);
@@ -868,6 +868,19 @@ public class BigNum implements Comparable<BigNum> {
         } else {
             System.arraycopy(in, i + 1, res, res.length - in.length, in.length);
         }
+        return res;
+    }
+
+    protected byte[] removeLastZero(byte[] in, int dotpos) {
+        int pos = in.length - 1;
+        for (;pos > (dotpos - 1); pos --) {
+            if (in[pos] != 0) {
+                break;
+            }
+        }
+        pos ++;
+        byte[] res = new byte[pos];
+        System.arraycopy(in, 0, res, 0, pos);
         return res;
     }
 
@@ -1341,16 +1354,16 @@ public class BigNum implements Comparable<BigNum> {
     public BigNum round(int scale, BigNumRound roundmode) {
         int pos = this.scale + scale - 1;
         int pos_next = pos + 1;
-        int pos_prev = pos - 1;
+//        int pos_prev = pos - 1;
     	if (pos < 0 || pos > this.length) {
     		return this;
     	}
     	byte cur_val = this.datas[pos];
 
-    	byte pre_val = 0;
-    	if (pos_prev >= 0 && pos_prev < this.length) {
-    		pre_val = this.datas[pos_prev];
-    	}
+//    	byte pre_val = 0;
+//    	if (pos_prev >= 0 && pos_prev < this.length) {
+//    		pre_val = this.datas[pos_prev];
+//    	}
 //    	System.out.println("pos" + pos_prev + ",val" + pre_val);
 //    	System.out.println("pos" + pos + ",val" + cur_val);
     	byte nex_val = 0;
@@ -1488,8 +1501,9 @@ public class BigNum implements Comparable<BigNum> {
     	return t.divide(b, decimal, round);
     }
 
-    /** for DEBUG */
-    // TODO:DEBUG
+    /* ****************************
+     * for DEBUG
+     * ****************************/
     public static boolean check(BigNum a, BigNum b, BigNum c, String optionS, int scale, RoundingMode roundingMode) {
     	boolean res = false;
     	String stra = null;

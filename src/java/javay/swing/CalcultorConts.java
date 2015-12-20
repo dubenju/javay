@@ -29,4 +29,12 @@ public interface CalcultorConts {
 	public static final String LN = "ln";
 	public static final String LOG = "log";
 	public static final String N = "N!";
+	
+	public static final String BACKSPACE = "Backspace";
+	public static final String CLEAR_ERROR = "CE";
+	public static final String CLEAR = "C";
+	
+	public static final String SIN = "sin";
+	public static final String COS = "cos";
+	public static final String TAN = "tan";
 }

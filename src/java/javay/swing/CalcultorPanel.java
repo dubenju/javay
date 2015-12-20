@@ -108,11 +108,11 @@ public class CalcultorPanel extends JPanel {
         exOptRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
         // 退格
-        Button btnBackspace = new Button( "Backspace" );
+        Button btnBackspace = new Button(CalcultorConts.BACKSPACE);
         // 清除
-        Button btnCe     = new Button( "CE" );
+        Button btnCe     = new Button(CalcultorConts.CLEAR_ERROR);
         // 清除
-        Button btnClear     = new Button( "C" );
+        Button btnClear     = new Button(CalcultorConts.CLEAR);
         exOptRight.add( btnBackspace ).setForeground(Color.red);
         exOptRight.add( btnCe ).setForeground(Color.red);
         exOptRight.add( btnClear ).setForeground(Color.red);
@@ -185,11 +185,11 @@ public class CalcultorPanel extends JPanel {
         Button bntLog = new Button(CalcultorConts.LOG);
 
         // 正弦
-        Button btnSin   = new Button("sin");
+        Button btnSin   = new Button(CalcultorConts.SIN);
         // 余弦
-        Button btnCos   = new Button("cos");
+        Button btnCos   = new Button(CalcultorConts.COS);
         // 正切
-        Button btnTan   = new Button("tan");
+        Button btnTan   = new Button(CalcultorConts.TAN);
 
         GridLayout gly2 = new GridLayout(5, 3);
         gly2.setVgap(3);
