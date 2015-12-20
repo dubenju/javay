@@ -140,7 +140,7 @@ public class BigNumTest {
 		BigNum b = new BigNum("121645100408832000.000000000");
 		BigNum c = a.divide(b, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 		System.out.println("c=" + c);
-		
+
 		 a = new BigNum("0.02");
 		 b = new BigNum("40.0");
 		 c = a.divide(b, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
@@ -266,6 +266,15 @@ public class BigNumTest {
 		BigNum s = BigNum.PI.add(BigNum.PI);
 		System.out.println("2pi=" + s);
 	}
+
+	public void testLastZero() {
+		BigNum a = new BigNum("1.23000000");
+		System.out.println("a=" + a);
+		a = new BigNum("30.0");
+		System.out.println("a=" + a);
+		a = new BigNum("300.0");
+		System.out.println("a=" + a);
+	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
@@ -290,6 +299,7 @@ public class BigNumTest {
 //    	proc.testSubtract();
 //    	proc.testAdd();
     	proc.testSin();
+//    	proc.testLastZero();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16

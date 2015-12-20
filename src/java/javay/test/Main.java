@@ -1,9 +1,7 @@
 package javay.test;
 
-import java.util.Scanner;  
-import java.math.BigInteger;  
-import java.math.BigDecimal;  
-import java.math.*;  
+import java.util.Scanner;
+import java.math.BigDecimal;
 
 /**
  * 用java保证精度。。。当x>=32时，在精度范围内log2(2^x+1)=x。否则将a-b转化为double类型直接计算。
@@ -16,35 +14,36 @@ import java.math.*;
  */
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);  
-        BigDecimal a, b, ans, c;  
-        c = BigDecimal.valueOf(32);  
-        int t = scanner.nextInt();  
-        for(int i = 1; i <= t; i++) {  
-            a = scanner.nextBigDecimal();  
-            b = scanner.nextBigDecimal();  
+        Scanner scanner = new Scanner(System.in);
+        BigDecimal a, b, ans, c;
+        c = BigDecimal.valueOf(32);
+        int t = scanner.nextInt();
+        for(int i = 1; i <= t; i++) {
+            a = scanner.nextBigDecimal();
+            b = scanner.nextBigDecimal();
             if(a.compareTo(b) <= 0) {
             	// 假设a>=b
-                ans = a;  
-                a = b;  
-                b = ans;  
+                ans = a;
+                a = b;
+                b = ans;
             }
             // 令k=a-b
-            a = a.subtract(b);  
+            a = a.subtract(b);
             if(a.compareTo(c) >= 0) {
             	// 如果k>=32，那么lg(2^k+1)应该接近为k
-            	ans = a.add(b);  
+            	ans = a.add(b);
             } else {
             	// 否则double的pow可以直接计算。
-                double tmp = Math.pow(2, a.doubleValue()) + 1;  
-                tmp = Math.log(tmp)/Math.log((double)2);  
-                ans = b.add(BigDecimal.valueOf(tmp));  
-            }  
-            ans = ans.setScale(9, BigDecimal.ROUND_HALF_UP);  
-            System.out.println("Case " + i + ": " + ans.toPlainString());  
-        }  
-    }  
-} 
+                double tmp = Math.pow(2, a.doubleValue()) + 1;
+                tmp = Math.log(tmp)/Math.log((double)2);
+                ans = b.add(BigDecimal.valueOf(tmp));
+            }
+            ans = ans.setScale(9, BigDecimal.ROUND_HALF_UP);
+            System.out.println("Case " + i + ": " + ans.toPlainString());
+        }
+        scanner.close();
+    }
+}
 
 /*
 大数求自然对数数值算法
@@ -57,8 +56,8 @@ Ln(1-x)=-x-x^2/2-x^3/3-x^4/4-……(-1≤x<1)
 =Ln(a)
 =Ln((1+x)/(1-x))
 =Ln(1+x)-Ln(1-x)
-=2(x+x^3/3+x^5/5+……+x^n/n+……) 
-=2x(1+x^2/3+x^4/5+x^6/7+……) 
+=2(x+x^3/3+x^5/5+……+x^n/n+……)
+=2x(1+x^2/3+x^4/5+x^6/7+……)
 其中a=(1+x)/(1-x),同样x=(a-1)/(a+1)
 于是我们有如下的求Ln(a)的算法
 
@@ -74,10 +73,10 @@ Ln(1-x)=-x-x^2/2-x^3/3-x^4/4-……(-1≤x<1)
     其实上面的方法很久就发现了,但是一直没有下手写代码,因为当时一直无法处理收敛速度慢的问题,参考书上也没有具体说明,这几天无意之间发现算法可以进行如下的优化,特写成一篇文章,以为有缘人作参考.
     根据上面的算法我们可以求一个大于0的数a的对数,即Ln(a),在上面的算法中与a密切相关的是x=(a-1)/(a+1),明显当a趋近1的时候，上面的算法才会收敛快一点,当a远离1的时候，收敛速度是慢得惊人的.那在这里我们有没有好的方法使上面的算法对任意数都收敛较快呢。其实是有的，看下面的式子
 Ln(a)=Ln(10^n*a/10^n)=Ln(10^n)+Ln(a/10^n)=n*Ln(10)+Ln(a/10^n)=n*Ln(10)+Ln(b),其中b=a/10^n
-(1)如果a的第一个有效数字为1,7,8,9那么b必须计算到0.7≤b<2,进而得到相应的n.例如我们计算     
+(1)如果a的第一个有效数字为1,7,8,9那么b必须计算到0.7≤b<2,进而得到相应的n.例如我们计算
    Ln(7456789.123456)=7*Ln(10)+Ln(0.7456789123456)
    Ln(0.007456789123456)=-2*Ln(10)+Ln(0.7456789123456)
-(2)如果a的第一个有效数字为2,3,4,5,6那么还应Ln(a)=Ln(4*10^n*a/(10^n*4))=Ln(4)+n*Ln(10)+Ln(a/(10^n*4))，其中b=a/(10^n*4),那么b最终将变成0.5≤b<7/4,进而计算相应的n.例如我们计算 
+(2)如果a的第一个有效数字为2,3,4,5,6那么还应Ln(a)=Ln(4*10^n*a/(10^n*4))=Ln(4)+n*Ln(10)+Ln(a/(10^n*4))，其中b=a/(10^n*4),那么b最终将变成0.5≤b<7/4,进而计算相应的n.例如我们计算
    Ln(234.56789)=2*Ln(10)+Ln(2.3456789)=2*Ln(10)+Ln(4)+Ln(2.3456789/4)=2*Ln(10)+Ln(4)+Ln(0.586419725)
 
 在上面的算法中,很明显你可以提前把Ln(10)与Ln(4)的值给计算出来,那么接下来就是计算Ln(b)的问题了.

@@ -10,12 +10,12 @@ public class BigDecimalTest {
 	public static void main(String[] args) {
 		BigDecimal b30 = new BigDecimal("30.0");
 		double d30 = 30.0d;
-		BigDecimal b180 = new BigDecimal("180.0");
-		double d180 = 180.0d;
+//		BigDecimal b180 = new BigDecimal("180.0");
+//		double d180 = 180.0d;
 		BigDecimal bpi = new BigDecimal("3.1415926535897932");
 		bpi.setScale(15, RoundingMode.HALF_EVEN);
 		double dpi = 3.1415926535897932d;
-		
+
 		BigDecimal ba = b30.multiply(bpi);
 		System.out.println("ba=" + ba.toString());
 		double da = d30 * dpi;
@@ -26,7 +26,7 @@ public class BigDecimalTest {
 		} else {
 			System.out.println(bad + "bd==dd" + da);
 		}
-		
+
 		double bad2 = FloatingDecimal.parseDouble(ba.toString());
 		if (bad2 != da) {
 			System.out.println(bad2 + "bf<>dd" + da);

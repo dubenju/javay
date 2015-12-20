@@ -2,8 +2,6 @@ package javay.distance.city;
 
 import java.awt.Color;
 
-import javax.swing.SwingUtilities;
-
 import javay.awt.ViewMapPanel;
 import javay.util.graph.Edge;
 import javay.util.graph.Graph;

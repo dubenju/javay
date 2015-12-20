@@ -40,7 +40,7 @@ public class Testa {
         test4();
 
         ClaA[] a = new ClaA[3];
-        Object obj = "test";
+//        Object obj = "test";
         test(a, null);
         Float fn = null;
         if (fn instanceof Float) {

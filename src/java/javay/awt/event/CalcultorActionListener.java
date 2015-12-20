@@ -19,10 +19,11 @@ import javay.swing.CalcultorConts;
  */
 public class CalcultorActionListener implements ActionListener {
 
-	JTextField textField;
+	private JTextField textField;
 	//integer1 ,integer2
-	String op1, op2, operator;
-	String errMsg = "Error";
+	private String op1, op2, operator;
+	private String errMsg = "Error";
+	private String mem;
 	//the state for now ,begin state = 0
 	/*
 	 * 0: 初期状态
@@ -85,22 +86,23 @@ public class CalcultorActionListener implements ActionListener {
 	}
 
 	private boolean isOperator(String s) {
-		return s.equals(CalcultorConts.ADD) || s.equals(CalcultorConts.SUBTRACT) ||
-				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) || s.equals(CalcultorConts.MOD)
-				||s.equals(CalcultorConts.X2)||s.equals(CalcultorConts.X3)||s.equals(CalcultorConts.XY)||s.equals(CalcultorConts.EXP)
-				||s.equals("sqrt")||s.equals(CalcultorConts.SIN)||s.equals(CalcultorConts.COS) || s.equals(CalcultorConts.TAN)
-				||s.equals(CalcultorConts.N)||s.equals(CalcultorConts.LN)||s.equals(CalcultorConts.LOG)
-				||s.equals("(")||s.equals(")");
+		return isOperator1(s) || isOperator2(s) ||
+				s.equals("sqrt")  ||s.equals("(")||s.equals(")");
 	}
 
 	private boolean isOperator1(String s) {
-		return s.equals(CalcultorConts.DIVIDE1)  || s.equals(CalcultorConts.N) || 
-				s.equals(CalcultorConts.LOG) || s.equals(CalcultorConts.LN) || 
+		return s.equals(CalcultorConts.DIVIDE1)  || s.equals(CalcultorConts.N) ||
+				s.equals(CalcultorConts.LOG) || s.equals(CalcultorConts.LN) ||
 				s.equals(CalcultorConts.X2) || s.equals(CalcultorConts.X3) ||
 				s.equals(CalcultorConts.EXP) || s.equals(CalcultorConts.SIN) ||
 				s.equals(CalcultorConts.COS) || s.equals(CalcultorConts.TAN);
 	}
-	
+
+	private boolean isOperator2(String s) {
+		return s.equals(CalcultorConts.ADD) || s.equals(CalcultorConts.SUBTRACT) ||
+				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) ||
+				s.equals(CalcultorConts.MOD) || s.equals(CalcultorConts.XY);
+	}
 	/**
 	 * 0: 初期状态
 	 * state 0 start
@@ -120,7 +122,7 @@ public class CalcultorActionListener implements ActionListener {
 			op1 = "0";
 			operator = s;
 		}
-		
+
 	}
 
 	/**
@@ -183,8 +185,7 @@ public class CalcultorActionListener implements ActionListener {
 			textField.setText(text);
 		}
 
-		if ( isOperator(s) || s.equals(CalcultorConts.DIVIDE1) ) {
-			// TODO:DIVIDE1
+		if ( isOperator(s)) {
 			state = 3; // 得出结果
 			op1 = textField.getText();
 			inputState3(s);
@@ -193,7 +194,7 @@ public class CalcultorActionListener implements ActionListener {
 			state = 3; // 得出结果
 			op1 = textField.getText();
 		}
-		
+
 		//TODO:stateSB
 		if ( s.equals(CalcultorConts.CLEAR) ) {
 			// 清除,不管在任何情况下都是回到初始状态的0
@@ -234,11 +235,7 @@ public class CalcultorActionListener implements ActionListener {
 		if ( isOperator(s) ) {
 			operator = s;
 			state = 4; // 操作符号输入完了
-			if (operator.equals(CalcultorConts.X2)|| operator.equals(CalcultorConts.X3)
-					||operator.equals(CalcultorConts.SIN) ||operator.equals(CalcultorConts.COS)||operator.equals(CalcultorConts.TAN)
-					||operator.equals(CalcultorConts.N)||operator.equals(CalcultorConts.EXP)
-					||operator.equals("sqrt")
-					||operator.equals(CalcultorConts.LN)) {
+			if ( this.isOperator1(operator) ||operator.equals("sqrt")) {
 				inputState6(s);
 			}
 		}
@@ -278,11 +275,7 @@ public class CalcultorActionListener implements ActionListener {
 		if ( isOperator(s)) {
 			operator = s;
 		}
-		if ( s.equals(CalcultorConts.DIVIDE1) || s.equals(CalcultorConts.N) || 
-				s.equals(CalcultorConts.LOG) || s.equals(CalcultorConts.LN) || 
-				s.equals(CalcultorConts.X2) || s.equals(CalcultorConts.X3) ||
-				s.equals(CalcultorConts.EXP) || s.equals(CalcultorConts.SIN) ||
-				s.equals(CalcultorConts.COS) || s.equals(CalcultorConts.TAN)) {
+		if ( this.isOperator1(s) ) {
 			state = 3;
 			operator = "";
 			inputState3(s);
@@ -326,11 +319,7 @@ public class CalcultorActionListener implements ActionListener {
 			textField.setText(text);
 		}
 
-		if ( s.equals(CalcultorConts.DIVIDE1) || s.equals(CalcultorConts.N) || 
-			s.equals(CalcultorConts.LOG) || s.equals(CalcultorConts.LN) || 
-			s.equals(CalcultorConts.X2) || s.equals(CalcultorConts.X3) ||
-			s.equals(CalcultorConts.EXP) || s.equals(CalcultorConts.SIN) ||
-			s.equals(CalcultorConts.COS) || s.equals(CalcultorConts.TAN)) {
+		if ( this.isOperator1(s) ) {
 			op1 = textField.getText();
 			state = 3;
 			inputState3(s);
@@ -449,8 +438,6 @@ public class CalcultorActionListener implements ActionListener {
 	 * @param s
 	 */
 	private void inputState6( String s ) {
-//		Float f1 = new Float(op1);
-//		float fop1 = f1.floatValue();
 		BigNum bop1 = new BigNum(op1);
 		if ( operator.equals("sqrt") ) {
 //			if ( fop1 < 0 ) {
@@ -464,11 +451,14 @@ public class CalcultorActionListener implements ActionListener {
 		} else if ( operator.equals(CalcultorConts.X3) ) {
 			bop1 = bop1.pow(3);
 		} else if ( operator.equals(CalcultorConts.SIN) ) {
-			bop1 = MathBn.sin( bop1 );
+			BigNum r = MathBn.toRadians(bop1);
+			bop1 = MathBn.sin( r );
 		} else if ( operator.equals(CalcultorConts.COS) ) {
-			bop1 = MathBn.cos( bop1 );
+			BigNum r = MathBn.toRadians(bop1);
+			bop1 = MathBn.cos( r );
 		} else if ( operator.equals(CalcultorConts.TAN) ) {
-			bop1 = MathBn.tan( bop1 );
+			BigNum r = MathBn.toRadians(bop1);
+			bop1 = MathBn.tan( r );
 		} else if( operator.equals(CalcultorConts.N) ) {
 			bop1 = bop1.factorial();
 		} else if( operator.equals(CalcultorConts.LN) ) {

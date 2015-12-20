@@ -207,4 +207,23 @@ public class MathBn {
         cnt ++;
         return y.add(myCosh(x, ++n, numerator, denominator, a, cnt));
     }
+
+    /**
+     * 59.86->59.5136
+     * @param d
+     * @return
+     */
+    public static BigNum dms(BigNum d) {
+    	BigNum res = null;
+    	return res;
+    }
+    /**
+     * 59.51366->59.8
+     * @param s
+     * @return
+     */
+    public static BigNum smd(BigNum s) {
+    	BigNum res = null;
+    	return res;
+    }
 }

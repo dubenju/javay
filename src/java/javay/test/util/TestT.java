@@ -40,7 +40,7 @@ public class TestT {
 //		list.add((Object) "test");
 		list.add(null);
 		list.set(0, null);
-		Object o = new String("Object");
+//		Object o = new String("Object");
 //		list.add(o);
 	}
 }

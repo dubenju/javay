@@ -6,10 +6,8 @@ package javay.swing;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -47,6 +45,7 @@ public class CalcultorPanel extends JPanel {
         textField.setEditable( false );
         textField.setBackground(Color.white);
         textField.setFont(new Font("Dialog", 1, 36));
+        textField.setText("0");
 
 
         /* A */
@@ -382,5 +381,8 @@ public class CalcultorPanel extends JPanel {
 //        jlabel2.setBorder(BorderFactory.createLineBorder(Color.red));
         add(jlabel, BorderLayout.EAST);
         add(jlabel2, BorderLayout.WEST);
+
+//        KeyAdapter keyAdapter = new CalcultorKeyAdapter();
+//        this.addKeyListener(keyAdapter);
     }
 }

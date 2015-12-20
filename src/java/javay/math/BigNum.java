@@ -107,6 +107,8 @@ public class BigNum implements Comparable<BigNum> {
         	dats = null;
         }
 
+        this.datas = this.removeLastZero(this.datas, this.scale);
+        this.length = this.datas.length;
         /* DEBUG:print */
 //        System.out.println("datas=" + String.valueOf(toCharary(datas, datas.length)));
     }
@@ -517,13 +519,13 @@ public class BigNum implements Comparable<BigNum> {
         int dscale  = divisor.scale;
         int tscale  = this.scale;
         int dlen    = divisor.length;
-        int tlen    = this.length;
-        int ddeclen = dlen - dscale;
-        int tdeclen = tlen - tscale;
-        System.out.println("除法信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
+//        int tlen    = this.length;
+//        int ddeclen = dlen - dscale;
+//        int tdeclen = tlen - tscale;
+//        System.out.println("除法信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
         // 被除数同步
         tscale += divisor.length - dscale;
-        System.out.println("除法调整后被除数小数点位置:" + tscale + "/除数" + dscale + "=>" + divisor.length + "被除数整数部长度" + tscale + "vs除数长度" + divisor.length + "小于时需移位,大于等于时则开始量取");
+//        System.out.println("除法调整后被除数小数点位置:" + tscale + "/除数" + dscale + "=>" + divisor.length + "被除数整数部长度" + tscale + "vs除数长度" + divisor.length + "小于时需移位,大于等于时则开始量取");
 
         // 最大精度，小数部长度
         int max_decimal_len = decimal_len;
@@ -542,7 +544,7 @@ public class BigNum implements Comparable<BigNum> {
         	odecimal_cnt = olen - 1;
         	ido = odecimal_cnt;
         }
-        System.out.println("除法⚫⚫⚫️长度" + olen + ",oscale" + oscale + ",odecimal_cnt" + odecimal_cnt + ",ido=" + ido);
+//        System.out.println("除法⚫⚫⚫️长度" + olen + ",oscale" + oscale + ",odecimal_cnt" + odecimal_cnt + ",ido=" + ido);
         byte[] out = new byte[olen];
 
         int idx = 0;
@@ -556,7 +558,7 @@ public class BigNum implements Comparable<BigNum> {
         	System.arraycopy(this.datas, idx, tmp, idx, len_tmp);
         }
 
-        System.out.println("除法tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
+//        System.out.println("除法tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
         idx_next = len_tmp;
 
         while(true) {
@@ -1538,7 +1540,7 @@ public class BigNum implements Comparable<BigNum> {
     		res = true;
     	}
     	if (!res) {
-    		throw new ArithmeticException("[ERROR]" + a + optionS + b + "=" + c + "=>" + bdc + "<>" + bdd);
+    		throw new ArithmeticException("[ERROR]" + a + optionS + b + "=" + c + "=>" + bdc + "<>" + bdd + "(scale=" + scale + ",roundingMode=" + roundingMode + ")");
             }
     	return res;
     }

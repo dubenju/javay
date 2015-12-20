@@ -2,7 +2,6 @@ package javay.astar1;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
 
 
 /**
