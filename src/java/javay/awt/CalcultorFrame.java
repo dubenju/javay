@@ -4,24 +4,19 @@
 package javay.awt;
 
 import java.awt.AWTEvent;
-import java.awt.BorderLayout;
 import java.awt.HeadlessException;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import javay.awt.event.CalcultorKeyAdapter;
+import javay.awt.event.CalcultorAWTEventListener;
 import javay.swing.CalcultorPanel;
 
 /**
@@ -73,26 +68,14 @@ public class CalcultorFrame extends JFrame {
         CalcultorPanel panel = new CalcultorPanel();
 //        add(panel, BorderLayout.CENTER);
         getContentPane().add(panel);
-
-        KeyAdapter keyAdapter = new CalcultorKeyAdapter(panel);
-        addKeyListener(keyAdapter);
+//
+//        KeyAdapter keyAdapter = new CalcultorKeyAdapter(panel);
+//        addKeyListener(keyAdapter);
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-     // 注册应用程序全局键盘事件, 所有的键盘事件都会被此事件监听器处理.  
-        toolkit.addAWTEventListener(  
-                new AWTEventListener() {  
-                    public void eventDispatched(AWTEvent event) {  
-                        if (event.getClass() == KeyEvent.class) {  
-                            KeyEvent kE = ((KeyEvent) event);  
-                            // 处理按键事件 Ctrl+Enter  
-                            if ((kE.getKeyCode() == KeyEvent.VK_0) ) {
-                            	panel.textField.setText("aaa");
-                            }
-                        }
-                    }
-                }, java.awt.AWTEvent.KEY_EVENT_MASK);  
-                
-        
+        // 注册应用程序全局键盘事件, 所有的键盘事件都会被此事件监听器处理.  
+        toolkit.addAWTEventListener( new CalcultorAWTEventListener(panel), AWTEvent.KEY_EVENT_MASK);  
+
 //        panel.setFocusable(true);
 //        panel.requestFocusInWindow();
 	}

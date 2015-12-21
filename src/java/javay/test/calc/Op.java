@@ -8,22 +8,22 @@ public class Op {
        
     private static final Map<String, Integer> ops = new HashMap<String, Integer>();   
     static{   
-        ops.put("+",10);   
-        ops.put("-",10);   
-        ops.put("*",20);   
-        ops.put("/",20);   
-        ops.put("%",20);   
-        ops.put("(",100);   
-        ops.put(")",100);   
+        ops.put("+",  10);   
+        ops.put("-",  10);   
+        ops.put("*",  20);   
+        ops.put("/",  20);   
+        ops.put("%",  20);   
+        ops.put("(", 100);   
+        ops.put(")", 100);   
     }   
        
     public static boolean isSign(String sign1){   
         Integer s = ops.get(sign1);   
-        if(s==null)   
+        if(s==null) {
             return false;   
-        else  
-            return true;   
-    }   
+        }
+        return true;   
+    }
        
     public static int compare(String sign1,String sign2){   
         Integer p1 = ops.get(sign1);   

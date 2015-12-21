@@ -11,15 +11,17 @@ public class Calculator {
       
       
    private List<String> resolveExpr(String exp){      
-       String opert=exp.replaceAll("\\d*\\.\\d+?", "");   
-       List<String> list=new ArrayList<String>();      
-       int pidx=-1;      
+       String opert=exp.replaceAll("\\d*\\.\\d+?", "");
+       System.out.println(exp);
+       System.out.println(opert);
+       List<String> list=new ArrayList<String>(); 
+       int pidx=-1;
        for(int i=0;i<opert.length();i++) {
-           String p=opert.substring(i, i+1);      
-           pidx=exp.indexOf(p);      
-           if(exp.substring(0,pidx).trim().length()!=0){      
+           String p=opert.substring(i, i+1);
+           pidx=exp.indexOf(p);
+           if(exp.substring(0,pidx).trim().length()!=0) {      
                list.add(exp.substring(0, pidx));      
-           }      
+           }
            list.add(exp.substring(pidx, pidx+1));      
            exp=exp.substring(pidx+1);      
        }      
@@ -27,13 +29,13 @@ public class Calculator {
            list.add(exp);      
        }      
        return list;      
-   }      
-      
-   private void dealSign(String s){   
-       if(stack.size()==0){   
-           stack.push(s);   
-           return;   
-       }   
+    }
+
+    private void dealSign(String s){   
+        if(stack.size()==0) {   
+            stack.push(s);   
+            return;
+        }
        String ps = stack.pop();   
        if(Op.compare(s, ps)>0||ps.equals("(")){   
            if(s.equals(")")){   
@@ -52,12 +54,12 @@ public class Calculator {
            list.add(ps);   
            dealSign(s);   
        }   
-   }   
-      
-   private void dealVar(String s){   
-       list.add(s);   
-   }   
-      
+    }
+
+    private void dealVar(String s){   
+        list.add(s);   
+    }
+
    private Double getResult(){   
        for(String s:list){   
            if(!Op.isSign(s)){   
@@ -73,28 +75,25 @@ public class Calculator {
        }   
        return Double.valueOf(stack.pop());   
    }   
-      
-   public Double calculate(String expression){   
-       List<String> ss = resolveExpr(expression);   
-       for(String s:ss){   
-           if(Op.isSign(s)){   
+
+    public Double calculate(String expression){   
+        List<String> ss = resolveExpr(expression);   
+        for(String s : ss) {   
+            if(Op.isSign(s)) {
                dealSign(s);   
-           }else{   
+            } else { 
                dealVar(s);   
-           }   
-       }   
-       while(stack.size()>0){   
-           list.add(stack.pop());   
-       }   
-       System.out.println(list);   
-          
-       return getResult();   
-   }   
-      
-      
- 
-      
-   public static void main(String[] args) {   
-       System.out.println(new Calculator().calculate("1.5+2.1+((4/2)-6/((2+1)*2))+6%4"));   
-   }   
+            }
+        }   
+        while(stack.size()>0){   
+            list.add(stack.pop());   
+        }
+        System.out.println(list);   
+
+        return getResult();   
+    }
+
+    public static void main(String[] args) {   
+        System.out.println(new Calculator().calculate("1.5+2.1+((4/2)-6/((2+1)*2))+6%4"));   
+    }
 }
