@@ -55,7 +55,7 @@ public class Parser {
      *       @param input the unparsed expression
      *      @exception SyntaxException if the input is unparsable */
     static public Expr parse(String input) throws SyntaxException {
-	return new Parser().parseString(input);
+    	return new Parser().parseString(input);
     }
 
     /** Set of Variable's that are allowed to appear in input expressions. 
@@ -85,8 +85,8 @@ public class Parser {
      *       @param input the unparsed expression
      *      @exception SyntaxException if the input is unparsable */
     public Expr parseString(String input) throws SyntaxException {
-	tokens = new Scanner(input, operatorChars);
-	return reparse();
+    	tokens = new Scanner(input, operatorChars);
+    	return reparse();
     }
 
     static private final String operatorChars = "*/+-^<>=,()";

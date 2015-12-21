@@ -15,12 +15,12 @@ class Scanner {
 
     public Scanner(String string, String operatorChars) {
         this.s = string;
-	this.operatorChars = operatorChars;
+        this.operatorChars = operatorChars;
 
         int i = 0;
-	do {
-	    i = scanToken(i);
-	} while (i < s.length());
+        do {
+        	i = scanToken(i);
+        } while (i < s.length());
     }
 
     public String getInput() {
