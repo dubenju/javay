@@ -14,13 +14,23 @@ public class CalcultorAWTEventListener implements AWTEventListener {
 	}
 	@Override
 	public void eventDispatched(AWTEvent event) {
-        if (event.getClass() == KeyEvent.class) {  
+        if (event.getClass() == KeyEvent.class) {
             KeyEvent kE = ((KeyEvent) event);
             if (kE.getID() == KeyEvent.KEY_PRESSED) {
 	            int k = kE.getKeyCode();
-	
+
 	            System.out.println("KeyCode=" + k);
 	            switch(k){
+	            	case KeyEvent.VK_NUMPAD0:
+	            	case KeyEvent.VK_NUMPAD1:
+	            	case KeyEvent.VK_NUMPAD2:
+	            	case KeyEvent.VK_NUMPAD3:
+	            	case KeyEvent.VK_NUMPAD4:
+	            	case KeyEvent.VK_NUMPAD5:
+	            	case KeyEvent.VK_NUMPAD6:
+	            	case KeyEvent.VK_NUMPAD7:
+	            	case KeyEvent.VK_NUMPAD8:
+	            	case KeyEvent.VK_NUMPAD9:
 		            case KeyEvent.VK_0:
 		            case KeyEvent.VK_1:
 		            case KeyEvent.VK_2:
@@ -48,24 +58,45 @@ public class CalcultorAWTEventListener implements AWTEventListener {
 		            	break ;
 		            }
 		            case KeyEvent.VK_PERIOD:{
+		            	// .
+		            	String str = this.panel.textField.getText();
+		            	if (str.indexOf(".") < 0) {
+		            		if (str.equals("0")) {
+		            			str = "0.0";
+		            		} else {
+		            			str = str + ".";
+		            		}
+		            		this.panel.textField.setText(str);
+		            	}
 		            	break ;
 		            }
 		            case KeyEvent.VK_PLUS:{
+		            	// +
 		            	break ;
 		            }
 		            case KeyEvent.VK_SUBTRACT:{
+		            	// -
 		            	break ;
 		            }
 		            case KeyEvent.VK_MULTIPLY:{
+		            	// *
 		            	break ;
 		            }
 		            case KeyEvent.VK_DIVIDE:{
+		            	// /
 		            	break ;
 		            }
+		            case KeyEvent.VK_ENTER :
 		            case KeyEvent.VK_EQUALS:{
+		            	// =
 		            	break ;
 		            }
-		            case KeyEvent.VK_ENTER:{
+		            case KeyEvent.VK_LEFT_PARENTHESIS :{
+		            	// (
+		            	break ;
+		            }
+		            case KeyEvent.VK_RIGHT_PARENTHESIS  :{
+		            	// )
 		            	break ;
 		            }
 	    		}
