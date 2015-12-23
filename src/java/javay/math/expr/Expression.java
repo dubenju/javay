@@ -1,17 +1,16 @@
 package javay.math.expr;
 
-public class Expression {
+import javay.math.BigNum;
 
-    private String str;
-    public Expression(String s) {
-        this.str = s;
-    }
+/**
+ * 由数字，操作符，变量，常量等有意义地组合而成并能求得结果的式子。
+ * @author dubenju
+ *
+ */
+public abstract class Expression {
 	/**
-	 * @see java.lang.Object#toString()
+	 * 能求得结果的
+	 * @return 能求得的结果
 	 */
-	@Override
-	public String toString() {
-		StringBuffer buf = new StringBuffer();
-		return buf.toString();
-	}
+    public abstract BigNum value();
 }

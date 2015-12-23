@@ -116,9 +116,7 @@ public class Parser {
 	    // Higher precedence values mean tighter binding of arguments.
 	    // To associate left-to-right, let r = l+1;
 	    // to associate right-to-left, let r = l.
-
 	    switch (token.ttype) {
-
 	    case '<':         l = 20; r = 21; rator = Expr.LT; break;
 	    case Token.TT_LE: l = 20; r = 21; rator = Expr.LE; break;
 	    case '=':         l = 20; r = 21; rator = Expr.EQ; break;
@@ -202,15 +200,15 @@ public class Parser {
 		}
 
 	    if (token.sval.equals("if")) {
-		nextToken();
-		expect('(');
-		Expr test = parseExpr(0);
-		expect(',');
-		Expr consequent = parseExpr(0);
-		expect(',');
-		Expr alternative = parseExpr(0);
-		expect(')');
-		return Expr.makeIfThenElse(test, consequent, alternative);
+			nextToken();
+			expect('(');
+			Expr test = parseExpr(0);
+			expect(',');
+			Expr consequent = parseExpr(0);
+			expect(',');
+			Expr alternative = parseExpr(0);
+			expect(')');
+			return Expr.makeIfThenElse(test, consequent, alternative);
 	    }
 
 	    Expr var = Variable.make(token.sval);

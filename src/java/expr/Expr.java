@@ -51,7 +51,7 @@ public abstract class Expr {
      * @param v the constant value of the expression
      * @return an expression whose value is always v */
     public static Expr makeLiteral(double v) { 
-	return new LiteralExpr(v); 
+    	return new LiteralExpr(v); 
     }
     /** Make an expression that applies a unary operator to an operand.
      * @param rator a code for a unary operator
@@ -59,10 +59,8 @@ public abstract class Expr {
      * @return an expression meaning rator(rand)
      */
     public static Expr makeApp1(int rator, Expr rand) {
-	Expr app = new UnaryExpr(rator, rand);
-	return rand instanceof LiteralExpr
-	    ? new LiteralExpr(app.value()) 
-	    : app;
+    	Expr app = new UnaryExpr(rator, rand);
+    	return rand instanceof LiteralExpr ? new LiteralExpr(app.value()) : app;
     }
     /** Make an expression that applies a binary operator to two operands.
      * @param rator a code for a binary operator
@@ -71,10 +69,8 @@ public abstract class Expr {
      * @return an expression meaning rator(rand0, rand1)
      */
     public static Expr makeApp2(int rator, Expr rand0, Expr rand1) {
-	Expr app = new BinaryExpr(rator, rand0, rand1);
-	return rand0 instanceof LiteralExpr && rand1 instanceof LiteralExpr
-	    ? new LiteralExpr(app.value()) 
-	    : app;
+    	Expr app = new BinaryExpr(rator, rand0, rand1);
+    	return rand0 instanceof LiteralExpr && rand1 instanceof LiteralExpr ? new LiteralExpr(app.value()) : app;
     }
     /** Make a conditional expression.
      * @param test `if' part

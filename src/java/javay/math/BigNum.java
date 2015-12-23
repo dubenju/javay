@@ -7,7 +7,7 @@ import javay.swing.CalcultorConts;
 import sun.misc.FloatingDecimal;
 
 /**
- *
+ * 大数
  * 0123456789
  * -abc.edfhi = len:8, dot pos:4
  * @author DBJ
