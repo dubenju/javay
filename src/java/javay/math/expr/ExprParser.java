@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import javay.util.UList;
+
 public class ExprParser {
     public static List<Token> parse(String str) {
         System.out.println(str);
@@ -104,24 +106,81 @@ public class ExprParser {
         System.out.println(tokens.toString());
         return tokens;
     }
-    public static Expression toExpr(List<Token> list) {
-        Stack<Token> stk = new Stack<Token>();
+    public static Expression toExpr(List<Token> list, int pos, int precedence) throws ExprException {
+    	List<Token> opst = UList.getSubList(list, "Type", TokenType.OPERATOR);
+    	List<Operator> ops = new ArrayList<Operator>(opst.size());
+    	for(Token t : opst) {
+    		Operator op = Operators.getOperator(t.getToken());
+    		ops.add(op);
+    	}
+    	System.out.println(ops.toString());
+
+        Stack<ExpressionN> stkNu = new Stack<ExpressionN>();
+        Stack<Operator> stkOp = new Stack<Operator>();
         Expression res = null;
-        boolean bPush = true;
-        for(Token token : list) {
+
+        int listSize = list.size();
+        for(int i = pos; i < listSize; i ++) {
+        	Token token = list.get(i);
             if (TokenType.OPERATOR.equals(token.getType())) {
-                stk.push(token);
-                bPush = false;
+            	Operator op = Operators.getOperator(token.getToken());
+            	stkOp.push(op);
             } else {
-                if (bPush) {
-                    stk.push(token);
+                if (stkOp.size() <= 0) {
+                	// 
+                	ExpressionN exprN = ExprParser.makeExpressionN(token);
+                	if (res == null) {
+                		res = exprN;
+                	}
+                	stkNu.push(exprN);
                 } else {
+                	Operator optLeft = stkOp.pop();
+                	int optLeArity = optLeft.getArity();
+                	int optLePri = -1;
+                	if (optLeArity == 2) {
+                		optLePri = optLeft.getPriority();
+                	}
+                	if (optLeArity == 1) {
+                		int optLeDir = optLeft.getDirection();
+                		if (optLeDir == 1) {
+                			// 右结合
+                			optLePri = optLeft.getPriority();
+                		}
+                	}
                     // make 
-                    
-                    bPush = true;
+                    if ((i + 1 ) < listSize) {
+                    	Token tokenNext = list.get(i + 1);
+                    	if (!TokenType.OPERATOR.equals(tokenNext.getType())) {
+                    		throw new ExprException("Error.");
+                    	}
+                    	Operator optRight = Operators.getOperator(tokenNext.getToken());
+                    	int optRiArity = optRight.getArity();
+                    	int optRiPri = -1;
+                    	if (optRiArity == 2) {
+                    		// binary arity
+                    		optRiPri = optRight.getPriority();
+                    	}
+                    	if (optRiArity == 1) {
+                    		// unarity
+                    		int optRiDir = optRight.getDirection();
+                    		if (optRiDir == -1) {
+                    			// 左结合
+                    			optRiPri = optLeft.getPriority();
+                    		}
+                    	}
+                    	if (optLePri == -1 && optRiPri == -1) {
+                    		throw new ExprException("Error2.");
+                    	}
+                    	if (optLePri >= optRiPri) {
+                    		
+                    	}
+                    }
                 }
             }
         }
         return res;
+    }
+    public static ExpressionN makeExpressionN(Token t) {
+        return new ExpressionN(t.getToken());
     }
 }

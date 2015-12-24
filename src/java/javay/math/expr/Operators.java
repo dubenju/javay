@@ -3,9 +3,14 @@ package javay.math.expr;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Opreators {
+public class Operators {
     private static final Map<String, Operator> ops = new HashMap<String, Operator>();
     static{
+        /*
+         * 优先级
+         * 元数
+         * 0:左右结合，1:右结合，－1:左结合
+         */
         ops.put(ExprConts.AND, new Operator(ExprConts.AND, 000, 2, 0)); // AND
         ops.put(ExprConts.OR , new Operator(ExprConts.OR , 000, 2, 0)); // OR
         ops.put(ExprConts.XOR, new Operator(ExprConts.XOR, 000, 2, 0)); // XOR
@@ -37,9 +42,9 @@ public class Opreators {
         ops.put(ExprConts.LEFT, new Operator(ExprConts.LEFT, 500, 1, 1)); // (
         ops.put(ExprConts.RIGHT, new Operator(ExprConts.RIGHT, 500, 1, -1)); // )
     }
-    private Opreators() {
+    private Operators() {
     }
-    public Operator getOperator(String key) {
+    public static Operator getOperator(String key) {
         return ops.get(key);
     }
 }

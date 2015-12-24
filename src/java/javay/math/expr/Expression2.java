@@ -2,17 +2,16 @@ package javay.math.expr;
 
 import javay.math.BigNum;
 
-public class Expression2 extends Expression1 {
+public class Expression2 extends Expression {
 
 	private String str1;
 	private Expression num1;
 	private Expression num2;
-	public Expression2(String s) {
-		super(s);
-	}
-	public Expression2(String s1, String o, String s2) {
-		super(o, s2);
-		this.str1 = s1;
+
+	public Expression2(Expression v1, String o, Expression v2) {
+		this.num1 = v1;
+		this.str1 = o;
+		this.num2 = v2;
 	}
 	/**
 	 * @see java.lang.Object#toString()
@@ -31,6 +30,6 @@ public class Expression2 extends Expression1 {
 	public BigNum value() {
 		BigNum val1 = this.num1.value();
 		BigNum val2 = this.num2.value();
-		return super.value();
+		return val1;
 	}
 }

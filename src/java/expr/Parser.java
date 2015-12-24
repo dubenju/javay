@@ -92,17 +92,17 @@ public class Parser {
     static private final String operatorChars = "*/+-^<>=,()";
 
     private Expr reparse() throws SyntaxException {
-	tokens.index = -1;
-	nextToken();
-	Expr expr = parseExpr(0);
-	if (token.ttype != Token.TT_EOF)
-	    throw error("Incomplete expression",
-			SyntaxException.INCOMPLETE, null);
-	return expr;
+		tokens.index = -1;
+		nextToken();
+		Expr expr = parseExpr(0);
+		if (token.ttype != Token.TT_EOF)
+		    throw error("Incomplete expression",
+				SyntaxException.INCOMPLETE, null);
+		return expr;
     }
 
     private void nextToken() {
-	token = tokens.nextToken();
+    	token = tokens.nextToken();
     }
 
     private Expr parseExpr(int precedence) throws SyntaxException {
