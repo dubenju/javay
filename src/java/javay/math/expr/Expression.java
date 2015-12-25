@@ -13,4 +13,5 @@ public abstract class Expression {
 	 * @return 能求得的结果
 	 */
     public abstract BigNum value();
+    public abstract String toString();
 }

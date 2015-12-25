@@ -4,10 +4,10 @@ import javay.math.BigNum;
 
 public class Expression1 extends Expression {
 
-	private String operator;
+	private Operator operator;
 	private Expression number;
 
-	public Expression1(String o, Expression v) {
+	public Expression1(Operator o, Expression v) {
 		this.operator = o;
 		this.number = v;
 	}
@@ -18,7 +18,7 @@ public class Expression1 extends Expression {
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(this.operator);
-		buf.append(super.toString());
+		buf.append(this.number.toString());
 		return buf.toString();
 	}
 	/**
@@ -27,6 +27,30 @@ public class Expression1 extends Expression {
 	@Override
 	public BigNum value() {
 		BigNum val = this.number.value();
-		return val;
+		return this.operator.getOpcb().op(val, null);
+	}
+	/**
+	 * @return the operator
+	 */
+	public Operator getOperator() {
+		return operator;
+	}
+	/**
+	 * @param operator the operator to set
+	 */
+	public void setOperator(Operator operator) {
+		this.operator = operator;
+	}
+	/**
+	 * @return the number
+	 */
+	public Expression getNumber() {
+		return number;
+	}
+	/**
+	 * @param number the number to set
+	 */
+	public void setNumber(Expression number) {
+		this.number = number;
 	}
 }

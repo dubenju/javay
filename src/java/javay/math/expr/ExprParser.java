@@ -115,72 +115,138 @@ public class ExprParser {
     	}
     	System.out.println(ops.toString());
 
-        Stack<ExpressionN> stkNu = new Stack<ExpressionN>();
+    	// 
+        Stack<Expression> stkExpr = new Stack<Expression>();
         Stack<Operator> stkOp = new Stack<Operator>();
         Expression res = null;
 
         int listSize = list.size();
         for(int i = pos; i < listSize; i ++) {
         	Token token = list.get(i);
+        	System.out.println(i + ":" + token + stkExpr.toString() + ":" + stkOp.toString());
             if (TokenType.OPERATOR.equals(token.getType())) {
+            	// 操作符的时候
             	Operator op = Operators.getOperator(token.getToken());
+            	int optPri = -1;
+            	int optArity = op.getArity();
+            	if (optArity == 2) {
+            		optPri = op.getPriority();
+            	}
+            	if (optArity == 1) {
+            		int optDir = op.getDirection();
+            		if (optDir == -1) {
+            			optPri = op.getPriority();
+            		}
+            	}
+            	if (optPri > -1) {
+            		Expression left = stkExpr.pop();
+            		Expression newExpr = ExprParser.makeExpression(op, left);
+            		if (newExpr != null) {
+	            		if (res == left) {
+	            			res = newExpr;
+	            		}
+	            		stkExpr.push(newExpr);
+            		} else {
+            			throw new ExprException("Error");
+            		}
+            	}
             	stkOp.push(op);
-            } else {
-                if (stkOp.size() <= 0) {
-                	// 
-                	ExpressionN exprN = ExprParser.makeExpressionN(token);
-                	if (res == null) {
-                		res = exprN;
-                	}
-                	stkNu.push(exprN);
-                } else {
-                	Operator optLeft = stkOp.pop();
-                	int optLeArity = optLeft.getArity();
-                	int optLePri = -1;
-                	if (optLeArity == 2) {
-                		optLePri = optLeft.getPriority();
-                	}
-                	if (optLeArity == 1) {
-                		int optLeDir = optLeft.getDirection();
-                		if (optLeDir == 1) {
-                			// 右结合
-                			optLePri = optLeft.getPriority();
-                		}
-                	}
-                    // make 
-                    if ((i + 1 ) < listSize) {
-                    	Token tokenNext = list.get(i + 1);
-                    	if (!TokenType.OPERATOR.equals(tokenNext.getType())) {
-                    		throw new ExprException("Error.");
-                    	}
-                    	Operator optRight = Operators.getOperator(tokenNext.getToken());
-                    	int optRiArity = optRight.getArity();
-                    	int optRiPri = -1;
-                    	if (optRiArity == 2) {
-                    		// binary arity
-                    		optRiPri = optRight.getPriority();
-                    	}
-                    	if (optRiArity == 1) {
-                    		// unarity
-                    		int optRiDir = optRight.getDirection();
-                    		if (optRiDir == -1) {
-                    			// 左结合
-                    			optRiPri = optLeft.getPriority();
-                    		}
-                    	}
-                    	if (optLePri == -1 && optRiPri == -1) {
-                    		throw new ExprException("Error2.");
-                    	}
-                    	if (optLePri >= optRiPri) {
-                    		
-                    	}
-                    }
-                }
             }
-        }
+            if (!TokenType.OPERATOR.equals(token.getType())) {
+            	// 操作数或变量的时候
+            	ExpressionN exprN = ExprParser.makeExpressionN(token);
+            	if (res == null) {
+            		res = exprN;
+            	}
+            	Operator optRight = null;
+            	if ((i + 1 ) < listSize) {
+            		Token tokenNext = list.get(i + 1);
+            		if (TokenType.OPERATOR.equals(tokenNext.getType())) {
+            			optRight = Operators.getOperator(tokenNext.getToken());
+            		}
+            	}
+            	res = setExpr(stkOp, exprN, optRight, stkExpr);
+            	System.out.println("res=" + res);
+            	stkExpr.push(res);
+            } // TokenType
+        } // for
         return res;
+    }
+    protected static Expression setExpr(Stack<Operator> opLefts, Expression exprN, 
+    	Operator opRight, Stack<Expression> stkExpr) throws ExprException {
+    	// 左操作符权限，不存在时为－1
+    	int optLePri = -1;
+        if (opLefts.size() > 0) {
+        	Operator optLeft = opLefts.peek();
+        	int optLeArity = optLeft.getArity();
+        	if (optLeArity == 2) {
+        		// 二元操作符
+        		optLePri = optLeft.getPriority();
+        	}
+        	if (optLeArity == 1) {
+        		// 一元操作符
+        		int optLeDir = optLeft.getDirection();
+        		if (optLeDir == 1) {
+        			// 右结合
+        			optLePri = optLeft.getPriority();
+        		}
+        	}
+        }// 左操作符权限
+        
+        // 右操作符权限，不存在时为－1
+        int optRiPri = -1;
+        if (opRight != null) {
+        	int optRiArity = opRight.getArity();
+        	if (optRiArity == 2) {
+        		// 二元操作符
+        		optRiPri = opRight.getPriority();
+        	}
+        	if (optRiArity == 1) {
+        		// 一元操作符
+        		int optRiDir = opRight.getDirection();
+        		if (optRiDir == -1) {
+        			// 左结合
+        			optRiPri = opRight.getPriority();
+        		}
+        	}
+        }// 右操作符权限
+        
+    	if (optLePri == -1 && optRiPri == -1) {
+    		return exprN;
+    	}
+    	if (optLePri >= optRiPri) {
+    		// 左结合
+    		Expression expr = stkExpr.pop();
+    		if (expr instanceof Expression1) {
+    			Expression1 expr1 = (Expression1) expr;
+    			expr1.setNumber(exprN);
+    		} else if (expr instanceof Expression2) {
+    			Expression2 expr2 = (Expression2) expr;
+    			expr2.setNum2(exprN);
+    		} else {
+    			throw new ExprException("error.");
+    		}
+    		opLefts.pop();
+    		// next
+    		return setExpr(opLefts, expr, opRight, stkExpr);
+    		
+    	} else {
+    		// 右结合，暂且入栈
+    		// stkExpr.push(exprN);
+    		return exprN;
+    	}
     }
     public static ExpressionN makeExpressionN(Token t) {
         return new ExpressionN(t.getToken());
+    }
+    public static Expression makeExpression(Operator op, Expression num) {
+    	int arity = op.getArity();
+    	if (arity == 1) {
+    		return new Expression1(op, num);
+    	}
+    	if (arity == 2) {
+    		return new Expression2(num, op);
+    	}
+    	return null;
     }
 }

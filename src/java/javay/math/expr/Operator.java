@@ -1,17 +1,21 @@
 package javay.math.expr;
 
+import javay.math.BigNumCallBack;
+
 public class Operator {
 
     private String operator;
     private int    priority;
     private int    arity;
     private int    direction; // unary
+    private BigNumCallBack opcb;
     
-    public Operator(String op, int pri, int cnt, int d) {
+    public Operator(String op, int pri, int cnt, int d, BigNumCallBack callback) {
         this.operator = op;
         this.priority = pri;
         this.arity = cnt;
         this.direction = d;
+        this.opcb = callback;
     }
 
 	/**
@@ -21,9 +25,11 @@ public class Operator {
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(this.operator);
+		buf.append("<");
 		buf.append(this.priority);
 		buf.append(this.arity);
 		buf.append(this.direction);
+		buf.append(">");
 		return buf.toString();
 	}
 
@@ -83,5 +89,19 @@ public class Operator {
 	 */
 	public void setDirection(int direction) {
 		this.direction = direction;
+	}
+
+	/**
+	 * @return the opcb
+	 */
+	public BigNumCallBack getOpcb() {
+		return opcb;
+	}
+
+	/**
+	 * @param opcb the opcb to set
+	 */
+	public void setOpcb(BigNumCallBack opcb) {
+		this.opcb = opcb;
 	}
 }
