@@ -15,10 +15,19 @@ public class Expression1 extends Expression {
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString() {
+	public String toInfixString() {
 		StringBuffer buf = new StringBuffer();
-		buf.append(this.operator);
-		buf.append(this.number.toString());
+		if (this.operator.getDirection() == 1) {
+			buf.append(" ");
+			buf.append(this.operator);
+			buf.append(" ");
+		}
+		buf.append(this.number.toInfixString());
+		if (this.operator.getDirection() == -1) {
+			buf.append(" ");
+			buf.append(this.operator);
+			buf.append(" ");
+		}
 		return buf.toString();
 	}
 	/**
@@ -52,5 +61,43 @@ public class Expression1 extends Expression {
 	 */
 	public void setNumber(Expression number) {
 		this.number = number;
+	}
+	@Override
+	public String toPrefixString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(this.operator);
+		buf.append(" ");
+		buf.append(this.number.toPrefixString());
+		buf.append(" ");
+		return buf.toString();
+	}
+	@Override
+	public String toPostfixString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(this.number.toPostfixString());
+		buf.append(" ");
+		buf.append(this.operator);
+		buf.append(" ");
+		return buf.toString();
+	}
+	@Override
+	public String toString() {
+		StringBuffer buf = new StringBuffer();
+		if (this.operator.getDirection() == 1) {
+			buf.append(" ");
+			buf.append(this.operator);
+			buf.append(" ");
+		}
+		if (this.number != null) {
+			buf.append(this.number.toString());
+		} else {
+			buf.append("NULL");
+		}
+		if (this.operator.getDirection() == -1) {
+			buf.append(" ");
+			buf.append(this.operator);
+			buf.append(" ");
+		}
+		return buf.toString();
 	}
 }

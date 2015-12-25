@@ -1,8 +1,8 @@
 package javay.math.expr;
 
 public enum TokenType {
-	NONE,
-    NUMBER,
+	NONE____,
+    NUMBER__,
     OPERATOR,
     VARIABLE
 }

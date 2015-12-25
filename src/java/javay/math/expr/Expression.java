@@ -14,4 +14,7 @@ public abstract class Expression {
 	 */
     public abstract BigNum value();
     public abstract String toString();
+    public abstract String toPrefixString();
+    public abstract String toInfixString();
+    public abstract String toPostfixString();
 }

@@ -43,10 +43,10 @@ public class Operators {
         ops.put(ExprConts.EXP, new Operator(ExprConts.EXP, 400, 1, 1, (num1, num2)->MathBn.exp(num1))); // EXP
         ops.put(ExprConts.LN , new Operator(ExprConts.LN , 400, 1, 1, (num1, num2)->num1.multiply(num2))); // LN
         ops.put(ExprConts.LOG, new Operator(ExprConts.LOG, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // LOG
-        ops.put(ExprConts.NOT, new Operator(ExprConts.NOT, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // NOT
+        ops.put(ExprConts.NOT, new Operator(ExprConts.NOT, 400, 1, 1, (num1, num2)->null)); // NOT
 
-        ops.put(ExprConts.LEFT, new Operator(ExprConts.LEFT, 500, 1, 1, null)); // (
-        ops.put(ExprConts.RIGHT, new Operator(ExprConts.RIGHT, 500, 1, -1, null)); // )
+        ops.put(ExprConts.LEFT, new Operator(ExprConts.LEFT, 500, 1, 1, (num1, num2)->null)); // (
+        ops.put(ExprConts.RIGHT, new Operator(ExprConts.RIGHT, 500, 1, -1, (num1, num2)->null)); // )
     }
     private Operators() {
     }

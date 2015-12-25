@@ -25,11 +25,11 @@ public class Operator {
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(this.operator);
-		buf.append("<");
-		buf.append(this.priority);
-		buf.append(this.arity);
-		buf.append(this.direction);
-		buf.append(">");
+//		buf.append("<");
+//		buf.append(this.priority);
+//		buf.append(this.arity);
+//		buf.append(this.direction);
+//		buf.append(">");
 		return buf.toString();
 	}
 

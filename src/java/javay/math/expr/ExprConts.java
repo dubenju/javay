@@ -25,8 +25,8 @@ public interface ExprConts {
     public static final String LN  = "ln";
     public static final String LOG = "log";
 
-    public static final String PLUS = "+p";
-    public static final String MINUS = "-m";
+    public static final String PLUS = "+:";
+    public static final String MINUS = "-:";
 
     public static final String EQU = "=";
     public static final String LEFT = "(";

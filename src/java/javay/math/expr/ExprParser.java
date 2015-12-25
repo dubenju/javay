@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import javay.util.UList;
-
 public class ExprParser {
+    /**
+     * 
+     * @param str
+     * @return
+     */
     public static List<Token> parse(String str) {
         System.out.println(str);
         String st = str.replaceAll(",", "");
@@ -41,7 +44,7 @@ public class ExprParser {
             		// refresh number
             		if (buf != null) {
             			// tokens.append(buf.toString());
-            			tokens.add(new Token(TokenType.NUMBER, buf.toString()));
+            			tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
             			System.out.println(stat + "[NUMa]" + buf.toString());
             		}
             		buf = null;
@@ -63,7 +66,7 @@ public class ExprParser {
             		// refresh number
             		if (buf != null) {
             			// tokens.append(buf.toString());
-            			tokens.add(new Token(TokenType.NUMBER, buf.toString()));
+            			tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
             			System.out.println(stat + "[NUMb]" + buf.toString());
             		}
             		buf = null;
@@ -94,7 +97,7 @@ public class ExprParser {
         if (buf != null) {
         	if (stat == 1) {
         		// tokens.append(buf.toString());
-        		tokens.add(new Token(TokenType.NUMBER, buf.toString()));
+        		tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
         		System.out.println(stat + "[NUMc]" + buf.toString());
         	}
         	if (stat == 2) {
@@ -106,27 +109,43 @@ public class ExprParser {
         System.out.println(tokens.toString());
         return tokens;
     }
-    public static Expression toExpr(List<Token> list, int pos, int precedence) throws ExprException {
-    	List<Token> opst = UList.getSubList(list, "Type", TokenType.OPERATOR);
-    	List<Operator> ops = new ArrayList<Operator>(opst.size());
-    	for(Token t : opst) {
-    		Operator op = Operators.getOperator(t.getToken());
-    		ops.add(op);
-    	}
-    	System.out.println(ops.toString());
 
-    	// 
+    /**
+     * 括号
+     * @param list
+     * @param pos
+     * @param precedence
+     * @return
+     * @throws ExprException
+     */
+    public static Expression toExpr(List<Token> list) throws ExprException {
         Stack<Expression> stkExpr = new Stack<Expression>();
-        Stack<Operator> stkOp = new Stack<Operator>();
-        Expression res = null;
+        Stack<Operator>   stkOp   = new Stack<Operator>();
+        Expression        res     = null;
 
         int listSize = list.size();
-        for(int i = pos; i < listSize; i ++) {
+        for(int i = 0; i < listSize; i ++) {
         	Token token = list.get(i);
         	System.out.println(i + ":" + token + stkExpr.toString() + ":" + stkOp.toString());
             if (TokenType.OPERATOR.equals(token.getType())) {
             	// 操作符的时候
-            	Operator op = Operators.getOperator(token.getToken());
+            	String operate = token.getToken();
+            	if (ExprConts.ADD.equals(operate) || ExprConts.SUB.equals(operate)) {
+            		// 对正负号的预处理
+            		Token preToken = null;
+            		if ((i - 1) >= 0) {
+            			preToken = list.get(i - 1);
+            		}
+            		if (preToken == null) {
+            			operate = operate + ":";
+            		} else if (TokenType.OPERATOR.equals(preToken.getType())) {
+            			String preOperate = preToken.getToken();
+            			if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
+            				operate = operate + ":";
+            			}
+            		}
+            	}
+            	Operator op = Operators.getOperator(operate);
             	int optPri = -1;
             	int optArity = op.getArity();
             	if (optArity == 2) {
@@ -136,6 +155,8 @@ public class ExprParser {
             		int optDir = op.getDirection();
             		if (optDir == -1) {
             			optPri = op.getPriority();
+            		} else {
+            			stkExpr.push(ExprParser.makeExpression(op, null));
             		}
             	}
             	if (optPri > -1) {

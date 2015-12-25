@@ -21,11 +21,11 @@ public class Expression2 extends Expression {
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString() {
+	public String toInfixString() {
 		StringBuffer buf = new StringBuffer();
-		buf.append(this.num1.toString());
+		buf.append(this.num1.toInfixString());
 		buf.append(this.str1);
-		buf.append(this.num2);
+		buf.append(this.num2.toInfixString());
 		return buf.toString();
 	}
 	/**
@@ -72,5 +72,39 @@ public class Expression2 extends Expression {
 	 */
 	public void setNum2(Expression num2) {
 		this.num2 = num2;
+	}
+	@Override
+	public String toPrefixString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(this.str1);
+		buf.append(" ");
+		buf.append(this.num1.toPrefixString());
+		buf.append(" ");
+		buf.append(this.num2.toPrefixString());
+		buf.append(" ");
+		return buf.toString();
+	}
+	@Override
+	public String toPostfixString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(this.num1.toPostfixString());
+		buf.append(" ");
+		buf.append(this.num2.toPostfixString());
+		buf.append(" ");
+		buf.append(this.str1);
+		buf.append(" ");
+		return buf.toString();
+	}
+	@Override
+	public String toString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(this.num1.toString());
+		buf.append(this.str1);
+		if (this.num2 != null) {
+		    buf.append(this.num2.toString());
+		} else {
+			buf.append("NULL");
+		}
+		return buf.toString();
 	}
 }

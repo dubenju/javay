@@ -20,10 +20,10 @@ public class Variable extends Expr {
      * @return the variable; create it initialized to 0 if it doesn't
      *         yet exist */
     static public synchronized Variable make(String name) {
-	Variable result = (Variable) variables.get(name);
-	if (result == null)
-	    variables.put(name, result = new Variable(name));
-	return result;
+		Variable result = (Variable) variables.get(name);
+		if (result == null)
+		    variables.put(name, result = new Variable(name));
+		return result;
     }
 
     private String name;
@@ -34,7 +34,7 @@ public class Variable extends Expr {
      * @param name the variable's name
      */
     public Variable(String name) { 
-	this.name = name; val = 0; 
+    	this.name = name; val = 0; 
     }
 
     /** Return the name. */
@@ -43,11 +43,11 @@ public class Variable extends Expr {
     /** Get the value.
      * @return the current value */
     public double value() { 
-	return val; 
+    	return val; 
     }
     /** Set the value.
      * @param value the new value */
     public void setValue(double value) { 
-	val = value; 
+    	val = value; 
     }
 }
