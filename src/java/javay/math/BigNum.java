@@ -1239,7 +1239,7 @@ public class BigNum implements Comparable<BigNum> {
                 buf.append(".");
             }
         }
-//        System.out.println("[length=" + this.length + ",scale=" + this.scale + "]");
+        System.out.println("[length=" + this.length + ",scale=" + this.scale + "]" + String.valueOf(toCharary(datas, datas.length)));
         if (idx == this.scale) {
         	buf.append("0");
         }

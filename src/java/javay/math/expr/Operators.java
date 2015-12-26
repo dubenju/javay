@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javay.math.BigNum;
-import javay.math.BigNumCallBack;
 import javay.math.BigNumRound;
 import javay.math.MathBn;
 import javay.swing.CalcultorConts;
@@ -52,5 +51,8 @@ public class Operators {
     }
     public static Operator getOperator(String key) {
         return ops.get(key);
+    }
+    public static boolean isExist(String key) {
+    	return ops.containsKey(key);
     }
 }

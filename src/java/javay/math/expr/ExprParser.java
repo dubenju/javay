@@ -10,7 +10,7 @@ public class ExprParser {
      * @param str
      * @return
      */
-    public static List<Token> parse(String str) {
+    public static List<Token> parse(String str) throws ExprException {
         System.out.println(str);
         String st = str.replaceAll(",", "");
         char[] charAry = st.toCharArray();
@@ -27,7 +27,7 @@ public class ExprParser {
             		// refresh operator
             		if (buf != null) {
             			// tokens.append(buf.toString());
-            			tokens.add(new Token(TokenType.OPERATOR, buf.toString()));
+            			tokenOperate(tokens, buf.toString());
             			System.out.println(stat + "[OPRa]" + buf.toString());
             		}
             		buf = null;
@@ -37,7 +37,6 @@ public class ExprParser {
             		buf = new StringBuffer();
             	}
             	buf.append(ch);
-            //} else if (ch == ' ') {
             } else if (Character.isWhitespace(ch)) {
                 // skip
             	if (stat == 1) {
@@ -53,7 +52,7 @@ public class ExprParser {
             		// refresh operator
             		if (buf != null) {
             			// tokens.append(buf.toString());
-            			tokens.add(new Token(TokenType.OPERATOR, buf.toString()));
+            			tokenOperate(tokens, buf.toString());
             			System.out.println(stat + "[OPRb]" + buf.toString());
             		}
             		buf = null;
@@ -76,7 +75,7 @@ public class ExprParser {
             			// refresh operator
                 		if (buf != null) {
                 			// tokens.append(buf.toString());
-                			tokens.add(new Token(TokenType.OPERATOR, buf.toString()));
+                			tokenOperate(tokens, buf.toString());
                 			System.out.println(stat + "[OPRd]" + buf.toString());
                 		}
                 		buf = null;
@@ -87,7 +86,7 @@ public class ExprParser {
             	}
             	if (buf.length() == 1 && ExprConts.OPERATOR_CHARS.indexOf(buf.toString()) >= 0) {
             		//tokens.append(buf.toString());
-            		tokens.add(new Token(TokenType.OPERATOR, buf.toString()));
+            		tokenOperate(tokens, buf.toString());
             		System.out.println(stat + "[OPRe]" + buf.toString());
             		buf = new StringBuffer();
             	}
@@ -102,7 +101,7 @@ public class ExprParser {
         	}
         	if (stat == 2) {
         		// tokens.append(buf.toString());
-        		tokens.add(new Token(TokenType.OPERATOR, buf.toString()));
+        		tokenOperate(tokens, buf.toString());
         		System.out.println(stat + "[OPRc]" + buf.toString());
         	}
         }//if
@@ -110,6 +109,15 @@ public class ExprParser {
         return tokens;
     }
 
+    public static void tokenOperate(List<Token> tokens, String key) throws ExprException {
+    	if (Operators.isExist(key)) {
+    		tokens.add(new Token(TokenType.OPERATOR, key));
+    	} else if (Variables.isExist(key)) {
+    		tokens.add(new Token(TokenType.VARIABLE, key));
+    	} else {
+    		throw new ExprException("不能被识别的记号。");
+    	}
+    }
     /**
      * 括号
      * @param list
@@ -118,13 +126,15 @@ public class ExprParser {
      * @return
      * @throws ExprException
      */
-    public static Expression toExpr(List<Token> list) throws ExprException {
+    public static Expression toExpr(List<Token> list, int pos) throws ExprException {
         Stack<Expression> stkExpr = new Stack<Expression>();
         Stack<Operator>   stkOp   = new Stack<Operator>();
         Expression        res     = null;
+        List<Token>       subList = null;
+        Stack<Token>      stkLeft = new Stack<Token>();
 
         int listSize = list.size();
-        for(int i = 0; i < listSize; i ++) {
+        for(int i = pos; i < listSize; i ++) {
         	Token token = list.get(i);
         	System.out.println(i + ":" + token + stkExpr.toString() + ":" + stkOp.toString());
             if (TokenType.OPERATOR.equals(token.getType())) {
@@ -139,11 +149,51 @@ public class ExprParser {
             		if (preToken == null) {
             			operate = operate + ":";
             		} else if (TokenType.OPERATOR.equals(preToken.getType())) {
+            			// 前面的操作符
             			String preOperate = preToken.getToken();
             			if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
+            				// 当前面的操作符不是%!)的时候，+/-是正负号。
             				operate = operate + ":";
             			}
             		}
+            	}
+            	if (ExprConts.LEFT.equals(operate)) {
+            		// (的时候
+            		subList = new ArrayList<Token>();
+            		stkLeft.push(token);
+            		i++;
+            		while(stkLeft.size() > 0 && i < listSize) {
+            			// 当一直存在的时候
+            			Token token2 = list.get(i);
+            			if (ExprConts.LEFT.equals(token2.getToken())) {
+            				stkLeft.push(token2);
+            			}
+            			if (ExprConts.RIGHT.equals(token2.getToken())) {
+            				stkLeft.pop();
+            				if (stkLeft.size() <= 0) {
+            					break;
+            				}
+            			}
+            			subList.add(token2);
+            			i ++;
+            		}
+            		System.out.println("()" + subList + ",i=" + i);
+            		Expression exprLeft = toExpr(subList, 0);
+            		System.out.println("()" + exprLeft);
+            		
+                	Operator optRight = null;
+                	if ((i + 1 ) < listSize) {
+                		Token tokenNext = list.get(i + 1);
+                		if (TokenType.OPERATOR.equals(tokenNext.getType())) {
+                			optRight = Operators.getOperator(tokenNext.getToken());
+                		}
+                	}
+                	res = setExpr(stkOp, exprLeft, optRight, stkExpr);
+                	System.out.println("res=" + res);
+                	stkExpr.push(res);
+                	
+                	// 中止当前的处理，继续下一个元素的处理。
+            		continue;
             	}
             	Operator op = Operators.getOperator(operate);
             	int optPri = -1;
@@ -175,7 +225,10 @@ public class ExprParser {
             }
             if (!TokenType.OPERATOR.equals(token.getType())) {
             	// 操作数或变量的时候
-            	ExpressionN exprN = ExprParser.makeExpressionN(token);
+            	Expression exprN = ExprParser.makeExpressionN(token);
+            	if (TokenType.VARIABLE.equals(token.getType())) {
+            		exprN = Variables.getVariable(token.getToken());
+            	}
             	if (res == null) {
             		res = exprN;
             	}
