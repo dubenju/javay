@@ -18,12 +18,15 @@ public class TestExpr {
 		str ="2+(8+4^2)*3";
 		str = "sin(30)";
 		str = "1 + x * 3 + 4 / x";
+		str = "1 x 3 * + 4 x / +";
 		ExpressionV x = Variables.create("x");
 		x.setVariableValue(new BigNum("2.0"));
 		System.out.println(x);
 		
 		List<Token> ts = ExprParser.parse(str);
-		Expression expr = ExprParser.toExpr(ts, 0);
+		//Expression expr = ExprParser.toExprFromInfix(ts, 0);
+		
+		Expression expr = ExprParser.toExprFromPostfix(ts);
 		System.out.println("[outPRE]" + expr.toPrefixString() + "=" + expr.value());
 		System.out.println("[outIN ]" + expr.toInfixString() + "=" + expr.value());
 		System.out.println("[outPOS]" + expr.toPostfixString() + "=" + expr.value());

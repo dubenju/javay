@@ -5,9 +5,9 @@ import javay.math.BigNumCallBack;
 public class Operator {
 
     private String operator;
-    private int    priority;
+    private int    priority; // 在逆波兰式的时候，这是不需要考虑的。
     private int    arity;
-    private int    direction; // unary
+    private int    direction; // unary,在逆波兰式的时候这是不需要考虑的。
     private BigNumCallBack opcb;
     
     public Operator(String op, int pri, int cnt, int d, BigNumCallBack callback) {
