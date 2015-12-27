@@ -186,7 +186,7 @@ public class ExprParser {
             		System.out.println("()" + subList + ",i=" + i);
             		Expression exprLeft = toExprFromInfix(subList, 0);
             		System.out.println("()" + exprLeft);
-            		
+
                 	Operator optRight = null;
                 	if ((i + 1 ) < listSize) {
                 		Token tokenNext = list.get(i + 1);
@@ -197,7 +197,7 @@ public class ExprParser {
                 	res = setExpr(stkOp, exprLeft, optRight, stkExpr);
                 	System.out.println("res=" + res);
                 	stkExpr.push(res);
-                	
+
                 	// 中止当前的处理，继续下一个元素的处理。
             		continue;
             	}
@@ -252,7 +252,7 @@ public class ExprParser {
         } // for
         return res;
     }
-    protected static Expression setExpr(Stack<Operator> opLefts, Expression exprN, 
+    protected static Expression setExpr(Stack<Operator> opLefts, Expression exprN,
     	Operator opRight, Stack<Expression> stkExpr) throws ExprException {
     	// 左操作符权限，不存在时为－1
     	int optLePri = -1;
@@ -272,7 +272,7 @@ public class ExprParser {
         		}
         	}
         }// 左操作符权限
-        
+
         // 右操作符权限，不存在时为－1
         int optRiPri = -1;
         if (opRight != null) {
@@ -290,7 +290,7 @@ public class ExprParser {
         		}
         	}
         }// 右操作符权限
-        
+
     	if (optLePri == -1 && optRiPri == -1) {
     		return exprN;
     	}
@@ -309,14 +309,73 @@ public class ExprParser {
     		opLefts.pop();
     		// next
     		return setExpr(opLefts, expr, opRight, stkExpr);
-    		
+
     	} else {
     		// 右结合，暂且入栈
     		// stkExpr.push(exprN);
     		return exprN;
     	}
     }
-    
+
+    public static List<Token> toPostfix(List<Token> in) {
+    	System.out.println("---------------------------------");
+    	Stack<Token> stk = new Stack<Token>();
+    	int listSize = in.size();
+    	List<Token> out = new ArrayList<Token>(listSize);
+    	for (int i = 0; i < listSize; i ++) {
+    		Token token = in.get(i);
+    		TokenType type = token.getType();
+
+    		if (TokenType.NUMBER__.equals(type) || TokenType.VARIABLE.equals(type)) {
+    			out.add(token);
+    		} // number
+    		if (TokenType.OPERATOR.equals(type)) {
+    			String op = token.getToken();
+    			if (ExprConts.LEFT.equals(op)) {
+    				stk.push(token);
+    				System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+    				continue;
+    			} else if (ExprConts.RIGHT.equals(op)) {
+    				while(stk.size() > 0) {
+    					Token tk = stk.pop();
+    					if (ExprConts.LEFT.equals(tk.getToken())) {
+    						break;
+    					} else {
+    						out.add(tk);
+    					}
+    				}
+    			} else {
+    				// 操作符号比较
+    				Operator op1 = Operators.getOperator(op);
+    				int op1Pri = op1.getPriority();
+//    				System.out.println("stk=" + stk);
+    				while(stk.size() > 0) {
+    					Token tkt = stk.peek();
+    					if (ExprConts.LEFT.equals(tkt.getToken())) {
+    						break;
+    					}
+    					Operator op2 = Operators.getOperator(tkt.getToken());
+    					int op2Pri = op2.getPriority();
+    					if (op2Pri >= op1Pri) {
+    						out.add(stk.pop());
+    					}
+    					if (op2Pri < op1Pri) {
+    						break;
+    					}
+    				}
+    				stk.push(token);
+    			}
+    		} // operator
+    		System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+    	} // for
+    	while(stk.size() > 0) {
+    		Token tk = stk.pop();
+    		out.add(tk);
+    	}
+    	System.out.println("---------------------------------");
+    	return out;
+    }
+
     /**
      * 逆波兰式
      * @param list
@@ -324,8 +383,7 @@ public class ExprParser {
      */
     public static Expression toExprFromPostfix(List<Token> list) {
     	Stack<Expression> stkExpr = new Stack<Expression>();
-    	
-    	
+
         int listSize = list.size();
         for(int i = 0; i < listSize; i ++) {
         	Token token = list.get(i);
@@ -346,7 +404,7 @@ public class ExprParser {
             		Expression1 exprr = new Expression1(op, expr1);
             		stkExpr.push(exprr);
             	}
-            	
+
             }
             if (!TokenType.OPERATOR.equals(token.getType())) {
             	// 操作数或变量的时候
@@ -358,12 +416,115 @@ public class ExprParser {
             }
         }// for
 
-        Expression        res     = stkExpr.pop();
+        Expression res = stkExpr.pop();
+        return res;
+    }
+
+    public static List<Token> toPrefix(List<Token> in) {
+    	System.out.println("---------------------------------");
+    	Stack<Token> stk = new Stack<Token>();
+    	int listSize = in.size();
+    	List<Token> out = new ArrayList<Token>(listSize);
+    	for (int i = listSize - 1; i >= 0 ; i --) {
+    		Token token = in.get(i);
+    		TokenType type = token.getType();
+
+    		if (TokenType.NUMBER__.equals(type) || TokenType.VARIABLE.equals(type)) {
+    			out.add(token);
+    		} // number
+    		if (TokenType.OPERATOR.equals(type)) {
+    			String op = token.getToken();
+    			if (ExprConts.RIGHT.equals(op)) {
+    				stk.push(token);
+    				System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+    				continue;
+    			} else if (ExprConts.LEFT.equals(op)) {
+    				while(stk.size() > 0) {
+    					Token tk = stk.pop();
+    					if (ExprConts.RIGHT.equals(tk.getToken())) {
+    						break;
+    					} else {
+    						out.add(tk);
+    					}
+    				}
+    			} else {
+    				// 操作符号比较
+    				Operator op1 = Operators.getOperator(op);
+    				int op1Pri = op1.getPriority();
+//    				System.out.println("stk=" + stk);
+    				while(stk.size() > 0) {
+    					Token tkt = stk.peek();
+    					if (ExprConts.RIGHT.equals(tkt.getToken())) {
+    						break;
+    					}
+    					Operator op2 = Operators.getOperator(tkt.getToken());
+    					int op2Pri = op2.getPriority();
+    					if (op2Pri < op1Pri) {
+    						out.add(stk.pop());
+    					}
+    					if (op2Pri >= op1Pri) {
+    						break;
+    					}
+    				}
+    				stk.push(token);
+    			}
+    		} // operator
+    		System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+    	} // for
+    	while(stk.size() > 0) {
+    		Token tk = stk.pop();
+    		out.add(tk);
+    	}
+    	System.out.println("---------------------------------");
+    	return out;
+    }
+
+    /**
+     * 波兰式
+     * @param list
+     * @return
+     */
+    public static Expression toExprFromPrefix(List<Token> list) {
+    	Stack<Expression> stkExpr = new Stack<Expression>();
+
+        int listSize = list.size();
+        for(int i = listSize - 1; i >= 0; i --) {
+        	Token token = list.get(i);
+        	System.out.println(i + ":" + token + stkExpr.toString());
+            if (TokenType.OPERATOR.equals(token.getType())) {
+            	// 操作符的时候
+            	String operate = token.getToken();
+            	Operator op = Operators.getOperator(operate);
+            	int arity = op.getArity();
+            	if (arity == 2) {
+            		Expression expr1 = stkExpr.pop();
+            		Expression expr2 = stkExpr.pop();
+            		Expression2 exprr = new Expression2(expr1, op, expr2);
+            		stkExpr.push(exprr);
+            	}
+            	if (arity == 1) {
+            		Expression expr1 = stkExpr.pop();
+            		Expression1 exprr = new Expression1(op, expr1);
+            		stkExpr.push(exprr);
+            	}
+
+            }
+            if (!TokenType.OPERATOR.equals(token.getType())) {
+            	// 操作数或变量的时候
+            	Expression exprN = ExprParser.makeExpressionN(token);
+            	if (TokenType.VARIABLE.equals(token.getType())) {
+            		exprN = Variables.getVariable(token.getToken());
+            	}
+            	stkExpr.push(exprN);
+            }
+        }// for
+
+        Expression res = stkExpr.pop();
         return res;
     }
 
     /**
-     * 
+     *
      * @param t
      * @return
      */
@@ -371,7 +532,7 @@ public class ExprParser {
         return new ExpressionN(t.getToken());
     }
     /**
-     * 
+     *
      * @param op
      * @param num
      * @return
