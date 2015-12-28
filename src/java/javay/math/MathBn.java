@@ -2,6 +2,12 @@ package javay.math;
 
 import javay.swing.CalcultorConts;
 
+/**
+ * arcsinh x = x - 1/2*x^3/3 + 1*3/(2*4)*x^5/5 - …… (|x|<1) 
+ * arctanh x = x + x^3/3 + x^5/5 + ……(|x|<1)
+ * @author dubenju
+ *
+ */
 public class MathBn {
 	public static final BigNum DEGREES_180 = new BigNum("180.0");
 	/**
@@ -26,6 +32,7 @@ public class MathBn {
 
     /**
      * sin(x) = x - x^3/3! + x^5/5! - x^7/7! +...
+     * sin x = x-x^3/3!+x^5/5!-……+(-1)^(k-1)*(x^(2k-1))/(2k-1)!+……。(-∞<x<∞)
      * @param radian
      * @return
      */
@@ -47,6 +54,7 @@ public class MathBn {
 
     /**
      * cos(x) = 1 - x^2/2! + x^4/4! - x^6/6! + x^8/8! - ...
+     * cos x = 1-x^2/2!+x^4/4!-……+(-1)k*(x^(2k))/(2k)!+…… (-∞<x<∞) 
      * @param radian
      * @return
      */
@@ -86,6 +94,7 @@ public class MathBn {
 
     /**
      * e^x=1 + x^1/1! + x^2/2! + x^3/3! + x^4/4! + x^5/5! + ...
+     * e^x = 1+x+x^2/2!+x^3/3!+……+x^n/n!+…… 
      * @param x
      * @return
      */
@@ -103,16 +112,6 @@ public class MathBn {
     	}
     	System.out.print(res);
     	return res;
-    }
-    private static BigNum myExp(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
-        denominator = denominator.multiply(new BigNum(n));
-        numerator   = numerator.multiply(x);
-        BigNum a    = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
-        if (cnt > 11) {
-            return y;
-        }
-        cnt ++;
-        return y.add(myExp(x, ++n, numerator, denominator, a, cnt));
     }
 
     /**
@@ -180,7 +179,15 @@ public class MathBn {
     }
 
     /**
-     *
+     * ln(1+x)=x-x^2/2+x^3/3-……+(-1)^(k-1)*(x^k)/k(|x|<1) 
+     * @return
+     */
+    public static BigNum ln() {
+    	return null;
+    }
+
+    /**
+     * sinh x = x+x^3/3!+x^5/5!+……+(-1)^(k-1)*(x^2k-1)/(2k-1)!+…… (-∞<x<∞) 
      * @param x
      * @return
      */
@@ -201,7 +208,7 @@ public class MathBn {
     }
 
     /**
-     *
+     * cosh x = 1+x^2/2!+x^4/4!+……+(-1)k*(x^2k)/(2k)!+……(-∞<x<∞) 
      * @param x
      * @return
      */
@@ -240,7 +247,64 @@ public class MathBn {
     	return res;
     }
     /**
+     * pi/4 = 4 * arctan(1/5) - arctan(1/239)
+     * @return
+     */
+    public static BigNum pi2() {
+    	BigNum one = new BigNum("1.0");
+    	BigNum four = new BigNum("4.0");
+    	BigNum five = new BigNum("5.0");
+    	BigNum n239 = new BigNum("239.0");
+    	BigNum a = one.divide(five, 40, BigNumRound.HALF_EVENT);
+    	BigNum b = arctan(a);
+    	BigNum c = four.multiply(b);
+    	BigNum d = one.divide(n239, 40, BigNumRound.HALF_EVENT);
+    	BigNum e = arctan(d);
+    	BigNum f = c.subtract(e);
+    	BigNum res = f.multiply(four);
+    	System.out.println("pi=" + res);
+    	return res;
+    }
+    /**
+     * arcsin x = x+(1/2)*x^3/3+(3/8)*x^5/5 + ……(2k)!/((4^k)*((k!)^2))*x^(2k+1)/(2k+1)(|x|<1) 
+     * @return
+     */
+    public static BigNum arcsin() {
+    	return null;
+    }
+    /**
+     * arccos x = π/2 - ( x + (1/2)*x^3/3 + (3/8)*x^5/5 + …… ) (|x|<1) 
+     * @return
+     */
+    public static BigNum arccos() {
+    	return null;
+    }
+    /**
+     * arctan(x) = x - x^3/3 + x^5/5 - x^7/7 + ...(|x|<1)
+     * arctan x = x - x^3/3 + x^5/5 -……(x≤1) 
+     * @param radian
+     * @return
+     */
+    public static BigNum arctan(BigNum radian) {
+    	System.out.print("★★★arctan(" + radian + ")等于");
+    	BigNum res = new BigNum("0.0");
+    	BigNum a = new BigNum("-1.0");
+    	BigNum sign = new BigNum("1.0");
+    	for (int i = 1; i < 40; i += 2) {
+    		BigNum augend = radian.pow(i).multiply(sign);
+    		BigNum fac = new BigNum(i);
+    		BigNum b = augend.divide(fac, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
+    		sign = sign.multiply(a);
+    	}
+    	System.out.print(res);
+    	return res;
+    }
+
+    /**
      * 59.86->59.5136
+     * 0.86*60=51.6
+     * 0.6*60=36
      * @param d
      * @return
      */
@@ -249,7 +313,7 @@ public class MathBn {
     	return res;
     }
     /**
-     * 59.51366->59.8
+     * 59.5136->59.86
      * @param s
      * @return
      */

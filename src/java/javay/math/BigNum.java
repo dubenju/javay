@@ -1212,6 +1212,11 @@ public class BigNum implements Comparable<BigNum> {
     	return (this.signed  < 0 ? negate() : this);
     }
 
+    public BigNum integral () {
+    	byte[] data = new byte[this.scale];
+    	System.arraycopy(this.datas, 0, data, 0, this.scale);
+    	return new BigNum(this.signed, data, this.scale, this.scale);
+    }
 	/**
 	 *
 	 */

@@ -28,7 +28,8 @@ public class TestSin {
 //		BigNum f = MathBn.toRadians(a);
 //		BigNum e = MathBn.cos(f);
 		//BigNum h = MathBn.exp(new BigNum("2"));
-		MathBn.pi(0);
+		//MathBn.pi(0);
+		MathBn.pi2();
 		
 	}
     public static void test(String args) {
