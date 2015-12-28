@@ -25,44 +25,45 @@ public class MathBn {
     }
 
     /**
-     *
+     * sin(x) = x - x^3/3! + x^5/5! - x^7/7! +...
      * @param radian
      * @return
      */
     public static BigNum sin(BigNum radian) {
-    	System.out.println("★★★sin(" + radian + ")等于");
-    	return mySin(radian, 1, false, radian, new BigNum("1.0"), radian, 1);
+    	System.out.print("★★★sin(" + radian + ")等于");
+    	BigNum res = new BigNum("0.0");
+    	BigNum a = new BigNum("-1.0");
+    	BigNum sign = new BigNum("1.0");
+    	for (int i = 1; i < 40; i += 2) {
+    		BigNum augend = radian.pow(i).multiply(sign);
+    		BigNum fac = new BigNum(i).factorial();
+    		BigNum b = augend.divide(fac, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
+    		sign = sign.multiply(a);
+    	}
+    	System.out.print(res);
+    	return res;
     }
 
-    private static BigNum mySin(BigNum x, int n, boolean nega, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
-        System.out.println("cnt=" + cnt + ",x=" + x + ",n=" + n + ",nega=" + nega + ",numerator=" + numerator + ",denominator=" + denominator + ",y=" + y);
-    	int m       = 2 * n;
-        long k = (m + 1) * m;
-        denominator = denominator.multiply(new BigNum(k));
-
-        BigNum numeratorb   = numerator.multiply(x.pow(2));
-        BigNum a    = numeratorb.divide(new BigNum(denominator), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
-
-        if (cnt > 11) {
-        	return y;
-        }
-        cnt ++;
-        return y.add(mySin(x, ++n, !nega, numerator, denominator, nega ? a : a.negate(), cnt));
-    }
+    /**
+     * cos(x) = 1 - x^2/2! + x^4/4! - x^6/6! + x^8/8! - ...
+     * @param radian
+     * @return
+     */
     public static BigNum cos(BigNum radian) {
-    	return myCos(radian, 1, false, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"), 1);
-    }
-    private static BigNum myCos(BigNum x, int n, boolean nega, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
-        int m       = 2 * n;
-        long k = m * (m - 1);
-        denominator = denominator.multiply(new BigNum(k));
-        BigNum numeratorb   = numerator.multiply(x.pow(2));
-        BigNum a    = numeratorb.divide(new BigNum(denominator), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
-        if (cnt > 11) {
-        	return y;
-        }
-        cnt ++;
-        return y.add(myCos(x, ++n, !nega, numerator, denominator, nega ? a : a.negate(), cnt));
+    	System.out.print("★★★cos(" + radian + ")等于");
+    	BigNum res = new BigNum("1.0");
+    	BigNum a = new BigNum("-1.0");
+    	BigNum sign = new BigNum("-1.0");
+    	for (int i = 2; i < 40; i += 2) {
+    		BigNum augend = radian.pow(i).multiply(sign);
+    		BigNum fac = new BigNum(i).factorial();
+    		BigNum b = augend.divide(fac, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
+    		sign = sign.multiply(a);
+    	}
+    	System.out.print(res);
+    	return res;
     }
 
     /**
@@ -84,12 +85,24 @@ public class MathBn {
     }
 
     /**
-     *
+     * e^x=1 + x^1/1! + x^2/2! + x^3/3! + x^4/4! + x^5/5! + ...
      * @param x
      * @return
      */
     public static BigNum exp(BigNum x) {
-    	return myExp(x, 1, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"), 1);
+    	System.out.print("★★★exp(" + x + ")等于");
+    	BigNum res = new BigNum("1.0");
+    	BigNum a = new BigNum("1.0");
+    	BigNum sign = new BigNum("1.0");
+    	for (int i = 1; i < 40; i += 1) {
+    		BigNum augend = x.pow(i).multiply(sign);
+    		BigNum fac = new BigNum(i).factorial();
+    		BigNum b = augend.divide(fac, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
+    		sign = sign.multiply(a);
+    	}
+    	System.out.print(res);
+    	return res;
     }
     private static BigNum myExp(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
         denominator = denominator.multiply(new BigNum(n));
@@ -208,6 +221,24 @@ public class MathBn {
         return y.add(myCosh(x, ++n, numerator, denominator, a, cnt));
     }
 
+    /**
+     * 	pi / 4 = 1 - 1/3 + 1/ 5 - 1/7 + ...
+     * @return
+     */
+    public static BigNum pi(int n) {
+    	BigNum one = new BigNum("1.0");
+    	BigNum four = new BigNum("4.0");
+    	BigNum res = new BigNum("1.0");
+    	BigNum a = new BigNum("-1.0");
+    	BigNum sign = new BigNum("-1.0");
+    	for (int i = 3; i < 40; i += 2) {
+    		res = res.add(one.multiply(sign).divide(new BigNum(i), 40, BigNumRound.HALF_EVENT));
+    		sign = sign.multiply(a);
+    	}
+    	res = res.multiply(four);
+    	System.out.print(res);
+    	return res;
+    }
     /**
      * 59.86->59.5136
      * @param d
