@@ -17,7 +17,7 @@ public class MathBn {
 	 */
     public static BigNum toRadians(BigNum degrees) {
     	BigNum res = degrees.multiply(BigNum.PI);
-        return  res.divide(DEGREES_180, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        return  res.divide(DEGREES_180, 40, BigNumRound.HALF_EVENT);
     }
 
     /**
@@ -27,7 +27,7 @@ public class MathBn {
      */
     public static BigNum toDegrees(BigNum radians) {
     	BigNum res = radians.multiply(DEGREES_180);
-        return res.divide(BigNum.PI, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+        return res.divide(BigNum.PI, 40, BigNumRound.HALF_EVENT);
     }
 
     /**
@@ -308,17 +308,42 @@ public class MathBn {
      * @param d
      * @return
      */
-    public static BigNum dms(BigNum d) {
-    	BigNum res = null;
+    public static BigNum dms(BigNum de) {
+    	BigNum n60 = new BigNum("60.0");
+    	BigNum n100 = new BigNum("100.0");
+    	BigNum n10000 = new BigNum("10000.0");
+    	BigNum res = de.integral(); // 度
+    	BigNum a = de.subtract(res);
+    	BigNum b = a.multiply(n60);
+    	BigNum c = b.integral(); // 分
+    	BigNum d = b.subtract(c);
+    	BigNum e = d.multiply(n60);
+    	BigNum f = e.integral(); // 秒
+    	res = res.add(c.divide(n100, 40, BigNumRound.HALF_EVENT));
+    	res = res.add(f.divide(n10000, 40, BigNumRound.HALF_EVENT));
     	return res;
     }
     /**
      * 59.5136->59.86
+     * 36 / 60 = 0.6
+     * 51.6 / 60 = 0.86
      * @param s
      * @return
      */
     public static BigNum smd(BigNum s) {
-    	BigNum res = null;
+    	BigNum n60 = new BigNum("60.0");
+    	BigNum n100 = new BigNum("100.0");
+//    	BigNum n10000 = new BigNum("10000.0");
+    	BigNum res = s.integral(); // 度
+    	BigNum a = s.subtract(res);
+    	BigNum b = a.multiply(n100);
+    	BigNum c = b.integral(); // 分
+    	BigNum d = b.subtract(c);
+    	BigNum e = d.multiply(n100);
+    	//BigNum f = e.integral(); // 秒
+    	BigNum f = e.divide(n60, 40, BigNumRound.HALF_EVENT);
+    	c = c.add(f);
+    	res = res.add(c.divide(n60, 40, BigNumRound.HALF_EVENT));
     	return res;
     }
 }

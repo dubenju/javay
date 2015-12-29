@@ -95,7 +95,8 @@ public class CalcultorActionListener implements ActionListener {
 				s.equals(CalcultorConts.LOG) || s.equals(CalcultorConts.LN) ||
 				s.equals(CalcultorConts.X2) || s.equals(CalcultorConts.X3) ||
 				s.equals(CalcultorConts.EXP) || s.equals(CalcultorConts.SIN) ||
-				s.equals(CalcultorConts.COS) || s.equals(CalcultorConts.TAN);
+				s.equals(CalcultorConts.COS) || s.equals(CalcultorConts.TAN) ||
+				s.equals(CalcultorConts.DMS);
 	}
 
 	private boolean isOperator2(String s) {
@@ -465,6 +466,8 @@ public class CalcultorActionListener implements ActionListener {
 			bop1 = bop1.ln(2, BigNumRound.HALF_EVENT);
 		} else if( operator.equals(CalcultorConts.EXP) ) {
 			bop1 = BigNum.E.pow(bop1);
+		} else if( operator.equals(CalcultorConts.DMS) ) {
+			bop1 = MathBn.dms(bop1);
 		}
 		op1 = String.valueOf(bop1);
 		textField.setText(op1);

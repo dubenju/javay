@@ -34,6 +34,7 @@ public interface CalcultorConts {
 	public static final String CLEAR_ERROR = "CE";
 	public static final String CLEAR = "C";
 	
+	public static final String DMS = "dms";
 	public static final String SIN = "sin";
 	public static final String COS = "cos";
 	public static final String TAN = "tan";

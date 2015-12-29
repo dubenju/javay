@@ -29,8 +29,12 @@ public class TestSin {
 //		BigNum e = MathBn.cos(f);
 		//BigNum h = MathBn.exp(new BigNum("2"));
 		//MathBn.pi(0);
-		MathBn.pi2();
-		
+		//MathBn.pi2();
+		BigNum a = new BigNum("59.86");
+		BigNum b = MathBn.dms(a);
+		System.out.println(b);
+		BigNum c = MathBn.smd(b);
+		System.out.println(c);
 	}
     public static void test(String args) {
         double x = Double.parseDouble(args);

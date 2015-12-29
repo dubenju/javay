@@ -3,7 +3,7 @@
  */
 package javay.main;
 
-import javay.awt.CalcultorFrame;
+import javay.swing.CalcultorFrame;
 
 /**
  * @author dubenju

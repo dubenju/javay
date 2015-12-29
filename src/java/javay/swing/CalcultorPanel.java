@@ -4,8 +4,8 @@
 package javay.swing;
 
 import java.awt.BorderLayout;
-//import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import javay.awt.event.CalcultorActionListener;
 
@@ -29,7 +30,7 @@ import javay.awt.event.CalcultorActionListener;
 public class CalcultorPanel extends JPanel {
 
     private JPanel mainPanel = new JPanel();
-    public JTextField textField = new JTextField( 34 );
+    private JVariableTextField textField = new JVariableTextField( 34 );
 
     JPanel option = new JPanel();
     JPanel optionLeft = new JPanel();
@@ -149,14 +150,17 @@ public class CalcultorPanel extends JPanel {
 //    	mainPanel.setLayout(new GridLayout(4, 1));
 
         //create the text field
-//        JTextField textField = new JTextField( 34 );
         mainPanel.add(textField);
-//        textField.setPreferredSize(new Dimension(4, 4));
         textField.setHorizontalAlignment( JTextField.RIGHT );
+        textField.setAlignmentY(Component.BOTTOM_ALIGNMENT);
         textField.setEditable( false );
         textField.setBackground(Color.white);
-        textField.setFont(new Font("Dialog", 1, 36));
+        textField.setFont(new Font("Dialog", Font.PLAIN, 36));
+        textField.getMaxWidth();
+        LineBorder border = new LineBorder(Color.RED, 2, true);
+        textField.setBorder(border);
         textField.setText("0");
+        textField.setToolTipText("计算式");
 
 
         /* A */

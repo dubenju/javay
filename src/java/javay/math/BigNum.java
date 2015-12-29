@@ -122,8 +122,9 @@ public class BigNum implements Comparable<BigNum> {
      */
     public BigNum(byte si, byte[] da, int len, int sca) {
         this.signed = si;
-        this.datas = da;
-        this.length = len;
+        byte[] buf = this.removeLastZero(da, sca);
+        this.datas = buf;
+        this.length = buf.length;
         this.scale = sca;
     }
 
