@@ -30,7 +30,7 @@ import javay.awt.event.CalcultorActionListener;
 public class CalcultorPanel extends JPanel {
 
     private JPanel mainPanel = new JPanel();
-    private JVariableTextField textField = new JVariableTextField( 34 );
+    public JVariableTextField textField = new JVariableTextField( 34 );
 
     JPanel option = new JPanel();
     JPanel optionLeft = new JPanel();
@@ -48,7 +48,7 @@ public class CalcultorPanel extends JPanel {
 
     JPanel exOption = new JPanel();
     JPanel exOptLeft = new JPanel();
-    ButtonGroup group3 = new ButtonGroup();
+//    ButtonGroup group3 = new ButtonGroup();
     JCheckBox inv = new JCheckBox("Inv");
     JCheckBox hyp = new JCheckBox("Hyp");
 
@@ -159,6 +159,7 @@ public class CalcultorPanel extends JPanel {
         textField.getMaxWidth();
         LineBorder border = new LineBorder(Color.RED, 2, true);
         textField.setBorder(border);
+        textField.setPreferredSize(textField.getPreferredSize());
         textField.setText("0");
         textField.setToolTipText("计算式");
 
@@ -212,8 +213,8 @@ public class CalcultorPanel extends JPanel {
 //        ButtonGroup group3 = new ButtonGroup();
 //        JCheckBox inv = new JCheckBox("Inv");
 //        JCheckBox hyp = new JCheckBox("Hyp");
-        group3.add(inv);
-        group3.add(hyp);
+//        group3.add(inv);
+//        group3.add(hyp);
         exOptLeft.add(inv);
         exOptLeft.add(hyp);
 

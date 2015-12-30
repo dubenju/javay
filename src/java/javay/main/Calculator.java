@@ -3,6 +3,10 @@
  */
 package javay.main;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 import javay.swing.CalcultorFrame;
 
 /**
@@ -10,32 +14,28 @@ import javay.swing.CalcultorFrame;
  *
  */
 public class Calculator {
-
+    public static final Image LOG = new ImageIcon(  
+    		CalcultorFrame.class.getResource("/select.png"))  
+            .getImage(); 
     /**
      * @param args
      */
     public static void main(String[] args) {
         // create application frame
         CalcultorFrame frame = new CalcultorFrame();
-
+        frame.setIconImage(LOG);
         //show frame
-//        frame.setUndecorated(true);
-//        frame.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
         frame.setBounds(600, 50, 900, 360);
         frame.setLocation(600, 50);
 
         frame.setLocationByPlatform(true);
         frame.setLocationRelativeTo(null);
-//        frame.pack();
 
         frame.setFocusable(true);
         frame.requestFocusInWindow();
 
         frame.setResizable(false);
         frame.setVisible(true);
-//        KeyAdapter keyAdapter = new CalcultorKeyAdapter(null);
-//        frame.addKeyListener(keyAdapter);
-
     }
 
 }

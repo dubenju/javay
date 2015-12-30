@@ -146,6 +146,12 @@ public class BigNumTest {
 		 c = a.divide(b, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 		System.out.println("c=" + c);
 	}
+	public void testDivide2() {
+		BigNum a = new BigNum("1.0");
+		BigNum b = new BigNum("0.000244140625");
+		BigNum c = a.divide(b, 40, BigNumRound.HALF_EVENT);
+		System.out.println(c);
+	}
 
 	public void testMod() {
 		BigNum test324 = new BigNum("3.24");
@@ -298,8 +304,9 @@ public class BigNumTest {
 //    	proc.testToRadians();
 //    	proc.testSubtract();
 //    	proc.testAdd();
-    	proc.testSin();
+//    	proc.testSin();
 //    	proc.testLastZero();
+    	proc.testDivide2();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16

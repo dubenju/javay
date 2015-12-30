@@ -1,6 +1,9 @@
 package javay.swing;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JTextField;
 import javax.swing.text.Document;
@@ -19,6 +22,7 @@ public class JVariableTextField extends JTextField {
 	 */
 	public JVariableTextField() {
 		maxWidth = this.getColumns() * this.getFont().getSize();
+		setOpaque(false);
 	}
 
 	/**
@@ -28,6 +32,7 @@ public class JVariableTextField extends JTextField {
 	public JVariableTextField(String text, int columns) {
 		super(text, columns);
 		maxWidth = this.getColumns() * this.getFont().getSize();
+		setOpaque(false);
 	}
 
 	/**
@@ -36,6 +41,7 @@ public class JVariableTextField extends JTextField {
 	public JVariableTextField(String text) {
 		super(text);
 		maxWidth = this.getColumns() * this.getFont().getSize();
+		setOpaque(false);
 	}
 
 	/**
@@ -46,6 +52,7 @@ public class JVariableTextField extends JTextField {
 	public JVariableTextField(Document doc, String text, int columns) {
 		super(doc, text, columns);
 		maxWidth = this.getColumns() * this.getFont().getSize();
+		setOpaque(false);
 	}
 
 	/**
@@ -54,6 +61,7 @@ public class JVariableTextField extends JTextField {
 	public JVariableTextField(int columns) {
 		super(columns);
 		maxWidth = this.getColumns() * this.getFont().getSize();
+		setOpaque(false);
 	}
 
 	/**
@@ -112,6 +120,35 @@ public class JVariableTextField extends JTextField {
 	 */
 	public void setMaxWidth(int maxWidth) {
 		this.maxWidth = maxWidth;
+	}
+
+	/*＊
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
+	@Override
+	protected void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		Color color = g2.getColor();
+		g2.setColor(Color.BLUE);
+		g2.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
+		Font font = this.getFont();
+		int fontSize = font.getSize();
+		fontSize = (int) (fontSize *0.66);
+		int ng = font.getNumGlyphs();
+		System.out.println("ng=" + ng);
+		int width = this.getWidth();
+		for(int i = width, cnt = 0; i >= 0; i -= fontSize, cnt ++) {
+			if (cnt % 10 == 0) {
+				g2.drawLine(i, getHeight() - 15, i, getHeight() - 2);
+			} else if (cnt % 5 == 0) {
+				g2.drawLine(i, getHeight() - 10, i, getHeight() - 2);
+			} else {
+				g2.drawLine(i, getHeight() - 5, i, getHeight() - 2);
+			}
+		}
+		//g.fillRect(0, 0, getWidth(), getHeight());  
+		g2.setColor(color);
+		super.paintComponent(g);
 	}
 
 }

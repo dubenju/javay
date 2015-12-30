@@ -519,14 +519,10 @@ public class BigNum implements Comparable<BigNum> {
         // 小数点位置
         int dscale  = divisor.scale;
         int tscale  = this.scale;
-        int dlen    = divisor.length;
-//        int tlen    = this.length;
-//        int ddeclen = dlen - dscale;
-//        int tdeclen = tlen - tscale;
-//        System.out.println("除法信息:" + tlen + "," + tscale  + "," + tdeclen + "/" + dlen + "," + dscale  + "," + ddeclen);
+
         // 被除数同步
         tscale += divisor.length - dscale;
-//        System.out.println("除法调整后被除数小数点位置:" + tscale + "/除数" + dscale + "=>" + divisor.length + "被除数整数部长度" + tscale + "vs除数长度" + divisor.length + "小于时需移位,大于等于时则开始量取");
+        System.out.println("除法调整后被除数小数点位置:" + tscale + "/除数" + dscale + "=>" + divisor.length + "被除数整数部长度" + tscale + "vs除数长度" + divisor.length + "小于时需移位,大于等于时则开始量取");
 
         // 最大精度，小数部长度
         int max_decimal_len = decimal_len;
@@ -534,6 +530,10 @@ public class BigNum implements Comparable<BigNum> {
         	max_decimal_len ++;
         }
 
+        int dlen    = divisor.length;
+        byte[] tmp_divi = this.removeFirstZero(divisor.datas, divisor.datas.length);
+        dlen = tmp_divi.length;
+        
         int ido = 0;
         int oscale = 0; // 小数点位置
         int odecimal_cnt = -1; // 小数位数
@@ -545,7 +545,7 @@ public class BigNum implements Comparable<BigNum> {
         	odecimal_cnt = olen - 1;
         	ido = odecimal_cnt;
         }
-//        System.out.println("除法⚫⚫⚫️长度" + olen + ",oscale" + oscale + ",odecimal_cnt" + odecimal_cnt + ",ido=" + ido);
+        System.out.println("除法●●●●️长度" + olen + ",oscale" + oscale + ",odecimal_cnt=" + odecimal_cnt + ",ido=" + ido);
         byte[] out = new byte[olen];
 
         int idx = 0;
@@ -559,15 +559,15 @@ public class BigNum implements Comparable<BigNum> {
         	System.arraycopy(this.datas, idx, tmp, idx, len_tmp);
         }
 
-//        System.out.println("除法tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
+        System.out.println("除法tmp=" + String.valueOf(toCharary(tmp, tmp.length)) + "/" + String.valueOf(toCharary(tmp_divi, tmp_divi.length)));
         idx_next = len_tmp;
 
         while(true) {
-            int c = cmp_ary(tmp, len_tmp, divisor.datas);
+            int c = cmp_ary(tmp, len_tmp, tmp_divi);
             if (c >= 0) {
                 out[ido] = (byte) (out[ido] + 1);
                 // shift postition
-                tmp = sub_ary(tmp, len_tmp, divisor.datas);
+                tmp = sub_ary(tmp, len_tmp, tmp_divi);
 //                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
 //                System.out.println("out["+ ido + "]=" + out[ido]);
             }
@@ -612,7 +612,7 @@ public class BigNum implements Comparable<BigNum> {
                 		}
                 	}
                     // 向小数部延长
-//                	System.out.println("olen=" + olen + ",odecimal_cnt=" + odecimal_cnt + "," + odecimal_len + "vs" + max_decimal_len);
+                	System.out.println("olen=" + olen + ",odecimal_cnt=" + odecimal_cnt + "vs" + max_decimal_len);
                     if (odecimal_cnt > max_decimal_len) {
                         // 超过指定长度结束。
                     	// banker
@@ -632,10 +632,10 @@ public class BigNum implements Comparable<BigNum> {
                 len_tmp = tmp.length;
 //                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
             }
-//            System.out.println("除法out=" + String.valueOf(toCharary(out, out.length)));
+            System.out.println("除法out=" + String.valueOf(toCharary(out, out.length)));
         }
 
-//        System.out.println("除法apos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
+        System.out.println("除法apos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
         RoundingMode rm = RoundingMode.UNNECESSARY;
     	if (BigNumRound.UP.equals(roundmode)) {
     		rm = RoundingMode.UP;
