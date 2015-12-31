@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import javay.awt.event.CalcultorActionListener;
+import javay.awt.event.NumeralSystemActionListener;
 
 /**
  * @author dubenju
@@ -35,22 +36,22 @@ public class CalcultorPanel extends JPanel {
     JPanel option = new JPanel();
     JPanel optionLeft = new JPanel();
     ButtonGroup group = new ButtonGroup();
-    JRadioButton r16 = new JRadioButton("16");
-    JRadioButton r10 = new JRadioButton("10");
-    JRadioButton r8 = new JRadioButton("8");
-    JRadioButton r2 = new JRadioButton("2");
+    JRadioButton r16 = new JRadioButton(CalcultorConts.HEXADECIMAL);
+    JRadioButton r10 = new JRadioButton(CalcultorConts.DECIMAL);
+    JRadioButton r8 = new JRadioButton(CalcultorConts.OCTAL);
+    JRadioButton r2 = new JRadioButton(CalcultorConts.BINARY);
 
 	JPanel optionRight = new JPanel();
 	ButtonGroup group2 = new ButtonGroup();
-	JRadioButton deg = new JRadioButton("Deg");
-	JRadioButton rad = new JRadioButton("Rad");
-	JRadioButton grad = new JRadioButton("Grad");
+	JRadioButton deg = new JRadioButton("度");
+	JRadioButton rad = new JRadioButton("弧度");
+	JRadioButton grad = new JRadioButton("百分度");
 
     JPanel exOption = new JPanel();
     JPanel exOptLeft = new JPanel();
 //    ButtonGroup group3 = new ButtonGroup();
-    JCheckBox inv = new JCheckBox("Inv");
-    JCheckBox hyp = new JCheckBox("Hyp");
+    public JCheckBox inv = new JCheckBox("反计算"); // inverse
+    public JCheckBox hyp = new JCheckBox("双曲");// Hyperbolic
 
     JPanel exOptRight = new JPanel();
     // 退格
@@ -73,18 +74,18 @@ public class CalcultorPanel extends JPanel {
     JButton btnS    = new JButton("s");
     JButton btnDat    = new JButton("Dat");
 
-    JButton bntFE = new JButton("F-E");
-    JButton bntDMS = new JButton("dms");
+    public JButton btnFE = new JButton("F-E");
+    public JButton btnDMS = new JButton("dms");
     // 正弦
-    JButton btnSin   = new JButton(CalcultorConts.SIN);
+    public JButton btnSin   = new JButton(CalcultorConts.SIN);
     // 余弦
-    JButton btnCos   = new JButton(CalcultorConts.COS);
+    public JButton btnCos   = new JButton(CalcultorConts.COS);
     // 正切
-    JButton btnTan   = new JButton(CalcultorConts.TAN);
+    public JButton btnTan   = new JButton(CalcultorConts.TAN);
 
     // 左括号
     JButton btnLeft  = new JButton("(");
-    JButton bntExp = new JButton(CalcultorConts.EXP);
+    public JButton btnExp = new JButton(CalcultorConts.EXP);
     // x的y次方
     JButton btnXY    = new JButton(CalcultorConts.XY);
     // 立方
@@ -94,27 +95,27 @@ public class CalcultorPanel extends JPanel {
 
     // 右括号
     JButton btnRight = new JButton(")");
-    JButton bntLn = new JButton(CalcultorConts.LN);
-    JButton bntLog = new JButton(CalcultorConts.LOG);
+    JButton btnLn = new JButton(CalcultorConts.LN);
+    JButton btnLog = new JButton(CalcultorConts.LOG);
     // 阶乘
     JButton btnN     = new JButton(CalcultorConts.N);
     // 倒数
     JButton btnDivide1   = new JButton(CalcultorConts.DIVIDE1);
 
-    JButton bntMC = new JButton("MC");
-    JButton bntMR = new JButton("MR");
-    JButton bntMS = new JButton("MS");
-    JButton bntMP = new JButton("M+");
-    JButton bntMN = new JButton("M-");
+    JButton btnMC = new JButton("MC");
+    JButton btnMR = new JButton("MR");
+    JButton btnMS = new JButton("MS");
+    JButton btnMP = new JButton("M+");
+    JButton btnMN = new JButton("M-");
 
     // 0-9数字按钮
-    JButton[] numButtons = new JButton[10];
-    JButton btnA = new JButton("A");
-    JButton btnB = new JButton("B");
-    JButton btnC = new JButton("C");
-    JButton btnD = new JButton("D");
-    JButton btnE = new JButton("E");
-    JButton btnF = new JButton("F");
+    public JButton[] numButtons = new JButton[10];
+    public JButton btnA = new JButton("A");
+    public JButton btnB = new JButton("B");
+    public JButton btnC = new JButton("C");
+    public JButton btnD = new JButton("D");
+    public JButton btnE = new JButton("E");
+    public JButton btnF = new JButton("F");
 
     JButton btnAnd = new JButton("And");
     JButton btnOr  = new JButton("Or");
@@ -310,15 +311,15 @@ public class CalcultorPanel extends JPanel {
         gly2.setVgap(3);
         gly2.setHgap(3);
         btnPnl2.setLayout( gly2 );
-        btnPnl2.add( bntFE ).setForeground(Color.red);
+        btnPnl2.add( btnFE ).setForeground(Color.red);
         btnPnl2.add( btnLeft ).setForeground(Color.red);
         btnPnl2.add( btnRight ).setForeground(Color.red);
-        btnPnl2.add( bntDMS ).setForeground(Color.red);
-        btnPnl2.add( bntExp ).setForeground(Color.red);
-        btnPnl2.add( bntLn ).setForeground(Color.red);
+        btnPnl2.add( btnDMS ).setForeground(Color.red);
+        btnPnl2.add( btnExp ).setForeground(Color.red);
+        btnPnl2.add( btnLn ).setForeground(Color.red);
         btnPnl2.add( btnSin ).setForeground(Color.red);
         btnPnl2.add( btnXY ).setForeground(Color.red);
-        btnPnl2.add( bntLog ).setForeground(Color.red);
+        btnPnl2.add( btnLog ).setForeground(Color.red);
         btnPnl2.add( btnCos ).setForeground(Color.red);
         btnPnl2.add( btnX3 ).setForeground(Color.red);
         btnPnl2.add( btnN ).setForeground(Color.red);
@@ -336,11 +337,11 @@ public class CalcultorPanel extends JPanel {
         gly3.setHgap(3);
         gly3.setVgap(3);
         btnPnl3.setLayout( gly3 );
-        btnPnl3.add( bntMC ).setForeground(Color.red);
-        btnPnl3.add( bntMR ).setForeground(Color.red);
-        btnPnl3.add( bntMS ).setForeground(Color.red);
-        btnPnl3.add( bntMP ).setForeground(Color.red);
-        btnPnl3.add( bntMN ).setForeground(Color.red);
+        btnPnl3.add( btnMC ).setForeground(Color.red);
+        btnPnl3.add( btnMR ).setForeground(Color.red);
+        btnPnl3.add( btnMS ).setForeground(Color.red);
+        btnPnl3.add( btnMP ).setForeground(Color.red);
+        btnPnl3.add( btnMN ).setForeground(Color.red);
 
 //        Button btnAnd = new Button("And");
 //        Button btnOr  = new Button("Or");
@@ -378,6 +379,12 @@ public class CalcultorPanel extends JPanel {
 //        Button btnD = new Button("D");
 //        Button btnE = new Button("E");
 //        Button btnF = new Button("F");
+        btnA.setEnabled(false);
+        btnB.setEnabled(false);
+        btnC.setEnabled(false);
+        btnD.setEnabled(false);
+        btnE.setEnabled(false);
+        btnF.setEnabled(false);
 
         //add these buttons to buttonPanel
         GridLayout gly4 = new GridLayout(5, 6);
@@ -421,13 +428,20 @@ public class CalcultorPanel extends JPanel {
         btnPnl4.add( btnF ).setForeground(Color.blue);
 
         //create the control
-        CalcultorActionListener controler = new CalcultorActionListener( textField );
+        NumeralSystemActionListener nsctrl = new NumeralSystemActionListener(this);
+        r16.addActionListener(nsctrl);
+        r10.addActionListener(nsctrl);
+        r8.addActionListener(nsctrl);
+        r2.addActionListener(nsctrl);
+
+        CalcultorActionListener controler = new CalcultorActionListener( this );
 
 //        btnBackspace.addActionListener( controler );
 //        btnCe.addActionListener( controler );
 //        btnClear.addActionListener( controler );
 
-        bntFE.addActionListener( controler );
+
+        btnFE.addActionListener( controler );
         btnLeft.addActionListener( controler );
         btnRight.addActionListener( controler );
         btnSin.addActionListener( controler );
@@ -439,17 +453,17 @@ public class CalcultorPanel extends JPanel {
         btnN.addActionListener( controler );
         btnDivide1.addActionListener( controler );
 
-        bntDMS.addActionListener( controler );
-        bntExp.addActionListener( controler );
-        bntLn.addActionListener( controler );
-        bntLog.addActionListener( controler );
+        btnDMS.addActionListener( controler );
+        btnExp.addActionListener( controler );
+        btnLn.addActionListener( controler );
+        btnLog.addActionListener( controler );
 //        btnSqrt.addActionListener( controler );
 
-        bntMC.addActionListener( controler );
-        bntMR.addActionListener( controler );
-        bntMS.addActionListener( controler );
-        bntMP.addActionListener( controler );
-        bntMN.addActionListener( controler );
+        btnMC.addActionListener( controler );
+        btnMR.addActionListener( controler );
+        btnMS.addActionListener( controler );
+        btnMP.addActionListener( controler );
+        btnMN.addActionListener( controler );
 
         //add let the control listen to the buttons
         for( int i = 0; i < 10; i++ ) {

@@ -12,14 +12,28 @@ import javay.math.BigNum;
 import javay.math.BigNumRound;
 import javay.math.MathBn;
 import javay.swing.CalcultorConts;
+import javay.swing.CalcultorPanel;
 
 /**
+ * 第一种：自身类实现ActionListener接口，作为事件监听器。
+ * 第一种的监听处理部分，如果有多个，那就需要一个个去判断，从理论上说是影响程序速度的。
+ *
+ * 第二种：通过匿名类处理。
+ * 第二种和第三种比较常用，如果程序的监听事件比较少，可以用第二种，匿名类很合适。
+ *
+ * 第三种：通过内部类处理。
+ * 第三种符合面向对象编程（可以设置内部类只提供自身类使用，而且方便使用自身类的资源），尤其是适合多个监听事件的处理，当然也适合第二种方法情况。
+ *
+ * 第四种：通过外部类处理。
+ * 第四种是外部类，如果多个监听事件相同，就可以选用此种方法。
+ * ActionListener接口，作为事件监听器。
  * @author dubenju
  *
  */
 public class CalcultorActionListener implements ActionListener {
 
-	private JTextField textField;
+	//private JTextField textField;
+	private CalcultorPanel panel;
 	//integer1 ,integer2
 	private String op1, op2, operator;
 	private String errMsg = "Error";
@@ -39,8 +53,11 @@ public class CalcultorActionListener implements ActionListener {
 	/**
 	 *
 	 */
-	public CalcultorActionListener(JTextField tf) {
-		textField = tf;
+//	public CalcultorActionListener(JTextField tf) {
+//		textField = tf;
+//	}
+	public CalcultorActionListener(CalcultorPanel panel) {
+        this.panel = panel;
 	}
 
 	@Override
@@ -112,12 +129,12 @@ public class CalcultorActionListener implements ActionListener {
 	private void inputState0( String s ) {
 		if ( isDigit(s) || s.equals(CalcultorConts.POS_MINUS) || s.equals(CalcultorConts.DOT) ) {
 			state = 2; // 数值输入中
-			textField.setText("0");
+			this.panel.textField.setText("0");
 			inputState2(s);
 		}
 		if ( isOperator1(s)) {
 			state = 1; // 错误状态
-			textField.setText(errMsg);
+			this.panel.textField.setText(errMsg);
 		} else if ( isOperator(s) ) {
 			state = 4; // 操作符号输入完了
 			op1 = "0";
@@ -134,7 +151,7 @@ public class CalcultorActionListener implements ActionListener {
 	private void inputState1( String s ) {
 		if ( isDigit(s) ||s.equals(CalcultorConts.POS_MINUS) || s.equals(CalcultorConts.DOT) ) {
 			state = 0; // 初期状态
-			textField.setText("0");
+			this.panel.textField.setText("0");
 			inputState0(s);
 		} else {
 			//state = 0; // 初期状态
@@ -144,12 +161,12 @@ public class CalcultorActionListener implements ActionListener {
 		if ( s.equals(CalcultorConts.CLEAR) ) {
 			// 清除,不管在任何情况下都是回到初始状态的0
 			state = 0; // 初期状态
-			textField.setText("0");
+			this.panel.textField.setText("0");
 		}
 		if ( s.equals(CalcultorConts.CLEAR_ERROR) ) {
 			// 纠错,在输入数字之后，我按住ce键即可恢复到0，但是对前面的运算和输入是没有关联。
 			state = 0; // 初期状态
-			textField.setText("0");
+			this.panel.textField.setText("0");
 		}
 	}
 
@@ -160,57 +177,57 @@ public class CalcultorActionListener implements ActionListener {
 	 */
 	private void inputState2( String s ) {
 		if ( isDigit(s) ) {
-			String text = textField.getText();
+			String text = this.panel.textField.getText();
 			if ( text.equals("0") ) {
 				text = s;
 			} else {
 				text = text + s;
 			}
-			textField.setText(text);
+			this.panel.textField.setText(text);
 		}
 
 		if ( s.equals(CalcultorConts.DOT) ) {
-			String text = textField.getText();
+			String text = this.panel.textField.getText();
 			if ( !text.contains(".") ) {
 				text = text + s;
-				textField.setText(text);
+				this.panel.textField.setText(text);
 			}
 		}
 		if ( s.equals(CalcultorConts.POS_MINUS) ) {
-			String text = textField.getText();
+			String text = this.panel.textField.getText();
 			if ( text.charAt(0) == '-' ) {
 				text = text.substring(1);
 			} else {
 				text = "-" + text;
 			}
-			textField.setText(text);
+			this.panel.textField.setText(text);
 		}
 
 		if ( isOperator(s)) {
 			state = 3; // 得出结果
-			op1 = textField.getText();
+			op1 = this.panel.textField.getText();
 			inputState3(s);
 		}
 		if ( s.equals(CalcultorConts.EQUAL) ) {
 			state = 3; // 得出结果
-			op1 = textField.getText();
+			op1 = this.panel.textField.getText();
 		}
 
 		//TODO:stateSB
 		if ( s.equals(CalcultorConts.CLEAR) ) {
 			// 清除,不管在任何情况下都是回到初始状态的0
-			textField.setText("0");
+			this.panel.textField.setText("0");
 		}
 		if ( s.equals(CalcultorConts.CLEAR_ERROR) ) {
 			// 纠错,在输入数字之后，我按住ce键即可恢复到0，但是对前面的运算和输入是没有关联。
-			textField.setText("0");
+			this.panel.textField.setText("0");
 		}
 		if ( s.equals(CalcultorConts.BACKSPACE) ) {
-			String text = textField.getText();
+			String text = this.panel.textField.getText();
 			if ( text.length() == 1 ) {
-				textField.setText("0");
+				this.panel.textField.setText("0");
 			} else {
-				textField.setText( text.substring(0, text.length()-1) );
+				this.panel.textField.setText( text.substring(0, text.length()-1) );
 			}
 		}
 	}
@@ -223,7 +240,7 @@ public class CalcultorActionListener implements ActionListener {
 	private void inputState3( String s ) {
 		if ( isDigit(s) || s.equals(CalcultorConts.DOT) ) {
 			state = 2; // 数值输入中
-			textField.setText("0");
+			this.panel.textField.setText("0");
 			op1 = "";
 			inputState2(s);
 		}
@@ -246,18 +263,18 @@ public class CalcultorActionListener implements ActionListener {
 			if (nOp1.isZero()) {
 				// error
 				state = 1; // 错误状态
-				textField.setText(errMsg);
+				this.panel.textField.setText(errMsg);
 			} else {
 				BigNum value = new BigNum("1").divide(nOp1, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 				op1 = value.toString();
-				textField.setText(op1);
+				this.panel.textField.setText(op1);
 			}
 		}
 
 		if ( s.equals(CalcultorConts.CLEAR) || s.equals(CalcultorConts.CLEAR_ERROR) || s.equals(CalcultorConts.BACKSPACE) ) {
 			// TODO:CE
 			state = 0; // 初期状态
-			textField.setText("0");
+			this.panel.textField.setText("0");
 		}
 	}
 
@@ -268,7 +285,7 @@ public class CalcultorActionListener implements ActionListener {
 	 */
 	private void inputState4( String s ) {
 		if ( isDigit(s)||s.equals(CalcultorConts.POS_MINUS) || s.equals(CalcultorConts.DOT) ) {
-			textField.setText("0");
+			this.panel.textField.setText("0");
 			state = 5; // 第二个数值输入中
 			inputState5(s);
 		}
@@ -284,7 +301,7 @@ public class CalcultorActionListener implements ActionListener {
 		if ( s.equals(CalcultorConts.CLEAR) || s.equals(CalcultorConts.CLEAR_ERROR) || s.equals(CalcultorConts.BACKSPACE) ) {
 			// TODO:CE
 			state = 0; // 初期状态
-			textField.setText("0");
+			this.panel.textField.setText("0");
 		}
 	}
 
@@ -295,37 +312,37 @@ public class CalcultorActionListener implements ActionListener {
 	 */
 	private void inputState5( String s ) {
 		if ( isDigit(s) ) {
-			String text = textField.getText();
+			String text = this.panel.textField.getText();
 			if ( text.equals("0") ) {
 				text = s;
 			} else {
 				text = text + s;
 			}
-			textField.setText(text);
+			this.panel.textField.setText(text);
 		}
 		if ( s.equals(CalcultorConts.DOT) ) {
-			String text = textField.getText();
+			String text = this.panel.textField.getText();
 			if ( !text.contains(".") ) {
 				text = text + s;
-				textField.setText(text);
+				this.panel.textField.setText(text);
 			}
 		}
 		if ( s.equals(CalcultorConts.POS_MINUS) ) {
-			String text = textField.getText();
+			String text = this.panel.textField.getText();
 			if (text.charAt(0) == '-' ) {
 				text = text.substring(1);
 			} else {
 				text = '-' + text;
 			}
-			textField.setText(text);
+			this.panel.textField.setText(text);
 		}
 
 		if ( this.isOperator1(s) ) {
-			op1 = textField.getText();
+			op1 = this.panel.textField.getText();
 			state = 3;
 			inputState3(s);
 		} else if ( isOperator(s) ) {
-			op2 = textField.getText();
+			op2 = this.panel.textField.getText();
 			BigNum nOp1 = new BigNum(op1);
 			BigNum nOp2 = new BigNum(op2);
 			if ( operator.equals(CalcultorConts.ADD) ) {
@@ -343,7 +360,7 @@ public class CalcultorActionListener implements ActionListener {
 					nOp1 = nOp1.divide(nOp2, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 				} else {
 					state = 1; // 错误状态
-					textField.setText(errMsg);
+					this.panel.textField.setText(errMsg);
 					return;
 				}
 			} else if ( operator.equals(CalcultorConts.MOD) ) {
@@ -352,25 +369,25 @@ public class CalcultorActionListener implements ActionListener {
 					nOp1 = nOp1.mod(nOp2);
 				} else {
 					state = 1; // 错误状态
-					textField.setText(errMsg);
+					this.panel.textField.setText(errMsg);
 					return;
 				}
 			} else {
 				System.out.println("@inputState5:Unknown operator error!operator=" + operator);
 				state = 1; // 错误状态
-				textField.setText(errMsg);
+				this.panel.textField.setText(errMsg);
 				return;
 			}
 
 			//here we got good calculating result
 			op1 = nOp1.toString();
-			textField.setText(op1);
+			this.panel.textField.setText(op1);
 			operator = s;
 			state = 4;
 		}
 
 		if ( s.equals(CalcultorConts.EQUAL) ) {
-			op2 = textField.getText();
+			op2 = this.panel.textField.getText();
 			System.out.println("op1=" + op1 + " " + operator + " " + "op2=" + op2 + "=");
 			BigNum nOp1 = new BigNum(op1);
 			BigNum nOp2 = new BigNum(op2);
@@ -389,7 +406,7 @@ public class CalcultorActionListener implements ActionListener {
 					nOp1 = nOp1.divide(nOp2, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
 				} else {
 					state = 1; // 错误状态
-					textField.setText(errMsg);
+					this.panel.textField.setText(errMsg);
 					return;
 				}
 			} else if ( operator.equals(CalcultorConts.MOD) ) {
@@ -398,7 +415,7 @@ public class CalcultorActionListener implements ActionListener {
 					nOp1 = nOp1.mod(nOp2);
 				} else {
 					state = 1; // 错误状态
-					textField.setText(errMsg);
+					this.panel.textField.setText(errMsg);
 					return;
 				}
 			} else if ( operator.equals(CalcultorConts.XY) ) {
@@ -407,29 +424,29 @@ public class CalcultorActionListener implements ActionListener {
 			} else {
 				System.out.println("@inputState5@Unknown operator error!operator=" + operator);
 				state = 1; // 错误状态
-				textField.setText(errMsg);
+				this.panel.textField.setText(errMsg);
 				return;
 			}
 
 			//here we got good calculating result
 			op1 = nOp1.toString();
-			textField.setText(op1);
+			this.panel.textField.setText(op1);
 			state = 3;
 		}
 		if ( s.equals(CalcultorConts.CLEAR) ) {
 			state = 0;
-			textField.setText("0");
+			this.panel.textField.setText("0");
 		}
 		if ( s.equals(CalcultorConts.CLEAR_ERROR) ) {
 			state = 0;
-			textField.setText("0");
+			this.panel.textField.setText("0");
 		}
 		if ( s.equals(CalcultorConts.BACKSPACE) ) {
-			String text = textField.getText();
+			String text = this.panel.textField.getText();
 			if ( text.length() == 1 ) {
-				textField.setText("0");
+				this.panel.textField.setText("0");
 			} else {
-				textField.setText( text.substring(0, text.length()-1) );
+				this.panel.textField.setText( text.substring(0, text.length()-1) );
 			}
 		}
 	}
@@ -467,9 +484,14 @@ public class CalcultorActionListener implements ActionListener {
 		} else if( operator.equals(CalcultorConts.EXP) ) {
 			bop1 = BigNum.E.pow(bop1);
 		} else if( operator.equals(CalcultorConts.DMS) ) {
-			bop1 = MathBn.dms(bop1);
+			if (this.panel.inv.isSelected()) {
+				bop1 = MathBn.smd(bop1);
+				this.panel.inv.setSelected(false);
+			} else {
+				bop1 = MathBn.dms(bop1);
+			}
 		}
 		op1 = String.valueOf(bop1);
-		textField.setText(op1);
+		this.panel.textField.setText(op1);
 	}
 }

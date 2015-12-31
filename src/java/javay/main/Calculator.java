@@ -14,9 +14,9 @@ import javay.swing.CalcultorFrame;
  *
  */
 public class Calculator {
-    public static final Image LOG = new ImageIcon(  
-    		CalcultorFrame.class.getResource("/select.png"))  
-            .getImage(); 
+    public static final Image LOG = new ImageIcon(
+    		CalcultorFrame.class.getResource("/select.png"))
+            .getImage();
     /**
      * @param args
      */
@@ -25,7 +25,7 @@ public class Calculator {
         CalcultorFrame frame = new CalcultorFrame();
         frame.setIconImage(LOG);
         //show frame
-        frame.setBounds(600, 50, 900, 360);
+        frame.setBounds(600, 50, 900, 460);
         frame.setLocation(600, 50);
 
         frame.setLocationByPlatform(true);
