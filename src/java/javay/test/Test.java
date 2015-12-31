@@ -71,7 +71,10 @@ public class Test {
     {  
         BigInteger b=new BigInteger("123456789123456789123456789");  
         b=b.pow(3);  
-        System.out.println(root3(b.toString()));  
-  
+        System.out.println(root3(b.toString()));
+        Long.toBinaryString(0);
+        Long.toOctalString(0);
+        Long.toString(0);
+        Long.toHexString(0);
     }  
 }

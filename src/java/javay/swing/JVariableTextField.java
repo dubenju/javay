@@ -16,6 +16,7 @@ public class JVariableTextField extends JTextField {
 	private static final long serialVersionUID = 1L;
 
 	private int maxWidth = 1;
+	private String numberSystem = CalcultorConts.DECIMAL;
 
 	/**
 	 * 
@@ -149,6 +150,20 @@ public class JVariableTextField extends JTextField {
 		//g.fillRect(0, 0, getWidth(), getHeight());  
 		g2.setColor(color);
 		super.paintComponent(g);
+	}
+
+	/**
+	 * @return the numberSystem
+	 */
+	public String getNumberSystem() {
+		return numberSystem;
+	}
+
+	/**
+	 * @param numberSystem the numberSystem to set
+	 */
+	public void setNumberSystem(String numberSystem) {
+		this.numberSystem = numberSystem;
 	}
 
 }
