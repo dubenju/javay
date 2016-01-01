@@ -63,7 +63,7 @@ public class CalcultorFrame extends JFrame {
         aboutDialog.setLocation(300,300); 
         aboutDialog.addWindowListener(new WindowAdapter(){ 
             public void WindowClosing(WindowEvent e){ 
-                dispose(); 
+                dispose();
            } 
         }); 
         aboutMenuItem.addActionListener(new ActionListener(){ 

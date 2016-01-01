@@ -5,7 +5,6 @@ package javay.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -37,7 +36,7 @@ public class CalcultorPanel extends JPanel {
 
     JPanel option = new JPanel();
     JPanel optionLeft = new JPanel();
-    public JTextField mmry = new JTextField();
+    public JTextField mmry = new JTextField(5);
     ButtonGroup group = new ButtonGroup();
     JRadioButton r16 = new JRadioButton(CalcultorConts.HEXADECIMAL);
     JRadioButton r10 = new JRadioButton(CalcultorConts.DECIMAL);
@@ -46,9 +45,9 @@ public class CalcultorPanel extends JPanel {
 
 	JPanel optionRight = new JPanel();
 	ButtonGroup group2 = new ButtonGroup();
-	JRadioButton deg = new JRadioButton("度");
-	JRadioButton rad = new JRadioButton("弧度");
-	JRadioButton grad = new JRadioButton("百分度");
+	public JRadioButton deg = new JRadioButton("度");
+	public JRadioButton rad = new JRadioButton("弧度");
+	public JRadioButton grad = new JRadioButton("百分度");
 
     JPanel exOption = new JPanel();
     JPanel exOptLeft = new JPanel();
@@ -184,6 +183,7 @@ public class CalcultorPanel extends JPanel {
         option.add(optionLeft);
         optionLeft.setBorder(BorderFactory.createLineBorder(Color.red));
 
+        this.mmry.setHorizontalAlignment(JTextField.RIGHT);
 //        ButtonGroup group = new ButtonGroup();
 //        JRadioButton r16 = new JRadioButton("16");
 //        JRadioButton r10 = new JRadioButton("10");

@@ -468,14 +468,41 @@ public class CalcultorActionListener implements ActionListener {
 		} else if ( operator.equals(CalcultorConts.X3) ) {
 			bop1 = bop1.pow(3);
 		} else if ( operator.equals(CalcultorConts.SIN) ) {
-			BigNum r = MathBn.toRadians(bop1);
+			BigNum r = bop1;
+			if (this.panel.deg.isSelected()) {
+				r = MathBn.toRadians(bop1);
+			}
+			if (this.panel.rad.isSelected()) {
+			}
+			if (this.panel.grad.isSelected()) {
+				r = MathBn.toRad(bop1);
+			}
 			bop1 = MathBn.sin( r );
+			this.panel.deg.setSelected(true);
 		} else if ( operator.equals(CalcultorConts.COS) ) {
-			BigNum r = MathBn.toRadians(bop1);
+			BigNum r = bop1;
+			if (this.panel.deg.isSelected()) {
+				r = MathBn.toRadians(bop1);
+			}
+			if (this.panel.rad.isSelected()) {
+			}
+			if (this.panel.grad.isSelected()) {
+				r = MathBn.toRad(bop1);
+			}
 			bop1 = MathBn.cos( r );
+			this.panel.deg.setSelected(true);
 		} else if ( operator.equals(CalcultorConts.TAN) ) {
-			BigNum r = MathBn.toRadians(bop1);
+			BigNum r = bop1;
+			if (this.panel.deg.isSelected()) {
+				r = MathBn.toRadians(bop1);
+			}
+			if (this.panel.rad.isSelected()) {
+			}
+			if (this.panel.grad.isSelected()) {
+				r = MathBn.toRad(bop1);
+			}
 			bop1 = MathBn.tan( r );
+			this.panel.deg.setSelected(true);
 		} else if( operator.equals(CalcultorConts.N) ) {
 			bop1 = bop1.factorial();
 		} else if( operator.equals(CalcultorConts.LN) ) {

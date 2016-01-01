@@ -10,6 +10,7 @@ import javay.swing.CalcultorConts;
  */
 public class MathBn {
 	public static final BigNum DEGREES_180 = new BigNum("180.0");
+	public static final BigNum GRAD_200 = new BigNum("200.0");
 	/**
 	 * 弧度变度数
 	 * @param degrees
@@ -28,6 +29,11 @@ public class MathBn {
     public static BigNum toDegrees(BigNum radians) {
     	BigNum res = radians.multiply(DEGREES_180);
         return res.divide(BigNum.PI, 40, BigNumRound.HALF_EVENT);
+    }
+
+    public static BigNum toRad(BigNum grad) {
+    	BigNum res = grad.multiply(BigNum.PI);
+    	return res.divide(GRAD_200, 40, BigNumRound.HALF_EVENT);
     }
 
     /**
