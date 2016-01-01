@@ -6,8 +6,6 @@ package javay.awt.event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JTextField;
-
 import javay.math.BigNum;
 import javay.math.BigNumRound;
 import javay.math.MathBn;
@@ -34,10 +32,8 @@ public class CalcultorActionListener implements ActionListener {
 
 	//private JTextField textField;
 	private CalcultorPanel panel;
-	//integer1 ,integer2
 	private String op1, op2, operator;
 	private String errMsg = "Error";
-	private String mem;
 	//the state for now ,begin state = 0
 	/*
 	 * 0: 初期状态
@@ -391,6 +387,9 @@ public class CalcultorActionListener implements ActionListener {
 			System.out.println("op1=" + op1 + " " + operator + " " + "op2=" + op2 + "=");
 			BigNum nOp1 = new BigNum(op1);
 			BigNum nOp2 = new BigNum(op2);
+			String expr = this.panel.expr.getText();
+			expr = expr + " " + nOp1 + " " + operator + " " + nOp2;
+			this.panel.expr.setText(expr);
 			if ( operator.equals(CalcultorConts.ADD) ) {
 				// +
 				nOp1 = nOp1.add(nOp2);

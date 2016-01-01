@@ -22,7 +22,7 @@ public class NumeralSystemActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
-		System.out.println(",s=" + s);
+		System.out.println("cmd=" + s);
 		if (CalcultorConts.BINARY.equals(s)) {
 			for (int i = 2; i < 10; i ++) {
 				this.panel.numButtons[i].setEnabled(false);

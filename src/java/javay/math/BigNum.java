@@ -90,9 +90,9 @@ public class BigNum implements Comparable<BigNum> {
             if (in[idx] >= '0' && in[idx] <= '9') {
             	dats[idy] = (byte) (in[idx] - '0');
             } else if (in[idx] >= 'A' && in[idx] <= 'F') {
-            	dats[idy] = (byte) (in[idx] - 'A');
+            	dats[idy] = (byte) (in[idx] - 'A' + 10);
             } else {
-            	
+
             }
             idy ++;
         }
@@ -584,7 +584,7 @@ public class BigNum implements Comparable<BigNum> {
         int dlen    = divisor.length;
         byte[] tmp_divi = this.removeFirstZero(divisor.datas, divisor.datas.length);
         dlen = tmp_divi.length;
-        
+
         int ido = 0;
         int oscale = 0; // 小数点位置
         int odecimal_cnt = -1; // 小数位数
@@ -1302,7 +1302,7 @@ public class BigNum implements Comparable<BigNum> {
     		BigNum j = x.multiply(n2);
     		BigNum jz = j.integral();
     		buf.append(jz.toInt());
-    		
+
     		BigNum y = j.subtract(jz);
     		x = y;
     		cnt ++;
@@ -1342,7 +1342,7 @@ public class BigNum implements Comparable<BigNum> {
     		BigNum j = x.multiply(n2);
     		BigNum jz = j.integral();
     		buf.append(jz.toInt());
-    		
+
     		BigNum y = j.subtract(jz);
     		x = y;
     		cnt ++;
@@ -1351,7 +1351,7 @@ public class BigNum implements Comparable<BigNum> {
     	return buf.toString();
     }
 	/**
-	 * 
+	 *
 	 */
 	@Override
     public String toString() {
@@ -1437,7 +1437,7 @@ public class BigNum implements Comparable<BigNum> {
                 tmp = String.valueOf((char)('0' + ch));
             }
     		buf.append(tmp);
-    		
+
     		BigNum y = j.subtract(jz);
     		x = y;
     		cnt ++;

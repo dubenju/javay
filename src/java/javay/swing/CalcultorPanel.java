@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import javay.awt.event.CalcultorActionListener;
+import javay.awt.event.MemoryActionListener;
 import javay.awt.event.NumeralSystemActionListener;
 
 /**
@@ -36,6 +37,7 @@ public class CalcultorPanel extends JPanel {
 
     JPanel option = new JPanel();
     JPanel optionLeft = new JPanel();
+    public JTextField mmry = new JTextField();
     ButtonGroup group = new ButtonGroup();
     JRadioButton r16 = new JRadioButton(CalcultorConts.HEXADECIMAL);
     JRadioButton r10 = new JRadioButton(CalcultorConts.DECIMAL);
@@ -103,11 +105,11 @@ public class CalcultorPanel extends JPanel {
     // 倒数
     JButton btnDivide1   = new JButton(CalcultorConts.DIVIDE1);
 
-    JButton btnMC = new JButton("MC");
-    JButton btnMR = new JButton("MR");
-    JButton btnMS = new JButton("MS");
-    JButton btnMP = new JButton("M+");
-    JButton btnMN = new JButton("M-");
+    JButton btnMC = new JButton(CalcultorConts.MC);
+    JButton btnMR = new JButton(CalcultorConts.MR);
+    JButton btnMS = new JButton(CalcultorConts.MS);
+    JButton btnMP = new JButton(CalcultorConts.MP);
+    JButton btnMN = new JButton(CalcultorConts.MM);
 
     // 0-9数字按钮
     public JButton[] numButtons = new JButton[10];
@@ -148,22 +150,29 @@ public class CalcultorPanel extends JPanel {
 
     public CalcultorPanel() {
 //    	JPanel mainPanel = new JPanel();
-    	mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    	this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 //    	mainPanel.setLayout(new GridLayout(4, 1));
 
         //create the text field
-        mainPanel.add(textField);
-        textField.setHorizontalAlignment( JTextField.RIGHT );
-        textField.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-        textField.setEditable( false );
-        textField.setBackground(Color.white);
-        textField.setFont(new Font("Dialog", Font.PLAIN, 36));
-        textField.getMaxWidth();
+    	this.mainPanel.add(this.expr);
+    	this.mainPanel.add(this.textField);
+        this.expr.setHorizontalAlignment(JTextField.RIGHT);
+        this.expr.setEditable(false);
+        this.expr.setFont(new Font("Dialog", Font.PLAIN, 36));
+        this.expr.setText("");
+        this.expr.setToolTipText("表达式");
+
+        this.textField.setHorizontalAlignment(JTextField.RIGHT);
+        //textField.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+        this.textField.setEditable( false );
+//        textField.setBackground(Color.white);
+        this.textField.setFont(new Font("Dialog", Font.PLAIN, 36));
+        this.textField.getMaxWidth();
         LineBorder border = new LineBorder(Color.RED, 2, true);
-        textField.setBorder(border);
-        textField.setPreferredSize(textField.getPreferredSize());
-        textField.setText("0");
-        textField.setToolTipText("计算式");
+        this.textField.setBorder(border);
+        // textField.setPreferredSize(textField.getPreferredSize());
+        this.textField.setText("0");
+        this.textField.setToolTipText("计算式");
 
 
         /* A */
@@ -171,6 +180,7 @@ public class CalcultorPanel extends JPanel {
         mainPanel.add(option);
 
 //        JPanel optionLeft = new JPanel();
+        option.add(this.mmry);
         option.add(optionLeft);
         optionLeft.setBorder(BorderFactory.createLineBorder(Color.red));
 
@@ -435,6 +445,13 @@ public class CalcultorPanel extends JPanel {
         r8.addActionListener(nsctrl);
         r2.addActionListener(nsctrl);
 
+        MemoryActionListener mmctrl = new MemoryActionListener(this);
+        btnMC.addActionListener(mmctrl);
+        btnMR.addActionListener(mmctrl);
+        btnMS.addActionListener(mmctrl);
+        btnMP.addActionListener(mmctrl);
+        btnMN.addActionListener(mmctrl);
+
         CalcultorActionListener controler = new CalcultorActionListener( this );
 
 //        btnBackspace.addActionListener( controler );
@@ -460,11 +477,11 @@ public class CalcultorPanel extends JPanel {
         btnLog.addActionListener( controler );
 //        btnSqrt.addActionListener( controler );
 
-        btnMC.addActionListener( controler );
-        btnMR.addActionListener( controler );
-        btnMS.addActionListener( controler );
-        btnMP.addActionListener( controler );
-        btnMN.addActionListener( controler );
+//        btnMC.addActionListener( controler );
+//        btnMR.addActionListener( controler );
+//        btnMS.addActionListener( controler );
+//        btnMP.addActionListener( controler );
+//        btnMN.addActionListener( controler );
 
         //add let the control listen to the buttons
         for( int i = 0; i < 10; i++ ) {

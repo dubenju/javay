@@ -44,4 +44,10 @@ public interface CalcultorConts {
 	public static final String SIN = "sin";
 	public static final String COS = "cos";
 	public static final String TAN = "tan";
+
+	public static final String MC = "MC";
+	public static final String MR = "MR";
+	public static final String MS = "MS";
+	public static final String MP = "M+";
+	public static final String MM = "M-";
 }
