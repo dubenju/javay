@@ -87,7 +87,13 @@ public class BigNum implements Comparable<BigNum> {
             }
             cnt ++;
 
-            dats[idy] = (byte) (in[idx] - '0');
+            if (in[idx] >= '0' && in[idx] <= '9') {
+            	dats[idy] = (byte) (in[idx] - '0');
+            } else if (in[idx] >= 'A' && in[idx] <= 'F') {
+            	dats[idy] = (byte) (in[idx] - 'A');
+            } else {
+            	
+            }
             idy ++;
         }
 //        System.out.println("aaa scale=" + this.scale);
@@ -115,8 +121,49 @@ public class BigNum implements Comparable<BigNum> {
         this.length = this.datas.length;
         /* DEBUG:print */
 //        System.out.println("datas=" + String.valueOf(toCharary(datas, datas.length)));
+        if (numberSystem != 10) {
+        	BigNum res = this.createNum(0);
+        	BigNum ns   = this.createNum(numberSystem);
+        	System.out.println("长度=" + this.length + ",整数长度=" + this.scale + "小数长度=" + (this.length - this.scale) + ",ns=" + ns);
+        	int indx = 0;
+        	for (int i = this.scale - 1; i >= 0; i --, indx ++) {
+        		res = res.add(ns.pow(i).multiply(this.createNum(this.datas[indx])));
+        	}
+        	System.out.println("整数=" + res);
+        	for (int i = 1; i <= (this.length - this.scale); i ++, indx ++) {
+        		res = res.add(this.createNum(this.datas[indx]).divide(ns.pow(i), 40, BigNumRound.HALF_EVENT));
+        	}
+        	System.out.println("整数=" + res);
+        	this.datas = res.datas;
+        	this.length = res.length;
+        	this.scale = res.scale;
+        }
     }
 
+    private BigNum createNum(int i) {
+    	byte signed = 0x01;
+    	int a = i;
+    	if (i < 0) {
+    		signed = -0x01;
+    		a = -i;
+    	}
+    	int lengt = 1;
+    	int scal = 1;
+    	byte[] datas = null;
+    	if (a < 10) {
+    		datas = new byte[1];
+    		datas[0] = (byte) i;
+    	} else if (a < 100) {
+    		lengt = 2;
+    		scal = 2;
+    		datas = new byte[2];
+    		if (a < 20) {
+    			datas[0] = (byte) 1;
+    			datas[1] = (byte) (a - 10);
+    		}
+    	}
+    	return new BigNum(signed, datas, lengt, scal);
+    }
     /**
      * 构造函数
      * @param si 符号
@@ -1358,7 +1405,18 @@ public class BigNum implements Comparable<BigNum> {
     		z = s;
     	}
     	while(!stk.isEmpty()) {
-    		buf.append(stk.pop());
+    		int ch = stk.pop();
+    		String tmp = "";
+    		if (ch >= 62) {
+                tmp = ch + ",";
+            } else if (ch >= 36) {
+                tmp = String.valueOf((char)('a' + ch - 36));
+            } else if (ch >= 10) {
+                tmp = String.valueOf((char)('A' + ch - 10));
+            } else {
+                tmp = String.valueOf((char)('0' + ch));
+            }
+    		buf.append(tmp);
     	}
     	if (x.compareTo(BigNum.ZERO) != 0) {
     		buf.append(".");
@@ -1367,7 +1425,18 @@ public class BigNum implements Comparable<BigNum> {
     	while(cnt < 40 && x.compareTo(BigNum.ZERO) != 0) {
     		BigNum j = x.multiply(n2);
     		BigNum jz = j.integral();
-    		buf.append(jz.toInt());
+    		int ch = jz.toInt();
+    		String tmp = "";
+    		if (ch >= 62) {
+                tmp = ch + ",";
+            } else if (ch >= 36) {
+                tmp = String.valueOf((char)('a' + ch - 36));
+            } else if (ch >= 10) {
+                tmp = String.valueOf((char)('A' + ch - 10));
+            } else {
+                tmp = String.valueOf((char)('0' + ch));
+            }
+    		buf.append(tmp);
     		
     		BigNum y = j.subtract(jz);
     		x = y;

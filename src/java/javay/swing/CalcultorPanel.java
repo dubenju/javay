@@ -31,6 +31,7 @@ import javay.awt.event.NumeralSystemActionListener;
 public class CalcultorPanel extends JPanel {
 
     private JPanel mainPanel = new JPanel();
+    public JTextField expr = new JTextField();
     public JVariableTextField textField = new JVariableTextField( 34 );
 
     JPanel option = new JPanel();
