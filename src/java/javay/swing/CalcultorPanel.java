@@ -21,8 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import javay.awt.event.CalcultorActionListener;
-import javay.awt.event.MemoryActionListener;
-import javay.awt.event.NumeralSystemActionListener;
 
 /**
  * @author dubenju
@@ -51,7 +49,6 @@ public class CalcultorPanel extends JPanel {
 
     JPanel exOption = new JPanel();
     JPanel exOptLeft = new JPanel();
-//    ButtonGroup group3 = new ButtonGroup();
     public JCheckBox inv = new JCheckBox("反计算"); // inverse
     public JCheckBox hyp = new JCheckBox("双曲");// Hyperbolic
 
@@ -112,12 +109,13 @@ public class CalcultorPanel extends JPanel {
 
     // 0-9数字按钮
     public JButton[] numButtons = new JButton[10];
-    public JButton btnA = new JButton("A");
-    public JButton btnB = new JButton("B");
-    public JButton btnC = new JButton("C");
-    public JButton btnD = new JButton("D");
-    public JButton btnE = new JButton("E");
-    public JButton btnF = new JButton("F");
+    // A-F数字按钮
+    public JButton btnA = new JButton(CalcultorConts.TEN);
+    public JButton btnB = new JButton(CalcultorConts.ELEVEN);
+    public JButton btnC = new JButton(CalcultorConts.TWELVE);
+    public JButton btnD = new JButton(CalcultorConts.THRITEEN);
+    public JButton btnE = new JButton(CalcultorConts.FOURTEEN);
+    public JButton btnF = new JButton(CalcultorConts.FIFTEEN);
 
     JButton btnAnd = new JButton("And");
     JButton btnOr  = new JButton("Or");
@@ -439,25 +437,16 @@ public class CalcultorPanel extends JPanel {
         btnPnl4.add( btnF ).setForeground(Color.blue);
 
         //create the control
-        NumeralSystemActionListener nsctrl = new NumeralSystemActionListener(this);
-        r16.addActionListener(nsctrl);
-        r10.addActionListener(nsctrl);
-        r8.addActionListener(nsctrl);
-        r2.addActionListener(nsctrl);
-
-        MemoryActionListener mmctrl = new MemoryActionListener(this);
-        btnMC.addActionListener(mmctrl);
-        btnMR.addActionListener(mmctrl);
-        btnMS.addActionListener(mmctrl);
-        btnMP.addActionListener(mmctrl);
-        btnMN.addActionListener(mmctrl);
-
         CalcultorActionListener controler = new CalcultorActionListener( this );
 
-//        btnBackspace.addActionListener( controler );
-//        btnCe.addActionListener( controler );
-//        btnClear.addActionListener( controler );
+        r16.addActionListener(controler);
+        r10.addActionListener(controler);
+        r8.addActionListener(controler);
+        r2.addActionListener(controler);
 
+        btnBackspace.addActionListener( controler );
+        btnCe.addActionListener( controler );
+        btnClear.addActionListener( controler );
 
         btnFE.addActionListener( controler );
         btnLeft.addActionListener( controler );
@@ -477,11 +466,11 @@ public class CalcultorPanel extends JPanel {
         btnLog.addActionListener( controler );
 //        btnSqrt.addActionListener( controler );
 
-//        btnMC.addActionListener( controler );
-//        btnMR.addActionListener( controler );
-//        btnMS.addActionListener( controler );
-//        btnMP.addActionListener( controler );
-//        btnMN.addActionListener( controler );
+        btnMC.addActionListener( controler );
+        btnMR.addActionListener( controler );
+        btnMS.addActionListener( controler );
+        btnMP.addActionListener( controler );
+        btnMN.addActionListener( controler );
 
         //add let the control listen to the buttons
         for( int i = 0; i < 10; i++ ) {
