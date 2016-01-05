@@ -62,45 +62,6 @@ public class CalcultorActionListener implements ActionListener {
         ns.put(CalcultorConts.HEXADECIMAL, 16);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		String s = e.getActionCommand();
-		System.out.println("state=" + state + ",s=" + s);
-		if (this.isControl(s)) {
-			control(s);
-			return ;
-		}
-		switch( state ) {
-		case 0:
-			// 0: 初期状态
-			inputState0(s);
-			break;
-		case 1:
-			// 1: 错误状态
-			inputState1(s);
-			break;
-		case 2:
-			// 2: 数值输入中
-			inputState2(s);
-			break;
-		case 3:
-			// 3: 得出结果
-			inputState3(s);
-			break;
-		case 4:
-			// 4: 操作符号输入完了
-			inputState4(s);
-			break;
-		case 5:
-			// 5: 第二个数值输入中
-			inputState5(s);
-			break;
-		default:
-			System.out.println( "Unknow state error!state=" + state);
-			System.exit(1);
-		}
-	}
-
 	private boolean isDigit( String s ) {
 		boolean b;
 		b = s.equals(CalcultorConts.ZERO) || s.equals(CalcultorConts.ONE) ||
@@ -140,6 +101,45 @@ public class CalcultorActionListener implements ActionListener {
 				s.equals(CalcultorConts.OCTAL) || s.equals(CalcultorConts.DECIMAL) ||
 				s.equals(CalcultorConts.HEXADECIMAL) || s.equals(CalcultorConts.BACKSPACE) ||
 				s.equals(CalcultorConts.CLEAR_ERROR) || s.equals(CalcultorConts.CLEAR);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String s = e.getActionCommand();
+		System.out.println("state=" + state + ",s=" + s);
+		if (this.isControl(s)) {
+			control(s);
+			return ;
+		}
+		switch( state ) {
+		case 0:
+			// 0: 初期状态
+			inputState0(s);
+			break;
+		case 1:
+			// 1: 错误状态
+			inputState1(s);
+			break;
+		case 2:
+			// 2: 数值输入中
+			inputState2(s);
+			break;
+		case 3:
+			// 3: 得出结果
+			inputState3(s);
+			break;
+		case 4:
+			// 4: 操作符号输入完了
+			inputState4(s);
+			break;
+		case 5:
+			// 5: 第二个数值输入中
+			inputState5(s);
+			break;
+		default:
+			System.out.println( "Unknow state error!state=" + state);
+			System.exit(1);
+		}
 	}
 
 	/**
