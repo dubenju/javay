@@ -5,6 +5,6 @@ package javay.fsm.transition;
  * @author DBJ
  *
  */
-public class Trigger {
+public interface Trigger {
 
 }

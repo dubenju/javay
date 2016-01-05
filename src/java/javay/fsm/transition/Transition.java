@@ -22,5 +22,5 @@ public interface Transition {
 	// 动作
 	// 目标状态
 	public State getTo();
-	public State setTo(State to);
+	public void setTo(State to);
 }

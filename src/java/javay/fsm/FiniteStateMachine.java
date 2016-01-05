@@ -36,4 +36,5 @@ public interface FiniteStateMachine {
 	// Output
 	public List<String> getOutputs();
 	public void setOutputs(List<String> out);
+	public State getCurrentState();
 }
