@@ -22,9 +22,12 @@ public class UList {
                 	}
                 }
             } else {
-            	
+
             }
         }
         return res;
+    }
+    public static <T> List<T> getSublist() {
+    	return null;
     }
 }

@@ -38,6 +38,7 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		this.states.add(state7);
 		this.states.add(state8);
 
+		// TODO:要用邻接表(DAG)
 		this.transitions = new ArrayList<Transition>();
 		Transition tran_i_1 = new CalcultorTransition(this.initialState, null, null, null, state1);
 		Transition tran_1_3 = new CalcultorTransition(state1, null, null, null, state3);
@@ -70,26 +71,20 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 
 	@Override
 	public List<String> getInputs() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	public void setInputs(List<String> in) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
 	public List<State> getStates() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	public void setStates(List<State> states) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
@@ -104,38 +99,29 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 
 	@Override
 	public List<Transition> getTransitions() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	public void setTransitions(List<Transition> transition) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
 	public List<State> getFinalStates() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	public void setFinalStates(List<State> finalStates) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
 	public List<String> getOutputs() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	public void setOutputs(List<String> out) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
@@ -147,5 +133,21 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 	@Override
 	public State getCurrentState() {
 		return this.currentState;
+	}
+
+	@Override
+	public String receive(String s) {
+		State cur = this.getCurrentState();
+		// get all condition
+		List<Transition> trans = this.transitions.get(index);
+		// check it
+		Transition tran = null;
+		// get next state
+		if (tran != null) {
+
+		}
+		// make output
+		String out = ;
+		return out;
 	}
 }
