@@ -63,8 +63,7 @@ public class CalcultorActionListener implements ActionListener {
 	}
 
 	private boolean isDigit( String s ) {
-		boolean b;
-		b = s.equals(CalcultorConts.ZERO) || s.equals(CalcultorConts.ONE) ||
+		return s.equals(CalcultorConts.ZERO) || s.equals(CalcultorConts.ONE) ||
 				s.equals(CalcultorConts.TWO) || s.equals(CalcultorConts.THREE) ||
 				s.equals(CalcultorConts.FOUR) || s.equals(CalcultorConts.FIVE) ||
 				s.equals(CalcultorConts.SIX) || s.equals(CalcultorConts.SEVEN) ||
@@ -72,7 +71,6 @@ public class CalcultorActionListener implements ActionListener {
 				s.equals(CalcultorConts.TEN) || s.equals(CalcultorConts.ELEVEN) ||
 				s.equals(CalcultorConts.TWELVE) || s.equals(CalcultorConts.THRITEEN) ||
 				s.equals(CalcultorConts.FOURTEEN) || s.equals(CalcultorConts.FIFTEEN);
-		return b;
 	}
 
 	private boolean isOperator(String s) {

@@ -29,18 +29,16 @@ public interface CalcultorConts {
 	public static final String MM = "M-";
 
 	// 操作
-	public static final String POS_MINUS = "±";
-	public static final String DOT = ".";
 	public static final String ADD = "＋";
 	public static final String SUBTRACT = "－";
 	public static final String MULTIPLY = "×";
 	public static final String DIVIDE = "÷";
 	public static final String MOD = "模";
 	public static final String EQUAL = "＝";
+	public static final String XY = "mⁿ";
 
 	public static final String X2 = "x²";
 	public static final String X3 = "x³";
-	public static final String XY = "mⁿ";
 	public static final String EXP = "exp";
 
 	public static final String DIVIDE1 = "1/x";
@@ -52,7 +50,10 @@ public interface CalcultorConts {
 	public static final String SIN = "sin";
 	public static final String COS = "cos";
 	public static final String TAN = "tan";
-
+	public static final String POS_MINUS = "±";
+	public static final String LEFT = "(";
+	public static final String RIGHT = ")";
+	
 	// 数字
 	public static final String ZERO = "0";
 	public static final String ONE = "1";
@@ -70,4 +71,5 @@ public interface CalcultorConts {
 	public static final String THRITEEN = "D";
 	public static final String FOURTEEN = "E";
 	public static final String FIFTEEN = "F";
+	public static final String DOT = ".";
 }

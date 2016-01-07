@@ -9,7 +9,14 @@ import javay.fsm.state.StateFinal;
 import javay.fsm.state.StateInitial;
 import javay.fsm.transition.Condition;
 import javay.fsm.transition.Transition;
-
+/**
+ * C¥S 1 2 3 4 5 6 7 
+ * 0.9 3   3 3 6 6  
+ * una 7   4 5 4 4  
+ * bin 2   5 5 5 5
+ * @author dubenju
+ *
+ */
 public class CalcultorFSM implements FiniteStateMachine, Runnable {
 
 	private List<State> states;
@@ -43,14 +50,17 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		this.transitions = new ArrayList<List<Transition>>(this.states.size());
 		Transition tran_i_1 = new CalcultorTransition(this.initialState, null, null, null, state1);
 
+		ConditionNum num = new ConditionNum();
+		ConditionOpt1 opt1 = new ConditionOpt1();
+		ConditionOpt2 opt2 = new ConditionOpt2();
 		// 初期状态 + 0.9 = 数值输入中
-		Transition tran_1_3 = new CalcultorTransition(state1, null, null, null, state3);
+		Transition tran_1_3 = new CalcultorTransition(state1, null, num, null, state3);
 		// 初期状态 + OPT = 操作符号输入完了
 		Transition tran_1_5 = new CalcultorTransition(state1, null, null, null, state5);
 		// 数值输入中 + OPT or = = 得出结果
 		Transition tran_3_4 = new CalcultorTransition(state3, null, null, null, state4);
 		// 得出结果 + 0.9 = 数值输入中
-		Transition tran_4_3 = new CalcultorTransition(state4, null, null, null, state3);
+		Transition tran_4_3 = new CalcultorTransition(state4, null, num, null, state3);
 		// 得出结果 + OPT = 操作符号输入完了
 		Transition tran_4_5 = new CalcultorTransition(state4, null, null, null, state5);
 		// 得出结果 + = 
@@ -58,7 +68,7 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		// 操作符号输入完了 + OPT1 = 得出结果
 		Transition tran_5_4 = new CalcultorTransition(state5, null, null, null, state4);
 		// 操作符号输入完了 + 0.9 = 第二个数值输入中
-		Transition tran_5_6 = new CalcultorTransition(state5, null, null, null, state6);
+		Transition tran_5_6 = new CalcultorTransition(state5, null, num, null, state6);
 		// 第二个数值输入中 + OPT1 = 得出结果
 		Transition tran_6_4 = new CalcultorTransition(state6, null, null, null, state4);
 		// 第二个数值输入中 + OPT2 = 得出结果
