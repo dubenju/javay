@@ -37,7 +37,7 @@ public class CalcultorActionListener implements ActionListener {
 	private String errMsg = "Error";
 	private String mem;
 	private Map<String, Integer> ns = new HashMap<String, Integer>();
-
+	CalcultorFSM fsm = new CalcultorFSM();
 	
 	//the state for now ,begin state = 0
 	/*
@@ -104,11 +104,14 @@ public class CalcultorActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
-		System.out.println("state=" + state + ",s=" + s);
+//		System.out.println("state=" + state + ",s=" + s);
+		this.fsm.receive(s);
+
 		if (this.isControl(s)) {
 			control(s);
 			return ;
 		}
+
 		switch( state ) {
 		case 0:
 			// 0: 初期状态

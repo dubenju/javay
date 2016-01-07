@@ -29,4 +29,7 @@ public abstract class AbstractCondition implements Condition {
 				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) ||
 				s.equals(CalcultorConts.MOD) || s.equals(CalcultorConts.XY);
 	}
+	public boolean isEqual(String s) {
+		return s.equals(CalcultorConts.EQUAL);
+	}
 }

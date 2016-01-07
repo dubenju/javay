@@ -12,8 +12,8 @@ import javay.fsm.transition.Transition;
 /**
  * C¥S 1 2 3 4 5 6 7 
  * 0.9 3   3 3 6 6  
- * una 7   4 5 4 4  
- * bin 2   5 5 5 5
+ * una 7   4 4 2 4  
+ * bin 2   5 5 2 5
  * @author dubenju
  *
  */
@@ -28,7 +28,7 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		this.initialState = new StateInitial();
 		State state1 = new CalcultorState(1, "初期状态");
 		State state2 = new CalcultorState(2, "错误状态");
-		State state3 = new CalcultorState(3, "数值输入中");
+		State state3 = new CalcultorState(3, "数值1输入中");
 		State state4 = new CalcultorState(4, "得出结果");
 		State state5 = new CalcultorState(5, "操作符号输入完了");
 		State state6 = new CalcultorState(6, "第二个数值输入中");
@@ -53,28 +53,49 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		ConditionNum num = new ConditionNum();
 		ConditionOpt1 opt1 = new ConditionOpt1();
 		ConditionOpt2 opt2 = new ConditionOpt2();
-		// 初期状态 + 0.9 = 数值输入中
+		ConditionEqual equal = new ConditionEqual();
+
+		/*
+		 * 1:初期状态
+		 * 2:错误状态
+		 * 3:数值1输入中
+		 * 4:得出结果
+		 * 5:二元操作符输入完了
+		 * 6:第二个数值输入中
+		 * 7:一元操作符输入完了
+		 */
+		/*
+		 * C¥S 1 2 3 4 5 6 7 
+		 * 0.9 3   3 3 6 6  
+		 * una 2   4 4 2 4  
+		 * bin 2   5 5 2 5  
+		 * =   2   4 4 2 4 4
+		 */
+		// 1:初期状态 + 0.9 = 3:数值1输入中
 		Transition tran_1_3 = new CalcultorTransition(state1, null, num, null, state3);
 		// 初期状态 + OPT = 操作符号输入完了
-		Transition tran_1_5 = new CalcultorTransition(state1, null, null, null, state5);
-		// 数值输入中 + OPT or = = 得出结果
-		Transition tran_3_4 = new CalcultorTransition(state3, null, null, null, state4);
+		Transition tran_1_5 = new CalcultorTransition(state1, null, opt1, null, state2);
+		// 3:数值1输入中 + OPT1 or = = 得出结果
+		Transition tran_3_4 = new CalcultorTransition(state3, null, opt1, null, state4);
+		// 3:数值1输入中 + OPT1 or = = 5:操作符号输入完了
+		Transition tran_3_5 = new CalcultorTransition(state3, null, opt2, null, state5);
 		// 得出结果 + 0.9 = 数值输入中
 		Transition tran_4_3 = new CalcultorTransition(state4, null, num, null, state3);
-		// 得出结果 + OPT = 操作符号输入完了
-		Transition tran_4_5 = new CalcultorTransition(state4, null, null, null, state5);
+		// 得出结果 + OPT2 = 操作符号输入完了
+		Transition tran_4_5 = new CalcultorTransition(state4, null, opt2, null, state5);
 		// 得出结果 + = 
-		Transition tran_4_7 = new CalcultorTransition(state4, null, null, null, state7);
+//		Transition tran_4_7 = new CalcultorTransition(state4, null, null, null, state7);
 		// 操作符号输入完了 + OPT1 = 得出结果
-		Transition tran_5_4 = new CalcultorTransition(state5, null, null, null, state4);
-		// 操作符号输入完了 + 0.9 = 第二个数值输入中
+		Transition tran_5_4 = new CalcultorTransition(state5, null, opt1, null, state4);
+		// 5:操作符号输入完了 + 0.9 = 6:第二个数值输入中
 		Transition tran_5_6 = new CalcultorTransition(state5, null, num, null, state6);
-		// 第二个数值输入中 + OPT1 = 得出结果
-		Transition tran_6_4 = new CalcultorTransition(state6, null, null, null, state4);
-		// 第二个数值输入中 + OPT2 = 得出结果
-		Transition tran_6_5 = new CalcultorTransition(state6, null, null, null, state5);
+		// 6:第二个数值输入中 + OPT1 = 4:得出结果
+		Transition tran_6_4 = new CalcultorTransition(state6, null, opt1, null, state4);
+		Transition tran_6_41 = new CalcultorTransition(state6, null, equal, null, state4);
+		// 6:第二个数值输入中 + OPT2 = 5:操作符号输入完了
+		Transition tran_6_5 = new CalcultorTransition(state6, null, opt2, null, state5);
 		//  + = 得出结果
-		Transition tran_7_5 = new CalcultorTransition(state7, null, null, null, state5);
+//		Transition tran_7_5 = new CalcultorTransition(state7, null, null, null, state5);
 
 		List<Transition> ti = new ArrayList<Transition>();
 		ti.add(tran_i_1);
@@ -88,11 +109,12 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		this.transitions.add(t2);
 		List<Transition> t3 = new ArrayList<Transition>();
 		t3.add(tran_3_4);
+		t3.add(tran_3_5);
 		this.transitions.add(t3);
 		List<Transition> t4 = new ArrayList<Transition>();
 		t4.add(tran_4_3);
 		t4.add(tran_4_5);
-		t4.add(tran_4_7);
+//		t4.add(tran_4_7);
 		this.transitions.add(t4);
 		List<Transition> t5 = new ArrayList<Transition>();
 		t5.add(tran_5_4);
@@ -101,14 +123,28 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		List<Transition> t6 = new ArrayList<Transition>();
 		this.transitions.add(t6);
 		t6.add(tran_6_4);
+		t6.add(tran_6_41);
 		t6.add(tran_6_5);
 		List<Transition> t7 = new ArrayList<Transition>();
-		t7.add(tran_7_5);
+//		t7.add(tran_7_5);
 		this.transitions.add(t7);
 
 		this.currentState = this.initialState;
+		this.currentState = tran(this.currentState);
 	}
 
+	private State tran(State from) {
+		List<Transition> trans = this.transitions.get(this.states.indexOf(from));
+		State res = from;
+		for (Transition t : trans) {
+			Condition cond = t.getCondition();
+			if (cond == null) {
+				res = t.getTo();
+				break;
+			}
+		}
+		return res;
+	}
 	@Override
 	public List<String> getInputs() {
 		return null;
@@ -177,7 +213,10 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 
 	@Override
 	public String receive(String s) {
+		System.out.print(">>> receive begin ---");
 		State cur = this.getCurrentState();
+		String val = cur.getValue();
+		System.out.print("cur state=" + cur + ",s=" + s);
 		// get all condition
 		List<Transition> trans = this.transitions.get(this.states.indexOf(cur));
 		// check it
@@ -191,10 +230,17 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		}
 		// get next state
 		if (tran != null) {
-
+			State to = tran.getTo();
+			to.setValue(val + s);
+			System.out.print(" to state=" + to);
+			this.currentState = to;
+		} else {
+			cur.setValue(val + s);
+			System.out.print(" to state=" + cur);
 		}
 		// make output
-		String out = "";
+		String out = this.currentState.getValue();
+		System.out.println("--- receive  end  >>>" + out);
 		return out;
 	}
 }

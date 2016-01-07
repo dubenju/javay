@@ -75,7 +75,7 @@ public class JVariableTextField extends JTextField {
 		int fontsize = font.getSize();
 		int length = t.length();
 //		long width = length * fontsize;
-		System.out.println("t.length=" + t.length() + ",columns=" + columns + ",fontsize=" + fontsize + ",maxWidth=" + maxWidth);
+//		System.out.println("t.length=" + t.length() + ",columns=" + columns + ",fontsize=" + fontsize + ",maxWidth=" + maxWidth);
 		//if (width > maxWidth) {
 			fontsize = maxWidth / length;
 			if (fontsize == 0 ) {
@@ -136,7 +136,7 @@ public class JVariableTextField extends JTextField {
 		int fontSize = font.getSize();
 		fontSize = (int) (fontSize *0.66);
 		int ng = font.getNumGlyphs();
-		System.out.println("ng=" + ng);
+//		System.out.println("ng=" + ng);
 		int width = this.getWidth();
 		for(int i = width, cnt = 0; i >= 0; i -= fontSize, cnt ++) {
 			if (cnt % 10 == 0) {

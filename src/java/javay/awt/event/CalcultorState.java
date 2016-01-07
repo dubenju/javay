@@ -5,6 +5,8 @@ import javay.fsm.state.State;
 public class CalcultorState implements State {
 	private int id = 1;
 	private String label = "初始状态";
+	private String value = "";
+
 	public CalcultorState() {
 		
 	}
@@ -35,5 +37,31 @@ public class CalcultorState implements State {
 	public void setId(int id) {
 		this.id = id;
 	}
+	/**
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
 
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(this.id);
+		buf.append(":");
+		buf.append(this.label);
+		buf.append("[");
+		buf.append(this.value);
+		buf.append("]");
+		return buf.toString();
+	}
 }
