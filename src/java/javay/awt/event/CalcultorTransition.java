@@ -52,4 +52,18 @@ public class CalcultorTransition implements Transition {
 		this.to = to;
 	}
 
+	/**
+	 * @return the action
+	 */
+	public Action getAction() {
+		return action;
+	}
+
+	/**
+	 * @param action the action to set
+	 */
+	public void setAction(Action action) {
+		this.action = action;
+	}
+
 }

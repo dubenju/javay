@@ -5,12 +5,18 @@ package javay.awt.event;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javay.math.BigNum;
 import javay.math.BigNumRound;
 import javay.math.MathBn;
+import javay.math.expr.ExprException;
+import javay.math.expr.ExprParser;
+import javay.math.expr.Expression;
+import javay.math.expr.Token;
 import javay.swing.CalcultorConts;
 import javay.swing.CalcultorPanel;
 
@@ -105,7 +111,20 @@ public class CalcultorActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
 //		System.out.println("state=" + state + ",s=" + s);
-		this.fsm.receive(s);
+		String expr = this.fsm.receive(s);
+		
+		/* *** 表达式求值 *** */
+		this.panel.expr.setText(expr);
+		List<Token> ts = new ArrayList<Token>();
+		try {
+			ts = ExprParser.parse(expr);
+		} catch (ExprException e1) {
+			e1.printStackTrace();
+		}
+		List<Token> pots = ExprParser.toPostfix(ts);
+		Expression expr2 = ExprParser.toExprFromPostfix(pots);
+		System.out.println("[outIN ]" + expr2.toInfixString() + "=" + expr2.value());
+		/* *** 表达式求值 *** */
 
 		if (this.isControl(s)) {
 			control(s);
@@ -413,9 +432,9 @@ public class CalcultorActionListener implements ActionListener {
 			System.out.println("op1=" + op1 + " " + operator + " " + "op2=" + op2 + "=");
 			BigNum nOp1 = new BigNum(op1);
 			BigNum nOp2 = new BigNum(op2);
-			String expr = this.panel.expr.getText();
-			expr = expr + " " + nOp1 + " " + operator + " " + nOp2;
-			this.panel.expr.setText(expr);
+//			String expr = this.panel.expr.getText();
+//			expr = expr + " " + nOp1 + " " + operator + " " + nOp2;
+//			this.panel.expr.setText(expr);
 			if ( operator.equals(CalcultorConts.ADD) ) {
 				// +
 				nOp1 = nOp1.add(nOp2);

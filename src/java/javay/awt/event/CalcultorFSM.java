@@ -7,6 +7,7 @@ import javay.fsm.FiniteStateMachine;
 import javay.fsm.state.State;
 import javay.fsm.state.StateFinal;
 import javay.fsm.state.StateInitial;
+import javay.fsm.transition.Action;
 import javay.fsm.transition.Condition;
 import javay.fsm.transition.Transition;
 /**
@@ -55,6 +56,7 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		ConditionOpt2 opt2 = new ConditionOpt2();
 		ConditionEqual equal = new ConditionEqual();
 
+		ActionOpt2 aopt2 = new ActionOpt2();
 		/*
 		 * 1:初期状态
 		 * 2:错误状态
@@ -78,11 +80,11 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		// 3:数值1输入中 + OPT1 or = = 得出结果
 		Transition tran_3_4 = new CalcultorTransition(state3, null, opt1, null, state4);
 		// 3:数值1输入中 + OPT1 or = = 5:操作符号输入完了
-		Transition tran_3_5 = new CalcultorTransition(state3, null, opt2, null, state5);
+		Transition tran_3_5 = new CalcultorTransition(state3, null, opt2, aopt2, state5);
 		// 得出结果 + 0.9 = 数值输入中
 		Transition tran_4_3 = new CalcultorTransition(state4, null, num, null, state3);
 		// 得出结果 + OPT2 = 操作符号输入完了
-		Transition tran_4_5 = new CalcultorTransition(state4, null, opt2, null, state5);
+		Transition tran_4_5 = new CalcultorTransition(state4, null, opt2, aopt2, state5);
 		// 得出结果 + = 
 //		Transition tran_4_7 = new CalcultorTransition(state4, null, null, null, state7);
 		// 操作符号输入完了 + OPT1 = 得出结果
@@ -93,7 +95,7 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		Transition tran_6_4 = new CalcultorTransition(state6, null, opt1, null, state4);
 		Transition tran_6_41 = new CalcultorTransition(state6, null, equal, null, state4);
 		// 6:第二个数值输入中 + OPT2 = 5:操作符号输入完了
-		Transition tran_6_5 = new CalcultorTransition(state6, null, opt2, null, state5);
+		Transition tran_6_5 = new CalcultorTransition(state6, null, opt2, aopt2, state5);
 		//  + = 得出结果
 //		Transition tran_7_5 = new CalcultorTransition(state7, null, null, null, state5);
 
@@ -230,8 +232,13 @@ public class CalcultorFSM implements FiniteStateMachine, Runnable {
 		}
 		// get next state
 		if (tran != null) {
+			Action action = tran.getAction();
+			String str = val;
+			if (action != null) {
+				str = action.doAction(val);
+			}
 			State to = tran.getTo();
-			to.setValue(val + s);
+			to.setValue(str + s);
 			System.out.print(" to state=" + to);
 			this.currentState = to;
 		} else {

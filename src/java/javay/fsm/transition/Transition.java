@@ -20,6 +20,8 @@ public interface Transition {
 	public void setCondition(Condition condition);
 	// 触发器
 	// 动作
+	public Action getAction();
+	public void setAction(Action action);
 	// 目标状态
 	public State getTo();
 	public void setTo(State to);

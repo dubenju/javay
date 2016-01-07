@@ -121,7 +121,7 @@ public class ExprParser {
     	} else if (Variables.isExist(key)) {
     		tokens.add(new Token(TokenType.VARIABLE, key));
     	} else {
-    		throw new ExprException("不能被识别的记号。");
+    		throw new ExprException("不能被识别的记号。[" + key + "]");
     	}
     }
     /**
