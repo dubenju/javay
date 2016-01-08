@@ -1,5 +1,5 @@
 package javay.fsm.transition;
 
-public interface Action {
-	public String doAction(String in);
+public interface Action<T> {
+	public T doAction(T in);
 }

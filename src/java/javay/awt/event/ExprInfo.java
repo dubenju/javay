@@ -5,6 +5,14 @@ public class ExprInfo {
 	private String num1;
 	private String opt;
 	private String num2;
+	private String input;
+	public ExprInfo() {
+		this.expr = "";
+		this.num1 = "";
+		this.opt = "";
+		this.num2 = "";
+		this.input = "";
+	}
 	/**
 	 * @return the expr
 	 */
@@ -59,6 +67,23 @@ public class ExprInfo {
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
+		buf.append(this.input);
+		buf.append(this.expr);
 		return buf.toString();
+	}
+	/**
+	 * @return the input
+	 */
+	public String getInput() {
+		return input;
+	}
+	/**
+	 * @param input the input to set
+	 */
+	public void setInput(String input) {
+		this.input = input;
+	}
+	public void addInput(String input) {
+		this.input = this.input + input;
 	}
 }

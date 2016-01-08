@@ -2,10 +2,10 @@ package javay.fsm.state;
 
 import javay.fsm.state.State;
 
-public class StateInitial implements State {
+public class StateInitial<T> implements State<T> {
 	private int id = 0;
 	private String label = "初始状态";
-	private String value = "";
+	private T value = null;
 
 	@Override
 	public int getId() {
@@ -20,14 +20,14 @@ public class StateInitial implements State {
 	/**
 	 * @return the value
 	 */
-	public String getValue() {
+	public T getValue() {
 		return value;
 	}
 
 	/**
 	 * @param value the value to set
 	 */
-	public void setValue(String value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
 

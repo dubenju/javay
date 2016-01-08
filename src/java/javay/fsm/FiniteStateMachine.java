@@ -16,27 +16,27 @@ import javay.fsm.transition.Transition;
  * @author DBJ
  *
  */
-public interface FiniteStateMachine {
+public interface FiniteStateMachine<T> {
 
 	// Input
 	public List<String> getInputs();
 	public void setInputs(List<String> in);
 	// States
-	public List<State> getStates();
-	public void setStates(List<State> states);
+	public List<State<T>> getStates();
+	public void setStates(List<State<T>> states);
 	// Initial State
-	public State getInitialState();
-	public void setInitialState(State initial);
+	public State<T> getInitialState();
+	public void setInitialState(State<T> initial);
 	// Transition
-	public List<Transition> getTransitions();
-	public void setTransitions(List<Transition> transition);
+	public List<Transition<T>> getTransitions();
+	public void setTransitions(List<Transition<T>> transition);
 	// Final State
-	public List<State> getFinalStates();
-	public void setFinalStates(List<State> finalStates);
+	public List<State<T>> getFinalStates();
+	public void setFinalStates(List<State<T>> finalStates);
 	// Output
 	public List<String> getOutputs();
 	public void setOutputs(List<String> out);
 
-	public State getCurrentState();
+	public State<T> getCurrentState();
 	public String receive(String s);
 }

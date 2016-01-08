@@ -2,10 +2,10 @@ package javay.fsm.state;
 
 import javay.fsm.state.State;
 
-public class StateFinal implements State {
+public class StateFinal<T> implements State<T> {
 	private int id = Integer.MAX_VALUE;
 	private String label = "最终状态";
-	private String value = "";
+	private T value = null;
 	
 	@Override
 	public int getId() {
@@ -19,14 +19,14 @@ public class StateFinal implements State {
 	/**
 	 * @return the value
 	 */
-	public String getValue() {
+	public T getValue() {
 		return value;
 	}
 
 	/**
 	 * @param value the value to set
 	 */
-	public void setValue(String value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
 

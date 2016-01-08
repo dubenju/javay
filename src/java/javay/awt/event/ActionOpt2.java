@@ -3,15 +3,17 @@ package javay.awt.event;
 import javay.fsm.transition.Action;
 import javay.swing.CalcultorConts;
 
-public class ActionOpt2 implements Action {
+public class ActionOpt2 implements Action<ExprInfo> {
 
 	@Override
-	public String doAction(String in) {
+	public ExprInfo doAction(ExprInfo in) {
+		String s = in.getNum1();
 		StringBuffer buf = new StringBuffer();
 		buf.append(CalcultorConts.LEFT);
-		buf.append(in);
+		buf.append(s);
 		buf.append(CalcultorConts.RIGHT);
-		return buf.toString();
+		in.setNum1(buf.toString());
+		return in;
 	}
 
 }

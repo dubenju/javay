@@ -6,15 +6,15 @@ import javay.fsm.transition.Condition;
 import javay.fsm.transition.Transition;
 import javay.fsm.transition.Trigger;
 
-public class CalcultorTransition implements Transition {
+public class CalcultorTransition implements Transition<ExprInfo> {
 
-	private State from;
-	private State to;
+	private State<ExprInfo> from;
+	private State<ExprInfo> to;
 	private Trigger trigger;
 	private Condition condition;
-	private Action action;
+	private Action<ExprInfo> action;
 
-	public CalcultorTransition(State from, Trigger trigger, Condition condition, Action action, State to) {
+	public CalcultorTransition(State<ExprInfo> from, Trigger trigger, Condition condition, Action<ExprInfo> action, State<ExprInfo> to) {
 		this.from = from;
 		this.trigger = trigger;
 		this.condition = condition;
@@ -23,12 +23,12 @@ public class CalcultorTransition implements Transition {
 	}
 
 	@Override
-	public State getFrom() {
+	public State<ExprInfo> getFrom() {
 		return this.from;
 	}
 
 	@Override
-	public void setFrom(State from) {
+	public void setFrom(State<ExprInfo> from) {
 		this.from = from;
 	}
 
@@ -43,26 +43,26 @@ public class CalcultorTransition implements Transition {
 	}
 
 	@Override
-	public State getTo() {
+	public State<ExprInfo> getTo() {
 		return this.to;
 	}
 
 	@Override
-	public void setTo(State to) {
+	public void setTo(State<ExprInfo> to) {
 		this.to = to;
 	}
 
 	/**
 	 * @return the action
 	 */
-	public Action getAction() {
+	public Action<ExprInfo> getAction() {
 		return action;
 	}
 
 	/**
 	 * @param action the action to set
 	 */
-	public void setAction(Action action) {
+	public void setAction(Action<ExprInfo> action) {
 		this.action = action;
 	}
 

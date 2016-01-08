@@ -2,13 +2,12 @@ package javay.awt.event;
 
 import javay.fsm.state.State;
 
-public class CalcultorState implements State {
+public class CalcultorState<T> implements State<T> {
 	private int id = 1;
 	private String label = "初始状态";
-	private String value = "";
+	private T value = null;
 
 	public CalcultorState() {
-		
 	}
 	public CalcultorState(int id, String label) {
 		this.id = id;
@@ -40,14 +39,14 @@ public class CalcultorState implements State {
 	/**
 	 * @return the value
 	 */
-	public String getValue() {
+	public T getValue() {
 		return value;
 	}
 
 	/**
 	 * @param value the value to set
 	 */
-	public void setValue(String value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
 	/* (non-Javadoc)

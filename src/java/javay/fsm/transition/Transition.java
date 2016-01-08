@@ -11,18 +11,18 @@ import javay.fsm.state.State;
  * @author DBJ
  *
  */
-public interface Transition {
+public interface Transition<T> {
 	// 源状态
-	public State getFrom();
-	public void setFrom(State from);
+	public State<T> getFrom();
+	public void setFrom(State<T> from);
 	// 警戒条件
 	public Condition getCondition();
 	public void setCondition(Condition condition);
 	// 触发器
 	// 动作
-	public Action getAction();
-	public void setAction(Action action);
+	public Action<T> getAction();
+	public void setAction(Action<T> action);
 	// 目标状态
-	public State getTo();
-	public void setTo(State to);
+	public State<T> getTo();
+	public void setTo(State<T> to);
 }

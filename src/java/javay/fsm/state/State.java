@@ -1,10 +1,10 @@
 package javay.fsm.state;
 
-public interface State {
+public interface State<T> {
     public int getId();
     public String getLabel();
-    public String getValue();
-    public void setValue(String value);
+    public T getValue();
+    public void setValue(T value);
 
 //    public State getParent();
 //    public State createSubstate(String label);

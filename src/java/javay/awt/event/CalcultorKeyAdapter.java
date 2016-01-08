@@ -3,8 +3,6 @@ package javay.awt.event;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JPanel;
-
 import javay.swing.CalcultorPanel;
 
 public class CalcultorKeyAdapter extends KeyAdapter {
