@@ -7,12 +7,14 @@ public class ActionOpt2 implements Action<ExprInfo> {
 
 	@Override
 	public ExprInfo doAction(ExprInfo in) {
-		String s = in.getNum1();
+		String s = in.getInbuf().toString();
 		StringBuffer buf = new StringBuffer();
 		buf.append(CalcultorConts.LEFT);
 		buf.append(s);
 		buf.append(CalcultorConts.RIGHT);
 		in.setNum1(buf.toString());
+		in.setInbuf(new StringBuffer());
+		in.setOpt(in.getInput());
 		return in;
 	}
 

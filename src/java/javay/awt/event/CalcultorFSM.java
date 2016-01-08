@@ -58,7 +58,10 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		ConditionOpt2 opt2 = new ConditionOpt2();
 		ConditionEqual equal = new ConditionEqual();
 
+		ActionNum1 anum1 = new ActionNum1();
 		ActionOpt2 aopt2 = new ActionOpt2();
+		ActionNum2 anum2 = new ActionNum2();
+		ActionError aerr = new ActionError();
 		/*
 		 * 1:初期状态
 		 * 2:错误状态
@@ -70,29 +73,42 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		 */
 		/*
 		 * C¥S 1 2 3 4 5 6 7 
-		 * 0.9 3   3 3 6 6  
-		 * una 2   4 4 2 4  
-		 * bin 2   5 5 2 5  
-		 * =   2   4 4 2 4 4
+		 * 0.9 3 3 3 3 6 6  
+		 * una 2 2 4 4 2 4  
+		 * bin 2 2 5 5 2 5  
+		 * =   2 2 4 4 2 4 4
 		 */
 		// 1:初期状态 + 0.9 = 3:数值1输入中
-		Transition<ExprInfo> tran_1_3 = new CalcultorTransition(state1, null, num, null, state3);
-		// 初期状态 + OPT = 操作符号输入完了
-		Transition<ExprInfo> tran_1_5 = new CalcultorTransition(state1, null, opt1, null, state2);
+		Transition<ExprInfo> tran_1_3 = new CalcultorTransition(state1, null, num, anum1, state3);
+		// 初期状态 + OPT = 2:错误状态
+		Transition<ExprInfo> tran_1_2 = new CalcultorTransition(state1, null, opt1, aerr, state2);
+		Transition<ExprInfo> tran_1_21 = new CalcultorTransition(state1, null, opt2, aerr, state2);
+		Transition<ExprInfo> tran_1_22 = new CalcultorTransition(state1, null, equal, aerr, state2);
+
+		// 2:错误状态 + OPT = 3:数值1输入中
+		Transition<ExprInfo> tran_2_3 = new CalcultorTransition(state2, null, num, anum1, state3);
+		Transition<ExprInfo> tran_2_2 = new CalcultorTransition(state2, null, opt1, aerr, state2);
+		Transition<ExprInfo> tran_2_21 = new CalcultorTransition(state2, null, opt2, aerr, state2);
+		Transition<ExprInfo> tran_2_22 = new CalcultorTransition(state2, null, equal, aerr, state2);
+
 		// 3:数值1输入中 + OPT1 or = = 得出结果
 		Transition<ExprInfo> tran_3_4 = new CalcultorTransition(state3, null, opt1, null, state4);
 		// 3:数值1输入中 + OPT1 or = = 5:操作符号输入完了
 		Transition<ExprInfo> tran_3_5 = new CalcultorTransition(state3, null, opt2, aopt2, state5);
-		// 得出结果 + 0.9 = 数值输入中
-		Transition<ExprInfo> tran_4_3 = new CalcultorTransition(state4, null, num, null, state3);
-		// 得出结果 + OPT2 = 操作符号输入完了
+		// 4:得出结果 + 0.9 = 数值输入中
+		Transition<ExprInfo> tran_4_3 = new CalcultorTransition(state4, null, num, anum1, state3);
+		// 4:得出结果 + OPT2 = 操作符号输入完了
 		Transition<ExprInfo> tran_4_5 = new CalcultorTransition(state4, null, opt2, aopt2, state5);
-		// 得出结果 + = 
+		// 4:得出结果 + = 
 //		Transition tran_4_7 = new CalcultorTransition(state4, null, null, null, state7);
-		// 操作符号输入完了 + OPT1 = 得出结果
-		Transition<ExprInfo> tran_5_4 = new CalcultorTransition(state5, null, opt1, null, state4);
-		// 5:操作符号输入完了 + 0.9 = 6:第二个数值输入中
-		Transition<ExprInfo> tran_5_6 = new CalcultorTransition(state5, null, num, null, state6);
+
+		// 5:二元操作符输入完了 + OPT1 = 2:错误状态
+		Transition<ExprInfo> tran_5_2 = new CalcultorTransition(state5, null, opt1, aerr, state2);
+		Transition<ExprInfo> tran_5_21 = new CalcultorTransition(state5, null, opt2, aerr, state2);
+		Transition<ExprInfo> tran_5_22 = new CalcultorTransition(state5, null, equal, aerr, state2);
+		// 5:二元操作符输入完了 + 0.9 = 6:第二个数值输入中
+		Transition<ExprInfo> tran_5_6 = new CalcultorTransition(state5, null, num, anum2, state6);
+
 		// 6:第二个数值输入中 + OPT1 = 4:得出结果
 		Transition<ExprInfo> tran_6_4 = new CalcultorTransition(state6, null, opt1, null, state4);
 		Transition<ExprInfo> tran_6_41 = new CalcultorTransition(state6, null, equal, null, state4);
@@ -107,9 +123,15 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		
 		List<Transition<ExprInfo>> t1 = new ArrayList<Transition<ExprInfo>>();
 		t1.add(tran_1_3);
-		t1.add(tran_1_5);
+		t1.add(tran_1_2);
+		t1.add(tran_1_21);
+		t1.add(tran_1_22);
 		this.transitions.add(t1);
 		List<Transition<ExprInfo>> t2 = new ArrayList<Transition<ExprInfo>>();
+		t2.add(tran_2_3);
+		t2.add(tran_2_2);
+		t2.add(tran_2_21);
+		t2.add(tran_2_22);
 		this.transitions.add(t2);
 		List<Transition<ExprInfo>> t3 = new ArrayList<Transition<ExprInfo>>();
 		t3.add(tran_3_4);
@@ -121,7 +143,9 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 //		t4.add(tran_4_7);
 		this.transitions.add(t4);
 		List<Transition<ExprInfo>> t5 = new ArrayList<Transition<ExprInfo>>();
-		t5.add(tran_5_4);
+		t5.add(tran_5_2);
+		t5.add(tran_5_21);
+		t5.add(tran_5_22);
 		t5.add(tran_5_6);
 		this.transitions.add(t5);
 		List<Transition<ExprInfo>> t6 = new ArrayList<Transition<ExprInfo>>();
@@ -217,7 +241,7 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 	}
 
 	@Override
-	public String receive(String s) {
+	public ExprInfo receive(String s) {
 		System.out.print(">>> receive begin ---");
 		State<ExprInfo> cur = this.getCurrentState();
 		System.out.print("cur state=" + cur + ",s=" + s);
@@ -238,7 +262,7 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		if (tran != null) {
 			Action<ExprInfo> action = tran.getAction();
 			ExprInfo str = val;
-			str.addInput(s);
+			str.setInput(s);
 			if (action != null) {
 				str = action.doAction(val);
 			}
@@ -247,12 +271,12 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 			System.out.print(" to state=" + to);
 			this.currentState = to;
 		} else {
-			val.addInput(s);
+			val.append(s);
 			cur.setValue(val);
 			System.out.print(" to state=" + cur);
 		}
 		// make output
-		String out = this.currentState.getValue().getExpr();
+		ExprInfo out = this.currentState.getValue();
 		System.out.println("--- receive  end  >>>" + out);
 		return out;
 	}

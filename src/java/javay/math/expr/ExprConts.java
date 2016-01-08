@@ -1,11 +1,11 @@
 package javay.math.expr;
 
 public interface ExprConts {
-    public static final String OPERATOR_CHARS = "+-*/=^()!%";
-    public static final String ADD = "+";
-    public static final String SUB = "-";
-    public static final String MUL = "*";
-    public static final String DIV = "/";
+    public static final String OPERATOR_CHARS = "＋－×÷=^()!%";
+    public static final String ADD = "＋";
+    public static final String SUB = "－";
+    public static final String MUL = "×";
+    public static final String DIV = "÷";
     public static final String MOD = "mod";
     public static final String POW = "^";
     public static final String FAC = "!";

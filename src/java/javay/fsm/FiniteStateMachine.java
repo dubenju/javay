@@ -38,5 +38,5 @@ public interface FiniteStateMachine<T> {
 	public void setOutputs(List<String> out);
 
 	public State<T> getCurrentState();
-	public String receive(String s);
+	public T receive(String s);
 }

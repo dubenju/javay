@@ -110,20 +110,25 @@ public class CalcultorActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
-//		System.out.println("state=" + state + ",s=" + s);
-		String expr = this.fsm.receive(s);
+		System.out.println("state=" + state + ",s=" + s);
+		ExprInfo expr = this.fsm.receive(s);
 		
 		/* *** 表达式求值 *** */
-		this.panel.expr.setText(expr);
+		String expression = expr.getExpr();
+		this.panel.expr.setText(expression);
 		List<Token> ts = new ArrayList<Token>();
 		try {
-			ts = ExprParser.parse(expr);
+			ts = ExprParser.parse(expression);
 		} catch (ExprException e1) {
 			e1.printStackTrace();
 		}
 		List<Token> pots = ExprParser.toPostfix(ts);
 		Expression expr2 = ExprParser.toExprFromPostfix(pots);
 		System.out.println("[outIN ]" + expr2.toInfixString() + "=" + expr2.value());
+		String display = expr.getInbuf().toString();
+		if (display.length() > 0) {
+			this.panel.textField.setText(display);
+		}
 		/* *** 表达式求值 *** */
 
 		if (this.isControl(s)) {
@@ -131,35 +136,35 @@ public class CalcultorActionListener implements ActionListener {
 			return ;
 		}
 
-		switch( state ) {
-		case 0:
-			// 0: 初期状态
-			inputState0(s);
-			break;
-		case 1:
-			// 1: 错误状态
-			inputState1(s);
-			break;
-		case 2:
-			// 2: 数值输入中
-			inputState2(s);
-			break;
-		case 3:
-			// 3: 得出结果
-			inputState3(s);
-			break;
-		case 4:
-			// 4: 操作符号输入完了
-			inputState4(s);
-			break;
-		case 5:
-			// 5: 第二个数值输入中
-			inputState5(s);
-			break;
-		default:
-			System.out.println( "Unknow state error!state=" + state);
-			System.exit(1);
-		}
+//		switch( state ) {
+//		case 0:
+//			// 0: 初期状态
+//			inputState0(s);
+//			break;
+//		case 1:
+//			// 1: 错误状态
+//			inputState1(s);
+//			break;
+//		case 2:
+//			// 2: 数值输入中
+//			inputState2(s);
+//			break;
+//		case 3:
+//			// 3: 得出结果
+//			inputState3(s);
+//			break;
+//		case 4:
+//			// 4: 操作符号输入完了
+//			inputState4(s);
+//			break;
+//		case 5:
+//			// 5: 第二个数值输入中
+//			inputState5(s);
+//			break;
+//		default:
+//			System.out.println( "Unknow state error!state=" + state);
+//			System.exit(1);
+//		}
 	}
 
 	/**

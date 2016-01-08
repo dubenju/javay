@@ -56,3 +56,28 @@ public class Operators {
     	return ops.containsKey(key);
     }
 }
+/*
+>>> receive begin ---cur state=1:初期状态[,,],s=1 to state=3:数值1输入中[1,1,1]--- receive  end  >>>1
+1
+{1}1[NUMc]1
+[NUMBER__1]
+---------------------------------
+in[1]out=[[NUMBER__1]]stk=[[]]
+---------------------------------
+0:NUMBER__1[]
+[outIN ]1=1.0
+>>> receive begin ---cur state=3:数值1输入中[1,1,1],s=＋ to state=5:操作符号输入完了[＋,,1]--- receive  end  >>>1
+1
+{1}1[NUMc]1
+[NUMBER__1]
+---------------------------------
+in[1]out=[[NUMBER__1]]stk=[[]]
+---------------------------------
+0:NUMBER__1[]
+[outIN ]1=1.0
+>>> receive begin ---cur state=5:操作符号输入完了[＋,,1],s=2 to state=6:第二个数值输入中[2,2,1＋2]--- receive  end  >>>1＋2
+1＋2
+{1}{＋}1[NUMb]1
+{2}javay.math.expr.ExprException: 不能被识别的记号。[＋]
+---------------------------------
+*/

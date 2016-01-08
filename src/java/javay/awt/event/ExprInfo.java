@@ -6,12 +6,14 @@ public class ExprInfo {
 	private String opt;
 	private String num2;
 	private String input;
+	private StringBuffer inbuf;
 	public ExprInfo() {
 		this.expr = "";
 		this.num1 = "";
 		this.opt = "";
 		this.num2 = "";
 		this.input = "";
+		this.inbuf = new StringBuffer();
 	}
 	/**
 	 * @return the expr
@@ -68,6 +70,9 @@ public class ExprInfo {
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(this.input);
+		buf.append(",");
+		buf.append(this.inbuf.toString());
+		buf.append(",");
 		buf.append(this.expr);
 		return buf.toString();
 	}
@@ -85,5 +90,21 @@ public class ExprInfo {
 	}
 	public void addInput(String input) {
 		this.input = this.input + input;
+	}
+	public void append(String s) {
+		this.inbuf.append(s);
+		this.expr = this.expr + s;
+	}
+	/**
+	 * @return the inbuf
+	 */
+	public StringBuffer getInbuf() {
+		return inbuf;
+	}
+	/**
+	 * @param inbuf the inbuf to set
+	 */
+	public void setInbuf(StringBuffer inbuf) {
+		this.inbuf = inbuf;
 	}
 }
