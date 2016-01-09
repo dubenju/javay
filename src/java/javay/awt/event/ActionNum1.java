@@ -13,7 +13,7 @@ public class ActionNum1 implements Action<ExprInfo> {
 		buf.append(cur_in);
 		in.setInbuf(buf);
 		
-		String expr = in.getExpr();
+		String expr = "";
 		in.setExpr(expr + buf.toString());
 		in.setNum1(cur_in);
 		return in;

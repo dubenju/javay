@@ -1,9 +1,27 @@
 package javay.awt.event;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javay.fsm.transition.Condition;
+import javay.math.expr.ExprConts;
 import javay.swing.CalcultorConts;
 
 public abstract class AbstractCondition implements Condition {
+	private static final Map<String, String> digit = new HashMap<String, String>();
+	private static final Map<String, String> opt1  = new HashMap<String, String>();
+	private static final Map<String, String> opt2  = new HashMap<String, String>();
+	private static final Map<String, String> equal = new HashMap<String, String>();
+	static {
+		opt2.put(ExprConts.ADD, ExprConts.ADD);
+		opt2.put(ExprConts.SUB, ExprConts.SUB);
+		opt2.put(ExprConts.MUL, ExprConts.MUL);
+		opt2.put(ExprConts.DIV, ExprConts.DIV);
+		opt2.put(ExprConts.MOD, ExprConts.MOD);
+		opt2.put(ExprConts.POW, ExprConts.POW);
+
+		equal.put(ExprConts.EQU, ExprConts.EQU);
+	}
 	public boolean isDigit( String s ) {
 		return s.equals(CalcultorConts.ZERO) || s.equals(CalcultorConts.ONE) ||
 				s.equals(CalcultorConts.TWO) || s.equals(CalcultorConts.THREE) ||
@@ -16,7 +34,7 @@ public abstract class AbstractCondition implements Condition {
 				s.equals(CalcultorConts.DOT); // TODO:..
 	}
 	public boolean isOperator1(String s) {
-		return s.equals(CalcultorConts.DIVIDE1)  || s.equals(CalcultorConts.N) ||
+		return s.equals(CalcultorConts.DIVIDE1)  || s.equals(ExprConts.FAC) ||
 				s.equals(CalcultorConts.LOG) || s.equals(CalcultorConts.LN) ||
 				s.equals(CalcultorConts.X2) || s.equals(CalcultorConts.X3) ||
 				s.equals(CalcultorConts.EXP) || s.equals(CalcultorConts.SIN) ||
@@ -25,11 +43,13 @@ public abstract class AbstractCondition implements Condition {
 				s.equals(CalcultorConts.LEFT) || s.equals(CalcultorConts.RIGHT); // TODO:()
 	}
 	public boolean isOperator2(String s) {
-		return s.equals(CalcultorConts.ADD) || s.equals(CalcultorConts.SUBTRACT) ||
-				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) ||
-				s.equals(CalcultorConts.MOD) || s.equals(CalcultorConts.XY);
+//		return s.equals(CalcultorConts.ADD) || s.equals(CalcultorConts.SUBTRACT) ||
+//				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) ||
+//				s.equals(CalcultorConts.MOD) || s.equals(CalcultorConts.XY);
+		return null != opt2.get(s);
 	}
 	public boolean isEqual(String s) {
-		return s.equals(CalcultorConts.EQUAL);
+//		return s.equals(CalcultorConts.EQUAL);
+		return null != equal.get(s);
 	}
 }

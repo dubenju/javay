@@ -35,7 +35,6 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		State<ExprInfo> state4 = new CalcultorState<ExprInfo>(4, "得出结果");
 		State<ExprInfo> state5 = new CalcultorState<ExprInfo>(5, "操作符号输入完了");
 		State<ExprInfo> state6 = new CalcultorState<ExprInfo>(6, "第二个数值输入中");
-		State<ExprInfo> state7 = new CalcultorState<ExprInfo>(7, "");
 		State<ExprInfo> state8 = new StateFinal<ExprInfo>();
 
 		this.states = new ArrayList<State<ExprInfo>>();
@@ -46,7 +45,6 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		this.states.add(state4);
 		this.states.add(state5);
 		this.states.add(state6);
-		this.states.add(state7);
 		this.states.add(state8);
 
 		// 邻接表,逆临接表(DAG)
@@ -62,6 +60,9 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		ActionOpt2 aopt2 = new ActionOpt2();
 		ActionNum2 anum2 = new ActionNum2();
 		ActionError aerr = new ActionError();
+		ActionOpt1 aopt1 = new ActionOpt1();
+		ActionEqual aequal = new ActionEqual();
+		//a33
 		/*
 		 * 1:初期状态
 		 * 2:错误状态
@@ -72,55 +73,38 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		 * 7:一元操作符输入完了
 		 */
 		/*
-		 * C¥S 1 2 3 4 5 6 7 
-		 * 0.9 3 3 3 3 6 6  
-		 * una 2 2 4 4 2 4  
-		 * bin 2 2 5 5 2 5  
-		 * =   2 2 4 4 2 4 4
+		 * C¥S 1 2 3 4 5 6
+		 * 0.9 3 3 3 3 6 6
+		 * una 2 2 4 4 2 4
+		 * bin 2 2 5 5 2 5
+		 * =   2 2 4 4 2 4
 		 */
-		// 1:初期状态 + 0.9 = 3:数值1输入中
-		Transition<ExprInfo> tran_1_3 = new CalcultorTransition(state1, null, num, anum1, state3);
-		// 初期状态 + OPT = 2:错误状态
-		Transition<ExprInfo> tran_1_2 = new CalcultorTransition(state1, null, opt1, aerr, state2);
-		Transition<ExprInfo> tran_1_21 = new CalcultorTransition(state1, null, opt2, aerr, state2);
-		Transition<ExprInfo> tran_1_22 = new CalcultorTransition(state1, null, equal, aerr, state2);
-
-		// 2:错误状态 + OPT = 3:数值1输入中
-		Transition<ExprInfo> tran_2_3 = new CalcultorTransition(state2, null, num, anum1, state3);
-		Transition<ExprInfo> tran_2_2 = new CalcultorTransition(state2, null, opt1, aerr, state2);
-		Transition<ExprInfo> tran_2_21 = new CalcultorTransition(state2, null, opt2, aerr, state2);
-		Transition<ExprInfo> tran_2_22 = new CalcultorTransition(state2, null, equal, aerr, state2);
-
-		// 3:数值1输入中 + OPT1 or = = 得出结果
-		Transition<ExprInfo> tran_3_4 = new CalcultorTransition(state3, null, opt1, null, state4);
-		// 3:数值1输入中 + OPT1 or = = 5:操作符号输入完了
-		Transition<ExprInfo> tran_3_5 = new CalcultorTransition(state3, null, opt2, aopt2, state5);
-		// 4:得出结果 + 0.9 = 数值输入中
-		Transition<ExprInfo> tran_4_3 = new CalcultorTransition(state4, null, num, anum1, state3);
-		// 4:得出结果 + OPT2 = 操作符号输入完了
-		Transition<ExprInfo> tran_4_5 = new CalcultorTransition(state4, null, opt2, aopt2, state5);
-		// 4:得出结果 + = 
-//		Transition tran_4_7 = new CalcultorTransition(state4, null, null, null, state7);
-
-		// 5:二元操作符输入完了 + OPT1 = 2:错误状态
-		Transition<ExprInfo> tran_5_2 = new CalcultorTransition(state5, null, opt1, aerr, state2);
-		Transition<ExprInfo> tran_5_21 = new CalcultorTransition(state5, null, opt2, aerr, state2);
-		Transition<ExprInfo> tran_5_22 = new CalcultorTransition(state5, null, equal, aerr, state2);
-		// 5:二元操作符输入完了 + 0.9 = 6:第二个数值输入中
-		Transition<ExprInfo> tran_5_6 = new CalcultorTransition(state5, null, num, anum2, state6);
-
-		// 6:第二个数值输入中 + OPT1 = 4:得出结果
-		Transition<ExprInfo> tran_6_4 = new CalcultorTransition(state6, null, opt1, null, state4);
-		Transition<ExprInfo> tran_6_41 = new CalcultorTransition(state6, null, equal, null, state4);
-		// 6:第二个数值输入中 + OPT2 = 5:操作符号输入完了
-		Transition<ExprInfo> tran_6_5 = new CalcultorTransition(state6, null, opt2, aopt2, state5);
-		//  + = 得出结果
-//		Transition tran_7_5 = new CalcultorTransition(state7, null, null, null, state5);
+		Transition<ExprInfo> tran_1_3  = new CalcultorTransition(state1, null, num  , anum1 , state3);
+		Transition<ExprInfo> tran_1_2  = new CalcultorTransition(state1, null, opt1 , aerr  , state2);
+		Transition<ExprInfo> tran_1_21 = new CalcultorTransition(state1, null, opt2 , aerr  , state2);
+		Transition<ExprInfo> tran_1_22 = new CalcultorTransition(state1, null, equal, aerr  , state2);
+		Transition<ExprInfo> tran_2_3  = new CalcultorTransition(state2, null, num  , anum1 , state3);
+		Transition<ExprInfo> tran_2_2  = new CalcultorTransition(state2, null, opt1 , aerr  , state2);
+		Transition<ExprInfo> tran_2_21 = new CalcultorTransition(state2, null, opt2 , aerr  , state2);
+		Transition<ExprInfo> tran_2_22 = new CalcultorTransition(state2, null, equal, aerr  , state2);
+		Transition<ExprInfo> tran_3_4  = new CalcultorTransition(state3, null, opt1 , aopt1 , state4);
+		Transition<ExprInfo> tran_3_5  = new CalcultorTransition(state3, null, opt2 , aopt2 , state5);
+		Transition<ExprInfo> tran_3_41 = new CalcultorTransition(state3, null, equal, aequal, state4);
+		Transition<ExprInfo> tran_4_3  = new CalcultorTransition(state4, null, num  , anum1 , state3);
+		Transition<ExprInfo> tran_4_4  = new CalcultorTransition(state4, null, opt1 , aopt1 , state4);
+		Transition<ExprInfo> tran_4_5  = new CalcultorTransition(state4, null, opt2 , aopt2 , state5);
+		Transition<ExprInfo> tran_4_41 = new CalcultorTransition(state4, null, equal, aequal, state4);
+		Transition<ExprInfo> tran_5_2  = new CalcultorTransition(state5, null, opt1 , aerr  , state2);
+		Transition<ExprInfo> tran_5_21 = new CalcultorTransition(state5, null, opt2 , aerr  , state2);
+		Transition<ExprInfo> tran_5_22 = new CalcultorTransition(state5, null, equal, aerr  , state2);
+		Transition<ExprInfo> tran_5_6  = new CalcultorTransition(state5, null, num  , anum2 , state6);
+		Transition<ExprInfo> tran_6_4  = new CalcultorTransition(state6, null, opt1 , aopt1 , state4);
+		Transition<ExprInfo> tran_6_41 = new CalcultorTransition(state6, null, equal, aequal, state4);
+		Transition<ExprInfo> tran_6_5  = new CalcultorTransition(state6, null, opt2 , aopt2 , state5);
 
 		List<Transition<ExprInfo>> ti = new ArrayList<Transition<ExprInfo>>();
 		ti.add(tran_i_1);
 		this.transitions.add(ti);
-		
 		List<Transition<ExprInfo>> t1 = new ArrayList<Transition<ExprInfo>>();
 		t1.add(tran_1_3);
 		t1.add(tran_1_2);
@@ -136,11 +120,13 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		List<Transition<ExprInfo>> t3 = new ArrayList<Transition<ExprInfo>>();
 		t3.add(tran_3_4);
 		t3.add(tran_3_5);
+		t3.add(tran_3_41);
 		this.transitions.add(t3);
 		List<Transition<ExprInfo>> t4 = new ArrayList<Transition<ExprInfo>>();
 		t4.add(tran_4_3);
 		t4.add(tran_4_5);
-//		t4.add(tran_4_7);
+		t4.add(tran_4_4);
+		t4.add(tran_4_41);
 		this.transitions.add(t4);
 		List<Transition<ExprInfo>> t5 = new ArrayList<Transition<ExprInfo>>();
 		t5.add(tran_5_2);
@@ -153,9 +139,8 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		t6.add(tran_6_4);
 		t6.add(tran_6_41);
 		t6.add(tran_6_5);
-		List<Transition<ExprInfo>> t7 = new ArrayList<Transition<ExprInfo>>();
-//		t7.add(tran_7_5);
-		this.transitions.add(t7);
+		List<Transition<ExprInfo>> t8 = new ArrayList<Transition<ExprInfo>>();
+		this.transitions.add(t8);
 
 		this.currentState = this.initialState;
 		this.currentState = tran(this.currentState);
@@ -244,7 +229,7 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 	public ExprInfo receive(String s) {
 		System.out.print(">>> receive begin ---");
 		State<ExprInfo> cur = this.getCurrentState();
-		System.out.print("cur state=" + cur + ",s=" + s);
+		System.out.print("cur ★" + cur + ",s=" + s);
 
 		ExprInfo val = cur.getValue();
 		// get all condition
@@ -268,12 +253,13 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 			}
 			State<ExprInfo> to = tran.getTo();
 			to.setValue(str);
-			System.out.print(" to state=" + to);
+			System.out.print(" to ★" + to);
 			this.currentState = to;
 		} else {
+			System.out.println("!!!WARNING!!! This state's transition is undefined." + cur);
 			val.append(s);
 			cur.setValue(val);
-			System.out.print(" to state=" + cur);
+			System.out.print(" to ⭐︎" + cur);
 		}
 		// make output
 		ExprInfo out = this.currentState.getValue();

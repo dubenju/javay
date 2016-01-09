@@ -110,21 +110,13 @@ public class CalcultorActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
-		System.out.println("state=" + state + ",s=" + s);
-		ExprInfo expr = this.fsm.receive(s);
+		String st = Converter.conv(s);
+		System.out.println("state=" + state + ",s=" + s + ",st=" + st);
+		ExprInfo expr = this.fsm.receive(st);
 		
 		/* *** 表达式求值 *** */
 		String expression = expr.getExpr();
 		this.panel.expr.setText(expression);
-		List<Token> ts = new ArrayList<Token>();
-		try {
-			ts = ExprParser.parse(expression);
-		} catch (ExprException e1) {
-			e1.printStackTrace();
-		}
-		List<Token> pots = ExprParser.toPostfix(ts);
-		Expression expr2 = ExprParser.toExprFromPostfix(pots);
-		System.out.println("[outIN ]" + expr2.toInfixString() + "=" + expr2.value());
 		String display = expr.getInbuf().toString();
 		if (display.length() > 0) {
 			this.panel.textField.setText(display);

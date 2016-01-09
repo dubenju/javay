@@ -1,11 +1,13 @@
 package javay.awt.event;
 
 public class ExprInfo {
+	/** 表达式用 */
 	private String expr;
 	private String num1;
 	private String opt;
 	private String num2;
 	private String input;
+	/** 当前输入表示用 */
 	private StringBuffer inbuf;
 	public ExprInfo() {
 		this.expr = "";
@@ -16,12 +18,14 @@ public class ExprInfo {
 		this.inbuf = new StringBuffer();
 	}
 	/**
-	 * @return the expr
+	 * 表达式
+	 * @return the expr 表达式
 	 */
 	public String getExpr() {
 		return expr;
 	}
 	/**
+	 * 表达式
 	 * @param expr the expr to set
 	 */
 	public void setExpr(String expr) {
@@ -69,11 +73,11 @@ public class ExprInfo {
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
-		buf.append(this.input);
+		buf.append("当前输入:" +this.input);
 		buf.append(",");
-		buf.append(this.inbuf.toString());
+		buf.append("输入缓存:" + this.inbuf.toString());
 		buf.append(",");
-		buf.append(this.expr);
+		buf.append("表达式:" +this.expr);
 		return buf.toString();
 	}
 	/**
@@ -96,12 +100,14 @@ public class ExprInfo {
 		this.expr = this.expr + s;
 	}
 	/**
-	 * @return the inbuf
+	 * 当前输入表示
+	 * @return the inbuf 当前输入表示
 	 */
 	public StringBuffer getInbuf() {
 		return inbuf;
 	}
 	/**
+	 * 当前输入表示
 	 * @param inbuf the inbuf to set
 	 */
 	public void setInbuf(StringBuffer inbuf) {
