@@ -16,9 +16,9 @@ public class Operators {
          * 元数
          * 0:左右结合，1:右结合，－1:左结合
          */
-        ops.put(ExprConts.AND, new Operator(ExprConts.AND, 000, 2, 0, (num1, num2)->num1.add(num2))); // AND
-        ops.put(ExprConts.OR , new Operator(ExprConts.OR , 000, 2, 0, (num1, num2)->num1.subtract(num2))); // OR
-        ops.put(ExprConts.XOR, new Operator(ExprConts.XOR, 000, 2, 0, (num1, num2)->num1.multiply(num2))); // XOR
+        ops.put(ExprConts.AND, new Operator(ExprConts.AND, 000, 2, 0, (num1, num2)->num1.add(num2))); // TODO:AND
+        ops.put(ExprConts.OR , new Operator(ExprConts.OR , 000, 2, 0, (num1, num2)->num1.subtract(num2))); // TODO:OR
+        ops.put(ExprConts.XOR, new Operator(ExprConts.XOR, 000, 2, 0, (num1, num2)->num1.multiply(num2))); // TODO:XOR
 
         ops.put(ExprConts.ADD, new Operator(ExprConts.ADD,  100, 2, 0, (num1, num2)->num1.add(num2))); // +
         ops.put(ExprConts.SUB, new Operator(ExprConts.SUB,  100, 2, 0, (num1, num2)->num1.subtract(num2))); // -
@@ -33,16 +33,16 @@ public class Operators {
         ops.put(ExprConts.MINUS,new Operator(ExprConts.MINUS,400, 1, 1, (num1, num2)->num1.negate())); // -
         ops.put(ExprConts.PER, new Operator(ExprConts.PER, 400, 1, -1, (num1, num2)->num1.divide(new BigNum("100.0"), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT))); // %
         ops.put(ExprConts.FAC, new Operator(ExprConts.FAC, 400, 1, -1, (num1, num2)->num1.factorial())); // !
-        ops.put(ExprConts.LSH, new Operator(ExprConts.LSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // LSH
-        ops.put(ExprConts.RSH, new Operator(ExprConts.RSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // RSH
-        ops.put(ExprConts.INT, new Operator(ExprConts.INT, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // INT
+        ops.put(ExprConts.LSH, new Operator(ExprConts.LSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:LSH
+        ops.put(ExprConts.RSH, new Operator(ExprConts.RSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:RSH
+        ops.put(ExprConts.INT, new Operator(ExprConts.INT, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:INT
         ops.put(ExprConts.SIN, new Operator(ExprConts.SIN, 400, 1, 1, (num1, num2)->MathBn.sin(num1))); // SIN
         ops.put(ExprConts.COS, new Operator(ExprConts.COS, 400, 1, 1, (num1, num2)->MathBn.cos(num1))); // COS
         ops.put(ExprConts.TAN, new Operator(ExprConts.TAN, 400, 1, 1, (num1, num2)->MathBn.tan(num1))); // TAN
         ops.put(ExprConts.EXP, new Operator(ExprConts.EXP, 400, 1, 1, (num1, num2)->MathBn.exp(num1))); // EXP
-        ops.put(ExprConts.LN , new Operator(ExprConts.LN , 400, 1, 1, (num1, num2)->num1.multiply(num2))); // LN
-        ops.put(ExprConts.LOG, new Operator(ExprConts.LOG, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // LOG
-        ops.put(ExprConts.NOT, new Operator(ExprConts.NOT, 400, 1, 1, (num1, num2)->null)); // NOT
+        ops.put(ExprConts.LN , new Operator(ExprConts.LN , 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:LN
+        ops.put(ExprConts.LOG, new Operator(ExprConts.LOG, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:LOG
+        ops.put(ExprConts.NOT, new Operator(ExprConts.NOT, 400, 1, 1, (num1, num2)->null)); // TODO:NOT
 
         ops.put(ExprConts.LEFT, new Operator(ExprConts.LEFT, 500, 1, 1, (num1, num2)->null)); // (
         ops.put(ExprConts.RIGHT, new Operator(ExprConts.RIGHT, 500, 1, -1, (num1, num2)->null)); // )
@@ -56,28 +56,3 @@ public class Operators {
     	return ops.containsKey(key);
     }
 }
-/*
->>> receive begin ---cur state=1:初期状态[,,],s=1 to state=3:数值1输入中[1,1,1]--- receive  end  >>>1
-1
-{1}1[NUMc]1
-[NUMBER__1]
----------------------------------
-in[1]out=[[NUMBER__1]]stk=[[]]
----------------------------------
-0:NUMBER__1[]
-[outIN ]1=1.0
->>> receive begin ---cur state=3:数值1输入中[1,1,1],s=＋ to state=5:操作符号输入完了[＋,,1]--- receive  end  >>>1
-1
-{1}1[NUMc]1
-[NUMBER__1]
----------------------------------
-in[1]out=[[NUMBER__1]]stk=[[]]
----------------------------------
-0:NUMBER__1[]
-[outIN ]1=1.0
->>> receive begin ---cur state=5:操作符号输入完了[＋,,1],s=2 to state=6:第二个数值输入中[2,2,1＋2]--- receive  end  >>>1＋2
-1＋2
-{1}{＋}1[NUMb]1
-{2}javay.math.expr.ExprException: 不能被识别的记号。[＋]
----------------------------------
-*/

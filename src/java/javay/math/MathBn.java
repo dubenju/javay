@@ -140,7 +140,7 @@ public class MathBn {
     }
 
     /**
-     *
+     * log10N
      * @param x
      * @return
      */
@@ -185,10 +185,20 @@ public class MathBn {
     }
 
     /**
+     * logeN
      * ln(1+x)=x-x^2/2+x^3/3-……+(-1)^(k-1)*(x^k)/k(|x|<1) 
      * @return
      */
     public static BigNum ln() {
+    	/*
+    	 * 問題描述:
+　　如題
+　　泰勒展開本人覺得不是很可能，因爲當x<1後ln(x)的值隨顯得減小迅速減小趨向負無窮，這是每個展開點只能近似很小很小的一個範圍內的函數值。如果我要求任意點的ln(x)值那麽泰勒展開就很不現實，因爲展開點的選擇就成問題。
+參考答案:
+　　利用：ln(x)=2arctanh((x-1)/(x+1))
+　　再用：arctanh(y)= y + y^3/3 + y^5/5 + ... (y≤1)
+　　由于：ln(x)=y+ln(x/e^y)，(y 是任意實數)，這樣就可以通過選擇適當的 y 值使 x/e^y 盡量接近1 
+    	 */
     	return null;
     }
 

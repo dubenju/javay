@@ -762,7 +762,8 @@ public class BigNum implements Comparable<BigNum> {
 
         BigNum res = new BigNum(osigned, out2, out2.length, oscale);
         System.out.println(res);
-        check(this, divisor, res, "/", decimal_len, rm);
+        // TODO:check
+//        check(this, divisor, res, "/", decimal_len, rm);
 //        double dres = res.toDouble(16);
 //        double t1 = this.toDouble(14);
 //        double t2 = divisor.toDouble(14);

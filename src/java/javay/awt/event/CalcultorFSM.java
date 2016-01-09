@@ -226,7 +226,7 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 	}
 
 	@Override
-	public ExprInfo receive(String s) {
+	public ExprInfo receive(String s, Object params) {
 		System.out.print(">>> receive begin ---");
 		State<ExprInfo> cur = this.getCurrentState();
 		System.out.print("cur ★" + cur + ",s=" + s);

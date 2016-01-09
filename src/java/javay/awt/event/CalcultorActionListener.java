@@ -5,18 +5,12 @@ package javay.awt.event;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javay.math.BigNum;
 import javay.math.BigNumRound;
 import javay.math.MathBn;
-import javay.math.expr.ExprException;
-import javay.math.expr.ExprParser;
-import javay.math.expr.Expression;
-import javay.math.expr.Token;
 import javay.swing.CalcultorConts;
 import javay.swing.CalcultorPanel;
 
@@ -110,9 +104,10 @@ public class CalcultorActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
-		String st = Converter.conv(s);
-		System.out.println("state=" + state + ",s=" + s + ",st=" + st);
-		ExprInfo expr = this.fsm.receive(st);
+//		String st = Converter.conv(s);
+		System.out.println("state=" + state + ",s=" + s);
+		// 在状态机内对操作符进行变换
+		ExprInfo expr = this.fsm.receive(s, null);
 		
 		/* *** 表达式求值 *** */
 		String expression = expr.getExpr();
