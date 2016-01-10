@@ -60,7 +60,7 @@ public interface CalcultorConts {
 	public static final String NOT = "not";
 	public static final String LSH = "lsh";
 	public static final String RSH = "rsh";
-	
+
 	// 数字
 	public static final String ZERO = "0";
 	public static final String ONE = "1";
@@ -79,7 +79,8 @@ public interface CalcultorConts {
 	public static final String FOURTEEN = "E";
 	public static final String FIFTEEN = "F";
 	public static final String DOT = ".";
-	
+
 	public static final String TRIGONOMETRIC_FUNCTION = "三角函数";
 	public static final String INVERSE = "取反";
+	public static final String HYPERBOLIC = "双曲";
 }

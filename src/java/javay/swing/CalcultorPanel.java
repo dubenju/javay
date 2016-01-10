@@ -49,7 +49,11 @@ public class CalcultorPanel extends JPanel {
 
     JPanel exOption = new JPanel();
     JPanel exOptLeft = new JPanel();
+    // [sin]、[cos]、[tan]、[PI]、[x^y]、[x^2]、[x^3]、[ln]、[log]、[Ave]、[Sum]、[s]、[dms]、[Lsh]
+    // arcsin,arccos,arctan,2PI,x的y次方根,x的2次方根,x的3次方根,e的n次方,10的n次方,?ave,?sum,?s,smd,rsh
     public JCheckBox inv = new JCheckBox("反计算"); // inverse
+    // [sin]、[cos]、[tan]
+    // sinh,cosh,tanh
     public JCheckBox hyp = new JCheckBox("双曲");// Hyperbolic
 
     JPanel exOptRight = new JPanel();

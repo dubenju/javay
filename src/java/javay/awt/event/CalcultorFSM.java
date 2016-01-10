@@ -11,9 +11,9 @@ import javay.fsm.transition.Action;
 import javay.fsm.transition.Condition;
 import javay.fsm.transition.Transition;
 /**
- * C¥S 1 2 3 4 5 6 7 
- * 0.9 3   3 3 6 6  
- * una 7   4 4 2 4  
+ * C¥S 1 2 3 4 5 6 7
+ * 0.9 3   3 3 6 6
+ * una 7   4 4 2 4
  * bin 2   5 5 2 5
  * @author dubenju
  *
@@ -259,7 +259,7 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 			System.out.println("!!!WARNING!!! This state's transition is undefined." + cur);
 			val.append(s);
 			cur.setValue(val);
-			System.out.print(" to ⭐︎" + cur);
+			System.out.print(" to ☆" + cur);
 		}
 		// make output
 		ExprInfo out = this.currentState.getValue();

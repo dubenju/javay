@@ -97,7 +97,7 @@ public class ExprInfo {
 	}
 	public void append(String s) {
 		this.inbuf.append(s);
-		this.expr = this.expr + s;
+		// this.expr = this.expr + s;
 	}
 	/**
 	 * 当前输入表示

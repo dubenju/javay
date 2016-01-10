@@ -15,6 +15,9 @@ public class ActionEqual implements Action<ExprInfo> {
 	public ExprInfo doAction(ExprInfo in, Object params) {
 		/* *** 表达式求值 *** */
 		String expression = in.getExpr();
+		String opt2 = in.getOpt();
+		String num2 = in.getInbuf().toString();
+		expression = expression + opt2 + num2;
 		List<Token> ts = new ArrayList<Token>();
 		try {
 			ts = ExprParser.parse(expression);
@@ -30,6 +33,7 @@ public class ActionEqual implements Action<ExprInfo> {
 		buf.append(val);
 		in.setInbuf(buf);
 		in.setExpr(val); // 旧的表达式可以放到历史纪录里了。
+		in.setOpt("");
 		return in;
 	}
 

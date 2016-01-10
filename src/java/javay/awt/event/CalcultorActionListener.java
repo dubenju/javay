@@ -74,11 +74,16 @@ public class CalcultorActionListener implements ActionListener {
 		if (this.panel.inv.isSelected()) {
 			inverse = "inverse";
 		}
+		String hyperbolic = "";
+		if (this.panel.hyp.isSelected()) {
+			hyperbolic = "hyperbolic";
+		}
 		context.put(CalcultorConts.TRIGONOMETRIC_FUNCTION, value);
 		context.put(CalcultorConts.INVERSE, inverse);
+		context.put(CalcultorConts.HYPERBOLIC, hyperbolic);
 		// 在状态机内对操作符进行变换
 		ExprInfo expr = this.fsm.receive(s, context);
-		
+
 		/* *** 表达式求值 *** */
 		String expression = expr.getExpr();
 		this.panel.expr.setText(expression);
@@ -87,14 +92,14 @@ public class CalcultorActionListener implements ActionListener {
 			this.panel.textField.setText(display);
 		}
 		/* *** 表达式求值 *** */
-	
+
 		/* 控制 */
 		if( s.equals(CalcultorConts.DMS) ) {
 			if (this.panel.inv.isSelected()) {
 				this.panel.inv.setSelected(false);
 			}
 		}
-	
+
 		if (this.isControl(s)) {
 			control(s);
 			return ;
@@ -224,13 +229,13 @@ public class CalcultorActionListener implements ActionListener {
 			this.panel.textField.setNumberSystem(CalcultorConts.HEXADECIMAL);
 		}
 		if (CalcultorConts.BACKSPACE.equals(s)) {
-			
+
 		}
 		if (CalcultorConts.CLEAR_ERROR.equals(s)) {
-			
+
 		}
 		if (CalcultorConts.CLEAR.equals(s)) {
-			
+
 		}
 	}
 }

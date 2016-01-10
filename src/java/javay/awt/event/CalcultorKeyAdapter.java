@@ -78,3 +78,65 @@ public class CalcultorKeyAdapter extends KeyAdapter {
 	}
 
 }
+/*
+ボタン	キー
+%	%
+(	(
+)	)
+*	*
++	+
++/-	F9
+-	-
+.	. または、
+/	/
+0–9	0–9
+1/x	R
+=	Enter
+A–F	A–F
+And	&
+Ave	Ctrl + A
+Back	BackSpace
+2 進	F8
+Byte	F4
+C	Esc
+CE	Del
+cos	O
+Dat	Ins
+10 進	F6
+Deg	F2
+dms	M
+Dword	F2
+Exp	X
+F-E	V
+Grad	F4
+16 進	F5
+Hyp	H
+Int	;
+Inv	I
+ln	N
+log	L
+Lsh	<
+M+	Ctrl + P
+MC	Ctrl + L
+Mod	%
+MR	Ctrl + R
+MS	Ctrl + M
+n!	!
+Not	~
+8 進	F7
+Or	縦棒 (|)
+PI	P
+Qword	F12
+Rad	F3
+s	Ctrl + D
+sin	S
+sqrt	@
+Sta	Ctrl + S
+Sum	Ctrl + T
+tan	T
+Word	F3
+Xor	^
+x^2	@
+x^3	#
+x^y	Y
+*/

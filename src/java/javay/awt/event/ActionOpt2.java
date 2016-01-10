@@ -9,6 +9,9 @@ public class ActionOpt2 implements Action<ExprInfo> {
 	public ExprInfo doAction(ExprInfo in, Object params) {
 		// 表达式
 		String s = in.getExpr();
+		if (s == "") {
+			s = in.getInbuf().toString();
+		}
 		StringBuffer buf = new StringBuffer();
 		buf.append(CalcultorConts.LEFT);
 		buf.append(s);

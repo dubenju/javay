@@ -1125,6 +1125,7 @@ public class BigNum implements Comparable<BigNum> {
 
     	BigNum result = new BigNum(this);
     	BigNum next = this.subtract(BigNum.ONE);
+    	next = next.integral();
     	while(next.compareTo(BigNum.ZERO) > 0) {
     		result = result.multiply(next);
     		next = next.subtract(BigNum.ONE);

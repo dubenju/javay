@@ -12,10 +12,11 @@ public class ActionNum1 implements Action<ExprInfo> {
 		buf = new StringBuffer();
 		buf.append(cur_in);
 		in.setInbuf(buf);
-		
-		String expr = "";
-		in.setExpr(expr + buf.toString());
-		in.setNum1(cur_in);
+
+//		String expr = "";
+//		in.setExpr(expr + buf.toString());
+//		in.setNum1(cur_in);
+		in.setExpr("");
 		return in;
 	}
 
