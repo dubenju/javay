@@ -53,6 +53,13 @@ public interface CalcultorConts {
 	public static final String POS_MINUS = "±";
 	public static final String LEFT = "(";
 	public static final String RIGHT = ")";
+	public static final String INT = "int";
+	public static final String AND = "and";
+	public static final String OR = "or";
+	public static final String XOR = "xor";
+	public static final String NOT = "not";
+	public static final String LSH = "lsh";
+	public static final String RSH = "rsh";
 	
 	// 数字
 	public static final String ZERO = "0";
@@ -72,4 +79,7 @@ public interface CalcultorConts {
 	public static final String FOURTEEN = "E";
 	public static final String FIFTEEN = "F";
 	public static final String DOT = ".";
+	
+	public static final String TRIGONOMETRIC_FUNCTION = "三角函数";
+	public static final String INVERSE = "取反";
 }

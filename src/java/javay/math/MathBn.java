@@ -58,6 +58,14 @@ public class MathBn {
     	return res;
     }
 
+    public static BigNum sind(BigNum num) {
+    	BigNum r = MathBn.toRadians(num);
+    	return sin(r);
+    }
+    public static BigNum sing(BigNum num) {
+    	BigNum r = MathBn.toRad(num);
+    	return sin(r);
+    }
     /**
      * cos(x) = 1 - x^2/2! + x^4/4! - x^6/6! + x^8/8! - ...
      * cos x = 1-x^2/2!+x^4/4!-……+(-1)k*(x^(2k))/(2k)!+…… (-∞<x<∞) 
@@ -79,7 +87,14 @@ public class MathBn {
     	System.out.print(res);
     	return res;
     }
-
+    public static BigNum cosd(BigNum num) {
+    	BigNum r = MathBn.toRadians(num);
+    	return cos(r);
+    }
+    public static BigNum cosg(BigNum num) {
+    	BigNum r = MathBn.toRad(num);
+    	return cos(r);
+    }
     /**
      *
      * @param radian
@@ -97,7 +112,14 @@ public class MathBn {
         }
         return myTan(x, x2, n, t);
     }
-
+    public static BigNum tand(BigNum num) {
+    	BigNum r = MathBn.toRadians(num);
+    	return cos(r);
+    }
+    public static BigNum tang(BigNum num) {
+    	BigNum r = MathBn.toRad(num);
+    	return cos(r);
+    }
     /**
      * e^x=1 + x^1/1! + x^2/2! + x^3/3! + x^4/4! + x^5/5! + ...
      * e^x = 1+x+x^2/2!+x^3/3!+……+x^n/n!+…… 

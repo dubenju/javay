@@ -70,7 +70,7 @@ public class JVariableTextField extends JTextField {
 	 */
 	@Override
 	public void setText(String t) {
-		int columns = this.getColumns();
+//		int colusbmns = this.getColumns();
 		Font font = this.getFont();
 		int fontsize = font.getSize();
 		int length = t.length();
@@ -135,7 +135,7 @@ public class JVariableTextField extends JTextField {
 		Font font = this.getFont();
 		int fontSize = font.getSize();
 		fontSize = (int) (fontSize *0.66);
-		int ng = font.getNumGlyphs();
+//		int ng = font.getNumGsblyphs();
 //		System.out.println("ng=" + ng);
 		int width = this.getWidth();
 		for(int i = width, cnt = 0; i >= 0; i -= fontSize, cnt ++) {

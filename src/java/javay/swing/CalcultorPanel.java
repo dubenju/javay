@@ -74,7 +74,7 @@ public class CalcultorPanel extends JPanel {
     JButton btnDat    = new JButton("Dat");
 
     public JButton btnFE = new JButton("F-E");
-    public JButton btnDMS = new JButton("dms");
+    public JButton btnDMS = new JButton(CalcultorConts.DMS);
     // 正弦
     public JButton btnSin   = new JButton(CalcultorConts.SIN);
     // 余弦
@@ -117,13 +117,13 @@ public class CalcultorPanel extends JPanel {
     public JButton btnE = new JButton(CalcultorConts.FOURTEEN);
     public JButton btnF = new JButton(CalcultorConts.FIFTEEN);
 
-    JButton btnAnd = new JButton("And");
-    JButton btnOr  = new JButton("Or");
-    JButton btnNot = new JButton("Not");
-    JButton btnXor = new JButton("Xor");
+    JButton btnAnd = new JButton(CalcultorConts.AND);
+    JButton btnOr  = new JButton(CalcultorConts.OR);
+    JButton btnNot = new JButton(CalcultorConts.NOT);
+    JButton btnXor = new JButton(CalcultorConts.XOR);
 
-    JButton btnLsh = new JButton("Lsh");
-    JButton btnInt = new JButton("Int");
+    JButton btnLsh = new JButton(CalcultorConts.LSH);
+    JButton btnInt = new JButton(CalcultorConts.INT);
     // 小数点
     JButton btnDot       = new JButton(CalcultorConts.DOT);
     JButton btnPosMinus  = new JButton(CalcultorConts.POS_MINUS);

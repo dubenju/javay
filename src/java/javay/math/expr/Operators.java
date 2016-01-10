@@ -35,17 +35,32 @@ public class Operators {
         ops.put(ExprConts.FAC, new Operator(ExprConts.FAC, 400, 1, -1, (num1, num2)->num1.factorial())); // !
         ops.put(ExprConts.LSH, new Operator(ExprConts.LSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:LSH
         ops.put(ExprConts.RSH, new Operator(ExprConts.RSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:RSH
-        ops.put(ExprConts.INT, new Operator(ExprConts.INT, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:INT
+        ops.put(ExprConts.INT, new Operator(ExprConts.INT, 400, 1, 1, (num1, num2)->num1.integral())); // INT
         ops.put(ExprConts.SIN, new Operator(ExprConts.SIN, 400, 1, 1, (num1, num2)->MathBn.sin(num1))); // SIN
         ops.put(ExprConts.COS, new Operator(ExprConts.COS, 400, 1, 1, (num1, num2)->MathBn.cos(num1))); // COS
         ops.put(ExprConts.TAN, new Operator(ExprConts.TAN, 400, 1, 1, (num1, num2)->MathBn.tan(num1))); // TAN
         ops.put(ExprConts.EXP, new Operator(ExprConts.EXP, 400, 1, 1, (num1, num2)->MathBn.exp(num1))); // EXP
-        ops.put(ExprConts.LN , new Operator(ExprConts.LN , 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:LN
+        ops.put(ExprConts.LN , new Operator(ExprConts.LN , 400, 1, 1, (num1, num2)->num1.ln(2, BigNumRound.HALF_EVENT))); // LN
         ops.put(ExprConts.LOG, new Operator(ExprConts.LOG, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:LOG
         ops.put(ExprConts.NOT, new Operator(ExprConts.NOT, 400, 1, 1, (num1, num2)->null)); // TODO:NOT
+        ops.put(ExprConts.DMS, new Operator(ExprConts.DMS, 400, 1, 1, (num1, num2)->MathBn.dms(num1))); // DMS
+        ops.put(ExprConts.SMD, new Operator(ExprConts.SMD, 400, 1, 1, (num1, num2)->MathBn.smd(num1))); // SMD
 
         ops.put(ExprConts.LEFT, new Operator(ExprConts.LEFT, 500, 1, 1, (num1, num2)->null)); // (
         ops.put(ExprConts.RIGHT, new Operator(ExprConts.RIGHT, 500, 1, -1, (num1, num2)->null)); // )
+
+        ops.put(ExprConts.POW + " 2 ", new Operator(ExprConts.POW + " 2 ", 400, 1, -1, (num1, num2)->num1.pow(2))); // ^ 2 
+        ops.put(ExprConts.POW + " 3 ", new Operator(ExprConts.POW + " 3 ", 400, 1, -1, (num1, num2)->num1.pow(3))); // ^ 3 
+        ops.put(" 1 " + ExprConts.DIV, new Operator(" 1 " + ExprConts.DIV,  400, 1, 1, (num1, num2)->new BigNum("1.0").divide(num1, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT))); // 1 /
+        ops.put(ExprConts.SIN + "d", new Operator(ExprConts.SIN + "d", 400, 1, 1, (num1, num2)->MathBn.sind(num1))); // sind
+        ops.put(ExprConts.SIN + "r", new Operator(ExprConts.SIN + "r", 400, 1, 1, (num1, num2)->MathBn.sin(num1))); // sinr
+        ops.put(ExprConts.SIN + "g", new Operator(ExprConts.SIN + "g", 400, 1, 1, (num1, num2)->MathBn.sing(num1))); // sing
+        ops.put(ExprConts.COS + "d", new Operator(ExprConts.COS + "d", 400, 1, 1, (num1, num2)->MathBn.cosd(num1))); // cond
+        ops.put(ExprConts.COS + "r", new Operator(ExprConts.COS + "r", 400, 1, 1, (num1, num2)->MathBn.cos(num1))); // conr
+        ops.put(ExprConts.COS + "g", new Operator(ExprConts.COS + "g", 400, 1, 1, (num1, num2)->MathBn.cosg(num1))); // cong
+        ops.put(ExprConts.TAN + "d", new Operator(ExprConts.TAN + "d", 400, 1, 1, (num1, num2)->MathBn.tand(num1))); // tand
+        ops.put(ExprConts.TAN + "r", new Operator(ExprConts.TAN + "r", 400, 1, 1, (num1, num2)->MathBn.tan(num1))); // tanr
+        ops.put(ExprConts.TAN + "g", new Operator(ExprConts.TAN + "g", 400, 1, 1, (num1, num2)->MathBn.tang(num1))); // tang
     }
     private Operators() {
     }

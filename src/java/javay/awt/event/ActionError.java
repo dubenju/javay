@@ -5,7 +5,7 @@ import javay.fsm.transition.Action;
 public class ActionError implements Action<ExprInfo> {
 
 	@Override
-	public ExprInfo doAction(ExprInfo in) {
+	public ExprInfo doAction(ExprInfo in, Object params) {
 		in.setNum1("");
 		in.setNum2("");
 		in.setOpt("");

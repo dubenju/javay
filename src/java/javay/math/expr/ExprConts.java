@@ -26,6 +26,8 @@ public interface ExprConts {
     public static final String LOG = "log";
     public static final String PLUS = "+:";
     public static final String MINUS = "-:";
+    public static final String DMS = "dms";
+    public static final String SMD = "smd";
 
     public static final String EQU = "=";
     public static final String LEFT = "(";

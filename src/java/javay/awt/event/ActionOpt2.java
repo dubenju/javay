@@ -6,7 +6,7 @@ import javay.swing.CalcultorConts;
 public class ActionOpt2 implements Action<ExprInfo> {
 
 	@Override
-	public ExprInfo doAction(ExprInfo in) {
+	public ExprInfo doAction(ExprInfo in, Object params) {
 		// 表达式
 		String s = in.getExpr();
 		StringBuffer buf = new StringBuffer();
@@ -17,7 +17,7 @@ public class ActionOpt2 implements Action<ExprInfo> {
 
 		// 二元操作符的全角向半角变换
 		String opt = in.getInput();
-		String st = Converter.conv(opt);
+		String st = Converter.conv(opt, params);
 		in.setOpt(st); // !!
 
 		// 为操组数2输入作准备，输入缓冲初始化

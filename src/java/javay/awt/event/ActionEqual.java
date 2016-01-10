@@ -12,7 +12,7 @@ import javay.math.expr.Token;
 public class ActionEqual implements Action<ExprInfo> {
 
 	@Override
-	public ExprInfo doAction(ExprInfo in) {
+	public ExprInfo doAction(ExprInfo in, Object params) {
 		/* *** 表达式求值 *** */
 		String expression = in.getExpr();
 		List<Token> ts = new ArrayList<Token>();

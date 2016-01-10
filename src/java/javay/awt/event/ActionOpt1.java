@@ -14,21 +14,24 @@ import javay.math.expr.Token;
 public class ActionOpt1 implements Action<ExprInfo> {
 
 	@Override
-	public ExprInfo doAction(ExprInfo in) {
+	public ExprInfo doAction(ExprInfo in, Object params) {
 		String num = in.getInbuf().toString();
 		String opt = in.getInput();
-		// TODO:
-		String st = Converter.conv(opt);
+		// 一元操作符的全角向半角变换
+		String st = Converter.conv(opt, params);
+		// 在这里对x^2,x^3,1/x有所考虑
+		Operator operator = Operators.getOperator(st);
 		// make expression
-		Operator operator = Operators.getOperator(opt);
 		int dir = operator.getDirection();
 		String exp1 = "";
 		if (dir == 1) {
-			exp1 = opt + "(" + num + ")";
+			exp1 = st + "(" + num + ")";
 		}
 		if (dir == -1) {
-			exp1 = num + opt;
+			exp1 = num + st;
 		}
+		// 表达式
+		// TODO:3!+3!
 		String expr = in.getExpr();
 		in.setExpr(exp1);
 

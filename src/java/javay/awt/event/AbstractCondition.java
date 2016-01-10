@@ -38,6 +38,7 @@ public abstract class AbstractCondition implements Condition {
 				s.equals(CalcultorConts.EXP) || s.equals(CalcultorConts.SIN) ||
 				s.equals(CalcultorConts.COS) || s.equals(CalcultorConts.TAN) ||
 				s.equals(CalcultorConts.DMS) || s.equals(CalcultorConts.N) ||
+				s.equals(CalcultorConts.INT) || 
 				s.equals(CalcultorConts.LEFT) || s.equals(CalcultorConts.RIGHT); // TODO:()
 	}
 	public boolean isOperator2(String s) {

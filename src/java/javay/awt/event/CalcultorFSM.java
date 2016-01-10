@@ -249,7 +249,7 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 			ExprInfo str = val;
 			str.setInput(s);
 			if (action != null) {
-				str = action.doAction(val);
+				str = action.doAction(val, params);
 			}
 			State<ExprInfo> to = tran.getTo();
 			to.setValue(str);

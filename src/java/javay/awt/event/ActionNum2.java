@@ -5,7 +5,7 @@ import javay.fsm.transition.Action;
 public class ActionNum2 implements Action<ExprInfo> {
 
 	@Override
-	public ExprInfo doAction(ExprInfo in) {
+	public ExprInfo doAction(ExprInfo in, Object params) {
 		String cur_in = in.getInput();
 		
 		StringBuffer buf = in.getInbuf();
