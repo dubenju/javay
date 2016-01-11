@@ -1119,8 +1119,11 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum factorial() {
-    	if(this.compareTo(BigNum.ZERO) <= 0) {
+    	if(this.compareTo(BigNum.ZERO) < 0) {
     		return this;
+    	}
+    	if(this.compareTo(BigNum.ZERO) == 0) {
+    		return BigNum.ONE;
     	}
 
     	BigNum result = new BigNum(this);

@@ -30,11 +30,16 @@ public class TestSin {
 		//BigNum h = MathBn.exp(new BigNum("2"));
 		//MathBn.pi(0);
 		//MathBn.pi2();
-		BigNum a = new BigNum("59.86");
-		BigNum b = MathBn.dms(a);
-		System.out.println(b);
-		BigNum c = MathBn.smd(b);
-		System.out.println(c);
+//		BigNum a = new BigNum("59.86");
+//		BigNum b = MathBn.dms(a);
+//		System.out.println(b);
+//		BigNum c = MathBn.smd(b);
+//		System.out.println(c);
+		BigNum a = new BigNum("0.5");
+		BigNum b = MathBn.arcsin(a);
+		BigNum c = MathBn.arccos(a);
+		BigNum d = MathBn.arctan(a);
+		System.out.println("a=" + a + "/nb=" + b + "/nc=" + c + "/nd=" + d);
 	}
     public static void test(String args) {
         double x = Double.parseDouble(args);

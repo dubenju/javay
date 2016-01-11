@@ -229,7 +229,7 @@ public class MathBn {
      * @param x
      * @return
      */
-    public static BigNum sinh(BigNum x) {
+    public static BigNum sinhx(BigNum x) {
     	return mySinh(x, 1, x, new BigNum(1.0), x, 1);
     }
     private static BigNum mySinh(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
@@ -250,7 +250,7 @@ public class MathBn {
      * @param x
      * @return
      */
-    public static BigNum cosh(BigNum x) {
+    public static BigNum coshx(BigNum x) {
     	return myCosh(x, 1, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"), 1);
     }
     private static BigNum myCosh(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
@@ -304,36 +304,156 @@ public class MathBn {
     	return res;
     }
     /**
-     * arcsin x = x+(1/2)*x^3/3+(3/8)*x^5/5 + ……(2k)!/((4^k)*((k!)^2))*x^(2k+1)/(2k+1)(|x|<1) 
+     * arcsin x = x+(1/2)*x^3/3+(3/8)*x^5/5 + ……(2k)!*x^(2k+1) / ((4^k)*((k!)^2))*(2k+1) (|x|<1) 
      * @return
      */
-    public static BigNum arcsin() {
-    	return null;
+    public static BigNum arcsin(BigNum num) {
+    	System.out.print("★★★arcsin(" + num + ")等于");
+    	BigNum res = new BigNum("0.0");
+    	BigNum one = new BigNum("1.0");
+    	BigNum two = new BigNum("2.0");
+    	BigNum four = new BigNum("4.0");
+    	for (int i = 0; i < 40; i ++) {
+    		BigNum bi = new BigNum(i);
+    		BigNum bi2 = bi.multiply(two);
+    		BigNum bi21 = bi2.add(one);
+    		BigNum fac = bi.factorial();
+    		BigNum fac2 = bi2.factorial();
+    		BigNum m = fac2.multiply(num.pow(bi21));
+    		BigNum n = bi21.multiply(four.pow(bi).multiply(fac.pow(2)));
+    		BigNum b = m.divide(n, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
+    	}
+    	System.out.print(res);
+    	return res;
     }
     /**
      * arccos x = π/2 - ( x + (1/2)*x^3/3 + (3/8)*x^5/5 + …… ) (|x|<1) 
      * @return
      */
-    public static BigNum arccos() {
-    	return null;
+    public static BigNum arccos(BigNum num) {
+    	BigNum two = new BigNum("2.0");
+    	BigNum a = BigNum.PI.divide(two, 40, BigNumRound.HALF_EVENT);
+    	return a.subtract(arcsin(num));
     }
     /**
      * arctan(x) = x - x^3/3 + x^5/5 - x^7/7 + ...(|x|<1)
-     * arctan x = x - x^3/3 + x^5/5 -……(x≤1) 
+     * arctan x  = x - x^3/3 + x^5/5 -……(x≤1) 
      * @param radian
      * @return
      */
-    public static BigNum arctan(BigNum radian) {
-    	System.out.print("★★★arctan(" + radian + ")等于");
+    public static BigNum arctan(BigNum num) {
+    	System.out.print("★★★arctan(" + num + ")等于");
     	BigNum res = new BigNum("0.0");
     	BigNum a = new BigNum("-1.0");
     	BigNum sign = new BigNum("1.0");
     	for (int i = 1; i < 40; i += 2) {
-    		BigNum augend = radian.pow(i).multiply(sign);
+    		BigNum augend = num.pow(i).multiply(sign);
     		BigNum fac = new BigNum(i);
     		BigNum b = augend.divide(fac, 40, BigNumRound.HALF_EVENT);
     		res = res.add(b);
     		sign = sign.multiply(a);
+    	}
+    	System.out.print(res);
+    	return res;
+    }
+
+    /**
+     * x^(2n+1) / (2n + 1)!
+     * @param num
+     * @return
+     */
+    public static BigNum sinh(BigNum num) {
+    	System.out.print("★★★sinh(" + num + ")等于");
+    	BigNum res = new BigNum("0.0");
+    	BigNum one = new BigNum("1.0");
+    	BigNum two = new BigNum("2.0");
+    	for (int i = 1; i < 40; i ++) {
+    		BigNum bi = new BigNum(i);
+    		BigNum bi2 = bi.multiply(two);
+    		BigNum bi21 = bi2.add(one);
+    		BigNum fac21 = bi21.factorial();
+    		BigNum m = num.pow(bi21);
+    		BigNum b = m.divide(fac21, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
+    	}
+    	System.out.print(res);
+    	return res;
+    }
+    /**
+     * x^(2n) / (2n)!
+     * @param num
+     * @return
+     */
+    public static BigNum cosh(BigNum num) {
+    	System.out.print("★★★cosh(" + num + ")等于");
+    	BigNum res = new BigNum("0.0");
+    	BigNum two = new BigNum("2.0");
+    	for (int i = 1; i < 40; i ++) {
+    		BigNum bi = new BigNum(i);
+    		BigNum bi2 = bi.multiply(two);
+    		BigNum fac2 = bi2.factorial();
+    		BigNum m = num.pow(bi2);
+    		BigNum b = m.divide(fac2, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
+    	}
+    	System.out.print(res);
+    	return res;
+    }
+
+    public static BigNum tanh(BigNum num) {
+    	System.out.print("★★★tanh(" + num + ")等于");
+    	// TODO:??
+    	BigNum res = new BigNum("0.0");
+    	System.out.print(res);
+    	return res;
+    }
+
+    /**
+     * arcsinh x = x-(1/2)*x^3/3+(3/8)*x^5/5 + ……(2k)!*x^(2k+1) / ((4^k)*((k!)^2))*(2k+1) (|x|<1) 
+     * @return
+     */
+    public static BigNum arcsinh(BigNum num) {
+    	System.out.print("★★★arcsin(" + num + ")等于");
+    	BigNum res = new BigNum("0.0");
+    	BigNum one = new BigNum("1.0");
+    	BigNum two = new BigNum("2.0");
+    	BigNum four = new BigNum("4.0");
+    	BigNum a = new BigNum("-1.0");
+    	BigNum sign = new BigNum("1.0");
+    	for (int i = 0; i < 40; i ++) {
+    		BigNum bi = new BigNum(i);
+    		BigNum bi2 = bi.multiply(two);
+    		BigNum bi21 = bi2.add(one);
+    		BigNum fac = bi.factorial();
+    		BigNum fac2 = bi2.factorial();
+    		BigNum m = sign.multiply(fac2.multiply(num.pow(bi21)));
+    		BigNum n = bi21.multiply(four.pow(bi).multiply(fac.pow(2)));
+    		BigNum b = m.divide(n, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
+    		sign = sign.multiply(a);
+    	}
+    	System.out.print(res);
+    	return res;
+    }
+
+    /**
+     * x^(2n+1) / (2n + 1)
+     * @param num
+     * @return
+     */
+    public static BigNum arctanh(BigNum num) {
+    	System.out.print("★★★arctanh(" + num + ")等于");
+    	BigNum res = new BigNum("0.0");
+    	BigNum one = new BigNum("1.0");
+    	BigNum two = new BigNum("2.0");
+    	for (int i = 1; i < 40; i ++) {
+    		BigNum bi = new BigNum(i);
+    		BigNum bi2 = bi.multiply(two);
+    		BigNum bi21 = bi2.add(one);
+    		BigNum m = num.pow(bi21);
+    		BigNum b = m.divide(bi21, 40, BigNumRound.HALF_EVENT);
+    		res = res.add(b);
     	}
     	System.out.print(res);
     	return res;
