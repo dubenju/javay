@@ -34,4 +34,5 @@ public interface ExprConts {
     public static final String LEFT = "(";
     public static final String RIGHT = ")";
     public static final String ARC = "arc";
+    public static final String NEGATE = "negate";
 }

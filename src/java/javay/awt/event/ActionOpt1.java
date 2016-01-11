@@ -35,7 +35,11 @@ public class ActionOpt1 implements Action<ExprInfo> {
 		// TODO:3!+3!
 		String expr = in.getExpr();
 		String opt2 = in.getOpt();
-		in.setExpr(expr + opt2 + "(" + exp1 + ")");
+		if (opt2.equals("") == false) {
+			in.setExpr(expr + opt2 + "(" + exp1 + ")");
+		} else {
+			in.setExpr("(" + exp1 + ")");
+		}
 		in.setOpt("");
 
 		/* *** 表达式求值 *** */

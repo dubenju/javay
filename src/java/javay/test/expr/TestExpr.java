@@ -2,12 +2,9 @@ package javay.test.expr;
 
 import java.util.List;
 
-import javay.math.BigNum;
 import javay.math.expr.ExprParser;
 import javay.math.expr.Expression;
-import javay.math.expr.ExpressionV;
 import javay.math.expr.Token;
-import javay.math.expr.Variables;
 
 public class TestExpr {
 
@@ -22,19 +19,21 @@ public class TestExpr {
 //		str = "1 x 3 * + 4 x / +";
 //		// 波兰式
 //		str = "+ + 1 * x 3 / 4 x";
+		str = "negate(-2.0)";
 
 //		ExpressionV x = Variables.create("x");
 //		x.setVariableValue(new BigNum("2.0"));
 //		System.out.println(x);
 
 		List<Token> ts = ExprParser.parse(str);
+		System.out.println(ts);
 //		Expression expr1 = ExprParser.toExprFromInfix(ts, 0);
-//		List<Token> pots = ExprParser.toPostfix(ts);
-//		System.out.println(pots);
-//		Expression expr2 = ExprParser.toExprFromPostfix(pots);
+		List<Token> pots = ExprParser.toPostfix(ts);
+		System.out.println(pots);
+		Expression expr = ExprParser.toExprFromPostfix(pots);
 
-		List<Token> prts = ExprParser.toPrefix(ts);
-		Expression expr = ExprParser.toExprFromPrefix(prts);
+//		List<Token> prts = ExprParser.toPrefix(ts);
+//		Expression expr = ExprParser.toExprFromPrefix(prts);
 		System.out.println("[outPRE]" + expr.toPrefixString() + "=" + expr.value());
 		System.out.println("[outIN ]" + expr.toInfixString() + "=" + expr.value());
 		System.out.println("[outPOS]" + expr.toPostfixString() + "=" + expr.value());

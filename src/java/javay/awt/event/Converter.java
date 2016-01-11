@@ -24,8 +24,8 @@ public class Converter {
 		conv.put(CalcultorConts.X2      , ExprConts.POW + " 2 "); // 1
 		conv.put(CalcultorConts.X3      , ExprConts.POW + " 3 "); // 1
 		conv.put(CalcultorConts.DIVIDE1 , " 1 " + ExprConts.DIV); // 1
-		conv.put(CalcultorConts.INT, ExprConts.INT);
-//		conv.put(CalcultorConts.MOD, ExprConts.MOD);
+		conv.put(CalcultorConts.INT, ExprConts.INT); // 1
+		conv.put(CalcultorConts.POS_MINUS, ExprConts.NEGATE); // 1
 //		conv.put(CalcultorConts.MOD, ExprConts.MOD);
 //		conv.put(CalcultorConts.MOD, ExprConts.MOD);
 //		conv.put(CalcultorConts.MOD, ExprConts.MOD);

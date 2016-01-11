@@ -32,6 +32,7 @@ public class Operators {
 
         ops.put(ExprConts.PLUS, new Operator(ExprConts.PLUS, 400, 1, 1, (num1, num2)->num1.plus())); // +
         ops.put(ExprConts.MINUS,new Operator(ExprConts.MINUS,400, 1, 1, (num1, num2)->num1.negate())); // -
+        ops.put(ExprConts.NEGATE,new Operator(ExprConts.NEGATE,400, 1, 1, (num1, num2)->num1.negate())); // -
         ops.put(ExprConts.PER, new Operator(ExprConts.PER, 400, 1, -1, (num1, num2)->num1.divide(new BigNum("100.0"), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT))); // %
         ops.put(ExprConts.FAC, new Operator(ExprConts.FAC, 400, 1, -1, (num1, num2)->num1.factorial())); // !
         ops.put(ExprConts.LSH, new Operator(ExprConts.LSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:LSH
