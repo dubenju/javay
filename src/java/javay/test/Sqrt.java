@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
+import javay.math.BigNum;
+import javay.math.MathBn;
+
 public class Sqrt {
 //	 private static float sqrt(float num, float e) {
 //
@@ -81,14 +84,16 @@ public class Sqrt {
 //        sqrt(num, e);
 //        sqrtNewton(num, e);
 		Sqrt proc = new Sqrt();
-		System.out.println(proc.sqrt(9));
+//		System.out.println(proc.sqrt(9));
+//		System.out.println(MathBn.root(new BigNum("2"), new BigNum("2")));
+		System.out.println(new BigNum("2").pow(new BigNum("-2")));
 	}
     public int sqrt(int x) {
         if (x <= 1)
             return x;
         return sqrt(0, x, x);
     }
-    
+
     private int sqrt(int start, int end, double target) {
         if (start >= end - 1)
             return start;

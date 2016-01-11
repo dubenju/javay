@@ -3,7 +3,7 @@ package javay.math;
 import javay.swing.CalcultorConts;
 
 /**
- * arcsinh x = x - 1/2*x^3/3 + 1*3/(2*4)*x^5/5 - …… (|x|<1) 
+ * arcsinh x = x - 1/2*x^3/3 + 1*3/(2*4)*x^5/5 - …… (|x|<1)
  * arctanh x = x + x^3/3 + x^5/5 + ……(|x|<1)
  * @author dubenju
  *
@@ -12,7 +12,7 @@ public class MathBn {
 	public static final BigNum DEGREES_180 = new BigNum("180.0");
 	public static final BigNum GRAD_200 = new BigNum("200.0");
 	/**
-	 * 弧度变度数
+	 * 度数变弧度
 	 * @param degrees
 	 * @return
 	 */
@@ -22,7 +22,7 @@ public class MathBn {
     }
 
     /**
-     * 度数变弧度
+     * 弧度变度数
      * @param radians
      * @return
      */
@@ -31,9 +31,24 @@ public class MathBn {
         return res.divide(BigNum.PI, 40, BigNumRound.HALF_EVENT);
     }
 
+    /**
+     * 百分度变弧度
+     * @param grad
+     * @return
+     */
     public static BigNum toRad(BigNum grad) {
     	BigNum res = grad.multiply(BigNum.PI);
     	return res.divide(GRAD_200, 40, BigNumRound.HALF_EVENT);
+    }
+
+    /**
+     * 弧度变百分度
+     * @param rad
+     * @return
+     */
+    public static BigNum toGrad(BigNum rad) {
+    	BigNum res = rad.multiply(GRAD_200);
+    	return res.divide(BigNum.PI, 40, BigNumRound.HALF_EVENT);
     }
 
     /**
@@ -68,7 +83,7 @@ public class MathBn {
     }
     /**
      * cos(x) = 1 - x^2/2! + x^4/4! - x^6/6! + x^8/8! - ...
-     * cos x = 1-x^2/2!+x^4/4!-……+(-1)k*(x^(2k))/(2k)!+…… (-∞<x<∞) 
+     * cos x = 1-x^2/2!+x^4/4!-……+(-1)k*(x^(2k))/(2k)!+…… (-∞<x<∞)
      * @param radian
      * @return
      */
@@ -121,8 +136,9 @@ public class MathBn {
     	return cos(r);
     }
     /**
+     *
      * e^x=1 + x^1/1! + x^2/2! + x^3/3! + x^4/4! + x^5/5! + ...
-     * e^x = 1+x+x^2/2!+x^3/3!+……+x^n/n!+…… 
+     * e^x = 1+x+x^2/2!+x^3/3!+……+x^n/n!+……
      * @param x
      * @return
      */
@@ -166,9 +182,12 @@ public class MathBn {
      * @param x
      * @return
      */
-    public static BigNum log(BigNum x) {
+    public static BigNum log(BigNum num) {
+    	return ln(num).divide(BigNum.LN10, 40, BigNumRound.HALF_EVENT);
+    }
+    public static BigNum logx(BigNum x) {
     	BigNum x2 = (x.subtract(new BigNum(1))).divide((x.add(new BigNum(1))), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
-    	BigNum d2 = new BigNum(2).multiply(myLog(x2, x2, new BigNum(1.0), x2, 1));
+    	BigNum d2 = new BigNum("2.0").multiply(myLog(x2, x2, new BigNum(1.0), x2, 1));
     	return d2;
     }
     private static BigNum myLog(BigNum x2, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
@@ -208,24 +227,55 @@ public class MathBn {
 
     /**
      * logeN
-     * ln(1+x)=x-x^2/2+x^3/3-……+(-1)^(k-1)*(x^k)/k(|x|<1) 
+     * ln(1+x)=x-x^2/2+x^3/3-……+(-1)^(k-1)*(x^k)/k(|x|<1)
      * @return
      */
-    public static BigNum ln() {
+    public static BigNum ln(BigNum num) {
     	/*
     	 * 問題描述:
-　　如題
-　　泰勒展開本人覺得不是很可能，因爲當x<1後ln(x)的值隨顯得減小迅速減小趨向負無窮，這是每個展開點只能近似很小很小的一個範圍內的函數值。如果我要求任意點的ln(x)值那麽泰勒展開就很不現實，因爲展開點的選擇就成問題。
-參考答案:
-　　利用：ln(x)=2arctanh((x-1)/(x+1))
-　　再用：arctanh(y)= y + y^3/3 + y^5/5 + ... (y≤1)
-　　由于：ln(x)=y+ln(x/e^y)，(y 是任意實數)，這樣就可以通過選擇適當的 y 值使 x/e^y 盡量接近1 
+    	 * 　　如題
+    	 * 　　泰勒展開本人覺得不是很可能，因爲當x<1後ln(x)的值隨顯得減小迅速減小趨向負無窮，這是每個展開點只能近似很小很小的一個範圍內的函數值。如果我要求任意點的ln(x)值那麽泰勒展開就很不現實，因爲展開點的選擇就成問題。
+    	 * 參考答案:
+    	 * 　　利用：ln(x)=2arctanh((x-1)/(x+1))
+    	 * 　　再用：arctanh(y)= y + y^3/3 + y^5/5 + ... (y≤1)
+    	 * 　　由于：ln(x)=y+ln(x/e^y)，(y 是任意實數)，這樣就可以通過選擇適當的 y 值使 x/e^y 盡量接近1
     	 */
-    	return null;
+    	BigNum x = num;
+    	BigNum one = new BigNum("1.0");
+        if (x.compareTo(BigNum.ZERO) <= 0) {
+        	throw new ArithmeticException("Must be positive");
+        }
+        int k = 0, l = 0;
+        for (; x.compareTo(new BigNum("1.0")) > 0; k++) {
+        	x = x.divide(new BigNum("10.0"),40, BigNumRound.HALF_EVENT);
+        }
+        for (; x.compareTo(new BigNum("0.1")) <= 0; k--) {
+        	x = x.multiply(new BigNum("10"));        // ( 0.1, 1 ]
+        }
+        for (; x.compareTo(new BigNum("0.9047")) < 0; l--) {
+        	x = x.multiply(new BigNum("1.2217")); // [ 0.9047, 1.10527199 )
+        }
+        BigNum a =new BigNum(k).multiply(BigNum.LN10);
+        BigNum b = new BigNum(l).multiply(BigNum.LNR);
+        BigNum res = a.add(b);
+        res = res.add(logarithm((x.subtract(one)).divide(x.add(one), 40, BigNumRound.HALF_EVENT)));
+        return res;
+    }
+    private static BigNum logarithm(BigNum y) { // y in ( -0.05-, 0.05+ ), return ln((1+y)/(1-y))
+        BigNum v = new BigNum("1.0");
+        BigNum y2 = y.pow(2);
+        BigNum t = y2;
+        BigNum z = t.divide(new BigNum("3.0"), 40, BigNumRound.HALF_EVENT);
+        for (int i = 3; z.compareTo(BigNum.ZERO) != 0; i += 2) {
+        	v = v.add(z);
+        	t = t.multiply(y2);
+        	z = t.divide(new BigNum(i), 40, BigNumRound.HALF_EVENT);
+        }
+        return new BigNum("2.0").multiply(v.multiply(y));
     }
 
     /**
-     * sinh x = x+x^3/3!+x^5/5!+……+(-1)^(k-1)*(x^2k-1)/(2k-1)!+…… (-∞<x<∞) 
+     * sinh x = x+x^3/3!+x^5/5!+……+(-1)^(k-1)*(x^2k-1)/(2k-1)!+…… (-∞<x<∞)
      * @param x
      * @return
      */
@@ -246,7 +296,7 @@ public class MathBn {
     }
 
     /**
-     * cosh x = 1+x^2/2!+x^4/4!+……+(-1)k*(x^2k)/(2k)!+……(-∞<x<∞) 
+     * cosh x = 1+x^2/2!+x^4/4!+……+(-1)k*(x^2k)/(2k)!+……(-∞<x<∞)
      * @param x
      * @return
      */
@@ -304,7 +354,7 @@ public class MathBn {
     	return res;
     }
     /**
-     * arcsin x = x+(1/2)*x^3/3+(3/8)*x^5/5 + ……(2k)!*x^(2k+1) / ((4^k)*((k!)^2))*(2k+1) (|x|<1) 
+     * arcsin x = x+(1/2)*x^3/3+(3/8)*x^5/5 + ……(2k)!*x^(2k+1) / ((4^k)*((k!)^2))*(2k+1) (|x|<1)
      * @return
      */
     public static BigNum arcsin(BigNum num) {
@@ -327,8 +377,16 @@ public class MathBn {
     	System.out.print(res);
     	return res;
     }
+    public static BigNum arcsind(BigNum num) {
+    	BigNum res = arcsin(num);
+    	return MathBn.toDegrees(res);
+    }
+    public static BigNum arcsing(BigNum num) {
+    	BigNum res = arcsin(num);
+    	return MathBn.toGrad(res);
+    }
     /**
-     * arccos x = π/2 - ( x + (1/2)*x^3/3 + (3/8)*x^5/5 + …… ) (|x|<1) 
+     * arccos x = π/2 - ( x + (1/2)*x^3/3 + (3/8)*x^5/5 + …… ) (|x|<1)
      * @return
      */
     public static BigNum arccos(BigNum num) {
@@ -336,9 +394,17 @@ public class MathBn {
     	BigNum a = BigNum.PI.divide(two, 40, BigNumRound.HALF_EVENT);
     	return a.subtract(arcsin(num));
     }
+    public static BigNum arccosd(BigNum num) {
+    	BigNum res = arccos(num);
+    	return MathBn.toDegrees(res);
+    }
+    public static BigNum arccosg(BigNum num) {
+    	BigNum res = arccos(num);
+    	return MathBn.toGrad(res);
+    }
     /**
      * arctan(x) = x - x^3/3 + x^5/5 - x^7/7 + ...(|x|<1)
-     * arctan x  = x - x^3/3 + x^5/5 -……(x≤1) 
+     * arctan x  = x - x^3/3 + x^5/5 -……(x≤1)
      * @param radian
      * @return
      */
@@ -357,8 +423,16 @@ public class MathBn {
     	System.out.print(res);
     	return res;
     }
-
+    public static BigNum arctand(BigNum num) {
+    	BigNum res = arctan(num);
+    	return MathBn.toDegrees(res);
+    }
+    public static BigNum arctang(BigNum num) {
+    	BigNum res = arctan(num);
+    	return MathBn.toGrad(res);
+    }
     /**
+     * sh z=(e^z-e^(-z))/2
      * x^(2n+1) / (2n + 1)!
      * @param num
      * @return
@@ -381,6 +455,7 @@ public class MathBn {
     	return res;
     }
     /**
+     * ch z=(e^z+e^(-z))/2
      * x^(2n) / (2n)!
      * @param num
      * @return
@@ -401,16 +476,22 @@ public class MathBn {
     	return res;
     }
 
+    /**
+     * th z=sh z/ch z=(e^z-e^(-z))/(e^z+e^(-z))
+     * @param num
+     * @return
+     */
     public static BigNum tanh(BigNum num) {
     	System.out.print("★★★tanh(" + num + ")等于");
-    	// TODO:??
     	BigNum res = new BigNum("0.0");
+    	res = sinh(num).divide(cosh(num), 40, BigNumRound.HALF_EVENT);
     	System.out.print(res);
     	return res;
     }
 
     /**
-     * arcsinh x = x-(1/2)*x^3/3+(3/8)*x^5/5 + ……(2k)!*x^(2k+1) / ((4^k)*((k!)^2))*(2k+1) (|x|<1) 
+     * arcsh(x)=ln[x+sqrt(x^2+1）]
+     * arcsinh x = x-(1/2)*x^3/3+(3/8)*x^5/5 + ……(2k)!*x^(2k+1) / ((4^k)*((k!)^2))*(2k+1) (|x|<1)
      * @return
      */
     public static BigNum arcsinh(BigNum num) {
@@ -438,6 +519,19 @@ public class MathBn {
     }
 
     /**
+     * arcch(x)=ln[x+sqrt(x^2-1）]
+     * @param num
+     * @return
+     */
+    public static BigNum arccosh(BigNum num) {
+    	BigNum two = new BigNum("2.0");
+    	BigNum one = new BigNum("1.0");
+    	BigNum a = num.add(MathBn.root(num.pow(two).subtract(one), two));
+    	return ln(a);
+    }
+
+    /**
+     * arcth(x)=ln[sqrt（1-x^2）/（1-x)]=ln[（1+x)/（1-x)]/2
      * x^(2n+1) / (2n + 1)
      * @param num
      * @return
@@ -503,5 +597,27 @@ public class MathBn {
     	c = c.add(f);
     	res = res.add(c.divide(n60, 40, BigNumRound.HALF_EVENT));
     	return res;
+    }
+    /**
+     * 牛顿迭代法 求n次方根
+     * @param num
+     * @param n
+     * @return
+     */
+    public static BigNum root(BigNum num, BigNum n) {
+    	BigNum one = new BigNum("1.0");
+    	BigNum cc = new BigNum("0.0000000000000000000000000000001");
+    	BigNum n1 = n.subtract(one);
+    	BigNum x0 = num;
+    	BigNum x1 = n1.multiply(x0).divide(n, 40, BigNumRound.HALF_EVENT);
+    	x1 = x1.add(num.divide(x0.pow(n1).multiply(n), 40, BigNumRound.HALF_EVENT));
+    	BigNum chk = x1.subtract(x0);
+    	while(chk.abs().compareTo(cc) > 0) {
+    		x0 = x1;
+    		x1 = n1.multiply(x0).divide(n, 40, BigNumRound.HALF_EVENT);
+        	x1 = x1.add(num.divide(x0.pow(n1).multiply(n), 40, BigNumRound.HALF_EVENT));
+        	chk = x1.subtract(x0);
+    	}
+    	return x1;
     }
 }

@@ -19,6 +19,7 @@ public class ActionOpt1 implements Action<ExprInfo> {
 		String opt = in.getInput();
 		// 一元操作符的全角向半角变换
 		String st = Converter.conv(opt, params);
+		System.out.println(opt + "=>" + st);
 		// 在这里对x^2,x^3,1/x有所考虑
 		Operator operator = Operators.getOperator(st);
 		// make expression

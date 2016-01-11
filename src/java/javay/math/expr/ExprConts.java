@@ -8,10 +8,11 @@ public interface ExprConts {
     public static final String DIV = "/";
     public static final String MOD = "mod";
     public static final String POW = "^";
+    public static final String ROOT = "root";
     public static final String AND = "and";
     public static final String OR  = "or";
     public static final String XOR = "xor";
-    
+
     public static final String FAC = "!";
     public static final String PER = "%";
     public static final String NOT = "not";
@@ -32,4 +33,5 @@ public interface ExprConts {
     public static final String EQU = "=";
     public static final String LEFT = "(";
     public static final String RIGHT = ")";
+    public static final String ARC = "arc";
 }

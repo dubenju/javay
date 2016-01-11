@@ -33,6 +33,8 @@ public class BigNum implements Comparable<BigNum> {
     //                                          0.12345678901234567890123456789012345678901234567890
     public static final BigNum PI = new BigNum("3.14159265358979323846264338327950288419716939937510");
     public static final BigNum E  = new BigNum("2.71828182845904523536028747135266249775724709369995");
+  public static final BigNum LN10 = new BigNum("2.3025850929940456840179914547");
+   public static final BigNum LNR = new BigNum("0.2002433314278771112016301167");
     public static final BigNum BYTE_MIN_VALUE = new BigNum("-128");
     public static final BigNum BYTE_MAX_VALUE = new BigNum( "127");
     public static final BigNum SHORT_MIN_VALUE = new BigNum("-32768");
@@ -124,16 +126,16 @@ public class BigNum implements Comparable<BigNum> {
         if (numberSystem != 10) {
         	BigNum res = this.createNum(0);
         	BigNum ns   = this.createNum(numberSystem);
-        	System.out.println("长度=" + this.length + ",整数长度=" + this.scale + "小数长度=" + (this.length - this.scale) + ",ns=" + ns);
+//        	System.out.println("长度=" + this.length + ",整数长度=" + this.scale + "小数长度=" + (this.length - this.scale) + ",ns=" + ns);
         	int indx = 0;
         	for (int i = this.scale - 1; i >= 0; i --, indx ++) {
         		res = res.add(ns.pow(i).multiply(this.createNum(this.datas[indx])));
         	}
-        	System.out.println("整数=" + res);
+//        	System.out.println("整数=" + res);
         	for (int i = 1; i <= (this.length - this.scale); i ++, indx ++) {
         		res = res.add(this.createNum(this.datas[indx]).divide(ns.pow(i), 40, BigNumRound.HALF_EVENT));
         	}
-        	System.out.println("整数=" + res);
+//        	System.out.println("整数=" + res);
         	this.datas = res.datas;
         	this.length = res.length;
         	this.scale = res.scale;
@@ -219,7 +221,7 @@ public class BigNum implements Comparable<BigNum> {
      * @return 和
      */
     public BigNum add(BigNum augend) {
-    	System.out.println("加法●●●●" + this + "＋" + augend +"等于");
+//    	System.out.println("加法●●●●" + this + "＋" + augend +"等于");
         if (augend.isZero()) {
             // a + 0 = a
             return this;
@@ -287,7 +289,7 @@ public class BigNum implements Comparable<BigNum> {
             byte[] dataS1 = removeFirstZero(dataS, scaleS);
 
             BigNum res = new BigNum(this.signed, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
-            System.out.println(res);
+//            System.out.println(res);
             check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
 //            double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + augend.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
 //            if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
@@ -310,7 +312,7 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum subtract(BigNum subtrahendi) {
-    	System.out.println("减法●●●●" + this + "－" + subtrahendi +"等于");
+//    	System.out.println("减法●●●●" + this + "－" + subtrahendi +"等于");
         if (subtrahendi.isZero()) {
             return this;
         }
@@ -418,7 +420,7 @@ public class BigNum implements Comparable<BigNum> {
             byte[] dataS1 = removeFirstZero(dataS, scaleS);
 
             BigNum res = new BigNum(signeds, dataS1, dataS1.length, dataS1.length - dataS.length + scaleS);
-            System.out.println(res);
+//            System.out.println(res);
             check(this, subtrahendi, res, "-", 0, RoundingMode.UNNECESSARY);
 //            double chksum = this.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) - subtrahend.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
 //            if (chksum != res.toDouble(CalcultorConts.MAX_DOUBLE_SCALE)) {
@@ -436,7 +438,7 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum multiply(BigNum multiplicand) {
-    	System.out.println("乘法●●●●" + this + "×" + multiplicand +"等于");
+//    	System.out.println("乘法●●●●" + this + "×" + multiplicand +"等于");
         if (multiplicand.isZero()) {
             return multiplicand;
         }
@@ -530,7 +532,7 @@ public class BigNum implements Comparable<BigNum> {
 
         BigNum res = new BigNum(signed, result1, result1.length, result1.length - result.length + decimal_len);
 //        double dres = res.toDouble(13);
-        System.out.println(res);
+//        System.out.println(res);
         check(this, multiplicand, res, "*", 0, RoundingMode.UNNECESSARY);
 //        double t1 = this.toDouble(14);
 //        double t2 = multiplicand.toDouble(14);
@@ -549,7 +551,7 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum divide(BigNum divisor, int decimal_len, BigNumRound roundmode) {
-    	System.out.println("除法●●●●" + this + "÷" + divisor +"等于");
+//    	System.out.println("除法●●●●" + this + "÷" + divisor +"等于");
         if (divisor.isZero()) {
             // 除数为零时
             throw new ArithmeticException("Division by zero");
@@ -761,7 +763,7 @@ public class BigNum implements Comparable<BigNum> {
 //        System.out.println(this.toString() + "/" + divisor.toString() + "=");
 
         BigNum res = new BigNum(osigned, out2, out2.length, oscale);
-        System.out.println(res);
+//        System.out.println(res);
         // TODO:check
 //        check(this, divisor, res, "/", decimal_len, rm);
 //        double dres = res.toDouble(16);
@@ -945,8 +947,8 @@ public class BigNum implements Comparable<BigNum> {
      * @return
      */
     public BigNum mod(BigNum divisor) {
-    	System.out.println("this=" + String.valueOf(toCharary(this.datas, this.datas.length)));
-    	System.out.println("divisor=" + String.valueOf(toCharary(divisor.datas, divisor.datas.length)));
+//    	System.out.println("this=" + String.valueOf(toCharary(this.datas, this.datas.length)));
+//    	System.out.println("divisor=" + String.valueOf(toCharary(divisor.datas, divisor.datas.length)));
         if (divisor.isZero()) {
             // 除数为零时
             throw new ArithmeticException("Division by zero");
@@ -968,7 +970,7 @@ public class BigNum implements Comparable<BigNum> {
         int dlen = divisor.length;
         int tlen = this.length;
         int olen = tlen - dlen + 1;
-        System.out.println("长度:=" + olen + ",tlen=" + tlen + ",dlen=" + dlen);
+//        System.out.println("长度:=" + olen + ",tlen=" + tlen + ",dlen=" + dlen);
 
         // 小数点位置
         int dscale = divisor.scale;
@@ -976,14 +978,14 @@ public class BigNum implements Comparable<BigNum> {
         // 被除数同步
         int off = dlen - dscale;
         tscale += off;
-        System.out.println("小数点对齐长度：" + off);
+//        System.out.println("小数点对齐长度：" + off);
 
         // 小数部长度
         int odecimal_len = tlen - tscale;
         if (tlen < dlen) {
             odecimal_len += dlen - tlen;
         }
-        System.out.println("小数点长度:" + odecimal_len + "=" + tscale + "/" + dscale + ",tlen=" + tlen + ",dlen=" + dlen);
+//        System.out.println("小数点长度:" + odecimal_len + "=" + tscale + "/" + dscale + ",tlen=" + tlen + ",dlen=" + dlen);
 
         int idx = 0, idx_next = 0;
         byte[] tmp = new byte[dlen];
@@ -1000,8 +1002,8 @@ public class BigNum implements Comparable<BigNum> {
                 out[ido] = (byte) (out[ido] + 1);
                 // shift postition
                 tmp = sub_ary(tmp, len_tmp, divisor.datas);
-                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
-                System.out.println("out["+ ido + "]=" + out[ido]);
+//                System.out.println("tmp=" + String.valueOf(toCharary(tmp, tmp.length)));
+//                System.out.println("out["+ ido + "]=" + out[ido]);
             }
             if (c < 0) {
                 byte[] temp;
@@ -1012,7 +1014,7 @@ public class BigNum implements Comparable<BigNum> {
                     temp = new byte[tmp.length + 1];
                     System.arraycopy(tmp, 0, temp, 0, tmp.length);
                 }
-                System.out.println("temp=" + String.valueOf(toCharary(temp, temp.length)));
+//                System.out.println("temp=" + String.valueOf(toCharary(temp, temp.length)));
 
                 idx = idx_next;
                 if (idx < this.datas.length) {
@@ -1033,7 +1035,7 @@ public class BigNum implements Comparable<BigNum> {
                 	int lead = 0;
                 	if ((oscale - off) <= 0) {
                 		lead = 1 - oscale + off;
-                		System.out.println("lead=" + lead + ",oscale=" + oscale + ",off=" + off);
+//                		System.out.println("lead=" + lead + ",oscale=" + oscale + ",off=" + off);
                 	}
 
                 	// 数值
@@ -1054,7 +1056,7 @@ public class BigNum implements Comparable<BigNum> {
                 	if (leny > 0) {
                 		System.arraycopy(this.datas, idx, out, lead + lent, leny);
                 	}
-                	System.out.println("结果长度：" + out.length + ",lent=" + lent + ",leny=" + leny);
+//                	System.out.println("结果长度：" + out.length + ",lent=" + lent + ",leny=" + leny);
                 	break;
                 }
 
@@ -1077,7 +1079,7 @@ public class BigNum implements Comparable<BigNum> {
      */
     public BigNum pow(long n) {
     	if (n < 0) {
-    		throw new ArithmeticException("Invalid operation");
+    		return new BigNum("1.0").divide(pow(new BigNum(0-n)), 40, BigNumRound.HALF_EVENT);
     	}
     	BigNum result = new BigNum("1");
     	if (n == 0) {
@@ -1098,7 +1100,7 @@ public class BigNum implements Comparable<BigNum> {
      */
     public BigNum pow(BigNum n) {
     	if (n.compareTo(BigNum.ZERO) < 0) {
-    		throw new ArithmeticException("Invalid operation");
+    		return new BigNum("1.0").divide(pow(n.negate()), 40, BigNumRound.HALF_EVENT);
     	}
     	BigNum result = new BigNum("1");
     	if (n.isZero()) {
@@ -1296,7 +1298,7 @@ public class BigNum implements Comparable<BigNum> {
     	while(z.compareTo(BigNum.ZERO) > 0) {
     		BigNum s = z.divide(n2, 0, BigNumRound.DOWN);
     		BigNum y = z.subtract(s.multiply(n2));
-    		System.out.println(z + "/2=" + s + ",y=" + y);
+//    		System.out.println(z + "/2=" + s + ",y=" + y);
     		stk.push(y.toInt());
     		z = s;
     	}
@@ -1336,7 +1338,7 @@ public class BigNum implements Comparable<BigNum> {
     	while(z.compareTo(BigNum.ZERO) > 0) {
     		BigNum s = z.divide(n2, 0, BigNumRound.DOWN);
     		BigNum y = z.subtract(s.multiply(n2));
-    		System.out.println(z + "/2=" + s + ",y=" + y);
+//    		System.out.println(z + "/2=" + s + ",y=" + y);
     		stk.push(y.toInt());
     		z = s;
     	}
@@ -1409,7 +1411,7 @@ public class BigNum implements Comparable<BigNum> {
     	while(z.compareTo(BigNum.ZERO) > 0) {
     		BigNum s = z.divide(n2, 0, BigNumRound.DOWN);
     		BigNum y = z.subtract(s.multiply(n2));
-    		System.out.println(z + "/2=" + s + ",y=" + y);
+//    		System.out.println(z + "/2=" + s + ",y=" + y);
     		stk.push(y.toInt());
     		z = s;
     	}
