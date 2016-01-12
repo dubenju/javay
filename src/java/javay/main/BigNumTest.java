@@ -282,11 +282,15 @@ public class BigNumTest {
 		System.out.println("a=" + a);
 	}
 	public void testLogic() {
-		BigNum a = new BigNum("1.25");
-		BigNum b = new BigNum("3.75");
-		System.out.println("AND" + a.and(b));
-		System.out.println(" OR" + a.or(b));
-		System.out.println("XOR" + a.xor(b));
+//		BigNum a = new BigNum("1.25");
+//		BigNum b = new BigNum("3.75");
+//		System.out.println("AND" + a.and(b));
+//		System.out.println(" OR" + a.or(b));
+//		System.out.println("XOR" + a.xor(b));
+		BigNum a = new BigNum("3.125");
+		BigNum b = new BigNum("2");
+		System.out.println(a.rsh(b));
+		System.out.println(a.lsh(b));
 	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**

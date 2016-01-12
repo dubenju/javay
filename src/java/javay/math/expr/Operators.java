@@ -16,9 +16,9 @@ public class Operators {
          * 元数
          * 0:左右结合，1:右结合，－1:左结合
          */
-        ops.put(ExprConts.AND, new Operator(ExprConts.AND, 000, 2, 0, (num1, num2)->num1.add(num2))); // TODO:AND
-        ops.put(ExprConts.OR , new Operator(ExprConts.OR , 000, 2, 0, (num1, num2)->num1.subtract(num2))); // TODO:OR
-        ops.put(ExprConts.XOR, new Operator(ExprConts.XOR, 000, 2, 0, (num1, num2)->num1.multiply(num2))); // TODO:XOR
+        ops.put(ExprConts.AND, new Operator(ExprConts.AND, 000, 2, 0, (num1, num2)->num1.and(num2))); // AND
+        ops.put(ExprConts.OR , new Operator(ExprConts.OR , 000, 2, 0, (num1, num2)->num1.or(num2))); // OR
+        ops.put(ExprConts.XOR, new Operator(ExprConts.XOR, 000, 2, 0, (num1, num2)->num1.xor(num2))); // XOR
 
         ops.put(ExprConts.ADD, new Operator(ExprConts.ADD,  100, 2, 0, (num1, num2)->num1.add(num2))); // +
         ops.put(ExprConts.SUB, new Operator(ExprConts.SUB,  100, 2, 0, (num1, num2)->num1.subtract(num2))); // -
@@ -35,8 +35,10 @@ public class Operators {
         ops.put(ExprConts.NEGATE,new Operator(ExprConts.NEGATE,400, 1, 1, (num1, num2)->num1.negate())); // -
         ops.put(ExprConts.PER, new Operator(ExprConts.PER, 400, 1, -1, (num1, num2)->num1.divide(new BigNum("100.0"), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT))); // %
         ops.put(ExprConts.FAC, new Operator(ExprConts.FAC, 400, 1, -1, (num1, num2)->num1.factorial())); // !
-        ops.put(ExprConts.LSH, new Operator(ExprConts.LSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:LSH
-        ops.put(ExprConts.RSH, new Operator(ExprConts.RSH, 400, 1, 1, (num1, num2)->num1.multiply(num2))); // TODO:RSH
+        
+        ops.put(ExprConts.LSH, new Operator(ExprConts.LSH, 400, 2, 0, (num1, num2)->num1.lsh(num2))); // LSH
+        ops.put(ExprConts.RSH, new Operator(ExprConts.RSH, 400, 2, 0, (num1, num2)->num1.rsh(num2))); // RSH
+        
         ops.put(ExprConts.INT, new Operator(ExprConts.INT, 400, 1, 1, (num1, num2)->num1.integral())); // INT
         ops.put(ExprConts.SIN, new Operator(ExprConts.SIN, 400, 1, 1, (num1, num2)->MathBn.sin(num1))); // SIN
         ops.put(ExprConts.COS, new Operator(ExprConts.COS, 400, 1, 1, (num1, num2)->MathBn.cos(num1))); // COS
@@ -44,7 +46,7 @@ public class Operators {
         ops.put(ExprConts.EXP, new Operator(ExprConts.EXP, 400, 1, 1, (num1, num2)->MathBn.exp(num1))); // EXP
         ops.put(ExprConts.LN , new Operator(ExprConts.LN , 400, 1, 1, (num1, num2)->MathBn.ln(num1))); // LN
         ops.put(ExprConts.LOG, new Operator(ExprConts.LOG, 400, 1, 1, (num1, num2)->MathBn.log(num1))); // LOG
-        ops.put(ExprConts.NOT, new Operator(ExprConts.NOT, 400, 1, 1, (num1, num2)->null)); // TODO:NOT
+        ops.put(ExprConts.NOT, new Operator(ExprConts.NOT, 400, 1, 1, (num1, num2)->num1.not())); // NOT
         ops.put(ExprConts.DMS, new Operator(ExprConts.DMS, 400, 1, 1, (num1, num2)->MathBn.dms(num1))); // DMS
         ops.put(ExprConts.SMD, new Operator(ExprConts.SMD, 400, 1, 1, (num1, num2)->MathBn.smd(num1))); // SMD
 

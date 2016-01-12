@@ -31,6 +31,7 @@ public class Converter {
 //		conv.put(CalcultorConts.MOD, ExprConts.MOD);
 //		conv.put(CalcultorConts.MOD, ExprConts.MOD);
 //		conv.put(CalcultorConts.MOD, ExprConts.MOD);
+
 		conv2.put(ExprConts.SIN + "d", ExprConts.SIN + "d");
 		conv2.put(ExprConts.SIN + "r", ExprConts.SIN + "r");
 		conv2.put(ExprConts.SIN + "g", ExprConts.SIN + "g");
@@ -42,6 +43,7 @@ public class Converter {
 		conv2.put(ExprConts.TAN + "g", ExprConts.TAN + "g");
 		conv2.put(ExprConts.DMS + "inverse", ExprConts.SMD);
 		conv2.put(CalcultorConts.XY + "inverse", ExprConts.ROOT);
+		conv2.put(CalcultorConts.LSH + "inverse", ExprConts.RSH);
 		conv2.put(CalcultorConts.X2 + "inverse", ExprConts.ROOT + " 2 "); // 1
 		conv2.put(CalcultorConts.X3 + "inverse", ExprConts.ROOT + " 3 "); // 1
 

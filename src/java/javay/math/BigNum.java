@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Stack;
 
-import javay.swing.CalcultorConts;
 import sun.misc.FloatingDecimal;
 
 /**
@@ -1933,15 +1932,91 @@ public class BigNum implements Comparable<BigNum> {
     		tar[i] = ch;
     	}
     	BigNum res = new BigNum(tar, 0, tar.length, 2);
+    	System.out.println(res.toBinaryString());
     	return res;
     }
-    public BigNum lsh(int shift) {
-    	char[] tar = this.toBinaryString().toCharArray();
-    	BigNum res = new BigNum("0.0");
+    public BigNum lsh(BigNum shift) {
+    	if (shift.compareTo(BigNum.ZERO) < 0) {
+    		return rsh(shift);
+    	}
+    	String t = this.toBinaryString();
+    	System.out.println(t);
+    	int tlen = t.length();
+    	int ta = tlen;
+    	int tb = 0;
+    	int tpi = t.indexOf(".");
+    	if (tpi >= 0) {
+    		tb = ta - tpi;
+    		ta = tpi;
+    	} else {
+    		tpi = ta + 1;
+    		tb = 1;
+    	}
+    	int olen= ta + tb + shift.toInt();
+    	char[] obuf = new char[olen];
+    	Arrays.fill(obuf, '0');
+    	int o = 0;
+    	boolean bdot = false;
+    	for (int i = 0; i < tlen; i ++) {
+    		char ch = t.charAt(i);
+    		if (ch == '.') {
+    			continue;
+    		}
+    		if (o == (ta + shift.toInt())) {
+    			obuf[o] = '.';
+    			o ++;
+    			bdot = true;
+    		}
+    		obuf[o] = ch;
+    		o ++;
+    	}
+    	if (bdot == false) {
+    		obuf[ta + shift.toInt()] = '.';
+    	}
+    	BigNum res = new BigNum(obuf, 0, olen, 2);
+    	System.out.println(res.toBinaryString());
     	return res;
     }
-    public BigNum rsh(int shift) {
-    	BigNum res = new BigNum("0.0");
+    public BigNum rsh(BigNum shift) {
+    	if (shift.compareTo(BigNum.ZERO) < 0) {
+    		return lsh(shift);
+    	}
+    	String t = this.toBinaryString();
+    	System.out.println(t);
+    	int tlen = t.length();
+    	int ta = tlen;
+    	int tb = 0;
+    	int tpi = t.indexOf(".");
+    	if (tpi >= 0) {
+    		tb = ta - tpi;
+    		ta = tpi;
+    	} else {
+    		tpi = ta + 1;
+    		tb = 1;
+    	}
+    	int olen= ta + tb;
+    	char[] obuf = new char[olen];
+    	Arrays.fill(obuf, '0');
+    	int o = shift.toInt();
+    	boolean bdot = false;
+    	for (int i = 0; i < olen - shift.toInt(); i ++) {
+    		char ch = t.charAt(i);
+    		if (ch == '.') {
+    			continue;
+    		}
+    		if (o == (ta)) {
+    			obuf[o] = '.';
+    			o ++;
+    			bdot = true;
+    		}
+    		obuf[o] = ch;
+    		o ++;
+    	}
+    	if (bdot == false) {
+    		obuf[ta] = '.';
+    	}
+    	BigNum res = new BigNum(obuf, 0, olen, 2);
+    	System.out.println(res.toBinaryString());
     	return res;
     }
     /* ****************************

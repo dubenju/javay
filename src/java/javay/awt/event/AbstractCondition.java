@@ -5,7 +5,7 @@ import javay.math.expr.ExprConts;
 import javay.swing.CalcultorConts;
 
 public abstract class AbstractCondition implements Condition {
-//	// TODO:CalcultorConts的定数使用
+//	// CalcultorConts的定数使用
 //	private static final Map<String, String> digit = new HashMap<String, String>();
 //	private static final Map<String, String> opt1  = new HashMap<String, String>();
 //	private static final Map<String, String> opt2  = new HashMap<String, String>();
@@ -39,12 +39,16 @@ public abstract class AbstractCondition implements Condition {
 				s.equals(CalcultorConts.COS) || s.equals(CalcultorConts.TAN) ||
 				s.equals(CalcultorConts.DMS) || s.equals(CalcultorConts.N) ||
 				s.equals(CalcultorConts.INT) || s.equals(CalcultorConts.POS_MINUS) ||
+				s.equals(CalcultorConts.NOT) ||
 				s.equals(CalcultorConts.LEFT) || s.equals(CalcultorConts.RIGHT); // TODO:()
 	}
 	public boolean isOperator2(String s) {
 		return s.equals(CalcultorConts.ADD) || s.equals(CalcultorConts.SUBTRACT) ||
 				s.equals(CalcultorConts.MULTIPLY) || s.equals(CalcultorConts.DIVIDE) ||
-				s.equals(CalcultorConts.MOD) || s.equals(CalcultorConts.XY);
+				s.equals(CalcultorConts.MOD) || s.equals(CalcultorConts.XY) ||
+				s.equals(CalcultorConts.LSH) || s.equals(CalcultorConts.RSH) ||
+				s.equals(CalcultorConts.AND) || s.equals(CalcultorConts.OR) ||
+				s.equals(CalcultorConts.XOR);
 //		return null != opt2.get(s);
 	}
 	public boolean isEqual(String s) {

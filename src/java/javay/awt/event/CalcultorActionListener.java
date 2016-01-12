@@ -59,8 +59,13 @@ public class CalcultorActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String s = e.getActionCommand();
 		System.out.println("s=" + s);
-		Map<String, String> context = new HashMap<String, String>();
 
+		if (this.isControl(s)) {
+			control(s);
+			return ;
+		}
+		
+		Map<String, String> context = new HashMap<String, String>();
 		String value = "d"; // 度
 		if (this.panel.rad.isSelected()) {
 			//弧度
@@ -100,10 +105,6 @@ public class CalcultorActionListener implements ActionListener {
 			}
 		}
 
-		if (this.isControl(s)) {
-			control(s);
-			return ;
-		}
 	}
 
 	private void control(String s) {
