@@ -183,14 +183,14 @@ public class BigNumTest {
 	}
 
 	public void testDouble() {
-		double a = 15.3;
-		BigNum b = new BigNum(a);
-		System.out.println(a + "=" + b.toString() + "," + b.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "------------------------>");
-		BigNum c = b.log10();
-		System.out.println("<---------------------log10(" + b + ")=" + c + "," + Math.log10(a));
-
-		BigNum e = b.ln(3, BigNumRound.HALF_EVENT);
-		System.out.println("<---------------------ln(" + b + ")=" + e + "," + Math.log1p(a));
+//		double a = 15.3;
+//		BigNum b = new BigNum(a);
+//		System.out.println(a + "=" + b.toString() + "," + b.toDouble(CalcultorConts.MAX_DOUBLE_SCALE) + "------------------------>");
+////		BigNum c = b.log10();
+//		System.out.println("<---------------------log10(" + b + ")=" + c + "," + Math.log10(a));
+//
+//		BigNum e = b.ln(3, BigNumRound.HALF_EVENT);
+//		System.out.println("<---------------------ln(" + b + ")=" + e + "," + Math.log1p(a));
 	}
 
 	public void testRD() {
@@ -281,6 +281,11 @@ public class BigNumTest {
 		a = new BigNum("300.0");
 		System.out.println("a=" + a);
 	}
+	public void testLogic() {
+		BigNum a = new BigNum("1.25");
+		BigNum b = new BigNum("3.75");
+		System.out.println(a.and(b));
+	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
@@ -306,7 +311,8 @@ public class BigNumTest {
 //    	proc.testAdd();
 //    	proc.testSin();
 //    	proc.testLastZero();
-    	proc.testDivide2();
+//    	proc.testDivide2();
+    	proc.testLogic();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16

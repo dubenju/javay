@@ -1654,65 +1654,63 @@ public class BigNum implements Comparable<BigNum> {
     	return new BigNum(signed, datas, length, scaleo);
     }
 
-    /**
-     * 手动开平方
-     * 1．将被开方数的整数部分从个位起向左每隔两位划为一段，用撇号分开，分成几段，
-     *    表示所求平方根是几位数；小数部分从最高位向后两位一段隔开，段数以需要的精度+1为准。
-     * 2．根据左边第一段里的数，求得平方根的最高位上的数。（在右边例题中，比5小的平方数是4，所以平方根的最高位为2。）
-     * 3．从第一段的数减去最高位上数的平方，在它们的差的右边写上第二段数组成第一个余数。
-     * 4．把第二步求得的最高位的数乘以20去试除第一个余数，所得的最大整数作为试商。（右例中的试商即为[152/(2×20)]＝[3.8]＝3。）
-     * 5．用第二步求得的的最高位数的20倍加上这个试商再乘以试商。如果所得的积小于或等于余数，试商就是平方根的第二位数；如果所得的积大于余数，就把试商减小再试，得到的第一个小于余数的试商作为平方根的第二个数。（即3为平方根的第二位。）
-     * 6．用同样的方法，继续求平方根的其他各位上的数。用上一个余数减去上法中所求的积（即152－129＝23），与第三段数组成新的余数（即2325）。这时再求试商，要用前面所得到的平方根的前两位数（即23）乘以20去试除新的余数（2325），所得的最大整数为新的试商。（2325/(23×20)的整数部分为5。）
-     * 7．对新试商的检验如前法。（右例中最后的余数为0，刚好开尽，则235为所求的平方根。）
-     * @param scale
-     * @param roundmode
-     * @return
-     */
-    public BigNum sqrt(int scale, int roundmode) {
-        if(this.compareTo(BigNum.ZERO) < 0) {
-        	throw new ArithmeticException("sqrt with negative");
-        }
-    	return null;
-    }
-
-    public BigNum nthroot(int n, int scale, int roundmode) {
-        if(this.compareTo(BigNum.ZERO) < 0) {
-        	throw new ArithmeticException("sqrt with negative");
-        }
-        return null;
-    }
-
-    public BigNum log10() {
-    	int a = this.scale - 1;
-
-    	BigNum b = new BigNum(this.signed, this.datas, this.length, 1);
-//    	System.out.println("b=" + b);
-    	double c = b.toDouble(CalcultorConts.MAX_DOUBLE_SCALE);
-//    	System.out.println("c=" + c);
-    	double d = StrictMath.log10(c);
-//    	System.out.println("d=" + d);
-    	BigNum e = new BigNum(d);
-//    	System.out.println("e=" + e);
-    	BigNum res = new BigNum(a);
-    	res = res.add(e);
-//    	System.out.println("res=" + res);
+    public BigNum and(BigNum num) {
+    	String t = this.toBinaryString();
+    	String n = num.toBinaryString();
+    	System.out.println(t);
+    	System.out.println(n);
+    	int ta = t.length();
+    	int na = n.length();
+    	int tb = 0;
+    	int nb = 0;
+    	int tpi = t.indexOf(".");
+    	int npi = n.indexOf(".");
+    	if (tpi >= 0) {
+    		tb = ta - tpi;
+    		ta = tpi;
+    	}
+    	if (npi >= 0) {
+    		nb = na - npi;
+    		na = npi;
+    	}
+    	System.out.println(ta + "," + tb);
+    	System.out.println(na + "," + nb);
+    	int oa = ta;
+    	int ob = tb;
+    	if (oa < na) {
+    		oa = na;
+    	}
+    	if (ob < nb) {
+    		ob = nb;
+    	}
+    	byte osigned = -0x01;
+    	if (this.signed == num.signed) {
+    		osigned = 0x01;
+    	}
+    	
+    	BigNum res = new BigNum("0.0");
     	return res;
     }
-
-    public BigNum lg () {
-    	return this.log10();
+    public BigNum or(BigNum num) {
+    	BigNum res = new BigNum("0.0");
+    	return res;
     }
-
-    public BigNum ln(int decimal, BigNumRound round) {
-    	return log(BigNum.E, decimal, round);
+    public BigNum xor(BigNum num) {
+    	BigNum res = new BigNum("0.0");
+    	return res;
     }
-
-    public BigNum log(BigNum a, int decimal, BigNumRound round) {
-    	BigNum t = this.log10();
-    	BigNum b = a.log10();
-    	return t.divide(b, decimal, round);
+    public BigNum not() {
+    	BigNum res = new BigNum("0.0");
+    	return res;
     }
-
+    public BigNum lsh(int shift) {
+    	BigNum res = new BigNum("0.0");
+    	return res;
+    }
+    public BigNum rsh(int shift) {
+    	BigNum res = new BigNum("0.0");
+    	return res;
+    }
     /* ****************************
      * for DEBUG
      * ****************************/

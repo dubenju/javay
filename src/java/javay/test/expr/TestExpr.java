@@ -26,10 +26,10 @@ public class TestExpr {
 //		System.out.println(x);
 
 		List<Token> ts = ExprParser.parse(str);
-		System.out.println(ts);
+		System.out.println("中缀式" + ts);
 //		Expression expr1 = ExprParser.toExprFromInfix(ts, 0);
 		List<Token> pots = ExprParser.toPostfix(ts);
-		System.out.println(pots);
+		System.out.println("逆波兰式" + pots);
 		Expression expr = ExprParser.toExprFromPostfix(pots);
 
 //		List<Token> prts = ExprParser.toPrefix(ts);

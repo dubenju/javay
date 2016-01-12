@@ -391,6 +391,28 @@ public class ExprParser {
             if (TokenType.OPERATOR.equals(token.getType())) {
             	// 操作符的时候
             	String operate = token.getToken();
+            	
+            	if (ExprConts.ADD.equals(operate) || ExprConts.SUB.equals(operate)) {
+            		// 对正负号的预处理
+            		Token preToken = null;
+            		if ((i - 1) >= 0) {
+            			preToken = list.get(i - 1);
+            		}
+            		if (preToken == null) {
+            			operate = operate + ":";
+            		} else if (TokenType.OPERATOR.equals(preToken.getType())) {
+            			// 前面的操作符
+            			String preOperate = preToken.getToken();
+            			if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
+            				// 当前面的操作符不是%!)的时候，+/-是正负号。
+            				operate = operate + ":";
+            			}
+            		} else if (stkExpr.size() < 2) {
+            			// 暂定方法
+            			operate = operate + ":";
+            		}
+            	}
+            	
             	Operator op = Operators.getOperator(operate);
             	int arity = op.getArity();
             	if (arity == 2) {
