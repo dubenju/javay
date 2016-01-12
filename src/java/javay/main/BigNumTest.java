@@ -284,7 +284,9 @@ public class BigNumTest {
 	public void testLogic() {
 		BigNum a = new BigNum("1.25");
 		BigNum b = new BigNum("3.75");
-		System.out.println(a.and(b));
+		System.out.println("AND" + a.and(b));
+		System.out.println(" OR" + a.or(b));
+		System.out.println("XOR" + a.xor(b));
 	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**

@@ -2,6 +2,7 @@ package javay.math;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Stack;
 
 import javay.swing.CalcultorConts;
@@ -1659,8 +1660,10 @@ public class BigNum implements Comparable<BigNum> {
     	String n = num.toBinaryString();
     	System.out.println(t);
     	System.out.println(n);
-    	int ta = t.length();
-    	int na = n.length();
+    	int tlen = t.length();
+    	int nlen = n.length();
+    	int ta = tlen;
+    	int na = nlen;
     	int tb = 0;
     	int nb = 0;
     	int tpi = t.indexOf(".");
@@ -1668,13 +1671,19 @@ public class BigNum implements Comparable<BigNum> {
     	if (tpi >= 0) {
     		tb = ta - tpi;
     		ta = tpi;
+    	} else {
+    		tpi = ta + 1;
+    		tb = 1;
     	}
     	if (npi >= 0) {
     		nb = na - npi;
     		na = npi;
+    	} else {
+    		npi = na + 1;
+    		nb = 1;
     	}
-    	System.out.println(ta + "," + tb);
-    	System.out.println(na + "," + nb);
+    	System.out.println("this" + tlen + "," + ta + "," + tb);
+    	System.out.println(" num" + nlen + "," + na + "," + nb);
     	int oa = ta;
     	int ob = tb;
     	if (oa < na) {
@@ -1683,27 +1692,251 @@ public class BigNum implements Comparable<BigNum> {
     	if (ob < nb) {
     		ob = nb;
     	}
-    	byte osigned = -0x01;
-    	if (this.signed == num.signed) {
-    		osigned = 0x01;
-    	}
+    	System.out.println(" out" + (oa + ob) + "," + oa + "," + ob);
     	
-    	BigNum res = new BigNum("0.0");
+    	char[] tar = new char[oa + ob];
+    	char[] nar = new char[oa + ob];
+    	char[] oar = new char[oa + ob];
+    	Arrays.fill(tar, '0');
+    	Arrays.fill(nar, '0');
+    	Arrays.fill(oar, '0');
+    	int it = tpi - 1;
+    	int in = npi - 1;
+    	for (int i = oa - 1; i > 0; i --) {
+    		// i=0 signed.
+    		if (it > 0) {
+    			tar[i] = t.charAt(it);
+    		}
+    		if (in > 0) {
+    			nar[i] = n.charAt(in);
+    		}
+    		System.out.println(i + ":" + tar[i] + "," + nar[i]);
+    		if (tar[i] == nar[i] && tar[i] == '1') {
+    			oar[i] = '1';
+    		}
+    		it --;
+    		in --;
+    	}
+    	it = tpi + 1;
+    	in = npi + 1;
+    	for (int i = oa + 1; i < (oa + ob); i ++) {
+    		if (it < tlen) {
+    			tar[i] = t.charAt(it);
+    		}
+    		if (in < nlen) {
+    			nar[i] = n.charAt(in);
+    		}
+    		if (tar[i] == nar[i] && tar[i] == '1') {
+    			oar[i] = '1';
+    		}
+    		it ++;
+    		in ++;
+    	}
+    	oar[0] = '-';
+    	if (this.signed == num.signed) {
+    		oar[0] = '+';
+    	}
+    	oar[oa] = '.';
+    	BigNum res = new BigNum(oar, 0, oa + ob, 2);
+    	System.out.println(res.toBinaryString());
     	return res;
     }
     public BigNum or(BigNum num) {
-    	BigNum res = new BigNum("0.0");
+    	String t = this.toBinaryString();
+    	String n = num.toBinaryString();
+    	System.out.println(t);
+    	System.out.println(n);
+    	int tlen = t.length();
+    	int nlen = n.length();
+    	int ta = tlen;
+    	int na = nlen;
+    	int tb = 0;
+    	int nb = 0;
+    	int tpi = t.indexOf(".");
+    	int npi = n.indexOf(".");
+    	if (tpi >= 0) {
+    		tb = ta - tpi;
+    		ta = tpi;
+    	} else {
+    		tpi = ta + 1;
+    		tb = 1;
+    	}
+    	if (npi >= 0) {
+    		nb = na - npi;
+    		na = npi;
+    	} else {
+    		npi = na + 1;
+    		nb = 1;
+    	}
+    	System.out.println("this" + tlen + "," + ta + "," + tb);
+    	System.out.println(" num" + nlen + "," + na + "," + nb);
+    	int oa = ta;
+    	int ob = tb;
+    	if (oa < na) {
+    		oa = na;
+    	}
+    	if (ob < nb) {
+    		ob = nb;
+    	}
+    	System.out.println(" out" + (oa + ob) + "," + oa + "," + ob);
+    	
+    	char[] tar = new char[oa + ob];
+    	char[] nar = new char[oa + ob];
+    	char[] oar = new char[oa + ob];
+    	Arrays.fill(tar, '0');
+    	Arrays.fill(nar, '0');
+    	Arrays.fill(oar, '0');
+    	int it = tpi - 1;
+    	int in = npi - 1;
+    	for (int i = oa - 1; i > 0; i --) {
+    		// i=0 signed.
+    		if (it > 0) {
+    			tar[i] = t.charAt(it);
+    		}
+    		if (in > 0) {
+    			nar[i] = n.charAt(in);
+    		}
+    		System.out.println(i + ":" + tar[i] + "," + nar[i]);
+    		if (tar[i] == '1' || nar[i] == '1') {
+    			oar[i] = '1';
+    		}
+    		it --;
+    		in --;
+    	}
+    	it = tpi + 1;
+    	in = npi + 1;
+    	for (int i = oa + 1; i < (oa + ob); i ++) {
+    		if (it < tlen) {
+    			tar[i] = t.charAt(it);
+    		}
+    		if (in < nlen) {
+    			nar[i] = n.charAt(in);
+    		}
+    		if (tar[i] == '1' || nar[i] == '1') {
+    			oar[i] = '1';
+    		}
+    		it ++;
+    		in ++;
+    	}
+    	oar[0] = '-';
+    	if (this.signed == num.signed) {
+    		oar[0] = '+';
+    	}
+    	oar[oa] = '.';
+    	BigNum res = new BigNum(oar, 0, oa + ob, 2);
+    	System.out.println(res.toBinaryString());
     	return res;
     }
     public BigNum xor(BigNum num) {
-    	BigNum res = new BigNum("0.0");
+    	String t = this.toBinaryString();
+    	String n = num.toBinaryString();
+    	System.out.println(t);
+    	System.out.println(n);
+    	int tlen = t.length();
+    	int nlen = n.length();
+    	int ta = tlen;
+    	int na = nlen;
+    	int tb = 0;
+    	int nb = 0;
+    	int tpi = t.indexOf(".");
+    	int npi = n.indexOf(".");
+    	if (tpi >= 0) {
+    		tb = ta - tpi;
+    		ta = tpi;
+    	} else {
+    		tpi = ta + 1;
+    		tb = 1;
+    	}
+    	if (npi >= 0) {
+    		nb = na - npi;
+    		na = npi;
+    	} else {
+    		npi = na + 1;
+    		nb = 1;
+    	}
+    	System.out.println("this" + tlen + "," + ta + "," + tb);
+    	System.out.println(" num" + nlen + "," + na + "," + nb);
+    	int oa = ta;
+    	int ob = tb;
+    	if (oa < na) {
+    		oa = na;
+    	}
+    	if (ob < nb) {
+    		ob = nb;
+    	}
+    	System.out.println(" out" + (oa + ob) + "," + oa + "," + ob);
+    	
+    	char[] tar = new char[oa + ob];
+    	char[] nar = new char[oa + ob];
+    	char[] oar = new char[oa + ob];
+    	Arrays.fill(tar, '0');
+    	Arrays.fill(nar, '0');
+    	Arrays.fill(oar, '0');
+    	int it = tpi - 1;
+    	int in = npi - 1;
+    	for (int i = oa - 1; i > 0; i --) {
+    		// i=0 signed.
+    		if (it > 0) {
+    			tar[i] = t.charAt(it);
+    		}
+    		if (in > 0) {
+    			nar[i] = n.charAt(in);
+    		}
+    		System.out.println(i + ":" + tar[i] + "," + nar[i]);
+    		if (tar[i] != nar[i]) {
+    			oar[i] = '1';
+    		}
+    		it --;
+    		in --;
+    	}
+    	it = tpi + 1;
+    	in = npi + 1;
+    	for (int i = oa + 1; i < (oa + ob); i ++) {
+    		if (it < tlen) {
+    			tar[i] = t.charAt(it);
+    		}
+    		if (in < nlen) {
+    			nar[i] = n.charAt(in);
+    		}
+    		if (tar[i] != nar[i]) {
+    			oar[i] = '1';
+    		}
+    		it ++;
+    		in ++;
+    	}
+    	oar[0] = '-';
+    	if (this.signed == num.signed) {
+    		oar[0] = '+';
+    	}
+    	oar[oa] = '.';
+    	BigNum res = new BigNum(oar, 0, oa + ob, 2);
+    	System.out.println(res.toBinaryString());
     	return res;
     }
     public BigNum not() {
-    	BigNum res = new BigNum("0.0");
+    	String t = this.toBinaryString();
+    	char[] tar = new char[t.length()];
+    	for (int i = 0; i < tar.length; i ++) {
+    		char ch = t.charAt(i);
+    		if (ch == '+') {
+    			tar[i] = '-';
+    		}
+    		if (ch == '-') {
+    			tar[i] = '+';
+    		}
+    		if (ch == '1') {
+    			tar[i] = '0';
+    		}
+    		if (ch == '0') {
+    			tar[i] = '1';
+    		}
+    		tar[i] = ch;
+    	}
+    	BigNum res = new BigNum(tar, 0, tar.length, 2);
     	return res;
     }
     public BigNum lsh(int shift) {
+    	char[] tar = this.toBinaryString().toCharArray();
     	BigNum res = new BigNum("0.0");
     	return res;
     }
