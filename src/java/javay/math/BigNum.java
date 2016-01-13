@@ -1703,10 +1703,10 @@ public class BigNum implements Comparable<BigNum> {
     	int in = npi - 1;
     	for (int i = oa - 1; i > 0; i --) {
     		// i=0 signed.
-    		if (it > 0) {
+    		if (it > 0 && it < tlen) {
     			tar[i] = t.charAt(it);
     		}
-    		if (in > 0) {
+    		if (in > 0 && in < nlen) {
     			nar[i] = n.charAt(in);
     		}
     		System.out.println(i + ":" + tar[i] + "," + nar[i]);
@@ -1789,10 +1789,10 @@ public class BigNum implements Comparable<BigNum> {
     	int in = npi - 1;
     	for (int i = oa - 1; i > 0; i --) {
     		// i=0 signed.
-    		if (it > 0) {
+    		if (it > 0 && it < tlen) {
     			tar[i] = t.charAt(it);
     		}
-    		if (in > 0) {
+    		if (in > 0 && in < nlen) {
     			nar[i] = n.charAt(in);
     		}
     		System.out.println(i + ":" + tar[i] + "," + nar[i]);
@@ -1875,10 +1875,10 @@ public class BigNum implements Comparable<BigNum> {
     	int in = npi - 1;
     	for (int i = oa - 1; i > 0; i --) {
     		// i=0 signed.
-    		if (it > 0) {
+    		if (it > 0 && it < tlen) {
     			tar[i] = t.charAt(it);
     		}
-    		if (in > 0) {
+    		if (in > 0 && in < nlen) {
     			nar[i] = n.charAt(in);
     		}
     		System.out.println(i + ":" + tar[i] + "," + nar[i]);
@@ -1982,7 +1982,7 @@ public class BigNum implements Comparable<BigNum> {
     		return lsh(shift);
     	}
     	String t = this.toBinaryString();
-    	System.out.println(t);
+    	System.out.print("in:" + t);
     	int tlen = t.length();
     	int ta = tlen;
     	int tb = 0;
@@ -1995,11 +1995,20 @@ public class BigNum implements Comparable<BigNum> {
     		tb = 1;
     	}
     	int olen= ta + tb;
+    	int shf = shift.toInt();
+    	System.out.print(",shift:" + shf);
+//    	System.out.println("olen=" + olen + ",shf=" + shf + ",ta=" + ta + ",tb=" + tb);
     	char[] obuf = new char[olen];
     	Arrays.fill(obuf, '0');
-    	int o = shift.toInt();
+    	int o = shf - 1;
+    	if (shf < tb) {
+    		o ++;
+    	} else {
+    		o += 2;
+    	}
+//    	System.out.println("o=" + o);
     	boolean bdot = false;
-    	for (int i = 0; i < olen - shift.toInt(); i ++) {
+    	for (int i = 0; i < olen - shf; i ++) {
     		char ch = t.charAt(i);
     		if (ch == '.') {
     			continue;
@@ -2009,6 +2018,9 @@ public class BigNum implements Comparable<BigNum> {
     			o ++;
     			bdot = true;
     		}
+    		if (o >= olen) {
+    			break;
+    		}
     		obuf[o] = ch;
     		o ++;
     	}
@@ -2016,7 +2028,7 @@ public class BigNum implements Comparable<BigNum> {
     		obuf[ta] = '.';
     	}
     	BigNum res = new BigNum(obuf, 0, olen, 2);
-    	System.out.println(res.toBinaryString());
+    	System.out.println(",out:" + res.toBinaryString());
     	return res;
     }
     /* ****************************

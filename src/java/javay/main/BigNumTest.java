@@ -287,10 +287,20 @@ public class BigNumTest {
 //		System.out.println("AND" + a.and(b));
 //		System.out.println(" OR" + a.or(b));
 //		System.out.println("XOR" + a.xor(b));
-		BigNum a = new BigNum("3.125");
-		BigNum b = new BigNum("2");
-		System.out.println(a.rsh(b));
-		System.out.println(a.lsh(b));
+		BigNum a = new BigNum("2.125");
+//		BigNum b = new BigNum("4");
+		System.out.println(a.rsh(new BigNum("0")));
+		System.out.println(a.rsh(new BigNum("1")));
+		System.out.println(a.rsh(new BigNum("2")));
+		System.out.println(a.rsh(new BigNum("3")));
+		System.out.println(a.rsh(new BigNum("4")));
+		System.out.println(a.rsh(new BigNum("5")));
+		System.out.println(a.rsh(new BigNum("6")));
+		System.out.println(a.rsh(new BigNum("7")));
+		System.out.println(a.rsh(new BigNum("8")));
+//		System.out.println(a.lsh(b));
+		System.out.println("------and----");
+		System.out.println(new BigNum("1").and(new BigNum("2")));
 	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
