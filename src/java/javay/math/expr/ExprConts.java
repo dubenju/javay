@@ -35,4 +35,11 @@ public interface ExprConts {
     public static final String RIGHT = ")";
     public static final String ARC = "arc";
     public static final String NEGATE = "negate";
+    
+    public static final String ARM = "arm"; // 算术平均值 Arithmetic mean
+    public static final String RMS = "rms"; // 平方平均值
+    public static final String SUM = "sum"; // 和
+    public static final String SOS = "sos"; // 平方和 Sum of Squares
+    public static final String SSD = "ssd"; // 样本标准差 sample standard deviation
+    public static final String PSD = "psd"; // 总体标准差 population standard deviation
 }

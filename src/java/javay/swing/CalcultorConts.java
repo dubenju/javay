@@ -61,6 +61,11 @@ public interface CalcultorConts {
 	public static final String LSH = "lsh";
 	public static final String RSH = "rsh";
 
+	public static final String SCI = "F-E";
+	public static final String AVE = "ave"; // 平均值 The average value
+	public static final String SUM = "sum"; // 和
+	public static final String SSD = "σ"; // 
+
 	// 数字
 	public static final String ZERO = "0";
 	public static final String ONE = "1";

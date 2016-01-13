@@ -72,12 +72,13 @@ public class CalcultorPanel extends JPanel {
     JPanel btnPnl4 = new JPanel();
 
     JButton btnSta    = new JButton("Sta");
-    JButton btnAve    = new JButton("Ave");
-    JButton btnSum    = new JButton("Sum");
-    JButton btnS    = new JButton("s");
+    JButton btnAve    = new JButton(CalcultorConts.AVE);
+    JButton btnSum    = new JButton(CalcultorConts.SUM);
+    JButton btnS    = new JButton(CalcultorConts.SSD);
     JButton btnDat    = new JButton("Dat");
 
-    public JButton btnFE = new JButton("F-E");
+    // 科学记数法 Scientific notation
+    public JButton btnFE = new JButton(CalcultorConts.SCI);
     public JButton btnDMS = new JButton(CalcultorConts.DMS);
     // 正弦
     public JButton btnSin   = new JButton(CalcultorConts.SIN);

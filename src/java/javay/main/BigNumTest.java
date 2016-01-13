@@ -302,6 +302,12 @@ public class BigNumTest {
 		System.out.println("------and----");
 		System.out.println(new BigNum("1").and(new BigNum("2")));
 	}
+	public void testSCI() {
+		BigNum a = new BigNum("0.00001234");
+		System.out.println(a.toScientificNotation());
+		System.out.println(new BigNum("0.0000").toScientificNotation());
+		System.out.println(new BigNum("123450").toScientificNotation());
+	}
 //    public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
     /**
      * @param args
@@ -328,7 +334,8 @@ public class BigNumTest {
 //    	proc.testSin();
 //    	proc.testLastZero();
 //    	proc.testDivide2();
-    	proc.testLogic();
+//    	proc.testLogic();
+    	proc.testSCI();
 
 //        System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //        System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16

@@ -1456,6 +1456,60 @@ public class BigNum implements Comparable<BigNum> {
 //    	System.out.println(buf.toString());
     	return buf.toString();
     }
+	public String toScientificNotation() {
+		// aen
+		StringBuffer buf = new StringBuffer();
+		if (this.signed < 0) {
+			buf.append("-");
+		}
+		int n = 0;
+		boolean bflag = false;
+		int i = 0;
+		for (; i < this.scale; i ++) {
+			byte by = this.datas[i];
+			if (bflag) {
+				n ++;
+				buf.append(by);
+				continue;
+			}
+			if (by != 0) {
+				bflag = true;
+				buf.append(by);
+				buf.append(".");
+				n ++;
+			}
+		}
+		if (bflag == false) {
+			for(;i < this.length; i ++) {
+				byte by = this.datas[i];
+				if (!bflag) {
+					n --;
+				} else {
+					buf.append(by);
+					continue;
+				}
+				if (by != 0) {
+					bflag = true;
+					buf.append(by);
+					buf.append(".");
+				}
+				
+			}
+			if (!bflag) {
+				buf.append("0.0");
+			}
+		} else {
+			for(;i < this.length; i ++) {
+				byte by = this.datas[i];
+				buf.append(by);
+			}
+		}
+		buf.append("e");
+		buf.append(n);
+		System.out.println(n);
+		return buf.toString();
+	}
+
 	public byte toByte() {
 		if (this.compareTo(BigNum.BYTE_MIN_VALUE) < 0 || this.compareTo(BigNum.BYTE_MAX_VALUE) > 0) {
 			throw new java.lang.ArithmeticException("Overflow");
