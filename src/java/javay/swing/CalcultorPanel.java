@@ -29,6 +29,8 @@ import javay.awt.event.CalcultorActionListener;
  */
 public class CalcultorPanel extends JPanel {
 
+	private int btnWidth = 52;
+	private int btnHeight = 28;
     private JPanel mainPanel = new JPanel();
     public JTextField expr = new JTextField();
     public JVariableTextField textField = new JVariableTextField( 34 );
@@ -172,7 +174,6 @@ public class CalcultorPanel extends JPanel {
         this.textField.setText("0");
         this.textField.setToolTipText("计算式");
 
-
         /* A */
         mainPanel.add(option);
 
@@ -228,28 +229,25 @@ public class CalcultorPanel extends JPanel {
         fly.setHgap(5);
         fly.setVgap(5);
         buttonPanel.setLayout(fly);
-//        buttonPanel.setLayout(null);
         buttonPanel.add(btnPnl1);
         buttonPanel.add(btnPnl2);
         buttonPanel.add(btnPnl3);
         buttonPanel.add(btnPnl4);
 
         // 开平方
-        GridLayout gly1 = new GridLayout(5, 1);
-        gly1.setHgap(3);
-        gly1.setVgap(3);
-//        btnPnl1.setLayout( gly1 );
         btnPnl1.setLayout(null);
-        btnPnl1.setBounds(10, 100, 500, 25);
-        btnPnl1.setBorder(BorderFactory.createLineBorder(Color.green));
-//        btnSta.setBounds(10, 100, 500, 25);
-        btnSta.setPreferredSize(new Dimension(30,30));
-//        btnSta.setBorder(BorderFactory.createRaisedBevelBorder());
+        btnPnl1.setPreferredSize(new Dimension(btnWidth + 1, (btnHeight + 1) * 5));
         btnPnl1.add( btnSta ).setForeground(Color.blue);
         btnPnl1.add( btnAve ).setForeground(Color.blue);
         btnPnl1.add( btnSum ).setForeground(Color.blue);
         btnPnl1.add( btnS ).setForeground(Color.blue);
         btnPnl1.add( btnDat ).setForeground(Color.blue);
+
+        btnSta.setBounds(1, 1, btnWidth, btnHeight);
+        btnAve.setBounds(1, btnSta.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnSum.setBounds(1, btnAve.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnS.setBounds(1, btnSum.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnDat.setBounds(1, btnS.getY() + (btnHeight) + 1, btnWidth, btnHeight);
 
         //create special button
 //        // 平方
@@ -262,11 +260,8 @@ public class CalcultorPanel extends JPanel {
 //        // 正弦
 //        // 余弦
 //        // 正切
-
-        GridLayout gly2 = new GridLayout(5, 3);
-        gly2.setVgap(3);
-        gly2.setHgap(3);
-        btnPnl2.setLayout( gly2 );
+        btnPnl2.setLayout(null);
+        btnPnl2.setPreferredSize(new Dimension((btnWidth + 1) * 3, (btnHeight + 1) * 5));
         btnPnl2.add( btnFE ).setForeground(Color.red);
         btnPnl2.add( btnLeft ).setForeground(Color.red);
         btnPnl2.add( btnRight ).setForeground(Color.red);
@@ -283,58 +278,52 @@ public class CalcultorPanel extends JPanel {
         btnPnl2.add( btnX2 ).setForeground(Color.red);
         btnPnl2.add( btnDivide1 ).setForeground(Color.red);
 
-//        Button bntMC = new Button("MC");
-//        Button bntMR = new Button("MR");
-//        Button bntMS = new Button("MS");
-//        Button bntMP = new Button("M+");
-//        Button bntMN = new Button("M-");
+        btnFE.setBounds(1, 1, btnWidth, btnHeight);
+        btnDMS.setBounds(btnFE.getX(), btnFE.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnSin.setBounds(btnDMS.getX(), btnDMS.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnCos.setBounds(btnSin.getX(), btnSin.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnTan.setBounds(btnCos.getX(), btnCos.getY() + (btnHeight) + 1, btnWidth, btnHeight);
 
-        GridLayout gly3 = new GridLayout(5, 1);
-        gly3.setHgap(3);
-        gly3.setVgap(3);
-        btnPnl3.setLayout( gly3 );
+        btnLeft.setBounds(btnFE.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
+        btnExp.setBounds(btnLeft.getX(), btnLeft.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnXY.setBounds(btnExp.getX(), btnExp.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnX3.setBounds(btnXY.getX(), btnXY.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnX2.setBounds(btnX3.getX(), btnX3.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+
+        btnRight.setBounds(btnLeft.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
+        btnLn.setBounds(btnRight.getX(), btnRight.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnLog.setBounds(btnLn.getX(), btnLn.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnN.setBounds(btnLog.getX(), btnLog.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnDivide1.setBounds(btnN.getX(), btnN.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+
+        btnPnl3.setLayout(null);
+        btnPnl3.setPreferredSize(new Dimension(btnWidth + 1, (btnHeight + 1) * 5));
         btnPnl3.add( btnMC ).setForeground(Color.red);
         btnPnl3.add( btnMR ).setForeground(Color.red);
         btnPnl3.add( btnMS ).setForeground(Color.red);
         btnPnl3.add( btnMP ).setForeground(Color.red);
         btnPnl3.add( btnMN ).setForeground(Color.red);
 
-//        Button btnAnd = new Button("And");
-//        Button btnOr  = new Button("Or");
-//        Button btnNot = new Button("Not");
-//        Button btnXor = new Button("Xor");
+        btnMC.setBounds(1, 1, btnWidth, btnHeight);
+        btnMR.setBounds(1, btnMC.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnMS.setBounds(1, btnMR.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnMP.setBounds(1, btnMS.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnMN.setBounds(1, btnMP.getY() + (btnHeight) + 1, btnWidth, btnHeight);
 
-//        Button btnLsh = new Button("Lsh");
-//        Button btnInt = new Button("Int");
         // 小数点
-//        Button btnDot       = new Button(CalcultorConts.DOT);
-//        Button btnPosMinus  = new Button(CalcultorConts.POS_MINUS);
         // 结果是
-//        Button btnEqual     = new Button(CalcultorConts.EQUAL);
-//        // 加
-//        Button btnAdd       = new Button(CalcultorConts.ADD);
-//        // 减
-//        Button btnSubtract  = new Button(CalcultorConts.SUBTRACT);
-//        // 乘
-//        Button btnMultiply  = new Button(CalcultorConts.MULTIPLY);
-//        // 除
-//        Button btnDivide    = new Button(CalcultorConts.DIVIDE);
-//        // 模
-//        Button btnMod       = new Button(CalcultorConts.MOD);
+        // 加
+        // 减
+        // 乘
+        // 除
+        // 模
 
-//         0-9数字按钮
+        // 0-9数字按钮
         //create buttons
-//        Button[] numButtons = new Button[10];
         for ( int i = 0; i < 10; i++ ) {
             numButtons[i] = new JButton( "" + i );
         }
 
-//        Button btnA = new Button("A");
-//        Button btnB = new Button("B");
-//        Button btnC = new Button("C");
-//        Button btnD = new Button("D");
-//        Button btnE = new Button("E");
-//        Button btnF = new Button("F");
         btnA.setEnabled(false);
         btnB.setEnabled(false);
         btnC.setEnabled(false);
@@ -343,11 +332,8 @@ public class CalcultorPanel extends JPanel {
         btnF.setEnabled(false);
 
         //add these buttons to buttonPanel
-        GridLayout gly4 = new GridLayout(5, 6);
-        gly4.setHgap(3);
-        gly4.setVgap(3);
-        btnPnl4.setLayout( gly4 );
-
+        btnPnl4.setLayout(null);
+        btnPnl4.setPreferredSize(new Dimension((btnWidth + 1) * 6, (btnHeight + 1) * 5));
         btnPnl4.add( numButtons[7] ).setForeground(Color.blue);
         btnPnl4.add( numButtons[8] ).setForeground(Color.blue);
         btnPnl4.add( numButtons[9] ).setForeground(Color.blue);
@@ -382,6 +368,42 @@ public class CalcultorPanel extends JPanel {
         btnPnl4.add( btnD ).setForeground(Color.blue);
         btnPnl4.add( btnE ).setForeground(Color.blue);
         btnPnl4.add( btnF ).setForeground(Color.blue);
+
+        numButtons[7].setBounds(1, 1, btnWidth, btnHeight);
+        numButtons[4].setBounds(numButtons[7].getX(), numButtons[7].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        numButtons[1].setBounds(numButtons[4].getX(), numButtons[4].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        numButtons[0].setBounds(numButtons[1].getX(), numButtons[1].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnA.setBounds(numButtons[0].getX(), numButtons[0].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+
+        numButtons[8].setBounds(numButtons[7].getX() + btnWidth + 1, 1, btnWidth, btnHeight);
+        numButtons[5].setBounds(numButtons[8].getX(), numButtons[8].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        numButtons[2].setBounds(numButtons[5].getX(), numButtons[5].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnPosMinus.setBounds(numButtons[2].getX(), numButtons[2].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnB.setBounds(btnPosMinus.getX(), btnPosMinus.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+
+        numButtons[9].setBounds(numButtons[8].getX() + btnWidth + 1, 1, btnWidth, btnHeight);
+        numButtons[6].setBounds(numButtons[9].getX(), numButtons[9].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        numButtons[3].setBounds(numButtons[6].getX(), numButtons[6].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnDot.setBounds(numButtons[3].getX(), numButtons[3].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnC.setBounds(btnDot.getX(), btnDot.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+
+        btnDivide.setBounds(numButtons[9].getX() + btnWidth + 1, 1, btnWidth, btnHeight);
+        btnMultiply.setBounds(btnDivide.getX(), btnDivide.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnSubtract.setBounds(btnMultiply.getX(), btnMultiply.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnAdd.setBounds(btnSubtract.getX(), btnSubtract.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnD.setBounds(btnAdd.getX(), btnAdd.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+
+        btnMod.setBounds(btnDivide.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
+        btnOr.setBounds(btnMod.getX(), btnMod.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnLsh.setBounds(btnOr.getX(), btnOr.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnEqual.setBounds(btnLsh.getX(), btnLsh.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnE.setBounds(btnEqual.getX(), btnEqual.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+
+        btnAnd.setBounds(btnMod.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
+        btnXor.setBounds(btnAnd.getX(), btnAnd.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnNot.setBounds(btnXor.getX(), btnXor.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnInt.setBounds(btnNot.getX(), btnNot.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnF.setBounds(btnInt.getX(), btnInt.getY() + (btnHeight) + 1, btnWidth, btnHeight);
 
         //create the control
         CalcultorActionListener controler = new CalcultorActionListener( this );
