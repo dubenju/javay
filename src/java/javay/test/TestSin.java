@@ -1,9 +1,12 @@
 package javay.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javay.math.BigNum;
 import javay.math.BigNumRound;
 import javay.math.MathBn;
-import javay.swing.CalcultorConts;
+
 /**
  * sin(30) = 0.5
  * sin(45) = 2^(1/2)/2
@@ -35,11 +38,12 @@ public class TestSin {
 //		System.out.println(b);
 //		BigNum c = MathBn.smd(b);
 //		System.out.println(c);
-		BigNum a = new BigNum("0.5");
-		BigNum b = MathBn.arcsin(a);
-		BigNum c = MathBn.arccos(a);
-		BigNum d = MathBn.arctan(a);
-		System.out.println("a=" + a + "/nb=" + b + "/nc=" + c + "/nd=" + d);
+//		BigNum a = new BigNum("0.5");
+//		BigNum b = MathBn.arcsin(a);
+//		BigNum c = MathBn.arccos(a);
+//		BigNum d = MathBn.arctan(a);
+//		System.out.println("a=" + a + "/nb=" + b + "/nc=" + c + "/nd=" + d);
+		testSum();
 	}
     public static void test(String args) {
         double x = Double.parseDouble(args);
@@ -109,5 +113,17 @@ public class TestSin {
             result *= j;
         }
         return result;
+    }
+    public static void testSum() {
+    	List<BigNum> list = new ArrayList<BigNum>();
+    	list.add(new BigNum("1.0"));
+    	list.add(new BigNum("2.0"));
+    	list.add(new BigNum("3.0"));
+//    	System.out.println(MathBn.sum(list));
+//    	System.out.println(MathBn.ave(list));
+//    	System.out.println(MathBn.sos(list));
+//    	System.out.println(MathBn.rms(list));
+    	System.out.println("psd" + MathBn.psd(list));
+    	System.out.println("ssd" + MathBn.ssd(list));
     }
 }

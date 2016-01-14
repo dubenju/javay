@@ -42,7 +42,7 @@ public class CalcultorFrame extends JFrame {
         JMenuBar  menuBar      = new JMenuBar();
         JMenu     menuFile     = new JMenu("File");
         JMenuItem menuFileExit = new JMenuItem("Exit", KeyEvent.VK_X);
-        JMenuItem aboutMenuItem=new JMenuItem("关于..",KeyEvent.VK_A); 
+        JMenuItem aboutMenuItem=new JMenuItem("关于..",KeyEvent.VK_A);
 
         // Add action listener.for the menu button
         menuFileExit.addActionListener (
@@ -74,6 +74,19 @@ public class CalcultorFrame extends JFrame {
         menuFile.add(menuFileExit);
         menuFile.add(aboutMenuItem);
         menuBar.add(menuFile);
+
+        JMenu menuEdit = new JMenu("Edit");
+        JMenuItem menuEditCopy = new JMenuItem("Copy");
+        JMenuItem menuEditPaste = new JMenuItem("Paste");
+        menuEdit.add(menuEditCopy);
+        menuEdit.add(menuEditPaste);
+        menuBar.add(menuEdit);
+
+        JMenu menuView = new JMenu("View");
+        menuBar.add(menuView);
+
+        JMenu menuHelp = new JMenu("Help");
+        menuBar.add(menuHelp);
 
         setTitle("计算器");
         setJMenuBar(menuBar);

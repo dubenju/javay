@@ -1,5 +1,7 @@
 package javay.math;
 
+import java.util.List;
+
 import javay.swing.CalcultorConts;
 
 /**
@@ -619,5 +621,64 @@ public class MathBn {
         	chk = x1.subtract(x0);
     	}
     	return x1;
+    }
+    public static BigNum sum(List<BigNum> in) {
+    	BigNum res = new BigNum("0.0");
+    	for (BigNum num : in) {
+    		res = res.add(num);
+    	}
+    	return res;
+    }
+    public static BigNum sos(List<BigNum> in) {
+    	BigNum res = new BigNum("0.0");
+    	for (BigNum num : in) {
+    		res = res.add(num.pow(2));
+    	}
+    	return res;
+    }
+    public static BigNum ave(List<BigNum> in) {
+    	BigNum num = sum(in);
+    	BigNum n = new BigNum(in.size());
+    	return num.divide(n, 40, BigNumRound.HALF_EVENT);
+    }
+    public static BigNum rms(List<BigNum> in) {
+    	BigNum num = sos(in);
+    	BigNum n = new BigNum(in.size());
+    	System.out.print(num);
+    	BigNum a = num.divide(n, 40, BigNumRound.HALF_EVENT);
+    	System.out.println("," + a);
+    	BigNum res = root(a, new BigNum("2.0"));
+    	return res;
+    }
+    public static BigNum ssd(List<BigNum> in) {
+    	BigNum u = ave(in);
+    	BigNum num = new BigNum("0.0");
+    	for (BigNum nu : in) {
+    		num = num.add(nu.subtract(u).pow(2));
+    	}
+    	BigNum n = new BigNum(in.size() - 1);
+    	System.out.print(num);
+    	BigNum a = num.divide(n, 40, BigNumRound.HALF_EVENT);
+    	System.out.println("," + a);
+    	BigNum res = root(a, new BigNum("2.0"));
+    	return res;
+    }
+    /**
+     * 总体标准差
+     * @param in
+     * @return
+     */
+    public static BigNum psd(List<BigNum> in) {
+    	BigNum u = ave(in);
+    	BigNum num = new BigNum("0.0");
+    	for (BigNum nu : in) {
+    		num = num.add(nu.subtract(u).pow(2));
+    	}
+    	BigNum n = new BigNum(in.size());
+    	System.out.print(num);
+    	BigNum a = num.divide(n, 40, BigNumRound.HALF_EVENT);
+    	System.out.println("," + a);
+    	BigNum res = root(a, new BigNum("2.0"));
+    	return res;
     }
 }
