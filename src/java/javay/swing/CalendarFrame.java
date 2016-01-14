@@ -107,5 +107,35 @@ public class CalendarFrame extends JFrame {
                   
             }  
         });  
-    }  
+    } 
+//    private final static ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(10);
+//    static {
+//        scheduler.setKeepAliveTime(20, TimeUnit.MINUTES);
+//        scheduler.allowCoreThreadTimeOut(true);
+//    }
+// 
+//    public static void init() {
+//        long target = 5;
+//        Calendar now = Calendar.getInstance();
+//        int hour = now.get(Calendar.HOUR_OF_DAY);
+//        long m = now.get(Calendar.HOUR_OF_DAY) * 60;
+//        long minute = now.get(Calendar.MINUTE) + m;
+//        long initialDelay = 0;
+//        if (target > minute) {
+//            initialDelay = target - minute;
+//        } else {
+//            initialDelay = 24 * 60 + target - minute;
+//        }
+// 
+//        if (hour >= 0 && hour < 5) {
+//            initialDelay = 0;
+//        }
+//        long period = 24 * 60;
+//        scheduler.scheduleAtFixedRate(new Runnable() {
+//            @Override
+//            public void run() {
+//                BService.prize();
+//            }
+//        }, initialDelay, period, TimeUnit.MINUTES);
+//    }
 } 

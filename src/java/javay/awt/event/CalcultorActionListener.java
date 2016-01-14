@@ -31,7 +31,7 @@ import javay.swing.CalcultorPanel;
 public class CalcultorActionListener implements ActionListener {
 
 	private CalcultorPanel panel;
-	private String mem;
+//	private String mem;
 	private Map<String, Integer> ns = new HashMap<String, Integer>();
 	CalcultorFSM fsm = new CalcultorFSM();
 
@@ -51,7 +51,8 @@ public class CalcultorActionListener implements ActionListener {
 				s.equals(CalcultorConts.MS) || s.equals(CalcultorConts.MP) ||
 				s.equals(CalcultorConts.MM) || s.equals(CalcultorConts.BINARY) ||
 				s.equals(CalcultorConts.OCTAL) || s.equals(CalcultorConts.DECIMAL) ||
-				s.equals(CalcultorConts.HEXADECIMAL) || s.equals(CalcultorConts.BACKSPACE) ||
+				s.equals(CalcultorConts.HEXADECIMAL) || s.equals(CalcultorConts.SCI) || 
+				s.equals(CalcultorConts.BACKSPACE) ||
 				s.equals(CalcultorConts.CLEAR_ERROR) || s.equals(CalcultorConts.CLEAR);
 	}
 
@@ -110,33 +111,46 @@ public class CalcultorActionListener implements ActionListener {
 	private void control(String s) {
 		System.out.println("cmd=" + s);
 		if (CalcultorConts.MC.equals(s)) {
-			this.mem = "";
-			this.panel.mmry.setText(this.mem);
+			this.panel.textField.setMemory("");
+			this.panel.textField.setText(this.panel.textField.getText());
+			this.panel.mmry.setText("");
 		}
 		if (CalcultorConts.MR.equals(s)) {
-			this.panel.textField.setText(this.mem);
+			String mem = this.panel.textField.getMemory();
+			if (mem.length() <= 0) {
+				mem = "0";
+			}
+			this.panel.textField.setText(mem);
+//			this.panel.fsm
 		}
 		if (CalcultorConts.MS.equals(s)) {
-			this.mem = this.panel.textField.getText();
-			this.panel.mmry.setText(this.mem);
+			this.panel.textField.setMemory(this.panel.textField.getText());
+			this.panel.textField.setText(this.panel.textField.getText());
+			this.panel.mmry.setText(this.panel.textField.getText());
 		}
 		if (CalcultorConts.MP.equals(s)) {
-			if (this.mem.length() <= 0) {
-				this.mem = "0";
+			String mem = this.panel.textField.getMemory();
+			if (mem.length() <= 0) {
+				mem = "0";
 			}
-			BigNum m = new BigNum(this.mem);
+			BigNum m = new BigNum(mem);
 			BigNum b = new BigNum(this.panel.textField.getText());
-			this.mem = m.add(b).toString();
-			this.panel.mmry.setText(this.mem);
+			mem = m.add(b).toString();
+			this.panel.textField.setMemory(mem);
+			this.panel.textField.setText(this.panel.textField.getText());
+			this.panel.mmry.setText(mem);
 		}
 		if (CalcultorConts.MM.equals(s)) {
-			if (this.mem.length() <= 0) {
-				this.mem = "0";
+			String mem = this.panel.textField.getMemory();
+			if (mem.length() <= 0) {
+				mem = "0";
 			}
-			BigNum m = new BigNum(this.mem);
+			BigNum m = new BigNum(mem);
 			BigNum b = new BigNum(this.panel.textField.getText());
-			this.mem = m.subtract(b).toString();
-			this.panel.mmry.setText(this.mem);
+			mem = m.subtract(b).toString();
+			this.panel.textField.setMemory(mem);
+			this.panel.textField.setText(this.panel.textField.getText());
+			this.panel.mmry.setText(mem);
 		}
 		if (CalcultorConts.BINARY.equals(s)) {
 			for (int i = 2; i < 10; i ++) {
@@ -228,6 +242,16 @@ public class CalcultorActionListener implements ActionListener {
 			BigNum valn = new BigNum(val, ns.get(this.panel.textField.getNumberSystem()));
 			this.panel.textField.setText(valn.toHexString());
 			this.panel.textField.setNumberSystem(CalcultorConts.HEXADECIMAL);
+		}
+		if (CalcultorConts.SCI.equals(s)) {
+			int display = this.panel.textField.getDisplay();
+			if (display == 0) {
+				display = 1;
+			} else {
+				display = 0;
+			}
+			this.panel.textField.setDisplay(display);
+			this.panel.textField.setText(this.panel.textField.getText()); // refresh
 		}
 		if (CalcultorConts.BACKSPACE.equals(s)) {
 

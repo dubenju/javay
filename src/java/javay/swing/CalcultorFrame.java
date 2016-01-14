@@ -42,7 +42,6 @@ public class CalcultorFrame extends JFrame {
         JMenuBar  menuBar      = new JMenuBar();
         JMenu     menuFile     = new JMenu("File");
         JMenuItem menuFileExit = new JMenuItem("Exit", KeyEvent.VK_X);
-        JMenuItem aboutMenuItem=new JMenuItem("关于..",KeyEvent.VK_A);
 
         // Add action listener.for the menu button
         menuFileExit.addActionListener (
@@ -66,13 +65,8 @@ public class CalcultorFrame extends JFrame {
                 dispose();
            } 
         }); 
-        aboutMenuItem.addActionListener(new ActionListener(){ 
-            public void actionPerformed(ActionEvent e){ 
-             aboutDialog.setVisible(true); 
-            } 
-           }); 
+
         menuFile.add(menuFileExit);
-        menuFile.add(aboutMenuItem);
         menuBar.add(menuFile);
 
         JMenu menuEdit = new JMenu("Edit");
@@ -86,6 +80,13 @@ public class CalcultorFrame extends JFrame {
         menuBar.add(menuView);
 
         JMenu menuHelp = new JMenu("Help");
+        JMenuItem aboutMenuItem=new JMenuItem("关于..",KeyEvent.VK_A);
+        aboutMenuItem.addActionListener(new ActionListener(){ 
+            public void actionPerformed(ActionEvent e){ 
+             aboutDialog.setVisible(true); 
+            } 
+           }); 
+        menuHelp.add(aboutMenuItem);
         menuBar.add(menuHelp);
 
         setTitle("计算器");

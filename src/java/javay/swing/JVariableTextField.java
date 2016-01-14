@@ -17,6 +17,8 @@ public class JVariableTextField extends JTextField {
 
 	private int maxWidth = 1;
 	private String numberSystem = CalcultorConts.DECIMAL;
+	private String mem = null;
+	private int display = 0; // normal,1:ScientificNotation
 
 	/**
 	 * 
@@ -24,6 +26,7 @@ public class JVariableTextField extends JTextField {
 	public JVariableTextField() {
 		maxWidth = this.getColumns() * this.getFont().getSize();
 		setOpaque(false);
+		this.mem = null;
 	}
 
 	/**
@@ -34,6 +37,7 @@ public class JVariableTextField extends JTextField {
 		super(text, columns);
 		maxWidth = this.getColumns() * this.getFont().getSize();
 		setOpaque(false);
+		this.mem = null;
 	}
 
 	/**
@@ -43,6 +47,7 @@ public class JVariableTextField extends JTextField {
 		super(text);
 		maxWidth = this.getColumns() * this.getFont().getSize();
 		setOpaque(false);
+		this.mem = null;
 	}
 
 	/**
@@ -54,6 +59,7 @@ public class JVariableTextField extends JTextField {
 		super(doc, text, columns);
 		maxWidth = this.getColumns() * this.getFont().getSize();
 		setOpaque(false);
+		this.mem = null;
 	}
 
 	/**
@@ -63,6 +69,7 @@ public class JVariableTextField extends JTextField {
 		super(columns);
 		maxWidth = this.getColumns() * this.getFont().getSize();
 		setOpaque(false);
+		this.mem = null;
 	}
 
 	/**
@@ -70,12 +77,9 @@ public class JVariableTextField extends JTextField {
 	 */
 	@Override
 	public void setText(String t) {
-//		int colusbmns = this.getColumns();
 		Font font = this.getFont();
 		int fontsize = font.getSize();
 		int length = t.length();
-//		long width = length * fontsize;
-//		System.out.println("t.length=" + t.length() + ",columns=" + columns + ",fontsize=" + fontsize + ",maxWidth=" + maxWidth);
 		if (length > 0) {
 			fontsize = maxWidth / length;
 			if (fontsize == 0 ) {
@@ -149,6 +153,20 @@ public class JVariableTextField extends JTextField {
 		}
 		//g.fillRect(0, 0, getWidth(), getHeight());  
 		g2.setColor(color);
+
+		if (this.mem != null && this.mem.length() > 0) {
+			Color color2 = g2.getColor();
+			g2.setColor(Color.GRAY);
+			g2.drawString(this.mem, 30, 70);
+			g2.drawString("M", 1, 70);
+			g2.setColor(color2);
+		}
+		if (this.display == 1) {
+			Color color2 = g2.getColor();
+			g2.setColor(Color.GRAY);
+			g2.drawString("E", 1, 30);
+			g2.setColor(color2);
+		}
 		super.paintComponent(g);
 	}
 
@@ -166,4 +184,24 @@ public class JVariableTextField extends JTextField {
 		this.numberSystem = numberSystem;
 	}
 
+	public String getMemory() {
+		return this.mem;
+	}
+	public void setMemory(String m) {
+		this.mem = m;
+	}
+
+	/**
+	 * @return the display
+	 */
+	public int getDisplay() {
+		return display;
+	}
+
+	/**
+	 * @param display the display to set
+	 */
+	public void setDisplay(int display) {
+		this.display = display;
+	}
 }

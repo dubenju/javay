@@ -5,6 +5,7 @@ package javay.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -151,9 +152,7 @@ public class CalcultorPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     public CalcultorPanel() {
-//    	JPanel mainPanel = new JPanel();
     	this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
-//    	mainPanel.setLayout(new GridLayout(4, 1));
 
         //create the text field
     	this.mainPanel.add(this.expr);
@@ -165,34 +164,24 @@ public class CalcultorPanel extends JPanel {
         this.expr.setToolTipText("表达式");
 
         this.textField.setHorizontalAlignment(JTextField.RIGHT);
-        //textField.setAlignmentY(Component.BOTTOM_ALIGNMENT);
         this.textField.setEditable( false );
-//        textField.setBackground(Color.white);
         this.textField.setFont(new Font("Dialog", Font.PLAIN, 36));
         this.textField.getMaxWidth();
         LineBorder border = new LineBorder(Color.RED, 2, true);
         this.textField.setBorder(border);
-        // textField.setPreferredSize(textField.getPreferredSize());
         this.textField.setText("0");
         this.textField.setToolTipText("计算式");
 
 
         /* A */
-//        JPanel option = new JPanel();
         mainPanel.add(option);
 
-//        JPanel optionLeft = new JPanel();
         option.add(this.mmry);
         option.add(optionLeft);
         optionLeft.setBorder(BorderFactory.createLineBorder(Color.red));
 
         this.mmry.setHorizontalAlignment(JTextField.RIGHT);
-//        ButtonGroup group = new ButtonGroup();
-//        JRadioButton r16 = new JRadioButton("16");
-//        JRadioButton r10 = new JRadioButton("10");
         r10.setSelected(true);
-//        JRadioButton r8 = new JRadioButton("8");
-//        JRadioButton r2 = new JRadioButton("2");
 		group.add(r16);
 		group.add(r10);
 		group.add(r8);
@@ -206,11 +195,7 @@ public class CalcultorPanel extends JPanel {
 		JPanel optionRight = new JPanel();
 		option.add(optionRight);
 		optionRight.setBorder(BorderFactory.createLineBorder(Color.green));
-//		ButtonGroup group2 = new ButtonGroup();
-//		JRadioButton deg = new JRadioButton("Deg");
 		deg.setSelected(true);
-//		JRadioButton rad = new JRadioButton("Rad");
-//		JRadioButton grad = new JRadioButton("Grad");
 		group2.add(deg);
 		group2.add(rad);
 		group2.add(grad);
@@ -220,72 +205,46 @@ public class CalcultorPanel extends JPanel {
 		optionRight.add(grad);
 
 		/* B */
-//        JPanel exOption = new JPanel();
         mainPanel.add(exOption);
-//        JPanel exOptLeft = new JPanel();
         exOption.add(exOptLeft);
         exOptLeft.setBorder(BorderFactory.createLineBorder(Color.green));
-//        ButtonGroup group3 = new ButtonGroup();
-//        JCheckBox inv = new JCheckBox("Inv");
-//        JCheckBox hyp = new JCheckBox("Hyp");
-//        group3.add(inv);
-//        group3.add(hyp);
         exOptLeft.add(inv);
         exOptLeft.add(hyp);
 
-//        JPanel exOptRight = new JPanel();
         exOption.add(exOptRight);
         exOptRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
         // 退格
-//        Button btnBackspace = new Button(CalcultorConts.BACKSPACE);
         // 清除
-//        Button btnCe     = new Button(CalcultorConts.CLEAR_ERROR);
         // 清除
-//        Button btnClear     = new Button(CalcultorConts.CLEAR);
         exOptRight.add( btnBackspace ).setForeground(Color.red);
         exOptRight.add( btnCe ).setForeground(Color.red);
         exOptRight.add( btnClear ).setForeground(Color.red);
 
         /* C */
-        //create button panel
-//        JPanel buttonPanel = new JPanel();
         mainPanel.add(buttonPanel);
-//        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.green));
-
-//        JPanel btnPnl1 = new JPanel();
-//        JPanel btnPnl2 = new JPanel();
-//        JPanel btnPnl3 = new JPanel();
-//        JPanel btnPnl4 = new JPanel();
 
         FlowLayout fly = new FlowLayout();
         fly.setHgap(5);
         fly.setVgap(5);
         buttonPanel.setLayout(fly);
+//        buttonPanel.setLayout(null);
         buttonPanel.add(btnPnl1);
         buttonPanel.add(btnPnl2);
         buttonPanel.add(btnPnl3);
         buttonPanel.add(btnPnl4);
-//        btnPnl1.setPreferredSize(new Dimension(50, 140));
-//        btnPnl1.setBorder(BorderFactory.createLineBorder(Color.green));
-//        btnPnl2.setBorder(BorderFactory.createLineBorder(Color.green));
-//        btnPnl3.setBorder(BorderFactory.createLineBorder(Color.green));
-//        btnPnl4.setBorder(BorderFactory.createLineBorder(Color.green));
 
         // 开平方
-//      Button btnSqrt  = new Button("√");
-//      buttonPanel.add( btnSqrt ).setForeground(Color.red);
-
-//        Button btnSta    = new Button("Sta");
-//        Button btnAve    = new Button("Ave");
-//        Button btnSum    = new Button("Sum");
-//        Button btnS    = new Button("s");
-//        Button btnDat    = new Button("Dat");
-
         GridLayout gly1 = new GridLayout(5, 1);
         gly1.setHgap(3);
         gly1.setVgap(3);
-        btnPnl1.setLayout( gly1 );
+//        btnPnl1.setLayout( gly1 );
+        btnPnl1.setLayout(null);
+        btnPnl1.setBounds(10, 100, 500, 25);
+        btnPnl1.setBorder(BorderFactory.createLineBorder(Color.green));
+//        btnSta.setBounds(10, 100, 500, 25);
+        btnSta.setPreferredSize(new Dimension(30,30));
+//        btnSta.setBorder(BorderFactory.createRaisedBevelBorder());
         btnPnl1.add( btnSta ).setForeground(Color.blue);
         btnPnl1.add( btnAve ).setForeground(Color.blue);
         btnPnl1.add( btnSum ).setForeground(Color.blue);
@@ -294,32 +253,15 @@ public class CalcultorPanel extends JPanel {
 
         //create special button
 //        // 平方
-//        Button btnX2    = new Button(CalcultorConts.X2);
 //        // 立方
-//        Button btnX3    = new Button(CalcultorConts.X3);
 //        // x的y次方
-//        Button btnXY    = new Button(CalcultorConts.XY);
 //        // 阶乘
-//        Button btnN     = new Button(CalcultorConts.N);
 //        // 倒数
-//        Button btnDivide1   = new Button(CalcultorConts.DIVIDE1);
-//
-//        Button bntFE = new Button("F-E");
 //        // 左括号
-//        Button btnLeft  = new Button("(");
 //        // 右括号
-//        Button btnRight = new Button(")");
-//        Button bntDMS = new Button("dms");
-//        Button bntExp = new Button(CalcultorConts.EXP);
-//        Button bntLn = new Button(CalcultorConts.LN);
-//        Button bntLog = new Button(CalcultorConts.LOG);
-
 //        // 正弦
-//        Button btnSin   = new Button(CalcultorConts.SIN);
 //        // 余弦
-//        Button btnCos   = new Button(CalcultorConts.COS);
 //        // 正切
-//        Button btnTan   = new Button(CalcultorConts.TAN);
 
         GridLayout gly2 = new GridLayout(5, 3);
         gly2.setVgap(3);
