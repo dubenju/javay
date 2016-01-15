@@ -40,8 +40,8 @@ public class CalcultorFrame extends JFrame {
 	 */
 	public CalcultorFrame() {
         JMenuBar  menuBar      = new JMenuBar();
-        JMenu     menuFile     = new JMenu("File");
-        JMenuItem menuFileExit = new JMenuItem("Exit", KeyEvent.VK_X);
+        JMenu     menuFile     = new JMenu("文件");
+        JMenuItem menuFileExit = new JMenuItem("退出", KeyEvent.VK_X);
 
         // Add action listener.for the menu button
         menuFileExit.addActionListener (
@@ -70,23 +70,27 @@ public class CalcultorFrame extends JFrame {
         menuFile.add(menuFileExit);
         menuBar.add(menuFile);
 
-        JMenu menuEdit = new JMenu("Edit");
-        JMenuItem menuEditCopy = new JMenuItem("Copy");
-        JMenuItem menuEditPaste = new JMenuItem("Paste");
+        JMenu menuEdit = new JMenu("编辑");
+        JMenuItem menuEditCopy = new JMenuItem("复制");
+        JMenuItem menuEditPaste = new JMenuItem("粘贴");
         menuEdit.add(menuEditCopy);
         menuEdit.add(menuEditPaste);
         menuBar.add(menuEdit);
 
-        JMenu menuView = new JMenu("View");
+        JMenu menuView = new JMenu("视图");
+        JMenuItem options = new JMenuItem("选项",KeyEvent.VK_O);
+        menuView.add(options);
         menuBar.add(menuView);
 
-        JMenu menuHelp = new JMenu("Help");
+        JMenu menuHelp = new JMenu("帮助");
+        JMenuItem checkUpdate = new JMenuItem("检查更新",KeyEvent.VK_U);
         JMenuItem aboutMenuItem=new JMenuItem("关于..",KeyEvent.VK_A);
         aboutMenuItem.addActionListener(new ActionListener(){ 
             public void actionPerformed(ActionEvent e){ 
              aboutDialog.setVisible(true); 
             } 
-           }); 
+           });
+        menuHelp.add(checkUpdate);
         menuHelp.add(aboutMenuItem);
         menuBar.add(menuHelp);
 
