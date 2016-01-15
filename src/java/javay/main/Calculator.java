@@ -25,8 +25,7 @@ public class Calculator {
         CalcultorFrame frame = new CalcultorFrame();
         frame.setIconImage(LOG);
         //show frame
-        frame.setBounds(600, 50, 900, 460);
-        frame.setLocation(600, 50);
+        frame.setBounds(600, 50, 600, 460);
 
         frame.setLocationByPlatform(true);
         frame.setLocationRelativeTo(null);

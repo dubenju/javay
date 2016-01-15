@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -225,10 +224,9 @@ public class CalcultorPanel extends JPanel {
         /* C */
         mainPanel.add(buttonPanel);
 
-        FlowLayout fly = new FlowLayout();
-        fly.setHgap(5);
-        fly.setVgap(5);
-        buttonPanel.setLayout(fly);
+        buttonPanel.setLayout(null);
+        buttonPanel.setPreferredSize(new Dimension((btnWidth + 1) * 11, (btnHeight + 1) * 5));
+        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.green));
         buttonPanel.add(btnPnl1);
         buttonPanel.add(btnPnl2);
         buttonPanel.add(btnPnl3);
@@ -236,7 +234,7 @@ public class CalcultorPanel extends JPanel {
 
         // 开平方
         btnPnl1.setLayout(null);
-        btnPnl1.setPreferredSize(new Dimension(btnWidth + 1, (btnHeight + 1) * 5));
+        btnPnl1.setBounds(0, 0, btnWidth + 1, (btnHeight + 1) * 5);
         btnPnl1.add( btnSta ).setForeground(Color.blue);
         btnPnl1.add( btnAve ).setForeground(Color.blue);
         btnPnl1.add( btnSum ).setForeground(Color.blue);
@@ -244,24 +242,24 @@ public class CalcultorPanel extends JPanel {
         btnPnl1.add( btnDat ).setForeground(Color.blue);
 
         btnSta.setBounds(1, 1, btnWidth, btnHeight);
-        btnAve.setBounds(1, btnSta.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnSum.setBounds(1, btnAve.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnS.setBounds(1, btnSum.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnDat.setBounds(1, btnS.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnAve.setBounds(1, btnSta.getY() + btnHeight, btnWidth, btnHeight);
+        btnSum.setBounds(1, btnAve.getY() + btnHeight, btnWidth, btnHeight);
+        btnS.setBounds(1, btnSum.getY() + btnHeight, btnWidth, btnHeight);
+        btnDat.setBounds(1, btnS.getY() + btnHeight, btnWidth, btnHeight);
 
         //create special button
-//        // 平方
-//        // 立方
-//        // x的y次方
-//        // 阶乘
-//        // 倒数
-//        // 左括号
-//        // 右括号
-//        // 正弦
-//        // 余弦
-//        // 正切
+        // 平方
+        // 立方
+        // x的y次方
+        // 阶乘
+        // 倒数
+        // 左括号
+        // 右括号
+        // 正弦
+        // 余弦
+        // 正切
         btnPnl2.setLayout(null);
-        btnPnl2.setPreferredSize(new Dimension((btnWidth + 1) * 3, (btnHeight + 1) * 5));
+        btnPnl2.setBounds(btnPnl1.getX() + btnPnl1.getWidth(), 0,(btnWidth + 1) * 3, (btnHeight + 1) * 5);
         btnPnl2.add( btnFE ).setForeground(Color.red);
         btnPnl2.add( btnLeft ).setForeground(Color.red);
         btnPnl2.add( btnRight ).setForeground(Color.red);
@@ -279,25 +277,25 @@ public class CalcultorPanel extends JPanel {
         btnPnl2.add( btnDivide1 ).setForeground(Color.red);
 
         btnFE.setBounds(1, 1, btnWidth, btnHeight);
-        btnDMS.setBounds(btnFE.getX(), btnFE.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnSin.setBounds(btnDMS.getX(), btnDMS.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnCos.setBounds(btnSin.getX(), btnSin.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnTan.setBounds(btnCos.getX(), btnCos.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnDMS.setBounds(btnFE.getX(), btnFE.getY() + btnHeight, btnWidth, btnHeight);
+        btnSin.setBounds(btnDMS.getX(), btnDMS.getY() + btnHeight, btnWidth, btnHeight);
+        btnCos.setBounds(btnSin.getX(), btnSin.getY() + btnHeight, btnWidth, btnHeight);
+        btnTan.setBounds(btnCos.getX(), btnCos.getY() + btnHeight, btnWidth, btnHeight);
 
         btnLeft.setBounds(btnFE.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-        btnExp.setBounds(btnLeft.getX(), btnLeft.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnXY.setBounds(btnExp.getX(), btnExp.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnX3.setBounds(btnXY.getX(), btnXY.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnX2.setBounds(btnX3.getX(), btnX3.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnExp.setBounds(btnLeft.getX(), btnLeft.getY() + btnHeight, btnWidth, btnHeight);
+        btnXY.setBounds(btnExp.getX(), btnExp.getY() + btnHeight, btnWidth, btnHeight);
+        btnX3.setBounds(btnXY.getX(), btnXY.getY() + btnHeight, btnWidth, btnHeight);
+        btnX2.setBounds(btnX3.getX(), btnX3.getY() + btnHeight, btnWidth, btnHeight);
 
         btnRight.setBounds(btnLeft.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-        btnLn.setBounds(btnRight.getX(), btnRight.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnLog.setBounds(btnLn.getX(), btnLn.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnN.setBounds(btnLog.getX(), btnLog.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnDivide1.setBounds(btnN.getX(), btnN.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnLn.setBounds(btnRight.getX(), btnRight.getY() + btnHeight, btnWidth, btnHeight);
+        btnLog.setBounds(btnLn.getX(), btnLn.getY() + btnHeight, btnWidth, btnHeight);
+        btnN.setBounds(btnLog.getX(), btnLog.getY() + btnHeight, btnWidth, btnHeight);
+        btnDivide1.setBounds(btnN.getX(), btnN.getY() + btnHeight, btnWidth, btnHeight);
 
         btnPnl3.setLayout(null);
-        btnPnl3.setPreferredSize(new Dimension(btnWidth + 1, (btnHeight + 1) * 5));
+        btnPnl3.setBounds(btnPnl2.getX() + btnPnl2.getWidth(), 0, btnWidth + 1, (btnHeight + 1) * 5);
         btnPnl3.add( btnMC ).setForeground(Color.red);
         btnPnl3.add( btnMR ).setForeground(Color.red);
         btnPnl3.add( btnMS ).setForeground(Color.red);
@@ -305,10 +303,10 @@ public class CalcultorPanel extends JPanel {
         btnPnl3.add( btnMN ).setForeground(Color.red);
 
         btnMC.setBounds(1, 1, btnWidth, btnHeight);
-        btnMR.setBounds(1, btnMC.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnMS.setBounds(1, btnMR.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnMP.setBounds(1, btnMS.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnMN.setBounds(1, btnMP.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnMR.setBounds(1, btnMC.getY() + btnHeight, btnWidth, btnHeight);
+        btnMS.setBounds(1, btnMR.getY() + btnHeight, btnWidth, btnHeight);
+        btnMP.setBounds(1, btnMS.getY() + btnHeight, btnWidth, btnHeight);
+        btnMN.setBounds(1, btnMP.getY() + btnHeight, btnWidth, btnHeight);
 
         // 小数点
         // 结果是
@@ -333,7 +331,7 @@ public class CalcultorPanel extends JPanel {
 
         //add these buttons to buttonPanel
         btnPnl4.setLayout(null);
-        btnPnl4.setPreferredSize(new Dimension((btnWidth + 1) * 6, (btnHeight + 1) * 5));
+        btnPnl4.setBounds(btnPnl3.getX() + btnPnl3.getWidth(), 0, (btnWidth + 1) * 6, (btnHeight + 1) * 5);
         btnPnl4.add( numButtons[7] ).setForeground(Color.blue);
         btnPnl4.add( numButtons[8] ).setForeground(Color.blue);
         btnPnl4.add( numButtons[9] ).setForeground(Color.blue);
@@ -370,40 +368,40 @@ public class CalcultorPanel extends JPanel {
         btnPnl4.add( btnF ).setForeground(Color.blue);
 
         numButtons[7].setBounds(1, 1, btnWidth, btnHeight);
-        numButtons[4].setBounds(numButtons[7].getX(), numButtons[7].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        numButtons[1].setBounds(numButtons[4].getX(), numButtons[4].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        numButtons[0].setBounds(numButtons[1].getX(), numButtons[1].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnA.setBounds(numButtons[0].getX(), numButtons[0].getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        numButtons[4].setBounds(numButtons[7].getX(), numButtons[7].getY() + btnHeight, btnWidth, btnHeight);
+        numButtons[1].setBounds(numButtons[4].getX(), numButtons[4].getY() + btnHeight, btnWidth, btnHeight);
+        numButtons[0].setBounds(numButtons[1].getX(), numButtons[1].getY() + btnHeight, btnWidth, btnHeight);
+        btnA.setBounds(numButtons[0].getX(), numButtons[0].getY() + btnHeight, btnWidth, btnHeight);
 
         numButtons[8].setBounds(numButtons[7].getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-        numButtons[5].setBounds(numButtons[8].getX(), numButtons[8].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        numButtons[2].setBounds(numButtons[5].getX(), numButtons[5].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnPosMinus.setBounds(numButtons[2].getX(), numButtons[2].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnB.setBounds(btnPosMinus.getX(), btnPosMinus.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        numButtons[5].setBounds(numButtons[8].getX(), numButtons[8].getY() + btnHeight, btnWidth, btnHeight);
+        numButtons[2].setBounds(numButtons[5].getX(), numButtons[5].getY() + btnHeight, btnWidth, btnHeight);
+        btnPosMinus.setBounds(numButtons[2].getX(), numButtons[2].getY() + btnHeight, btnWidth, btnHeight);
+        btnB.setBounds(btnPosMinus.getX(), btnPosMinus.getY() + btnHeight, btnWidth, btnHeight);
 
         numButtons[9].setBounds(numButtons[8].getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-        numButtons[6].setBounds(numButtons[9].getX(), numButtons[9].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        numButtons[3].setBounds(numButtons[6].getX(), numButtons[6].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnDot.setBounds(numButtons[3].getX(), numButtons[3].getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnC.setBounds(btnDot.getX(), btnDot.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        numButtons[6].setBounds(numButtons[9].getX(), numButtons[9].getY() + btnHeight, btnWidth, btnHeight);
+        numButtons[3].setBounds(numButtons[6].getX(), numButtons[6].getY() + btnHeight, btnWidth, btnHeight);
+        btnDot.setBounds(numButtons[3].getX(), numButtons[3].getY() + btnHeight, btnWidth, btnHeight);
+        btnC.setBounds(btnDot.getX(), btnDot.getY() + btnHeight, btnWidth, btnHeight);
 
         btnDivide.setBounds(numButtons[9].getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-        btnMultiply.setBounds(btnDivide.getX(), btnDivide.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnSubtract.setBounds(btnMultiply.getX(), btnMultiply.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnAdd.setBounds(btnSubtract.getX(), btnSubtract.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnD.setBounds(btnAdd.getX(), btnAdd.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnMultiply.setBounds(btnDivide.getX(), btnDivide.getY() + btnHeight, btnWidth, btnHeight);
+        btnSubtract.setBounds(btnMultiply.getX(), btnMultiply.getY() + btnHeight, btnWidth, btnHeight);
+        btnAdd.setBounds(btnSubtract.getX(), btnSubtract.getY() + btnHeight, btnWidth, btnHeight);
+        btnD.setBounds(btnAdd.getX(), btnAdd.getY() + btnHeight, btnWidth, btnHeight);
 
         btnMod.setBounds(btnDivide.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-        btnOr.setBounds(btnMod.getX(), btnMod.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnLsh.setBounds(btnOr.getX(), btnOr.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnEqual.setBounds(btnLsh.getX(), btnLsh.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnE.setBounds(btnEqual.getX(), btnEqual.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnOr.setBounds(btnMod.getX(), btnMod.getY() + btnHeight, btnWidth, btnHeight);
+        btnLsh.setBounds(btnOr.getX(), btnOr.getY() + btnHeight, btnWidth, btnHeight);
+        btnEqual.setBounds(btnLsh.getX(), btnLsh.getY() + btnHeight, btnWidth, btnHeight);
+        btnE.setBounds(btnEqual.getX(), btnEqual.getY() + btnHeight, btnWidth, btnHeight);
 
         btnAnd.setBounds(btnMod.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-        btnXor.setBounds(btnAnd.getX(), btnAnd.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnNot.setBounds(btnXor.getX(), btnXor.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnInt.setBounds(btnNot.getX(), btnNot.getY() + (btnHeight) + 1, btnWidth, btnHeight);
-        btnF.setBounds(btnInt.getX(), btnInt.getY() + (btnHeight) + 1, btnWidth, btnHeight);
+        btnXor.setBounds(btnAnd.getX(), btnAnd.getY() + btnHeight, btnWidth, btnHeight);
+        btnNot.setBounds(btnXor.getX(), btnXor.getY() + btnHeight, btnWidth, btnHeight);
+        btnInt.setBounds(btnNot.getX(), btnNot.getY() + btnHeight, btnWidth, btnHeight);
+        btnF.setBounds(btnInt.getX(), btnInt.getY() + btnHeight, btnWidth, btnHeight);
 
         //create the control
         CalcultorActionListener controler = new CalcultorActionListener( this );
@@ -472,23 +470,17 @@ public class CalcultorPanel extends JPanel {
 
         this.setLayout(new BorderLayout());
         //add things to calculator panel
-        // add( mainPanel, BorderLayout.NORTH );
         add( mainPanel, BorderLayout.CENTER );
 
         JLabel jlabel = new JLabel();
         jlabel.setFont(new Font("Dialog",   1,   15));
         jlabel.setForeground(Color.red);
         jlabel.setText(" ");
-//        jlabel.setBorder(BorderFactory.createLineBorder(Color.red));
         JLabel jlabel2 = new JLabel();
         jlabel2.setFont(new Font("Dialog",   1,   15));
         jlabel2.setForeground(Color.red);
         jlabel2.setText(" ");
-//        jlabel2.setBorder(BorderFactory.createLineBorder(Color.red));
         add(jlabel, BorderLayout.EAST);
         add(jlabel2, BorderLayout.WEST);
-
-//        KeyAdapter keyAdapter = new CalcultorKeyAdapter();
-//        this.addKeyListener(keyAdapter);
     }
 }
