@@ -689,7 +689,8 @@ public class BigNum implements Comparable<BigNum> {
         }
 
 //        System.out.println("除法apos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
-        RoundingMode rm = RoundingMode.UNNECESSARY;
+        @SuppressWarnings("unused")
+		RoundingMode rm = RoundingMode.UNNECESSARY;
     	if (BigNumRound.UP.equals(roundmode)) {
     		rm = RoundingMode.UP;
     		// 远离零方向舍入,> 0 进上

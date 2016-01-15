@@ -60,8 +60,9 @@ public class CalcultorFrame extends JFrame {
         con.add(aboutLabel,BorderLayout.CENTER); 
         aboutDialog.setSize(450,225); 
         aboutDialog.setLocation(300,300); 
-        aboutDialog.addWindowListener(new WindowAdapter(){ 
-            public void WindowClosing(WindowEvent e){ 
+        aboutDialog.addWindowListener(new WindowAdapter() {
+            @SuppressWarnings("unused")
+			public void WindowClosing(WindowEvent e){ 
                 dispose();
            } 
         }); 

@@ -105,6 +105,9 @@ public class CalcultorActionListener implements ActionListener {
 				this.panel.inv.setSelected(false);
 			}
 		}
+		if (s.equals(CalcultorConts.EQUAL)) {
+			this.panel.modelHistory.addElement(this.panel.expr.getText());
+		}
 
 	}
 
@@ -113,7 +116,7 @@ public class CalcultorActionListener implements ActionListener {
 		if (CalcultorConts.MC.equals(s)) {
 			this.panel.textField.setMemory("");
 			this.panel.textField.setText(this.panel.textField.getText());
-			this.panel.mmry.setText("");
+//			this.panel.mmry.setText("");
 		}
 		if (CalcultorConts.MR.equals(s)) {
 			String mem = this.panel.textField.getMemory();
@@ -126,7 +129,7 @@ public class CalcultorActionListener implements ActionListener {
 		if (CalcultorConts.MS.equals(s)) {
 			this.panel.textField.setMemory(this.panel.textField.getText());
 			this.panel.textField.setText(this.panel.textField.getText());
-			this.panel.mmry.setText(this.panel.textField.getText());
+//			this.panel.mmry.setText(this.panel.textField.getText());
 		}
 		if (CalcultorConts.MP.equals(s)) {
 			String mem = this.panel.textField.getMemory();
@@ -138,7 +141,7 @@ public class CalcultorActionListener implements ActionListener {
 			mem = m.add(b).toString();
 			this.panel.textField.setMemory(mem);
 			this.panel.textField.setText(this.panel.textField.getText());
-			this.panel.mmry.setText(mem);
+//			this.panel.mmry.setText(mem);
 		}
 		if (CalcultorConts.MM.equals(s)) {
 			String mem = this.panel.textField.getMemory();
@@ -150,7 +153,7 @@ public class CalcultorActionListener implements ActionListener {
 			mem = m.subtract(b).toString();
 			this.panel.textField.setMemory(mem);
 			this.panel.textField.setText(this.panel.textField.getText());
-			this.panel.mmry.setText(mem);
+//			this.panel.mmry.setText(mem);
 		}
 		if (CalcultorConts.BINARY.equals(s)) {
 			for (int i = 2; i < 10; i ++) {

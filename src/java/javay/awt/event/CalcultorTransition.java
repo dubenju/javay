@@ -10,6 +10,7 @@ public class CalcultorTransition implements Transition<ExprInfo> {
 
 	private State<ExprInfo> from;
 	private State<ExprInfo> to;
+	@SuppressWarnings("unused")
 	private Trigger trigger;
 	private Condition condition;
 	private Action<ExprInfo> action;

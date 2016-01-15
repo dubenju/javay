@@ -6,18 +6,22 @@ package javay.swing;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import javay.awt.event.CalcultorActionListener;
@@ -31,12 +35,18 @@ public class CalcultorPanel extends JPanel {
 	private int btnWidth = 52;
 	private int btnHeight = 28;
     private JPanel mainPanel = new JPanel();
+    private JPanel topDisplay = new JPanel();
+    public DefaultListModel<String> modelHistory = new DefaultListModel<String>();
+    public DefaultListModel<String> modelStatistics = new DefaultListModel<String>();
+    private JList<String> listHistory = new JList<String>(this.modelHistory);
+    private JList<String> listStatistics = new JList<String>(this.modelStatistics);
+	JScrollPane spHistory = new JScrollPane();
+	JScrollPane spStatistics = new JScrollPane();
     public JTextField expr = new JTextField();
-    public JVariableTextField textField = new JVariableTextField( 34 );
+    public JVariableTextField textField = new JVariableTextField(25);
 
     JPanel option = new JPanel();
     JPanel optionLeft = new JPanel();
-    public JTextField mmry = new JTextField(5);
     ButtonGroup group = new ButtonGroup();
     JRadioButton r16 = new JRadioButton(CalcultorConts.HEXADECIMAL);
     JRadioButton r10 = new JRadioButton(CalcultorConts.DECIMAL);
@@ -156,14 +166,34 @@ public class CalcultorPanel extends JPanel {
     	this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 
         //create the text field
-    	this.mainPanel.add(this.expr);
-    	this.mainPanel.add(this.textField);
+    	this.mainPanel.add(this.topDisplay);
+
+    	this.topDisplay.setLayout(null);
+    	this.topDisplay.setPreferredSize(new Dimension((btnWidth + 1) * 11, 210));
+//    	this.topDisplay.setBorder(BorderFactory.createLineBorder(Color.red));
+    	this.topDisplay.add(this.expr);
+    	this.topDisplay.add(this.textField);
+
+    	DefaultListCellRenderer rendererStatistics = (DefaultListCellRenderer) this.listStatistics.getCellRenderer();
+    	rendererStatistics.setHorizontalAlignment(SwingConstants.RIGHT);
+    	DefaultListCellRenderer rendererHistory = (DefaultListCellRenderer) this.listHistory.getCellRenderer();
+    	rendererHistory.setHorizontalAlignment(SwingConstants.RIGHT);
+
+    	this.spStatistics.getViewport().setView(this.listStatistics);
+    	this.spStatistics.setBounds(1, 1, 295, btnHeight * 3);
+    	this.topDisplay.add(this.spStatistics);
+        this.spHistory.getViewport().setView(this.listHistory);
+        this.spHistory.setBounds(this.spStatistics.getX() + this.spStatistics.getWidth() + 1, 1, 295, btnHeight * 3);
+        this.topDisplay.add(this.spHistory);
+
+    	this.expr.setBounds(1, this.spHistory.getY() + this.spHistory.getHeight(), (btnWidth + 1) * 11, btnHeight);
         this.expr.setHorizontalAlignment(JTextField.RIGHT);
         this.expr.setEditable(false);
         this.expr.setFont(new Font("Dialog", Font.PLAIN, 36));
         this.expr.setText("");
         this.expr.setToolTipText("表达式");
 
+        this.textField.setBounds(1, this.expr.getY() + this.expr.getHeight(), 590, 90);
         this.textField.setHorizontalAlignment(JTextField.RIGHT);
         this.textField.setEditable( false );
         this.textField.setFont(new Font("Dialog", Font.PLAIN, 36));
@@ -176,11 +206,11 @@ public class CalcultorPanel extends JPanel {
         /* A */
         mainPanel.add(option);
 
-        option.add(this.mmry);
+//        option.add(this.mmry);
         option.add(optionLeft);
         optionLeft.setBorder(BorderFactory.createLineBorder(Color.red));
 
-        this.mmry.setHorizontalAlignment(JTextField.RIGHT);
+//        this.mmry.setHorizontalAlignment(JTextField.RIGHT);
         r10.setSelected(true);
 		group.add(r16);
 		group.add(r10);
@@ -207,12 +237,20 @@ public class CalcultorPanel extends JPanel {
 		/* B */
         mainPanel.add(exOption);
         exOption.add(exOptLeft);
+        exOptLeft.setLayout(null);
+        exOptLeft.setPreferredSize(new Dimension((btnWidth + 1) * 4, (btnHeight + 1)));
         exOptLeft.setBorder(BorderFactory.createLineBorder(Color.green));
         exOptLeft.add(inv);
         exOptLeft.add(hyp);
 
+        inv.setBounds(1, 1, btnWidth * 2, btnHeight);
+        hyp.setBounds(inv.getX() + inv.getWidth(), 1, btnWidth * 2, btnHeight);
+
         exOption.add(exOptRight);
-        exOptRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
+//        exOptRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        exOptRight.setLayout(null);
+        exOptRight.setPreferredSize(new Dimension((btnWidth + 1) * 4, (btnHeight + 1)));
+        exOptRight.setBorder(BorderFactory.createLineBorder(Color.green));
 
         // 退格
         // 清除
@@ -220,6 +258,10 @@ public class CalcultorPanel extends JPanel {
         exOptRight.add( btnBackspace ).setForeground(Color.red);
         exOptRight.add( btnCe ).setForeground(Color.red);
         exOptRight.add( btnClear ).setForeground(Color.red);
+
+        btnBackspace.setBounds(1, 1, btnWidth * 2, btnHeight);
+        btnCe.setBounds(btnBackspace.getX() + btnBackspace.getWidth(), 1, btnWidth, btnHeight);
+        btnClear.setBounds(btnCe.getX() + btnWidth, 1, btnWidth, btnHeight);
 
         /* C */
         mainPanel.add(buttonPanel);

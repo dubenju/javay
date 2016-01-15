@@ -59,6 +59,7 @@ public class Converter {
 	}
 
 	public static String conv(String in, Object params) {
+		@SuppressWarnings("unchecked")
 		Map<String, String> context = (Map<String, String>) params;
 		String s = context.get(CalcultorConts.TRIGONOMETRIC_FUNCTION);
 		String s2 = context.get(CalcultorConts.INVERSE);

@@ -138,9 +138,7 @@ public class JVariableTextField extends JTextField {
 		g2.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
 		Font font = this.getFont();
 		int fontSize = font.getSize();
-		fontSize = (int) (fontSize *0.66);
-//		int ng = font.getNumGsblyphs();
-//		System.out.println("ng=" + ng);
+		fontSize = (int) (fontSize * 0.66);
 		int width = this.getWidth();
 		for(int i = width, cnt = 0; i >= 0; i -= fontSize, cnt ++) {
 			if (cnt % 10 == 0) {
@@ -151,14 +149,13 @@ public class JVariableTextField extends JTextField {
 				g2.drawLine(i, getHeight() - 5, i, getHeight() - 2);
 			}
 		}
-		//g.fillRect(0, 0, getWidth(), getHeight());  
 		g2.setColor(color);
 
 		if (this.mem != null && this.mem.length() > 0) {
 			Color color2 = g2.getColor();
 			g2.setColor(Color.GRAY);
-			g2.drawString(this.mem, 30, 70);
-			g2.drawString("M", 1, 70);
+			g2.drawString(this.mem, 30, 60);
+			g2.drawString("M", 1, 60);
 			g2.setColor(color2);
 		}
 		if (this.display == 1) {
