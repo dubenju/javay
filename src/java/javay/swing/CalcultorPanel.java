@@ -24,6 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javay.awt.event.CalcultorActionListener;
 
 /**
@@ -161,6 +164,7 @@ public class CalcultorPanel extends JPanel {
      *
      */
     private static final long serialVersionUID = 1L;
+    private static final Logger log = LoggerFactory.getLogger(CalcultorPanel.class);
 
     public CalcultorPanel() {
     	this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));

@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javay.fsm.state.State;
 import javay.math.BigNum;
 import javay.math.MathBn;
@@ -33,7 +36,7 @@ import javay.swing.CalcultorPanel;
  *
  */
 public class CalcultorActionListener implements ActionListener {
-
+	private static final Logger log = LoggerFactory.getLogger(CalcultorActionListener.class);
 	private CalcultorPanel panel;
 	private Map<String, Integer> ns = new HashMap<String, Integer>();
 	CalcultorFSM fsm = new CalcultorFSM();

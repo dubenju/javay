@@ -7,6 +7,9 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javay.swing.CalcultorFrame;
 
 /**
@@ -15,12 +18,14 @@ import javay.swing.CalcultorFrame;
  */
 public class Calculator {
     public static final Image LOG = new ImageIcon(
-    		CalcultorFrame.class.getResource("/select.png"))
+            CalcultorFrame.class.getResource("/select.png"))
             .getImage();
+    private static final Logger log = LoggerFactory.getLogger(Calculator.class);
     /**
      * @param args
      */
     public static void main(String[] args) {
+        log.debug("----- begin -----");
         // create application frame
         CalcultorFrame frame = new CalcultorFrame();
         frame.setIconImage(LOG);
@@ -35,6 +40,6 @@ public class Calculator {
 
         frame.setResizable(false);
         frame.setVisible(true);
+        log.debug("-----   end -----");
     }
-
 }

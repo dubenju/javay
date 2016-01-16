@@ -22,6 +22,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javay.awt.event.CalcultorAWTEventListener;
 
 /**
@@ -34,6 +37,7 @@ public class CalcultorFrame extends JFrame {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
+    private static final Logger log = LoggerFactory.getLogger(CalcultorFrame.class);
 
 	/**
 	 * @throws HeadlessException

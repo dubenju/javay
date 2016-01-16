@@ -19,13 +19,17 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.text.Document;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JVariableTextField extends JTextField implements MouseListener {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private static final Logger log = LoggerFactory.getLogger(JVariableTextField.class);
+	
 	private int maxWidth = 1;
 	private String numberSystem = CalcultorConts.DECIMAL;
 	private String mem = null;
