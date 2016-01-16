@@ -71,8 +71,10 @@ public class CalcultorFrame extends JFrame {
         menuBar.add(menuFile);
 
         JMenu menuEdit = new JMenu("编辑");
+        JMenuItem menuEditCut = new JMenuItem("剪切");
         JMenuItem menuEditCopy = new JMenuItem("复制");
         JMenuItem menuEditPaste = new JMenuItem("粘贴");
+        menuEdit.add(menuEditCut);
         menuEdit.add(menuEditCopy);
         menuEdit.add(menuEditPaste);
         menuBar.add(menuEdit);

@@ -13,11 +13,14 @@ public class ActionEqual implements Action<ExprInfo> {
 
 	@Override
 	public ExprInfo doAction(ExprInfo in, Object params) {
+		System.out.print(this.getClass().getName());
 		/* *** 表达式求值 *** */
 		String expression = in.getExpr();
 		String opt2 = in.getOpt();
-		String num2 = in.getInbuf().toString();
-		expression = expression + opt2 + num2;
+		if (opt2 != null && opt2.length() > 0) {
+			String num2 = in.getInbuf().toString();
+			expression = "(" +expression + ")" + opt2 + num2;
+		}
 		List<Token> ts = new ArrayList<Token>();
 		try {
 			ts = ExprParser.parse(expression);

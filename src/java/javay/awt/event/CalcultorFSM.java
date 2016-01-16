@@ -2,6 +2,7 @@ package javay.awt.event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javay.fsm.FiniteStateMachine;
 import javay.fsm.state.State;
@@ -76,6 +77,8 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		 * 6:第二个数值输入中
 		 * 7:一元操作符输入完了
 		 */
+		// TODO:MR
+		// TODO:add对状态机的影响
 		/*
 		 * C¥S 1 2 3 4 5 6
 		 * 0.9 3 3 3 3 6 6
@@ -85,6 +88,7 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		 * BS  1 1 3 4   6
 		 * CE  1 1 3 4   6
 		 * C   1 1 1 1 1 1
+		 * MR  3 3 3 3 6 6
 		 */
 		Transition<ExprInfo> tran_1_3  = new CalcultorTransition(state1, null, num  , anum1 , state3);
 		Transition<ExprInfo> tran_1_2  = new CalcultorTransition(state1, null, opt1 , aerr  , state2);
@@ -278,7 +282,11 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 			ExprInfo str = val;
 			str.setInput(s);
 			if (action != null) {
-				str = action.doAction(val, params);
+				@SuppressWarnings("unchecked")
+				Map<String, String> context = (Map<String, String>) params;
+				context.put("from", String.valueOf(cur.getId()));
+				str = action.doAction(val, context);
+				context.remove("from");
 			}
 			State<ExprInfo> to = tran.getTo();
 			to.setValue(str);

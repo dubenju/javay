@@ -689,7 +689,6 @@ public class BigNum implements Comparable<BigNum> {
         }
 
 //        System.out.println("除法apos=" + (oscale + decimal_len - 1) + ",val=" + out[(oscale + decimal_len - 1)]);
-        @SuppressWarnings("unused")
 		RoundingMode rm = RoundingMode.UNNECESSARY;
     	if (BigNumRound.UP.equals(roundmode)) {
     		rm = RoundingMode.UP;
@@ -765,15 +764,14 @@ public class BigNum implements Comparable<BigNum> {
 
         BigNum res = new BigNum(osigned, out2, out2.length, oscale);
 //        System.out.println(res);
-        // TODO:check
-//        check(this, divisor, res, "/", decimal_len, rm);
-//        double dres = res.toDouble(16);
-//        double t1 = this.toDouble(14);
-//        double t2 = divisor.toDouble(14);
-//        double chksum = t1 / t2;
-//        if (dres != chksum) {
-//        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + dres + "<>" + chksum + "=" + t1 + "/" + t2);
-//        }
+        check(this, divisor, res, "/", decimal_len, rm);
+        double dres = res.toDouble(16);
+        double t1 = this.toDouble(14);
+        double t2 = divisor.toDouble(14);
+        double chksum = t1 / t2;
+        if (dres != chksum) {
+        	throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "=" + res + "=>" + dres + "<>" + chksum + "=" + t1 + "/" + t2);
+        }
         return res;
     }
 

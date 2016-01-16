@@ -2,6 +2,7 @@ package javay.awt.event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javay.fsm.transition.Action;
 import javay.math.expr.ExprException;
@@ -15,6 +16,11 @@ public class ActionOpt1 implements Action<ExprInfo> {
 
 	@Override
 	public ExprInfo doAction(ExprInfo in, Object params) {
+		System.out.print(this.getClass().getName());
+		@SuppressWarnings("unchecked")
+		Map<String, String> context = (Map<String, String>) params;
+		String fromStateId = context.get("from");
+		
 		String num = in.getInbuf().toString();
 		String opt = in.getInput();
 		// 一元操作符的全角向半角变换
@@ -29,10 +35,9 @@ public class ActionOpt1 implements Action<ExprInfo> {
 			exp1 = st + "(" + num + ")";
 		}
 		if (dir == -1) {
-			exp1 = num + st;
+			exp1 = "(" + num + ")" + st;
 		}
 		// 表达式
-		// TODO:3!+3!
 		String expr = in.getExpr();
 		String opt2 = in.getOpt();
 		if (opt2.equals("") == false) {

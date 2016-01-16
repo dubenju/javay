@@ -5,10 +5,14 @@ package javay.awt.event;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javay.fsm.state.State;
 import javay.math.BigNum;
+import javay.math.MathBn;
 import javay.swing.CalcultorConts;
 import javay.swing.CalcultorPanel;
 
@@ -31,7 +35,6 @@ import javay.swing.CalcultorPanel;
 public class CalcultorActionListener implements ActionListener {
 
 	private CalcultorPanel panel;
-//	private String mem;
 	private Map<String, Integer> ns = new HashMap<String, Integer>();
 	CalcultorFSM fsm = new CalcultorFSM();
 
@@ -52,9 +55,6 @@ public class CalcultorActionListener implements ActionListener {
 				s.equals(CalcultorConts.MM) || s.equals(CalcultorConts.BINARY) ||
 				s.equals(CalcultorConts.OCTAL) || s.equals(CalcultorConts.DECIMAL) ||
 				s.equals(CalcultorConts.HEXADECIMAL) || s.equals(CalcultorConts.SCI);
-//		|| 
-//				s.equals(CalcultorConts.BACKSPACE) ||
-//				s.equals(CalcultorConts.CLEAR_ERROR) || s.equals(CalcultorConts.CLEAR);
 	}
 
 	@Override
@@ -86,6 +86,40 @@ public class CalcultorActionListener implements ActionListener {
 				this.panel.btnSum.setEnabled(false);
 				this.panel.btnS.setEnabled(false);
 				this.panel.btnDat.setEnabled(false);
+			}
+			return ;
+		}
+		if (s.equals(CalcultorConts.AVE) || s.equals(CalcultorConts.SUM) || s.equals(CalcultorConts.SSD)) {
+			int cnt = this.panel.modelStatistics.size();
+			if (cnt > 0) {
+				List<BigNum> ins = new ArrayList<BigNum>();
+				for (int i = 0; i < cnt; i ++) {
+					String str = this.panel.modelStatistics.get(i);
+					ins.add(new BigNum(str));
+				}
+				BigNum val = new BigNum("0.0");
+				if (this.panel.inv.isSelected()) {
+					if (s.equals(CalcultorConts.AVE)) {
+						val = MathBn.rms(ins);
+					}
+					if (s.equals(CalcultorConts.SUM)) {
+						val = MathBn.sos(ins);
+					}
+					if (s.equals(CalcultorConts.SSD)) {
+						val = MathBn.psd(ins);
+					}
+				} else {
+					if (s.equals(CalcultorConts.AVE)) {
+						val = MathBn.ave(ins);
+					}
+					if (s.equals(CalcultorConts.SUM)) {
+						val = MathBn.sum(ins);
+					}
+					if (s.equals(CalcultorConts.SSD)) {
+						val = MathBn.ssd(ins);
+					}
+				}
+				this.panel.textField.setText(val.toString());
 			}
 			return ;
 		}
@@ -123,10 +157,7 @@ public class CalcultorActionListener implements ActionListener {
 		String expression = expr.getExpr();
 		this.panel.expr.setText(expression);
 		String display = expr.getInbuf().toString();
-		if (display.length() > 0) {
-			// TODO:这是什么原因要加个条件呢？？
-			this.panel.textField.setText(display);
-		}
+		this.panel.textField.setText(display);
 		/* *** 表达式求值 *** */
 
 		/* 控制 */
@@ -139,6 +170,9 @@ public class CalcultorActionListener implements ActionListener {
 			this.panel.modelHistory.addElement(this.panel.expr.getText());
 			this.panel.listHistory.ensureIndexIsVisible(this.panel.modelHistory.getSize() - 1);
 		}
+		if (s.equals(CalcultorConts.CLEAR)) {
+			this.panel.modelHistory.removeAllElements();
+		}
 
 	}
 
@@ -147,7 +181,6 @@ public class CalcultorActionListener implements ActionListener {
 		if (CalcultorConts.MC.equals(s)) {
 			this.panel.textField.setMemory("");
 			this.panel.textField.setText(this.panel.textField.getText());
-//			this.panel.mmry.setText("");
 		}
 		if (CalcultorConts.MR.equals(s)) {
 			String mem = this.panel.textField.getMemory();
@@ -155,12 +188,15 @@ public class CalcultorActionListener implements ActionListener {
 				mem = "0";
 			}
 			this.panel.textField.setText(mem);
-//			this.panel.fsm
+			State<ExprInfo> cur = this.fsm.getCurrentState();
+			ExprInfo val = cur.getValue();
+			StringBuffer buf = new StringBuffer();
+			buf.append(mem);
+			val.setInbuf(buf);
 		}
 		if (CalcultorConts.MS.equals(s)) {
 			this.panel.textField.setMemory(this.panel.textField.getText());
 			this.panel.textField.setText(this.panel.textField.getText());
-//			this.panel.mmry.setText(this.panel.textField.getText());
 		}
 		if (CalcultorConts.MP.equals(s)) {
 			String mem = this.panel.textField.getMemory();
@@ -172,7 +208,6 @@ public class CalcultorActionListener implements ActionListener {
 			mem = m.add(b).toString();
 			this.panel.textField.setMemory(mem);
 			this.panel.textField.setText(this.panel.textField.getText());
-//			this.panel.mmry.setText(mem);
 		}
 		if (CalcultorConts.MM.equals(s)) {
 			String mem = this.panel.textField.getMemory();
@@ -184,7 +219,6 @@ public class CalcultorActionListener implements ActionListener {
 			mem = m.subtract(b).toString();
 			this.panel.textField.setMemory(mem);
 			this.panel.textField.setText(this.panel.textField.getText());
-//			this.panel.mmry.setText(mem);
 		}
 		if (CalcultorConts.BINARY.equals(s)) {
 			for (int i = 2; i < 10; i ++) {
@@ -287,14 +321,5 @@ public class CalcultorActionListener implements ActionListener {
 			this.panel.textField.setDisplay(display);
 			this.panel.textField.setText(this.panel.textField.getText()); // refresh
 		}
-//		if (CalcultorConts.BACKSPACE.equals(s)) {
-//
-//		}
-//		if (CalcultorConts.CLEAR_ERROR.equals(s)) {
-//
-//		}
-//		if (CalcultorConts.CLEAR.equals(s)) {
-//
-//		}
 	}
 }

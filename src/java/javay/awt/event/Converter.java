@@ -63,7 +63,7 @@ public class Converter {
 		Map<String, String> context = (Map<String, String>) params;
 		String s = context.get(CalcultorConts.TRIGONOMETRIC_FUNCTION);
 		String s2 = context.get(CalcultorConts.INVERSE);
-		System.out.println("[[in=" + in + ",s=" + s + ",s2=" + s2);
+		System.out.print("[conv[in=" + in + ",s=" + s + ",s2=" + s2 );
 		String res = null;
 		if (res == null) {
 			res = conv3.get(in + s + s2);;
@@ -80,7 +80,7 @@ public class Converter {
 		if (res == null) {
 			res = in;
 		}
-		System.out.println(res + "]]");
+		System.out.print("]=>" + res + "]");
 		return res;
 	}
 }

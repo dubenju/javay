@@ -78,6 +78,12 @@ public class ExprInfo {
 		buf.append("输入缓存:" + this.inbuf.toString());
 		buf.append(",");
 		buf.append("表达式:" +this.expr);
+		buf.append(",");
+		buf.append("操作数1:" +this.num1);
+		buf.append(",");
+		buf.append("操作符:" +this.opt);
+		buf.append(",");
+		buf.append("操作数2:" +this.num2);
 		return buf.toString();
 	}
 	/**

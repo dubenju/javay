@@ -6,6 +6,7 @@ public class ActionNum1 implements Action<ExprInfo> {
 
 	@Override
 	public ExprInfo doAction(ExprInfo in, Object params) {
+		System.out.print(this.getClass().getName());
 		String cur_in = in.getInput();
 
 		StringBuffer buf = in.getInbuf();

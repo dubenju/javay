@@ -20,7 +20,7 @@ public interface CalcultorConts {
 
 	public static final String BACKSPACE = "Backspace";
 	public static final String CLEAR_ERROR = "CE";
-	public static final String CLEAR = "C";
+	public static final String CLEAR = "CL";
 
 	public static final String MC = "MC";
 	public static final String MR = "MR";

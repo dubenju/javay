@@ -74,7 +74,7 @@ public class CalcultorPanel extends JPanel {
     // 清除
     JButton btnCe     = new JButton(CalcultorConts.CLEAR_ERROR);
     // 清除
-    JButton btnClear     = new JButton(CalcultorConts.CLEAR);
+    JButton btnClear     = new JButton("C");
 
     JPanel buttonPanel = new JPanel();
 
@@ -198,7 +198,7 @@ public class CalcultorPanel extends JPanel {
         this.textField.setEditable( false );
         this.textField.setFont(new Font("Dialog", Font.PLAIN, 36));
         this.textField.getMaxWidth();
-        LineBorder border = new LineBorder(Color.RED, 2, true);
+        LineBorder border = new LineBorder(Color.RED, 1, true);
         this.textField.setBorder(border);
         this.textField.setText("0");
         this.textField.setToolTipText("计算式");
@@ -239,7 +239,7 @@ public class CalcultorPanel extends JPanel {
         exOption.add(exOptLeft);
         exOptLeft.setLayout(null);
         exOptLeft.setPreferredSize(new Dimension((btnWidth + 1) * 4, (btnHeight + 1)));
-        exOptLeft.setBorder(BorderFactory.createLineBorder(Color.green));
+//        exOptLeft.setBorder(BorderFactory.createLineBorder(Color.green));
         exOptLeft.add(inv);
         exOptLeft.add(hyp);
 
@@ -247,10 +247,9 @@ public class CalcultorPanel extends JPanel {
         hyp.setBounds(inv.getX() + inv.getWidth(), 1, btnWidth * 2, btnHeight);
 
         exOption.add(exOptRight);
-//        exOptRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
         exOptRight.setLayout(null);
         exOptRight.setPreferredSize(new Dimension((btnWidth + 1) * 4, (btnHeight + 1)));
-        exOptRight.setBorder(BorderFactory.createLineBorder(Color.green));
+//        exOptRight.setBorder(BorderFactory.createLineBorder(Color.green));
 
         // 退格
         // 清除
@@ -262,13 +261,14 @@ public class CalcultorPanel extends JPanel {
         btnBackspace.setBounds(1, 1, btnWidth * 2, btnHeight);
         btnCe.setBounds(btnBackspace.getX() + btnBackspace.getWidth(), 1, btnWidth, btnHeight);
         btnClear.setBounds(btnCe.getX() + btnWidth, 1, btnWidth, btnHeight);
+        btnClear.setActionCommand(CalcultorConts.CLEAR);
 
         /* C */
         mainPanel.add(buttonPanel);
 
         buttonPanel.setLayout(null);
         buttonPanel.setPreferredSize(new Dimension((btnWidth + 1) * 11, (btnHeight + 1) * 5));
-        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.green));
+//        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.green));
         buttonPanel.add(btnPnl1);
         buttonPanel.add(btnPnl2);
         buttonPanel.add(btnPnl3);
