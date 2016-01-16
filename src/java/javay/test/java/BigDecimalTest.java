@@ -1,4 +1,4 @@
-package javay.main;
+package javay.test.java;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,6 +8,7 @@ import sun.misc.FloatingDecimal;
 public class BigDecimalTest {
 
 	public static void main(String[] args) {
+		BigDecimal test = new BigDecimal("0.0.0");
 		BigDecimal b30 = new BigDecimal("30.0");
 		double d30 = 30.0d;
 //		BigDecimal b180 = new BigDecimal("180.0");

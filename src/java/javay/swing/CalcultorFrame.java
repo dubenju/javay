@@ -85,6 +85,7 @@ public class CalcultorFrame extends JFrame {
         menuBar.add(menuView);
 
         JMenu menuHelp = new JMenu("帮助");
+        JMenuItem helpHelp = new JMenuItem("帮助",KeyEvent.VK_H);
         JMenuItem checkUpdate = new JMenuItem("检查更新",KeyEvent.VK_U);
         JMenuItem aboutMenuItem=new JMenuItem("关于..",KeyEvent.VK_A);
         aboutMenuItem.addActionListener(new ActionListener(){ 
@@ -92,6 +93,7 @@ public class CalcultorFrame extends JFrame {
              aboutDialog.setVisible(true); 
             } 
            });
+        menuHelp.add(helpHelp);
         menuHelp.add(checkUpdate);
         menuHelp.add(aboutMenuItem);
         menuBar.add(menuHelp);

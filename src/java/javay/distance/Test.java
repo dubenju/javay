@@ -37,9 +37,7 @@ public class Test {
 	     /**
 	      * @param args
 	      */
-	     public static void main(String[] args)
-	     {
-	     // TODO 自动生成方法存根
+	     public static void main(String[] args) {
 	         double distance = GetDistance(121.491909,31.233234,121.411994,31.206134);
 	         System.out.println("Distance is:"+distance);
 	     }

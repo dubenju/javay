@@ -1,7 +1,7 @@
 /**
  *
  */
-package javay.main;
+package javay.test;
 
 import javay.math.BigNum;
 import javay.math.BigNumRound;
@@ -313,6 +313,7 @@ public class BigNumTest {
      * @param args
      */
     public static void main(String[] args) throws Exception {
+    	BigNum test = new BigNum("0.0T");
     	BigNumTest proc = new BigNumTest();
 //    	proc.testbyte();
 ////    	proc.testshort();

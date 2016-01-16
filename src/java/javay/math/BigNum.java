@@ -64,7 +64,6 @@ public class BigNum implements Comparable<BigNum> {
      * @param system 进制系统
      */
     public BigNum(char[] in, int offset, int len, int numberSystem) {
-    	// TODO:exception
         /* 初始化 */
         this.signed = 0x01;
 
@@ -84,6 +83,9 @@ public class BigNum implements Comparable<BigNum> {
         byte[] dats = new byte[len];
         for(; idx < len; idx ++) {
             if(in[idx] == '.') {
+            	if (this.scale != -1) {
+            		throw new NumberFormatException();
+            	}
                 this.scale = cnt;
                 continue;
             }
@@ -94,7 +96,7 @@ public class BigNum implements Comparable<BigNum> {
             } else if (in[idx] >= 'A' && in[idx] <= 'F') {
             	dats[idy] = (byte) (in[idx] - 'A' + 10);
             } else {
-
+            	throw new NumberFormatException();
             }
             idy ++;
         }

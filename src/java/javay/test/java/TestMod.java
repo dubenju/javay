@@ -1,4 +1,4 @@
-package javay.main;
+package javay.test.java;
 
 public class TestMod {
 

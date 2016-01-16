@@ -29,7 +29,7 @@ public abstract class AbstractCondition implements Condition {
 				s.equals(CalcultorConts.TEN) || s.equals(CalcultorConts.ELEVEN) ||
 				s.equals(CalcultorConts.TWELVE) || s.equals(CalcultorConts.THRITEEN) ||
 				s.equals(CalcultorConts.FOURTEEN) || s.equals(CalcultorConts.FIFTEEN) ||
-				s.equals(CalcultorConts.DOT); // TODO:..的时候是错误的
+				s.equals(CalcultorConts.DOT);
 	}
 	public boolean isOperator1(String s) {
 		return s.equals(CalcultorConts.DIVIDE1)  || s.equals(ExprConts.FAC) ||

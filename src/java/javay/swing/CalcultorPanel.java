@@ -181,9 +181,12 @@ public class CalcultorPanel extends JPanel {
 
     	this.spStatistics.getViewport().setView(this.listStatistics);
     	this.spStatistics.setBounds(1, 1, 295, btnHeight * 3);
+    	this.listStatistics.setToolTipText("统计");
     	this.topDisplay.add(this.spStatistics);
-        this.spHistory.getViewport().setView(this.listHistory);
+
+    	this.spHistory.getViewport().setView(this.listHistory);
         this.spHistory.setBounds(this.spStatistics.getX() + this.spStatistics.getWidth() + 1, 1, 295, btnHeight * 3);
+        this.listHistory.setToolTipText("履历");
         this.topDisplay.add(this.spHistory);
 
     	this.expr.setBounds(1, this.spHistory.getY() + this.spHistory.getHeight(), (btnWidth + 1) * 11, btnHeight);
@@ -201,7 +204,7 @@ public class CalcultorPanel extends JPanel {
         LineBorder border = new LineBorder(Color.RED, 1, true);
         this.textField.setBorder(border);
         this.textField.setText("0");
-        this.textField.setToolTipText("计算式");
+        this.textField.setToolTipText("计算结果");
 
         /* A */
         mainPanel.add(option);
@@ -216,6 +219,11 @@ public class CalcultorPanel extends JPanel {
 		group.add(r10);
 		group.add(r8);
 		group.add(r2);
+		
+		this.r16.setToolTipText("计算结果");
+		this.r10.setToolTipText("计算结果");
+		this.r8.setToolTipText("计算结果");
+		this.r2.setToolTipText("计算结果");
 
 		optionLeft.add(r16);
 		optionLeft.add(r10);
@@ -230,6 +238,10 @@ public class CalcultorPanel extends JPanel {
 		group2.add(rad);
 		group2.add(grad);
 
+		this.deg.setToolTipText("计算结果");
+		this.rad.setToolTipText("计算结果");
+		this.grad.setToolTipText("计算结果");
+		
 		optionRight.add(deg);
 		optionRight.add(rad);
 		optionRight.add(grad);
@@ -239,21 +251,20 @@ public class CalcultorPanel extends JPanel {
         exOption.add(exOptLeft);
         exOptLeft.setLayout(null);
         exOptLeft.setPreferredSize(new Dimension((btnWidth + 1) * 4, (btnHeight + 1)));
-//        exOptLeft.setBorder(BorderFactory.createLineBorder(Color.green));
         exOptLeft.add(inv);
         exOptLeft.add(hyp);
 
         inv.setBounds(1, 1, btnWidth * 2, btnHeight);
         hyp.setBounds(inv.getX() + inv.getWidth(), 1, btnWidth * 2, btnHeight);
 
+        this.inv.setToolTipText("计算结果");
+        this.hyp.setToolTipText("计算结果");
+
         exOption.add(exOptRight);
         exOptRight.setLayout(null);
         exOptRight.setPreferredSize(new Dimension((btnWidth + 1) * 4, (btnHeight + 1)));
-//        exOptRight.setBorder(BorderFactory.createLineBorder(Color.green));
 
-        // 退格
-        // 清除
-        // 清除
+        // 退格、清除、清除
         exOptRight.add( btnBackspace ).setForeground(Color.red);
         exOptRight.add( btnCe ).setForeground(Color.red);
         exOptRight.add( btnClear ).setForeground(Color.red);
@@ -262,6 +273,10 @@ public class CalcultorPanel extends JPanel {
         btnCe.setBounds(btnBackspace.getX() + btnBackspace.getWidth(), 1, btnWidth, btnHeight);
         btnClear.setBounds(btnCe.getX() + btnWidth, 1, btnWidth, btnHeight);
         btnClear.setActionCommand(CalcultorConts.CLEAR);
+
+        this.btnBackspace.setToolTipText("Backspace：退格，删除当前输入数字中的最后一位。");
+        this.btnCe.setToolTipText("CE：清除，清除显示的数字。");
+        this.btnClear.setToolTipText("C：归零，清除当前的计算。");
 
         /* C */
         mainPanel.add(buttonPanel);
@@ -294,6 +309,12 @@ public class CalcultorPanel extends JPanel {
         btnSum.setEnabled(false);
         btnS.setEnabled(false);
         btnDat.setEnabled(false);
+
+        this.btnSta.setToolTipText("add:向统计列表里追加统计数据。");
+        this.btnAve.setToolTipText("Ave：计算统计框中各数的平均值。若要计算平均方值，请使用Inv+Ave。");
+        this.btnSum.setToolTipText("Sum：计算统计框中各数的和。若要计算平方和，请使用Inv+Sum。");
+        this.btnS.setToolTipText("S：计算n-1个样本参数的标准偏差。若要计算n个样本参数为的标准偏差，请使用Inv+s。");
+        this.btnDat.setToolTipText("保留。");
 
         //create special button
         // 平方
@@ -342,6 +363,24 @@ public class CalcultorPanel extends JPanel {
         btnN.setBounds(btnLog.getX(), btnLog.getY() + btnHeight, btnWidth, btnHeight);
         btnDivide1.setBounds(btnN.getX(), btnN.getY() + btnHeight, btnWidth, btnHeight);
 
+        this.btnFE.setToolTipText("F-E：打开或关闭科学计数法。大于10^32的数总是以指数形式表示。F-E只能用于十进制数字系统。");
+        this.btnDMS.setToolTipText("Dms：将显示数字转换为度-分-秒格式（假设显示数字是用度数表示的）。若要将显示数字转换为用度数表示的格式（假设显示数字是用度-分-秒格式表示的），请使用Inv+dms。dms只能用于十进制数字系统。");
+        this.btnSin.setToolTipText("Sin：计算显示数字的正弦。若要计算反正弦，请使用Inv+sin。若要计算双曲正弦，请使用Hyp+sin。若要计算反双曲正弦，请使用Inv+Hyp+sin。sin只能用于十进制数字系统。");
+        this.btnCos.setToolTipText("Cos：cos计算显示数字的余弦。若要计算反余弦，请使用Inv+cos。若要计算双曲余弦，请使用Hyp+cos。若要计算反双曲余弦，请使用Inv+Hyp+cos。cos只能用于十进制数字系统。");
+        this.btnTan.setToolTipText("Tan：计算显示数字的正切。若要计算反正切，请使用Inv+tan。若要计算双曲正切，请使用Hyp+tan。若要计算反双曲正切，请使用Inv+Hyp+tan。tan只能用于十进制数字系统。");
+
+        this.btnLeft.setToolTipText("计算结果");
+        this.btnExp.setToolTipText("Exp：允许输入用科学计数法表示的数字。指数限制为四位数。指数中只能使用十进制数（键0-9）。Exp只能用于十进制数字系统。");
+        this.btnXY.setToolTipText("x^y：计算x的y次方。此按钮为二进制运算符。例如，若要计算2的4次方，请单击2x^y4=，结果为16。若要计算x的y次方根，请使用Inv+x^y。");
+        this.btnX3.setToolTipText("x^3：计算显示数字的立方。若要计算立方根，请使用Inv+x^3。");
+        this.btnX2.setToolTipText("x^2：计算显示数字的平方。若要计算平方根，请使用Inv+x^2。");
+        
+        this.btnRight.setToolTipText("计算结果");
+        this.btnLn.setToolTipText("ln：计算自然对数（以e为底）。若要计算e的x次方（其中x是当前数字），请使用Inv+ln。");
+        this.btnLog.setToolTipText("log：计算常用对数（以10为底）。若要计算10的x次方，请使用Inv+log。");
+        this.btnN.setToolTipText("n!：计算显示数字的阶乘。");
+        this.btnDivide1.setToolTipText("1/x：计算显示数字的倒数。");
+        
         btnPnl3.setLayout(null);
         btnPnl3.setBounds(btnPnl2.getX() + btnPnl2.getWidth(), 0, btnWidth + 1, (btnHeight + 1) * 5);
         btnPnl3.add( btnMC ).setForeground(Color.red);
@@ -356,6 +395,12 @@ public class CalcultorPanel extends JPanel {
         btnMP.setBounds(1, btnMS.getY() + btnHeight, btnWidth, btnHeight);
         btnMN.setBounds(1, btnMP.getY() + btnHeight, btnWidth, btnHeight);
 
+        this.btnMC.setToolTipText("MC：清除存储器中的数值。");
+        this.btnMR.setToolTipText("MR：将存于存储器中的数显示在计算器的显示框上。");
+        this.btnMS.setToolTipText("MS：将显示框的数值存于存储器中。如果存储器中有数值将会显示M标志。");
+        this.btnMP.setToolTipText("M+：将显示框的数与存储器中的数相加并进行存储。");
+        this.btnMN.setToolTipText("M-：将显示框的数与存储器中的数相减并进行存储。");
+        
         // 小数点
         // 结果是
         // 加
@@ -368,6 +413,7 @@ public class CalcultorPanel extends JPanel {
         //create buttons
         for ( int i = 0; i < 10; i++ ) {
             numButtons[i] = new JButton( "" + i );
+            this.numButtons[i].setToolTipText("数字" + i);
         }
 
         btnA.setEnabled(false);
@@ -451,6 +497,27 @@ public class CalcultorPanel extends JPanel {
         btnInt.setBounds(btnNot.getX(), btnNot.getY() + btnHeight, btnWidth, btnHeight);
         btnF.setBounds(btnInt.getX(), btnInt.getY() + btnHeight, btnWidth, btnHeight);
 
+        this.btnA.setToolTipText("ABCDEF：在数值中输入选中字母（只有在十六进制模式为开启状态时该按钮才可用）。");
+        this.btnB.setToolTipText("ABCDEF：在数值中输入选中字母（只有在十六进制模式为开启状态时该按钮才可用）。");
+        this.btnC.setToolTipText("ABCDEF：在数值中输入选中字母（只有在十六进制模式为开启状态时该按钮才可用）。");
+        this.btnD.setToolTipText("ABCDEF：在数值中输入选中字母（只有在十六进制模式为开启状态时该按钮才可用）。");
+        this.btnE.setToolTipText("ABCDEF：在数值中输入选中字母（只有在十六进制模式为开启状态时该按钮才可用）。");
+        this.btnF.setToolTipText("ABCDEF：在数值中输入选中字母（只有在十六进制模式为开启状态时该按钮才可用）。");
+
+        this.btnPosMinus.setToolTipText("+/-：改变当前显示数的符号。");
+        this.btnDot.setToolTipText("计算结果");
+        this.btnDivide.setToolTipText("计算结果");
+        this.btnMultiply.setToolTipText("计算结果");
+        this.btnSubtract.setToolTipText("计算结果");
+        this.btnAdd.setToolTipText("计算结果");
+        this.btnMod.setToolTipText("Mod：显示x/y的模数或余数。");
+        this.btnEqual.setToolTipText("计算结果");
+        this.btnAnd.setToolTipText("And：计算按位AND。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
+        this.btnOr.setToolTipText("Or：计算按位OR。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
+        this.btnNot.setToolTipText("Not：计算按位取反。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
+        this.btnXor.setToolTipText("Xor：计算按位异OR。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
+        this.btnLsh.setToolTipText("Lsh：左移。若要右移，请使用Inv+Lsh。在单击该按钮后，必须指定（以二进制形式）要将显示区中的数字左移或右移多少位，然后单击=。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
+        this.btnInt.setToolTipText("Int：显示十进制数值的整数部分。若要显示十进制数值的小数部分，请使用Inv+Int。");
         //create the control
         CalcultorActionListener controler = new CalcultorActionListener( this );
 
