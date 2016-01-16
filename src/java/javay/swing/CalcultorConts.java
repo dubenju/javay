@@ -65,6 +65,7 @@ public interface CalcultorConts {
 	public static final String AVE = "ave"; // 平均值 The average value
 	public static final String SUM = "sum"; // 和
 	public static final String SSD = "σ"; // 
+	public static final String APP = "append"; // 向统计列表里追加元素
 
 	// 数字
 	public static final String ZERO = "0";
@@ -88,4 +89,5 @@ public interface CalcultorConts {
 	public static final String TRIGONOMETRIC_FUNCTION = "三角函数";
 	public static final String INVERSE = "取反";
 	public static final String HYPERBOLIC = "双曲";
+	public static final String INPUT = "input";
 }

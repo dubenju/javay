@@ -49,10 +49,17 @@ public abstract class AbstractCondition implements Condition {
 				s.equals(CalcultorConts.LSH) || s.equals(CalcultorConts.RSH) ||
 				s.equals(CalcultorConts.AND) || s.equals(CalcultorConts.OR) ||
 				s.equals(CalcultorConts.XOR);
-//		return null != opt2.get(s);
 	}
 	public boolean isEqual(String s) {
 		return s.equals(CalcultorConts.EQUAL);
-//		return null != equal.get(s);
+	}
+	public boolean isBackSpace(String s) {
+		return s.equals(CalcultorConts.BACKSPACE);
+	}
+	public boolean isClearEntry(String s) {
+		return s.equals(CalcultorConts.CLEAR_ERROR);
+	}
+	public boolean isClear(String s) {
+		return s.equals(CalcultorConts.CLEAR);
 	}
 }

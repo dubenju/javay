@@ -51,9 +51,10 @@ public class CalcultorActionListener implements ActionListener {
 				s.equals(CalcultorConts.MS) || s.equals(CalcultorConts.MP) ||
 				s.equals(CalcultorConts.MM) || s.equals(CalcultorConts.BINARY) ||
 				s.equals(CalcultorConts.OCTAL) || s.equals(CalcultorConts.DECIMAL) ||
-				s.equals(CalcultorConts.HEXADECIMAL) || s.equals(CalcultorConts.SCI) || 
-				s.equals(CalcultorConts.BACKSPACE) ||
-				s.equals(CalcultorConts.CLEAR_ERROR) || s.equals(CalcultorConts.CLEAR);
+				s.equals(CalcultorConts.HEXADECIMAL) || s.equals(CalcultorConts.SCI);
+//		|| 
+//				s.equals(CalcultorConts.BACKSPACE) ||
+//				s.equals(CalcultorConts.CLEAR_ERROR) || s.equals(CalcultorConts.CLEAR);
 	}
 
 	@Override
@@ -61,6 +62,33 @@ public class CalcultorActionListener implements ActionListener {
 		String s = e.getActionCommand();
 		System.out.println("s=" + s);
 
+		if (s.equals(CalcultorConts.APP)) {
+			if (this.panel.inv.isSelected()) {
+				int idx = this.panel.modelStatistics.getSize() - 1;
+				if (this.panel.listStatistics.getSelectedIndex() != -1) {
+					idx = this.panel.listStatistics.getSelectedIndex();
+				}
+				if (idx != -1) {
+					this.panel.modelStatistics.remove(idx);
+				}
+			} else {
+				this.panel.modelStatistics.addElement(this.panel.textField.getText());
+				this.panel.listStatistics.ensureIndexIsVisible(this.panel.modelStatistics.getSize() - 1);
+				this.panel.textField.setText("");
+			}
+			if (this.panel.modelStatistics.getSize() > 0) {
+				this.panel.btnAve.setEnabled(true);
+				this.panel.btnSum.setEnabled(true);
+				this.panel.btnS.setEnabled(true);
+				this.panel.btnDat.setEnabled(true);
+			} else {
+				this.panel.btnAve.setEnabled(false);
+				this.panel.btnSum.setEnabled(false);
+				this.panel.btnS.setEnabled(false);
+				this.panel.btnDat.setEnabled(false);
+			}
+			return ;
+		}
 		if (this.isControl(s)) {
 			control(s);
 			return ;
@@ -87,6 +115,7 @@ public class CalcultorActionListener implements ActionListener {
 		context.put(CalcultorConts.TRIGONOMETRIC_FUNCTION, value);
 		context.put(CalcultorConts.INVERSE, inverse);
 		context.put(CalcultorConts.HYPERBOLIC, hyperbolic);
+		context.put(CalcultorConts.INPUT, s);
 		// 在状态机内对操作符进行变换
 		ExprInfo expr = this.fsm.receive(s, context);
 
@@ -95,6 +124,7 @@ public class CalcultorActionListener implements ActionListener {
 		this.panel.expr.setText(expression);
 		String display = expr.getInbuf().toString();
 		if (display.length() > 0) {
+			// TODO:这是什么原因要加个条件呢？？
 			this.panel.textField.setText(display);
 		}
 		/* *** 表达式求值 *** */
@@ -107,6 +137,7 @@ public class CalcultorActionListener implements ActionListener {
 		}
 		if (s.equals(CalcultorConts.EQUAL)) {
 			this.panel.modelHistory.addElement(this.panel.expr.getText());
+			this.panel.listHistory.ensureIndexIsVisible(this.panel.modelHistory.getSize() - 1);
 		}
 
 	}
@@ -256,14 +287,14 @@ public class CalcultorActionListener implements ActionListener {
 			this.panel.textField.setDisplay(display);
 			this.panel.textField.setText(this.panel.textField.getText()); // refresh
 		}
-		if (CalcultorConts.BACKSPACE.equals(s)) {
-
-		}
-		if (CalcultorConts.CLEAR_ERROR.equals(s)) {
-
-		}
-		if (CalcultorConts.CLEAR.equals(s)) {
-
-		}
+//		if (CalcultorConts.BACKSPACE.equals(s)) {
+//
+//		}
+//		if (CalcultorConts.CLEAR_ERROR.equals(s)) {
+//
+//		}
+//		if (CalcultorConts.CLEAR.equals(s)) {
+//
+//		}
 	}
 }

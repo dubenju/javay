@@ -38,8 +38,8 @@ public class CalcultorPanel extends JPanel {
     private JPanel topDisplay = new JPanel();
     public DefaultListModel<String> modelHistory = new DefaultListModel<String>();
     public DefaultListModel<String> modelStatistics = new DefaultListModel<String>();
-    private JList<String> listHistory = new JList<String>(this.modelHistory);
-    private JList<String> listStatistics = new JList<String>(this.modelStatistics);
+    public JList<String> listHistory = new JList<String>(this.modelHistory);
+    public JList<String> listStatistics = new JList<String>(this.modelStatistics);
 	JScrollPane spHistory = new JScrollPane();
 	JScrollPane spStatistics = new JScrollPane();
     public JTextField expr = new JTextField();
@@ -83,11 +83,11 @@ public class CalcultorPanel extends JPanel {
     JPanel btnPnl3 = new JPanel();
     JPanel btnPnl4 = new JPanel();
 
-    JButton btnSta    = new JButton("Sta");
-    JButton btnAve    = new JButton(CalcultorConts.AVE);
-    JButton btnSum    = new JButton(CalcultorConts.SUM);
-    JButton btnS    = new JButton(CalcultorConts.SSD);
-    JButton btnDat    = new JButton("Dat");
+    JButton btnSta    = new JButton("add");
+    public JButton btnAve    = new JButton(CalcultorConts.AVE);
+    public JButton btnSum    = new JButton(CalcultorConts.SUM);
+    public JButton btnS    = new JButton(CalcultorConts.SSD);
+    public JButton btnDat    = new JButton("Dat");
 
     // 科学记数法 Scientific notation
     public JButton btnFE = new JButton(CalcultorConts.SCI);
@@ -289,6 +289,12 @@ public class CalcultorPanel extends JPanel {
         btnS.setBounds(1, btnSum.getY() + btnHeight, btnWidth, btnHeight);
         btnDat.setBounds(1, btnS.getY() + btnHeight, btnWidth, btnHeight);
 
+        btnSta.setActionCommand(CalcultorConts.APP);
+        btnAve.setEnabled(false);
+        btnSum.setEnabled(false);
+        btnS.setEnabled(false);
+        btnDat.setEnabled(false);
+
         //create special button
         // 平方
         // 立方
@@ -456,6 +462,12 @@ public class CalcultorPanel extends JPanel {
         btnBackspace.addActionListener( controler );
         btnCe.addActionListener( controler );
         btnClear.addActionListener( controler );
+
+        btnSta.addActionListener( controler );
+        btnAve.addActionListener( controler );
+        btnSum.addActionListener( controler );
+        btnS.addActionListener( controler );
+        btnDat.addActionListener( controler );
 
         btnFE.addActionListener( controler );
         btnLeft.addActionListener( controler );

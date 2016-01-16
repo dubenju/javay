@@ -55,6 +55,8 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		ConditionOpt1 opt1 = new ConditionOpt1();
 		ConditionOpt2 opt2 = new ConditionOpt2();
 		ConditionEqual equal = new ConditionEqual();
+		ConditionBsce bsce = new ConditionBsce();
+		ConditionInit init = new ConditionInit();
 
 		ActionNum1 anum1 = new ActionNum1();
 		ActionOpt2 aopt2 = new ActionOpt2();
@@ -62,6 +64,8 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		ActionError aerr = new ActionError();
 		ActionOpt1 aopt1 = new ActionOpt1();
 		ActionEqual aequal = new ActionEqual();
+		ActionBsce absce = new ActionBsce();
+		ActionInit ainit = new ActionInit();
 		//a33
 		/*
 		 * 1:初期状态
@@ -78,29 +82,43 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		 * una 2 2 4 4 2 4
 		 * bin 2 2 5 5 2 5
 		 * =   2 2 4 4 2 4
+		 * BS  1 1 3 4   6
+		 * CE  1 1 3 4   6
+		 * C   1 1 1 1 1 1
 		 */
 		Transition<ExprInfo> tran_1_3  = new CalcultorTransition(state1, null, num  , anum1 , state3);
 		Transition<ExprInfo> tran_1_2  = new CalcultorTransition(state1, null, opt1 , aerr  , state2);
 		Transition<ExprInfo> tran_1_21 = new CalcultorTransition(state1, null, opt2 , aerr  , state2);
 		Transition<ExprInfo> tran_1_22 = new CalcultorTransition(state1, null, equal, aerr  , state2);
+		Transition<ExprInfo> tran_1_1  = new CalcultorTransition(state1, null, bsce , absce , state1);
+		Transition<ExprInfo> tran_1_11 = new CalcultorTransition(state1, null, init , ainit , state1);
 		Transition<ExprInfo> tran_2_3  = new CalcultorTransition(state2, null, num  , anum1 , state3);
 		Transition<ExprInfo> tran_2_2  = new CalcultorTransition(state2, null, opt1 , aerr  , state2);
 		Transition<ExprInfo> tran_2_21 = new CalcultorTransition(state2, null, opt2 , aerr  , state2);
 		Transition<ExprInfo> tran_2_22 = new CalcultorTransition(state2, null, equal, aerr  , state2);
+		Transition<ExprInfo> tran_2_1  = new CalcultorTransition(state2, null, bsce , absce , state1);
+		Transition<ExprInfo> tran_2_11 = new CalcultorTransition(state2, null, init , ainit , state1);
 		Transition<ExprInfo> tran_3_4  = new CalcultorTransition(state3, null, opt1 , aopt1 , state4);
 		Transition<ExprInfo> tran_3_5  = new CalcultorTransition(state3, null, opt2 , aopt2 , state5);
 		Transition<ExprInfo> tran_3_41 = new CalcultorTransition(state3, null, equal, aequal, state4);
+		Transition<ExprInfo> tran_3_3  = new CalcultorTransition(state3, null, bsce , absce , state3);
+		Transition<ExprInfo> tran_3_1  = new CalcultorTransition(state3, null, init , ainit , state1);
 		Transition<ExprInfo> tran_4_3  = new CalcultorTransition(state4, null, num  , anum1 , state3);
 		Transition<ExprInfo> tran_4_4  = new CalcultorTransition(state4, null, opt1 , aopt1 , state4);
 		Transition<ExprInfo> tran_4_5  = new CalcultorTransition(state4, null, opt2 , aopt2 , state5);
 		Transition<ExprInfo> tran_4_41 = new CalcultorTransition(state4, null, equal, aequal, state4);
+		Transition<ExprInfo> tran_4_42 = new CalcultorTransition(state4, null, bsce , absce , state4);
+		Transition<ExprInfo> tran_4_1  = new CalcultorTransition(state4, null, init , ainit , state1);
 		Transition<ExprInfo> tran_5_2  = new CalcultorTransition(state5, null, opt1 , aerr  , state2);
 		Transition<ExprInfo> tran_5_21 = new CalcultorTransition(state5, null, opt2 , aerr  , state2);
 		Transition<ExprInfo> tran_5_22 = new CalcultorTransition(state5, null, equal, aerr  , state2);
 		Transition<ExprInfo> tran_5_6  = new CalcultorTransition(state5, null, num  , anum2 , state6);
+		Transition<ExprInfo> tran_5_1  = new CalcultorTransition(state5, null, init , ainit , state1);
 		Transition<ExprInfo> tran_6_4  = new CalcultorTransition(state6, null, opt1 , aopt1 , state4);
 		Transition<ExprInfo> tran_6_41 = new CalcultorTransition(state6, null, equal, aequal, state4);
 		Transition<ExprInfo> tran_6_5  = new CalcultorTransition(state6, null, opt2 , aopt2 , state5);
+		Transition<ExprInfo> tran_6_6  = new CalcultorTransition(state6, null, bsce , absce , state6);
+		Transition<ExprInfo> tran_6_1  = new CalcultorTransition(state6, null, init , ainit , state1);
 
 		List<Transition<ExprInfo>> ti = new ArrayList<Transition<ExprInfo>>();
 		ti.add(tran_i_1);
@@ -110,35 +128,46 @@ public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 		t1.add(tran_1_2);
 		t1.add(tran_1_21);
 		t1.add(tran_1_22);
+		t1.add(tran_1_1);
+		t1.add(tran_1_11);
 		this.transitions.add(t1);
 		List<Transition<ExprInfo>> t2 = new ArrayList<Transition<ExprInfo>>();
 		t2.add(tran_2_3);
 		t2.add(tran_2_2);
 		t2.add(tran_2_21);
 		t2.add(tran_2_22);
+		t2.add(tran_2_1);
+		t2.add(tran_2_11);
 		this.transitions.add(t2);
 		List<Transition<ExprInfo>> t3 = new ArrayList<Transition<ExprInfo>>();
 		t3.add(tran_3_4);
 		t3.add(tran_3_5);
 		t3.add(tran_3_41);
+		t3.add(tran_3_3);
+		t3.add(tran_3_1);
 		this.transitions.add(t3);
 		List<Transition<ExprInfo>> t4 = new ArrayList<Transition<ExprInfo>>();
 		t4.add(tran_4_3);
 		t4.add(tran_4_5);
 		t4.add(tran_4_4);
 		t4.add(tran_4_41);
+		t4.add(tran_4_42);
+		t4.add(tran_4_1);
 		this.transitions.add(t4);
 		List<Transition<ExprInfo>> t5 = new ArrayList<Transition<ExprInfo>>();
 		t5.add(tran_5_2);
 		t5.add(tran_5_21);
 		t5.add(tran_5_22);
 		t5.add(tran_5_6);
+		t5.add(tran_5_1);
 		this.transitions.add(t5);
 		List<Transition<ExprInfo>> t6 = new ArrayList<Transition<ExprInfo>>();
 		this.transitions.add(t6);
 		t6.add(tran_6_4);
 		t6.add(tran_6_41);
 		t6.add(tran_6_5);
+		t6.add(tran_6_6);
+		t6.add(tran_6_1);
 		List<Transition<ExprInfo>> t8 = new ArrayList<Transition<ExprInfo>>();
 		this.transitions.add(t8);
 
