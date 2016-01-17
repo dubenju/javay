@@ -1,6 +1,10 @@
 package javay.awt.event;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ExprInfo {
+    private static final Logger log = LoggerFactory.getLogger(ExprInfo.class);
 	/** 表达式用 */
 	private String expr;
 	private String num1;

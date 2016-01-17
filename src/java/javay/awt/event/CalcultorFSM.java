@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javay.fsm.FiniteStateMachine;
 import javay.fsm.state.State;
 import javay.fsm.state.StateFinal;
@@ -21,6 +24,7 @@ import javay.fsm.transition.Transition;
  */
 public class CalcultorFSM implements FiniteStateMachine<ExprInfo>, Runnable {
 
+    private static final Logger log = LoggerFactory.getLogger(CalcultorFSM.class);
 	private List<State<ExprInfo>> states;
 	private State<ExprInfo> initialState;
 	private List<List<Transition<ExprInfo>>> transitions;

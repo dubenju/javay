@@ -1,8 +1,12 @@
 package javay.fsm.state;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javay.fsm.state.State;
 
 public class StateInitial<T> implements State<T> {
+    private static final Logger log = LoggerFactory.getLogger(StateInitial.class);
 	private int id = 0;
 	private String label = "初始状态";
 	private T value = null;

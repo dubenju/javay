@@ -1,9 +1,12 @@
 package javay.awt.event;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javay.fsm.transition.Action;
 
 public class ActionNum1 implements Action<ExprInfo> {
-
+    private static final Logger log = LoggerFactory.getLogger(ActionNum1.class);
 	@Override
 	public ExprInfo doAction(ExprInfo in, Object params) {
 		System.out.print(this.getClass().getName());
