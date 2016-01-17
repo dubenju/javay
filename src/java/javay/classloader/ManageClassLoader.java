@@ -7,14 +7,14 @@ import java.io.IOException;
  * @author vma
  */
 public class ManageClassLoader {
-    DynamicClassLoader dc =null;
+    DynamicClassLoade dc =null;
     
     Long lastModified = 0l;
     Class c = null;
     //加载类， 如果类文件修改过加载，如果没有修改，返回当前的
     public Class loadClass(String name) throws ClassNotFoundException, IOException{
      if (isClassModified(name)){
-        dc =  new DynamicClassLoader();
+        dc =  new DynamicClassLoade();
       return c = dc.findClass(getBytes(name));
      }
      return c;
