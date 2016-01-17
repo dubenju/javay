@@ -35,16 +35,16 @@ import javay.awt.event.CalcultorActionListener;
  */
 public class CalcultorPanel extends JPanel {
 
-	private int btnWidth = 52;
-	private int btnHeight = 28;
+    private int btnWidth = 52;
+    private int btnHeight = 28;
     private JPanel mainPanel = new JPanel();
     private JPanel topDisplay = new JPanel();
     public DefaultListModel<String> modelHistory = new DefaultListModel<String>();
     public DefaultListModel<String> modelStatistics = new DefaultListModel<String>();
     public JList<String> listHistory = new JList<String>(this.modelHistory);
     public JList<String> listStatistics = new JList<String>(this.modelStatistics);
-	JScrollPane spHistory = new JScrollPane();
-	JScrollPane spStatistics = new JScrollPane();
+    JScrollPane spHistory = new JScrollPane();
+    JScrollPane spStatistics = new JScrollPane();
     public JTextField expr = new JTextField();
     public JVariableTextField textField = new JVariableTextField(25);
 
@@ -56,11 +56,11 @@ public class CalcultorPanel extends JPanel {
     JRadioButton r8 = new JRadioButton(CalcultorConts.OCTAL);
     JRadioButton r2 = new JRadioButton(CalcultorConts.BINARY);
 
-	JPanel optionRight = new JPanel();
-	ButtonGroup group2 = new ButtonGroup();
-	public JRadioButton deg = new JRadioButton("度");
-	public JRadioButton rad = new JRadioButton("弧度");
-	public JRadioButton grad = new JRadioButton("百分度");
+    JPanel optionRight = new JPanel();
+    ButtonGroup group2 = new ButtonGroup();
+    public JRadioButton deg = new JRadioButton("度");
+    public JRadioButton rad = new JRadioButton("弧度");
+    public JRadioButton grad = new JRadioButton("百分度");
 
     JPanel exOption = new JPanel();
     JPanel exOptLeft = new JPanel();
@@ -167,33 +167,33 @@ public class CalcultorPanel extends JPanel {
     private static final Logger log = LoggerFactory.getLogger(CalcultorPanel.class);
 
     public CalcultorPanel() {
-    	this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
+        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 
         //create the text field
-    	this.mainPanel.add(this.topDisplay);
+        this.mainPanel.add(this.topDisplay);
 
-    	this.topDisplay.setLayout(null);
-    	this.topDisplay.setPreferredSize(new Dimension((btnWidth + 1) * 11, 210));
-//    	this.topDisplay.setBorder(BorderFactory.createLineBorder(Color.red));
-    	this.topDisplay.add(this.expr);
-    	this.topDisplay.add(this.textField);
+        this.topDisplay.setLayout(null);
+        this.topDisplay.setPreferredSize(new Dimension((btnWidth + 1) * 11, 210));
+//        this.topDisplay.setBorder(BorderFactory.createLineBorder(Color.red));
+        this.topDisplay.add(this.expr);
+        this.topDisplay.add(this.textField);
 
-    	DefaultListCellRenderer rendererStatistics = (DefaultListCellRenderer) this.listStatistics.getCellRenderer();
-    	rendererStatistics.setHorizontalAlignment(SwingConstants.RIGHT);
-    	DefaultListCellRenderer rendererHistory = (DefaultListCellRenderer) this.listHistory.getCellRenderer();
-    	rendererHistory.setHorizontalAlignment(SwingConstants.RIGHT);
+        DefaultListCellRenderer rendererStatistics = (DefaultListCellRenderer) this.listStatistics.getCellRenderer();
+        rendererStatistics.setHorizontalAlignment(SwingConstants.RIGHT);
+        DefaultListCellRenderer rendererHistory = (DefaultListCellRenderer) this.listHistory.getCellRenderer();
+        rendererHistory.setHorizontalAlignment(SwingConstants.RIGHT);
 
-    	this.spStatistics.getViewport().setView(this.listStatistics);
-    	this.spStatistics.setBounds(1, 1, 295, btnHeight * 3);
-    	this.listStatistics.setToolTipText("统计");
-    	this.topDisplay.add(this.spStatistics);
+        this.spStatistics.getViewport().setView(this.listStatistics);
+        this.spStatistics.setBounds(1, 1, 295, btnHeight * 3);
+        this.listStatistics.setToolTipText("统计");
+        this.topDisplay.add(this.spStatistics);
 
-    	this.spHistory.getViewport().setView(this.listHistory);
+        this.spHistory.getViewport().setView(this.listHistory);
         this.spHistory.setBounds(this.spStatistics.getX() + this.spStatistics.getWidth() + 1, 1, 295, btnHeight * 3);
         this.listHistory.setToolTipText("履历");
         this.topDisplay.add(this.spHistory);
 
-    	this.expr.setBounds(1, this.spHistory.getY() + this.spHistory.getHeight(), (btnWidth + 1) * 11, btnHeight);
+        this.expr.setBounds(1, this.spHistory.getY() + this.spHistory.getHeight(), (btnWidth + 1) * 11, btnHeight);
         this.expr.setHorizontalAlignment(JTextField.RIGHT);
         this.expr.setEditable(false);
         this.expr.setFont(new Font("Dialog", Font.PLAIN, 36));
@@ -219,38 +219,38 @@ public class CalcultorPanel extends JPanel {
 
 //        this.mmry.setHorizontalAlignment(JTextField.RIGHT);
         r10.setSelected(true);
-		group.add(r16);
-		group.add(r10);
-		group.add(r8);
-		group.add(r2);
-		
-		this.r16.setToolTipText("计算结果");
-		this.r10.setToolTipText("计算结果");
-		this.r8.setToolTipText("计算结果");
-		this.r2.setToolTipText("计算结果");
+        group.add(r16);
+        group.add(r10);
+        group.add(r8);
+        group.add(r2);
+        
+        this.r16.setToolTipText("计算结果");
+        this.r10.setToolTipText("计算结果");
+        this.r8.setToolTipText("计算结果");
+        this.r2.setToolTipText("计算结果");
 
-		optionLeft.add(r16);
-		optionLeft.add(r10);
-		optionLeft.add(r8);
-		optionLeft.add(r2);
+        optionLeft.add(r16);
+        optionLeft.add(r10);
+        optionLeft.add(r8);
+        optionLeft.add(r2);
 
-		JPanel optionRight = new JPanel();
-		option.add(optionRight);
-		optionRight.setBorder(BorderFactory.createLineBorder(Color.green));
-		deg.setSelected(true);
-		group2.add(deg);
-		group2.add(rad);
-		group2.add(grad);
+        JPanel optionRight = new JPanel();
+        option.add(optionRight);
+        optionRight.setBorder(BorderFactory.createLineBorder(Color.green));
+        deg.setSelected(true);
+        group2.add(deg);
+        group2.add(rad);
+        group2.add(grad);
 
-		this.deg.setToolTipText("计算结果");
-		this.rad.setToolTipText("计算结果");
-		this.grad.setToolTipText("计算结果");
-		
-		optionRight.add(deg);
-		optionRight.add(rad);
-		optionRight.add(grad);
+        this.deg.setToolTipText("计算结果");
+        this.rad.setToolTipText("计算结果");
+        this.grad.setToolTipText("计算结果");
+        
+        optionRight.add(deg);
+        optionRight.add(rad);
+        optionRight.add(grad);
 
-		/* B */
+        /* B */
         mainPanel.add(exOption);
         exOption.add(exOptLeft);
         exOptLeft.setLayout(null);

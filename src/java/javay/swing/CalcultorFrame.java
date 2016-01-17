@@ -33,16 +33,16 @@ import javay.awt.event.CalcultorAWTEventListener;
  */
 public class CalcultorFrame extends JFrame {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(CalcultorFrame.class);
 
-	/**
-	 * @throws HeadlessException
-	 */
-	public CalcultorFrame() {
+    /**
+     * @throws HeadlessException
+     */
+    public CalcultorFrame() {
         JMenuBar  menuBar      = new JMenuBar();
         JMenu     menuFile     = new JMenu("文件");
         JMenuItem menuFileExit = new JMenuItem("退出", KeyEvent.VK_X);
@@ -66,7 +66,7 @@ public class CalcultorFrame extends JFrame {
         aboutDialog.setLocation(300,300); 
         aboutDialog.addWindowListener(new WindowAdapter() {
             @SuppressWarnings("unused")
-			public void WindowClosing(WindowEvent e){ 
+            public void WindowClosing(WindowEvent e){ 
                 dispose();
            } 
         }); 
@@ -120,13 +120,13 @@ public class CalcultorFrame extends JFrame {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         // 注册应用程序全局键盘事件, 所有的键盘事件都会被此事件监听器处理.  
         toolkit.addAWTEventListener( new CalcultorAWTEventListener(panel), AWTEvent.KEY_EVENT_MASK);
-	}
+    }
 
-	/**
+    /**
      * Shutdown procedure when run as an application.
      */
     protected void windowClosed() {
-    	// Exit application.
+        // Exit application.
         System.exit(0);
     }
 }

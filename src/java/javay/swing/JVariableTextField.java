@@ -24,79 +24,79 @@ import org.slf4j.LoggerFactory;
 
 public class JVariableTextField extends JTextField implements MouseListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(JVariableTextField.class);
-	
-	private int maxWidth = 1;
-	private String numberSystem = CalcultorConts.DECIMAL;
-	private String mem = null;
-	private int display = 0; // normal,1:ScientificNotation
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private static final Logger log = LoggerFactory.getLogger(JVariableTextField.class);
+    
+    private int maxWidth = 1;
+    private String numberSystem = CalcultorConts.DECIMAL;
+    private String mem = null;
+    private int display = 0; // normal,1:ScientificNotation
 
-	private JPopupMenu pop = null; // 弹出菜单
-	private JMenuItem copy = null, paste = null, cut = null; // 三个功能菜单
-	/**
-	 * 
-	 */
-	public JVariableTextField() {
-		maxWidth = this.getColumns() * this.getFont().getSize();
-		setOpaque(false);
-		this.mem = null;
-		init();
-	}
+    private JPopupMenu pop = null; // 弹出菜单
+    private JMenuItem copy = null, paste = null, cut = null; // 三个功能菜单
+    /**
+     * 
+     */
+    public JVariableTextField() {
+        maxWidth = this.getColumns() * this.getFont().getSize();
+        setOpaque(false);
+        this.mem = null;
+        init();
+    }
 
-	/**
-	 * @param text
-	 * @param columns
-	 */
-	public JVariableTextField(String text, int columns) {
-		super(text, columns);
-		maxWidth = this.getColumns() * this.getFont().getSize();
-		setOpaque(false);
-		this.mem = null;
-		init();
-	}
+    /**
+     * @param text
+     * @param columns
+     */
+    public JVariableTextField(String text, int columns) {
+        super(text, columns);
+        maxWidth = this.getColumns() * this.getFont().getSize();
+        setOpaque(false);
+        this.mem = null;
+        init();
+    }
 
-	/**
-	 * @param text
-	 */
-	public JVariableTextField(String text) {
-		super(text);
-		maxWidth = this.getColumns() * this.getFont().getSize();
-		setOpaque(false);
-		this.mem = null;
-		init();
-	}
+    /**
+     * @param text
+     */
+    public JVariableTextField(String text) {
+        super(text);
+        maxWidth = this.getColumns() * this.getFont().getSize();
+        setOpaque(false);
+        this.mem = null;
+        init();
+    }
 
-	/**
-	 * @param doc
-	 * @param text
-	 * @param columns
-	 */
-	public JVariableTextField(Document doc, String text, int columns) {
-		super(doc, text, columns);
-		maxWidth = this.getColumns() * this.getFont().getSize();
-		setOpaque(false);
-		this.mem = null;
-		init();
-	}
+    /**
+     * @param doc
+     * @param text
+     * @param columns
+     */
+    public JVariableTextField(Document doc, String text, int columns) {
+        super(doc, text, columns);
+        maxWidth = this.getColumns() * this.getFont().getSize();
+        setOpaque(false);
+        this.mem = null;
+        init();
+    }
 
-	/**
-	 * @param columns
-	 */
-	public JVariableTextField(int columns) {
-		super(columns);
-		maxWidth = this.getColumns() * this.getFont().getSize();
-		setOpaque(false);
-		this.mem = null;
-		init();
-	}
+    /**
+     * @param columns
+     */
+    public JVariableTextField(int columns) {
+        super(columns);
+        maxWidth = this.getColumns() * this.getFont().getSize();
+        setOpaque(false);
+        this.mem = null;
+        init();
+    }
 
-	private void init() {
-		this.addMouseListener(this);
-		pop = new JPopupMenu();  
+    private void init() {
+        this.addMouseListener(this);
+        pop = new JPopupMenu();  
         pop.add(copy = new JMenuItem("复制"));  
         pop.add(paste = new JMenuItem("粘贴"));  
         pop.add(cut = new JMenuItem("剪切"));  
@@ -119,8 +119,8 @@ public class JVariableTextField extends JTextField implements MouseListener {
             }  
         });  
         this.add(pop);
-	}
-	 /** 
+    }
+     /** 
      * 菜单动作 
      *  
      * @param e 
@@ -136,163 +136,163 @@ public class JVariableTextField extends JTextField implements MouseListener {
         }  
     } 
 
-	/**
-	 * @see javax.swing.text.JTextComponent#setText(java.lang.String)
-	 */
-	@Override
-	public void setText(String t) {
-		Font font = this.getFont();
-		int fontsize = font.getSize();
-		int length = t.length();
-		if (length > 0) {
-			fontsize = maxWidth / length;
-			if (fontsize == 0 ) {
-				fontsize = 1;
-			}
-			if (fontsize > 36) {
-				fontsize = 36;
-			}
-			Font newFont = new Font(font.getName(), font.getStyle(), fontsize);
-			this.setFont(newFont);
-		}
-		super.setText(t);
-	}
+    /**
+     * @see javax.swing.text.JTextComponent#setText(java.lang.String)
+     */
+    @Override
+    public void setText(String t) {
+        Font font = this.getFont();
+        int fontsize = font.getSize();
+        int length = t.length();
+        if (length > 0) {
+            fontsize = maxWidth / length;
+            if (fontsize == 0 ) {
+                fontsize = 1;
+            }
+            if (fontsize > 36) {
+                fontsize = 36;
+            }
+            Font newFont = new Font(font.getName(), font.getStyle(), fontsize);
+            this.setFont(newFont);
+        }
+        super.setText(t);
+    }
 
-	/**
-	 * @see javax.swing.JTextField#setColumns(int)
-	 */
-	@Override
-	public void setColumns(int columns) {
-		super.setColumns(columns);
-		Font font = this.getFont();
-		maxWidth = columns * font.getSize();
-	}
+    /**
+     * @see javax.swing.JTextField#setColumns(int)
+     */
+    @Override
+    public void setColumns(int columns) {
+        super.setColumns(columns);
+        Font font = this.getFont();
+        maxWidth = columns * font.getSize();
+    }
 
-	/**
-	 * @see javax.swing.JTextField#setFont(java.awt.Font)
-	 */
-	@Override
-	public void setFont(Font f) {
-		super.setFont(f);
-	}
+    /**
+     * @see javax.swing.JTextField#setFont(java.awt.Font)
+     */
+    @Override
+    public void setFont(Font f) {
+        super.setFont(f);
+    }
 
-	/**
-	 * @return the maxWidth
-	 */
-	public int getMaxWidth() {
-		maxWidth = this.getColumns() * this.getFont().getSize();
-		return maxWidth;
-	}
+    /**
+     * @return the maxWidth
+     */
+    public int getMaxWidth() {
+        maxWidth = this.getColumns() * this.getFont().getSize();
+        return maxWidth;
+    }
 
-	/**
-	 * @param maxWidth the maxWidth to set
-	 */
-	public void setMaxWidth(int maxWidth) {
-		this.maxWidth = maxWidth;
-	}
+    /**
+     * @param maxWidth the maxWidth to set
+     */
+    public void setMaxWidth(int maxWidth) {
+        this.maxWidth = maxWidth;
+    }
 
-	/*＊
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
-	@Override
-	protected void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		Color color = g2.getColor();
-		g2.setColor(Color.BLUE);
-		g2.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
-		Font font = this.getFont();
-		int fontSize = font.getSize();
-		fontSize = (int) (fontSize * 0.66);
-		int width = this.getWidth();
-		for(int i = width, cnt = 0; i >= 0; i -= fontSize, cnt ++) {
-			if (cnt % 10 == 0) {
-				g2.drawLine(i, getHeight() - 15, i, getHeight() - 2);
-			} else if (cnt % 5 == 0) {
-				g2.drawLine(i, getHeight() - 10, i, getHeight() - 2);
-			} else {
-				g2.drawLine(i, getHeight() - 5, i, getHeight() - 2);
-			}
-		}
-		g2.setColor(color);
+    /*＊
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        Color color = g2.getColor();
+        g2.setColor(Color.BLUE);
+        g2.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
+        Font font = this.getFont();
+        int fontSize = font.getSize();
+        fontSize = (int) (fontSize * 0.66);
+        int width = this.getWidth();
+        for(int i = width, cnt = 0; i >= 0; i -= fontSize, cnt ++) {
+            if (cnt % 10 == 0) {
+                g2.drawLine(i, getHeight() - 15, i, getHeight() - 2);
+            } else if (cnt % 5 == 0) {
+                g2.drawLine(i, getHeight() - 10, i, getHeight() - 2);
+            } else {
+                g2.drawLine(i, getHeight() - 5, i, getHeight() - 2);
+            }
+        }
+        g2.setColor(color);
 
-		if (this.mem != null && this.mem.length() > 0) {
-			Color color2 = g2.getColor();
-			g2.setColor(Color.GRAY);
-			g2.drawString(this.mem, 30, 60);
-			g2.drawString("M", 1, 60);
-			g2.setColor(color2);
-		}
-		if (this.display == 1) {
-			Color color2 = g2.getColor();
-			g2.setColor(Color.GRAY);
-			g2.drawString("E", 1, 30);
-			g2.setColor(color2);
-		}
-		super.paintComponent(g);
-	}
+        if (this.mem != null && this.mem.length() > 0) {
+            Color color2 = g2.getColor();
+            g2.setColor(Color.GRAY);
+            g2.drawString(this.mem, 30, 60);
+            g2.drawString("M", 1, 60);
+            g2.setColor(color2);
+        }
+        if (this.display == 1) {
+            Color color2 = g2.getColor();
+            g2.setColor(Color.GRAY);
+            g2.drawString("E", 1, 30);
+            g2.setColor(color2);
+        }
+        super.paintComponent(g);
+    }
 
-	/**
-	 * @return the numberSystem
-	 */
-	public String getNumberSystem() {
-		return numberSystem;
-	}
+    /**
+     * @return the numberSystem
+     */
+    public String getNumberSystem() {
+        return numberSystem;
+    }
 
-	/**
-	 * @param numberSystem the numberSystem to set
-	 */
-	public void setNumberSystem(String numberSystem) {
-		this.numberSystem = numberSystem;
-	}
+    /**
+     * @param numberSystem the numberSystem to set
+     */
+    public void setNumberSystem(String numberSystem) {
+        this.numberSystem = numberSystem;
+    }
 
-	public String getMemory() {
-		return this.mem;
-	}
-	public void setMemory(String m) {
-		this.mem = m;
-	}
+    public String getMemory() {
+        return this.mem;
+    }
+    public void setMemory(String m) {
+        this.mem = m;
+    }
 
-	/**
-	 * @return the display
-	 */
-	public int getDisplay() {
-		return display;
-	}
+    /**
+     * @return the display
+     */
+    public int getDisplay() {
+        return display;
+    }
 
-	/**
-	 * @param display the display to set
-	 */
-	public void setDisplay(int display) {
-		this.display = display;
-	}
+    /**
+     * @param display the display to set
+     */
+    public void setDisplay(int display) {
+        this.display = display;
+    }
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3) {  
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON3) {  
             copy.setEnabled(isCanCopy());  
             paste.setEnabled(isClipboardString());  
             cut.setEnabled(isCanCopy());  
             pop.show(this, e.getX(), e.getY());  
         }
-	}
+    }
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-	
-	  
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+    
+      
     /** 
      * 剪切板中是否有文本数据可供粘贴 
      *  
