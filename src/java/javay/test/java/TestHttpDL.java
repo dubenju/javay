@@ -42,7 +42,7 @@ public class TestHttpDL {
 	       } catch (MalformedURLException e1) {  
 	    	   e1.printStackTrace();  
 	    	   return false;  
-	       }  
+	       }
 	  
 	       try {  
 	           URLConnection conn = url.openConnection();  
