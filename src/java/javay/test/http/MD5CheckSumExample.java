@@ -8,7 +8,7 @@ public class MD5CheckSumExample
     public static void main(String[] args)throws Exception
     {
         MessageDigest md = MessageDigest.getInstance("MD5");
-        FileInputStream fis = new FileInputStream("c:\\loging.log");
+        FileInputStream fis = new FileInputStream("./build/javay.tar.gz");
         
         byte[] dataBytes = new byte[1024];
      
@@ -16,6 +16,7 @@ public class MD5CheckSumExample
         while ((nread = fis.read(dataBytes)) != -1) {
           md.update(dataBytes, 0, nread);
         };
+        fis.close();
         byte[] mdbytes = md.digest();
      
         //convert the byte to hex format method 1

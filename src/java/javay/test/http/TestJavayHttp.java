@@ -10,7 +10,7 @@ public class TestJavayHttp {
 		//url = "http://raw.githubusercontent.com/dubenju/javay/master/ReleaseNotes.txt"; // NG
 		//url = "https://github.com/dubenju/javay/raw/master/ReleaseNotes.txt"; // 速度慢有停顿
 		JavayHttp http = new JavayHttp(url);
-		System.out.println("@test:" + http.getVersion());
+		System.out.println("@test:" + http.getInfo(":"));
 		
 		url = "https://github.com/dubenju/javay/raw/master/lib/slf4j-1.7.13.tar.gz";
 		http = new JavayHttp(url);
