@@ -1,26 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="HelloWorld" default="run" basedir=".">
-<property name="src" value="src"/>
-<property name="dest" value="classes"/>
-<property name="hello_jar" value="hello1.jar"/>
-<target name="init">
-   <mkdir dir="${dest}"/>
-</target>
-<target name="compile" depends="init">
-   <javac srcdir="${src}" destdir="${dest}"/>
-</target>
-<target name="build" depends="compile">
-   <jar jarfile="${hello_jar}" basedir="${dest}"/>
-</target>
-<target name="run" depends="build">
-   <java classname="test.ant.HelloWorld" classpath="${hello_jar}"/>
-</target>
-<target name="clean">
-   <delete dir="${dest}" />
-   <delete file="${hello_jar}" />
-</target>
-<target name="rerun" depends="clean,run">
-   <ant target="clean" />
-   <ant target="run" />
-</target>
+<project name="javay" default="run" basedir=".">
+
+  <!-- Build classpath -->
+  <path id="classpath">
+    <fileset dir="../lib">
+      <include name="**/*.jar"/>
+      <exclude name="**/junit-*.jar"/>
+    </fileset>
+  </path>
+
+  <property file="build.properties"/>
+  <property name="build.properties" value="build.properties"/>
+
+  <! -- <property name="src" value="src"/>
+  <property name="dest" value="classes"/>
+  <property name="hello_jar" value="hello1.jar"/> -->
+
+  <target name="init">
+     <mkdir dir="${dest}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- M A K E -  C O M P I L E                                            -->
+  <!-- =================================================================== -->
+  <target name="compile" description="--> compiles the source code">
+    <javac srcdir="${src.dir}"
+      destdir="${build.dest}"
+      debug="${debug}"
+      deprecation="${deprecation}"
+      optimize="${optimize}"
+      encoding="UTF-8"
+      includeAntRuntime="false" >
+      <exclude name="parsii/**"/>
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- J A V A D O C                                                       -->
+  <!-- =================================================================== -->
+  <target name="javay-doc" depends="compile">
+        <javadoc destdir="${doc.dir}" windowtitle="Encoding Conversion's Document"
+            use="yes" linksource="true" splitindex="yes" encoding="UTF-8"
+            docencoding="UTF-8">
+            <classpath refid="classpath" />
+            <packageset dir="${src.dir}" defaultexcludes="yes">
+            </packageset>
+        </javadoc>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- M A K E - J A R                                                     -->
+  <!-- =================================================================== -->
+  <target name="javay-jar" depends="compile">
+    <jar jarfile="./javay-0.0.1.jar"
+      basedir="${build.dest}"
+      includes="**"
+    />
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- C L E A N                                                           -->
+  <!-- =================================================================== -->
+  <target name="clean" description="--> cleans up the build directory">
+    <delete dir="${build.dest}"/>
+    <mkdir  dir="${build.dest}"/>
+  </target>
+
+  <target name="run" depends="build">
+     <java classname="test.ant.HelloWorld" classpath="${hello_jar}"/>
+  </target>
+  <target name="rerun" depends="clean,run">
+     <ant target="clean" />
+     <ant target="run" />
+  </target>
 </project>
