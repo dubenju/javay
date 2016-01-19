@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dbjcalc>
-  
+    <calcultor>
+    </calcultor>
+    <log>
+    </log>
+    <autoUpdate>
+        <isAutoUpdate>true</isAutoUpdate>
+        <website>
+          <name>github</name>
+          <address></address>
+        </website>
+        <website>
+          <name>sourceforge</name>
+          <address></address>
+        </website>
+        <website>
+          <name>开源中国社区</name>
+          <address></address>
+        </website>
+    </autoUpdate>
 </dbjcalc>
