@@ -71,6 +71,7 @@ public class CalcultorFrame extends JFrame {
            } 
         }); 
 
+        JSettingDlg settingDlg = new JSettingDlg(this);
         menuFile.add(menuFileExit);
         menuBar.add(menuFile);
 
@@ -83,8 +84,13 @@ public class CalcultorFrame extends JFrame {
         menuEdit.add(menuEditPaste);
         menuBar.add(menuEdit);
 
-        JMenu menuView = new JMenu("视图");
+        JMenu menuView = new JMenu("设置");
         JMenuItem options = new JMenuItem("选项",KeyEvent.VK_O);
+        options.addActionListener(new ActionListener(){ 
+            public void actionPerformed(ActionEvent e){ 
+            	settingDlg.setVisible(true); 
+            } 
+           });
         menuView.add(options);
         menuBar.add(menuView);
 

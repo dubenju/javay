@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>这个是module标签的文本信息<module><name language="java">名称</name><value language="c#">值</value><description language="sql server">描述</description></module></modules>
