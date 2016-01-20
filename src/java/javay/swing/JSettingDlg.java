@@ -19,6 +19,7 @@ import javax.xml.bind.JAXB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javay.main.Launcher;
 import javay.xml.Dbjcalc;
 import javay.xml.Website;
 
@@ -34,18 +35,7 @@ public class JSettingDlg extends JDialog  implements ActionListener {
 	public JSettingDlg(JFrame frame){
         super(frame, "第一个JDialog窗体", true);//实例化一个JDialog类对象，指定对话框的父窗体、标题、类型
         log.debug("----- begin -----");
-        InputStream inStream = null;
-		try {
-			inStream = new     FileInputStream("./conf/dbjcalc.xml");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-        conf = javax.xml.bind.JAXB.unmarshal(inStream, Dbjcalc.class);
-        try {
-			inStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        this.conf = Launcher.getConf();
 
         Container container = getContentPane();//创建一个容器
         container.setLayout(null);
@@ -85,19 +75,7 @@ public class JSettingDlg extends JDialog  implements ActionListener {
 				}
 			}
 			this.conf.getAutoUpdate().setRetry(Integer.parseInt(this.tabp.retry.getText()));
-			FileOutputStream fs = null;
-			try {
-				fs     =     new     FileOutputStream("./conf/dbjcalc.xml");
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-			}
-			JAXB.marshal(this.conf, fs);
-			try {
-				fs.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			Launcher.saveConf(this.conf);
 		}
 	}
 }
