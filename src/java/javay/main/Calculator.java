@@ -26,6 +26,7 @@ public class Calculator {
      */
     public static void main(String[] args) {
         log.debug("----- begin -----");
+        // -Dlogback.configurationFile=conf/logback.xml
         // create application frame
         CalcultorFrame frame = new CalcultorFrame();
         frame.setIconImage(LOG);

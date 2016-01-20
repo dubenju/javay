@@ -15,10 +15,17 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javay.xml.Dbjcalc;
+import javay.xml.Website;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.List;
 
 public class TabbedPanel extends JPanel {
     /**
@@ -26,9 +33,16 @@ public class TabbedPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(TabbedPanel.class);
-	public TabbedPanel() {
+    private Dbjcalc conf;
+    
+    JCheckBox autoUpdate = new JCheckBox("是否自动更新");
+    JComboBox<String> comboBox=new JComboBox<String>();
+    JTextField retry = new JTextField(2);
+
+	public TabbedPanel(Dbjcalc conf) {
         super(new GridLayout(1, 1));
         log.debug("----- begin -----");
+        this.conf = conf;
         JTabbedPane tabbedPane = new JTabbedPane();
 //        ImageIcon icon = createImageIcon("images/middle.gif");
         ImageIcon icon = null;
@@ -91,26 +105,35 @@ public class TabbedPanel extends JPanel {
         filler.setHorizontalAlignment(JLabel.LEFT);
         filler.setBounds(10, 10, 120, 20);
 
-        JCheckBox autoUpdate = new JCheckBox("是否自动更新");
+
         autoUpdate.setBounds(10, 30, 120, 20);
+        autoUpdate.setSelected(this.conf.getAutoUpdate().getisAutoUpdate());
 
         JLabel label = new JLabel("下载网站：");
         label.setHorizontalAlignment(JLabel.LEFT);
         label.setBounds(10, 50, 120, 20);
 
-        JComboBox<String> comboBox=new JComboBox<String>();  
-        comboBox.addItem("github");
-        comboBox.addItem("sourceforge");
-        comboBox.addItem("OSChina");
+
+        List<Website> list = this.conf.getAutoUpdate().getWebsites();
+        int anIndex = -1, i = -1; 
+        for (Website site : list) {
+            comboBox.addItem(site.getName());
+            i ++;
+            if (site.isSelected()) {
+                anIndex = i;
+            }
+        }
+        comboBox.setSelectedIndex(anIndex);
         comboBox.setBounds(10, 70, 120, 20);
 
         JLabel label2 = new JLabel("最大重试回shu：");
         label2.setHorizontalAlignment(JLabel.LEFT);
         label2.setBounds(10, 90, 120, 20);
 
-        JTextField retry = new JTextField(2);
+
         retry.setHorizontalAlignment(JTextField.RIGHT);
         retry.setBounds(10, 110, 120, 20);
+        retry.setText(String.valueOf(this.conf.getAutoUpdate().getRetry()));
 
         panel.add(filler);
         panel.add(autoUpdate);
@@ -153,9 +176,15 @@ public class TabbedPanel extends JPanel {
         //Create and set up the window.
         JFrame frame = new JFrame("TabbedPaneDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        InputStream inStream = null;
+		try {
+			inStream = new     FileInputStream("./conf/dbjcalc.xml");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+        Dbjcalc conf = javax.xml.bind.JAXB.unmarshal(inStream, Dbjcalc.class);
         //Add content to the window.
-        frame.add(new TabbedPanel(), BorderLayout.CENTER);
+        frame.add(new TabbedPanel(conf), BorderLayout.CENTER);
 
         //Display the window.
         frame.pack();

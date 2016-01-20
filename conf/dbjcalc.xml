@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <dbjcalc>
-    <calcultor>
-    </calcultor>
-    <log>
-    </log>
+    <calcultor/>
     <autoUpdate>
-        <isAutoUpdate>true</isAutoUpdate>
-        <website>
-          <name>github</name>
-          <address></address>
-        </website>
-        <website>
-          <name>sourceforge</name>
-          <address></address>
-        </website>
-        <website>
-          <name>开源中国社区</name>
-          <address></address>
-        </website>
+        <isAutoUpdate>false</isAutoUpdate>
+        <websites>
+            <website isSelected="false">
+                <name>github</name>
+                <address>https://github.com/dubenju/javay/raw/master/build/javay-0.0.1.zip</address>
+            </website>
+            <website isSelected="false">
+                <name>sourceforge</name>
+                <address></address>
+            </website>
+            <website isSelected="true">
+                <name>开源中国社区</name>
+                <address></address>
+            </website>
+        </websites>
+        <retry>2</retry>
     </autoUpdate>
 </dbjcalc>
