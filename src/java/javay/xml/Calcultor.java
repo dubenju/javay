@@ -1,7 +1,10 @@
 package javay.xml;
 
+import javax.xml.bind.annotation.XmlType;
+
 import javay.math.BigNumRound;
 
+@XmlType(propOrder={"currentVersion", "decimalLength", "roundMode"})
 public class Calcultor {
 	private String currentVersion;
 	private int decimalLength;

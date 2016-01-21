@@ -6,11 +6,17 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javay.math.BigNumRound;
+
 public class JAXB {
 
 	public static void main(String[] args) {
 		Dbjcalc dbjcalc = new Dbjcalc();
 		Calcultor calc = new Calcultor();
+		calc.setCurrentVersion("dbjcalc-0.0.0");
+		calc.setDecimalLength(40);
+		calc.setRoundMode(BigNumRound.HALF_EVENT);
+		
 		AutoUpdate update = new AutoUpdate();
 		List<Website> websites = new ArrayList<Website>();
 		Website github = new Website();

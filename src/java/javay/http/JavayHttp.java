@@ -13,9 +13,14 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JavayHttp {
+	private static final Logger log = LoggerFactory.getLogger(JavayHttp.class);
 	private String urlAddr = "";
 	public JavayHttp(String url ) {
+		log.debug("url = " + url);
 		this.urlAddr = url;
 	}
 		
@@ -68,6 +73,14 @@ public class JavayHttp {
 							break;
 						}
 					}
+					int pos = strRes.indexOf(0x0A);
+					if (pos > 0) {
+						strRes = strRes.substring(0, pos);
+					}
+					pos = strRes.indexOf(0x0D);
+					if (pos > 0) {
+						strRes = strRes.substring(0, pos);
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -109,6 +122,14 @@ public class JavayHttp {
 							break;
 						}
 					}
+					int pos = strRes.indexOf(0x0A);
+					if (pos > 0) {
+						strRes = strRes.substring(0, pos);
+					}
+					pos = strRes.indexOf(0x0D);
+					if (pos > 0) {
+						strRes = strRes.substring(0, pos);
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -116,6 +137,7 @@ public class JavayHttp {
 			} else {
 				System.out.println("inStream is null.");
 			}
+			log.debug("out=" + strRes);
 			return strRes;
 		}
 		return strRes;
@@ -130,6 +152,7 @@ public class JavayHttp {
 		long filesize = 0;
 		URL url = null;
 		try {
+			log.debug("url=" + this.urlAddr);
 			url = new URL(this.urlAddr);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -151,6 +174,10 @@ public class JavayHttp {
 				System.out.println("responseCode=" + responseCode);
 			} catch (IOException e1) {
 				e1.printStackTrace();
+			}
+			if (responseCode != 200) {
+				log.debug("ResponseCode=" + responseCode);
+				return bRes;
 			}
 			System.out.println(" " + httpsURLConnection.getContentLengthLong());
 			System.out.println(" " + httpsURLConnection.getHeaderField("Content-Length"));
@@ -210,6 +237,10 @@ public class JavayHttp {
 				System.out.println("responseCode=" + responseCode);
 			} catch (IOException e1) {
 				e1.printStackTrace();
+			}
+			if (responseCode != 200) {
+				log.debug("ResponseCode=" + responseCode);
+				return bRes;
 			}
 			System.out.println(" " + httpURLConnection.getContentLengthLong());
 			System.out.println(" " + httpURLConnection.getHeaderField("Content-Length"));

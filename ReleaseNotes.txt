@@ -1,2 +1,3 @@
+Current Version:javay-0.0.1
 Current Version:dbjcalc-0.0.1
 

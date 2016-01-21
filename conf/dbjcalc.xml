@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <dbjcalc>
-    <calcultor/>
+    <calcultor>
+        <currentVersion>dbjcalc-0.0.0</currentVersion>
+        <decimalLength>40</decimalLength>
+        <roundMode>HALF_EVENT</roundMode>
+    </calcultor>
     <autoUpdate>
         <isAutoUpdate>true</isAutoUpdate>
         <websites>

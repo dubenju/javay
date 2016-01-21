@@ -54,16 +54,16 @@ public class Launcher {
 					while(i < max) {
 						i ++;
 						// 下载新版本
-						http = new JavayHttp(url + "build/javay-0.0.1.zip");
+						http = new JavayHttp(url + "build/" + nextVer + ".zip");
 						// 检查下载内容
-						boolean res = http.getModule("./tmp/javay-0.0.1.zip");
+						boolean res = http.getModule("./tmp/" + nextVer + ".zip");
 						if (res) {
 							// 解压
 							UnpackZip unpackZip = new UnpackZip();
-							unpackZip.unpack("./tmp/javay-0.0.1.zip", "./tmp", "");
+							unpackZip.unpack("./tmp/" + nextVer + ".zip", "./tmp", "");
 							// jar更新
-							UFile.copyFile("./tmp/javay-0.0.1.jar", "./lib/javay-0.0.1.jar");
-							UFile.removeFile("./tmp/javay-0.0.1.jar");
+							UFile.copyFile("./tmp/" + nextVer + ".jar", "./lib/" + nextVer + ".jar");
+							UFile.removeFile("./tmp/" + nextVer + ".jar");
 
 							// 配置文件更新
 							conf.getCalcultor().setCurrentVersion(nextVer);
