@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.bind.JAXB;
 
@@ -12,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javay.http.JavayHttp;
+import javay.util.UFile;
 import javay.xml.Dbjcalc;
+import javay.xml.Website;
 import javay.zip.UnpackZip;
 
 public class Launcher {
@@ -31,26 +34,42 @@ public class Launcher {
 		if (conf.getAutoUpdate().getisAutoUpdate()) {
 			// 检查版本
 			String curVer = conf.getCalcultor().getCurrentVersion();
-			JavayHttp http = new JavayHttp("https://raw.githubusercontent.com/dubenju/javay/master/ReleaseNotes.txt");
-			String nextVer = http.getInfo(":");
-			if (curVer.compareTo(nextVer) < 0) {
-				int max = conf.getAutoUpdate().getRetry();
-				int i = 0;
-				while(i < max) {
-					i ++;
-					// 下载新版本
-					http = new JavayHttp("https://github.com/dubenju/javay/raw/master/lib/slf4j-1.7.13.tar.gz");
-					// 检查下载内容
-					boolean res = http.getModule("./tmp/slf4j-1.7.13.tar.gz");
-					if (res) {
-						// 解压
-						UnpackZip unpackZip = new UnpackZip();
-						unpackZip.unpack("./tmp/slf4j-1.7.13.tar.zip", "./tmp", "");
-						// jar更新
-						// 配置文件更新
-						conf.getCalcultor().setCurrentVersion(nextVer);
-						saveConf(conf);
-						break;
+			String url = "";
+			List<Website> list = conf.getAutoUpdate().getWebsites();
+			for (Website site : list) {
+				if (site.isSelected()) {
+					url = site.getAddress();
+					break;
+				}
+			}
+			log.debug("当前版本："+ curVer + ",地址：" + url);
+			if (url.length() > 0) {
+				JavayHttp http = new JavayHttp(url + "ReleaseNotes.txt");
+				String nextVer = http.getInfo(":");
+				log.debug("版本：" + nextVer);
+				if (curVer.compareTo(nextVer) < 0) {
+					int max = conf.getAutoUpdate().getRetry();
+					log.debug("max：" + max);
+					int i = 0;
+					while(i < max) {
+						i ++;
+						// 下载新版本
+						http = new JavayHttp(url + "build/javay-0.0.1.zip");
+						// 检查下载内容
+						boolean res = http.getModule("./tmp/javay-0.0.1.zip");
+						if (res) {
+							// 解压
+							UnpackZip unpackZip = new UnpackZip();
+							unpackZip.unpack("./tmp/javay-0.0.1.zip", "./tmp", "");
+							// jar更新
+							UFile.copyFile("./tmp/javay-0.0.1.jar", "./lib/javay-0.0.1.jar");
+							UFile.removeFile("./tmp/javay-0.0.1.jar");
+
+							// 配置文件更新
+							conf.getCalcultor().setCurrentVersion(nextVer);
+							saveConf(conf);
+							break;
+						}
 					}
 				}
 			}
@@ -58,7 +77,7 @@ public class Launcher {
 		// 启动
 		log.debug("-----   end -----");
 	}
-	
+
 	public static Dbjcalc getConf() {
 		log.debug("----- begin -----");
 		Dbjcalc conf = null;

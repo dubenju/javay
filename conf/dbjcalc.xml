@@ -2,17 +2,17 @@
 <dbjcalc>
     <calcultor/>
     <autoUpdate>
-        <isAutoUpdate>false</isAutoUpdate>
+        <isAutoUpdate>true</isAutoUpdate>
         <websites>
-            <website isSelected="false">
+            <website isSelected="true">
                 <name>github</name>
-                <address>https://github.com/dubenju/javay/raw/master/build/javay-0.0.1.zip</address>
+                <address>https://raw.githubusercontent.com/dubenju/javay/master/</address>
             </website>
             <website isSelected="false">
                 <name>sourceforge</name>
                 <address></address>
             </website>
-            <website isSelected="true">
+            <website isSelected="false">
                 <name>开源中国社区</name>
                 <address></address>
             </website>
