@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.xml.bind.JAXB;
 
 import org.slf4j.Logger;
@@ -64,6 +66,7 @@ public class Launcher {
 							// jar更新
 							UFile.copyFile("./tmp/" + nextVer + ".jar", "./lib/" + nextVer + ".jar");
 							UFile.removeFile("./tmp/" + nextVer + ".jar");
+							UFile.removeFile("./tmp/" + nextVer + ".zip");
 
 							// 配置文件更新
 							conf.getCalcultor().setCurrentVersion(nextVer);
@@ -75,6 +78,7 @@ public class Launcher {
 			}
 		}
 		// 启动
+		SwingUtilities.invokeLater(()->{UIManager.put("swing.boldMetal", Boolean.FALSE);Calculator.createAndShowGUI();});
 		log.debug("-----   end -----");
 	}
 

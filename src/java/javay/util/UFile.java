@@ -7,9 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class UFile {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class UFile {
+	private static final Logger log = LoggerFactory.getLogger(UFile.class);
 	public static boolean copyFile(String in, String out) {
+		log.info("copy " + in + " to " + out);
         int bytesum = 0;
         int byteread = 0;
         boolean bRes = false;
@@ -32,16 +36,18 @@ public class UFile {
 		} finally {
 
         }
-
+        log.info("copy " + in + " to " + out + " : " + (bRes ? "成功" : "失败"));
         return bRes;
 	}
 	public static boolean removeFile(String in) {
+        log.info("delete " + in);
 		boolean bRes = false;
 		File file = new File(in);
         if(file.isFile() && file.exists()){
             file.delete();
         }
         bRes = true;
+        log.info("delete " + in + " : " + (bRes ? "成功" : "失败"));
         return bRes;
 	}
 }

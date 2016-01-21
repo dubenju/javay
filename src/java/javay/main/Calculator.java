@@ -27,6 +27,10 @@ public class Calculator {
     public static void main(String[] args) {
         log.debug("----- begin -----");
         // -Dlogback.configurationFile=conf/logback.xml
+        createAndShowGUI();
+        log.debug("-----   end -----");
+    }
+    public static void createAndShowGUI() {
         // create application frame
         CalcultorFrame frame = new CalcultorFrame();
         frame.setIconImage(LOG);
@@ -41,6 +45,5 @@ public class Calculator {
 
         frame.setResizable(false);
         frame.setVisible(true);
-        log.debug("-----   end -----");
     }
 }

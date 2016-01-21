@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <dbjcalc>
     <calcultor>
-        <currentVersion>dbjcalc-0.0.0</currentVersion>
+        <currentVersion>javay-0.0.1</currentVersion>
         <decimalLength>40</decimalLength>
         <roundMode>HALF_EVENT</roundMode>
     </calcultor>
