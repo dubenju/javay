@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/zip4j_1.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j-2.0.0-RC1.jar" sourcepath="lib/dom4j-2.0.0-RC1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/jdom-2.0.6.jar"/>
+	<classpathentry kind="lib" path="lib/mail-1.4.5.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

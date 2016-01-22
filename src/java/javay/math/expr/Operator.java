@@ -18,90 +18,90 @@ public class Operator {
         this.opcb = callback;
     }
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append(this.operator);
-//		buf.append("<");
-//		buf.append(this.priority);
-//		buf.append(this.arity);
-//		buf.append(this.direction);
-//		buf.append(">");
-		return buf.toString();
-	}
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append(this.operator);
+//        buf.append("<");
+//        buf.append(this.priority);
+//        buf.append(this.arity);
+//        buf.append(this.direction);
+//        buf.append(">");
+        return buf.toString();
+    }
 
-	/**
-	 * @return the operator
-	 */
-	public String getOperator() {
-		return operator;
-	}
+    /**
+     * @return the operator
+     */
+    public String getOperator() {
+        return operator;
+    }
 
-	/**
-	 * @param operator the operator to set
-	 */
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
+    /**
+     * @param operator the operator to set
+     */
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
 
-	/**
-	 * 优先级
-	 * @return the priority
-	 */
-	public int getPriority() {
-		return priority;
-	}
+    /**
+     * 优先级
+     * @return the priority
+     */
+    public int getPriority() {
+        return priority;
+    }
 
-	/**
-	 * 优先级
-	 * @param priority the priority to set
-	 */
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
+    /**
+     * 优先级
+     * @param priority the priority to set
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 
-	/**
-	 * @return the arity
-	 */
-	public int getArity() {
-		return arity;
-	}
+    /**
+     * @return the arity
+     */
+    public int getArity() {
+        return arity;
+    }
 
-	/**
-	 * @param arity the arity to set
-	 */
-	public void setArity(int arity) {
-		this.arity = arity;
-	}
+    /**
+     * @param arity the arity to set
+     */
+    public void setArity(int arity) {
+        this.arity = arity;
+    }
 
-	/**
-	 * @return the direction
-	 */
-	public int getDirection() {
-		return direction;
-	}
+    /**
+     * @return the direction
+     */
+    public int getDirection() {
+        return direction;
+    }
 
-	/**
-	 * @param direction the direction to set
-	 */
-	public void setDirection(int direction) {
-		this.direction = direction;
-	}
+    /**
+     * @param direction the direction to set
+     */
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
 
-	/**
-	 * @return the opcb
-	 */
-	public BigNumCallBack getOpcb() {
-		return opcb;
-	}
+    /**
+     * @return the opcb
+     */
+    public BigNumCallBack getOpcb() {
+        return opcb;
+    }
 
-	/**
-	 * @param opcb the opcb to set
-	 */
-	public void setOpcb(BigNumCallBack opcb) {
-		this.opcb = opcb;
-	}
+    /**
+     * @param opcb the opcb to set
+     */
+    public void setOpcb(BigNumCallBack opcb) {
+        this.opcb = opcb;
+    }
 }

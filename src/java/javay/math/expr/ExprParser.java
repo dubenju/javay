@@ -23,87 +23,87 @@ public class ExprParser {
             System.out.print("{" + ch + "}");
             if ('0' <= ch && ch <= '9' || ch == '.') {
                 // number
-            	if (stat != 1) {
-            		// refresh operator
-            		if (buf != null) {
-            			// tokens.append(buf.toString());
-            			tokenOperate(tokens, buf.toString());
-            			System.out.println(stat + "[OPRa]" + buf.toString());
-            		}
-            		buf = null;
-            		stat = 1;
-            	}
-            	if (buf == null) {
-            		buf = new StringBuffer();
-            	}
-            	buf.append(ch);
+                if (stat != 1) {
+                    // refresh operator
+                    if (buf != null) {
+                        // tokens.append(buf.toString());
+                        tokenOperate(tokens, buf.toString());
+                        System.out.println(stat + "[OPRa]" + buf.toString());
+                    }
+                    buf = null;
+                    stat = 1;
+                }
+                if (buf == null) {
+                    buf = new StringBuffer();
+                }
+                buf.append(ch);
             } else if (Character.isWhitespace(ch)) {
                 // skip
-            	if (stat == 1) {
-            		// refresh number
-            		if (buf != null) {
-            			// tokens.append(buf.toString());
-            			tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
-            			System.out.println(stat + "[NUMa]" + buf.toString());
-            		}
-            		buf = null;
-            	}
-            	if (stat == 2) {
-            		// refresh operator
-            		if (buf != null) {
-            			// tokens.append(buf.toString());
-            			tokenOperate(tokens, buf.toString());
-            			System.out.println(stat + "[OPRb]" + buf.toString());
-            		}
-            		buf = null;
-            	}
-            	stat = 0;
-            	continue;
+                if (stat == 1) {
+                    // refresh number
+                    if (buf != null) {
+                        // tokens.append(buf.toString());
+                        tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
+                        System.out.println(stat + "[NUMa]" + buf.toString());
+                    }
+                    buf = null;
+                }
+                if (stat == 2) {
+                    // refresh operator
+                    if (buf != null) {
+                        // tokens.append(buf.toString());
+                        tokenOperate(tokens, buf.toString());
+                        System.out.println(stat + "[OPRb]" + buf.toString());
+                    }
+                    buf = null;
+                }
+                stat = 0;
+                continue;
             } else {
                 // operator
-            	if (stat != 2) {
-            		// refresh number
-            		if (buf != null) {
-            			// tokens.append(buf.toString());
-            			tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
-            			System.out.println(stat + "[NUMb]" + buf.toString());
-            		}
-            		buf = null;
-            		stat = 2;
-            	} else {
-            		if (ExprConts.OPERATOR_CHARS.indexOf(ch) >= 0) {
-            			// refresh operator
-                		if (buf != null) {
-                			// tokens.append(buf.toString());
-                			tokenOperate(tokens, buf.toString());
-                			System.out.println(stat + "[OPRd]" + buf.toString());
-                		}
-                		buf = null;
-            		}
-            	}
-            	if (buf == null) {
-            		buf = new StringBuffer();
-            	}
-            	if (buf.length() == 1 && ExprConts.OPERATOR_CHARS.indexOf(buf.toString()) >= 0) {
-            		//tokens.append(buf.toString());
-            		tokenOperate(tokens, buf.toString());
-            		System.out.println(stat + "[OPRe]" + buf.toString());
-            		buf = new StringBuffer();
-            	}
-            	buf.append(ch);
+                if (stat != 2) {
+                    // refresh number
+                    if (buf != null) {
+                        // tokens.append(buf.toString());
+                        tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
+                        System.out.println(stat + "[NUMb]" + buf.toString());
+                    }
+                    buf = null;
+                    stat = 2;
+                } else {
+                    if (ExprConts.OPERATOR_CHARS.indexOf(ch) >= 0) {
+                        // refresh operator
+                        if (buf != null) {
+                            // tokens.append(buf.toString());
+                            tokenOperate(tokens, buf.toString());
+                            System.out.println(stat + "[OPRd]" + buf.toString());
+                        }
+                        buf = null;
+                    }
+                }
+                if (buf == null) {
+                    buf = new StringBuffer();
+                }
+                if (buf.length() == 1 && ExprConts.OPERATOR_CHARS.indexOf(buf.toString()) >= 0) {
+                    //tokens.append(buf.toString());
+                    tokenOperate(tokens, buf.toString());
+                    System.out.println(stat + "[OPRe]" + buf.toString());
+                    buf = new StringBuffer();
+                }
+                buf.append(ch);
             }
         } //for
         if (buf != null) {
-        	if (stat == 1) {
-        		// tokens.append(buf.toString());
-        		tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
-        		System.out.println(stat + "[NUMc]" + buf.toString());
-        	}
-        	if (stat == 2) {
-        		// tokens.append(buf.toString());
-        		tokenOperate(tokens, buf.toString());
-        		System.out.println(stat + "[OPRc]" + buf.toString());
-        	}
+            if (stat == 1) {
+                // tokens.append(buf.toString());
+                tokens.add(new Token(TokenType.NUMBER__, buf.toString()));
+                System.out.println(stat + "[NUMc]" + buf.toString());
+            }
+            if (stat == 2) {
+                // tokens.append(buf.toString());
+                tokenOperate(tokens, buf.toString());
+                System.out.println(stat + "[OPRc]" + buf.toString());
+            }
         }//if
         System.out.println(tokens.toString());
         return tokens;
@@ -116,13 +116,13 @@ public class ExprParser {
      * @throws ExprException
      */
     public static void tokenOperate(List<Token> tokens, String key) throws ExprException {
-    	if (Operators.isExist(key)) {
-    		tokens.add(new Token(TokenType.OPERATOR, key));
-    	} else if (Variables.isExist(key)) {
-    		tokens.add(new Token(TokenType.VARIABLE, key));
-    	} else {
-    		throw new ExprException("不能被识别的记号。[" + key + "]");
-    	}
+        if (Operators.isExist(key)) {
+            tokens.add(new Token(TokenType.OPERATOR, key));
+        } else if (Variables.isExist(key)) {
+            tokens.add(new Token(TokenType.VARIABLE, key));
+        } else {
+            throw new ExprException("不能被识别的记号。[" + key + "]");
+        }
     }
     /**
      * 获取中缀表达式
@@ -141,239 +141,239 @@ public class ExprParser {
 
         int listSize = list.size();
         for(int i = pos; i < listSize; i ++) {
-        	Token token = list.get(i);
-        	System.out.println(i + ":" + token + stkExpr.toString() + ":" + stkOp.toString());
+            Token token = list.get(i);
+            System.out.println(i + ":" + token + stkExpr.toString() + ":" + stkOp.toString());
             if (TokenType.OPERATOR.equals(token.getType())) {
-            	// 操作符的时候
-            	String operate = token.getToken();
-            	if (ExprConts.ADD.equals(operate) || ExprConts.SUB.equals(operate)) {
-            		// 对正负号的预处理
-            		Token preToken = null;
-            		if ((i - 1) >= 0) {
-            			preToken = list.get(i - 1);
-            		}
-            		if (preToken == null) {
-            			operate = operate + ":";
-            		} else if (TokenType.OPERATOR.equals(preToken.getType())) {
-            			// 前面的操作符
-            			String preOperate = preToken.getToken();
-            			if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
-            				// 当前面的操作符不是%!)的时候，+/-是正负号。
-            				operate = operate + ":";
-            			}
-            		}
-            	}
-            	if (ExprConts.LEFT.equals(operate)) {
-            		// (的时候
-            		subList = new ArrayList<Token>();
-            		stkLeft.push(token);
-            		i++;
-            		while(stkLeft.size() > 0 && i < listSize) {
-            			// 当一直存在的时候
-            			Token token2 = list.get(i);
-            			if (ExprConts.LEFT.equals(token2.getToken())) {
-            				stkLeft.push(token2);
-            			}
-            			if (ExprConts.RIGHT.equals(token2.getToken())) {
-            				stkLeft.pop();
-            				if (stkLeft.size() <= 0) {
-            					break;
-            				}
-            			}
-            			subList.add(token2);
-            			i ++;
-            		}
-            		System.out.println("()" + subList + ",i=" + i);
-            		Expression exprLeft = toExprFromInfix(subList, 0);
-            		System.out.println("()" + exprLeft);
+                // 操作符的时候
+                String operate = token.getToken();
+                if (ExprConts.ADD.equals(operate) || ExprConts.SUB.equals(operate)) {
+                    // 对正负号的预处理
+                    Token preToken = null;
+                    if ((i - 1) >= 0) {
+                        preToken = list.get(i - 1);
+                    }
+                    if (preToken == null) {
+                        operate = operate + ":";
+                    } else if (TokenType.OPERATOR.equals(preToken.getType())) {
+                        // 前面的操作符
+                        String preOperate = preToken.getToken();
+                        if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
+                            // 当前面的操作符不是%!)的时候，+/-是正负号。
+                            operate = operate + ":";
+                        }
+                    }
+                }
+                if (ExprConts.LEFT.equals(operate)) {
+                    // (的时候
+                    subList = new ArrayList<Token>();
+                    stkLeft.push(token);
+                    i++;
+                    while(stkLeft.size() > 0 && i < listSize) {
+                        // 当一直存在的时候
+                        Token token2 = list.get(i);
+                        if (ExprConts.LEFT.equals(token2.getToken())) {
+                            stkLeft.push(token2);
+                        }
+                        if (ExprConts.RIGHT.equals(token2.getToken())) {
+                            stkLeft.pop();
+                            if (stkLeft.size() <= 0) {
+                                break;
+                            }
+                        }
+                        subList.add(token2);
+                        i ++;
+                    }
+                    System.out.println("()" + subList + ",i=" + i);
+                    Expression exprLeft = toExprFromInfix(subList, 0);
+                    System.out.println("()" + exprLeft);
 
-                	Operator optRight = null;
-                	if ((i + 1 ) < listSize) {
-                		Token tokenNext = list.get(i + 1);
-                		if (TokenType.OPERATOR.equals(tokenNext.getType())) {
-                			optRight = Operators.getOperator(tokenNext.getToken());
-                		}
-                	}
-                	res = setExpr(stkOp, exprLeft, optRight, stkExpr);
-                	System.out.println("res=" + res);
-                	stkExpr.push(res);
+                    Operator optRight = null;
+                    if ((i + 1 ) < listSize) {
+                        Token tokenNext = list.get(i + 1);
+                        if (TokenType.OPERATOR.equals(tokenNext.getType())) {
+                            optRight = Operators.getOperator(tokenNext.getToken());
+                        }
+                    }
+                    res = setExpr(stkOp, exprLeft, optRight, stkExpr);
+                    System.out.println("res=" + res);
+                    stkExpr.push(res);
 
-                	// 中止当前的处理，继续下一个元素的处理。
-            		continue;
-            	}
-            	Operator op = Operators.getOperator(operate);
-            	int optPri = -1;
-            	int optArity = op.getArity();
-            	if (optArity == 2) {
-            		optPri = op.getPriority();
-            	}
-            	if (optArity == 1) {
-            		int optDir = op.getDirection();
-            		if (optDir == -1) {
-            			optPri = op.getPriority();
-            		} else {
-            			stkExpr.push(ExprParser.makeExpression(op, null));
-            		}
-            	}
-            	if (optPri > -1) {
-            		Expression left = stkExpr.pop();
-            		Expression newExpr = ExprParser.makeExpression(op, left);
-            		if (newExpr != null) {
-	            		if (res == left) {
-	            			res = newExpr;
-	            		}
-	            		stkExpr.push(newExpr);
-            		} else {
-            			throw new ExprException("Error");
-            		}
-            	}
-            	stkOp.push(op);
+                    // 中止当前的处理，继续下一个元素的处理。
+                    continue;
+                }
+                Operator op = Operators.getOperator(operate);
+                int optPri = -1;
+                int optArity = op.getArity();
+                if (optArity == 2) {
+                    optPri = op.getPriority();
+                }
+                if (optArity == 1) {
+                    int optDir = op.getDirection();
+                    if (optDir == -1) {
+                        optPri = op.getPriority();
+                    } else {
+                        stkExpr.push(ExprParser.makeExpression(op, null));
+                    }
+                }
+                if (optPri > -1) {
+                    Expression left = stkExpr.pop();
+                    Expression newExpr = ExprParser.makeExpression(op, left);
+                    if (newExpr != null) {
+                        if (res == left) {
+                            res = newExpr;
+                        }
+                        stkExpr.push(newExpr);
+                    } else {
+                        throw new ExprException("Error");
+                    }
+                }
+                stkOp.push(op);
             }
             if (!TokenType.OPERATOR.equals(token.getType())) {
-            	// 操作数或变量的时候
-            	Expression exprN = ExprParser.makeExpressionN(token);
-            	if (TokenType.VARIABLE.equals(token.getType())) {
-            		exprN = Variables.getVariable(token.getToken());
-            	}
-            	if (res == null) {
-            		res = exprN;
-            	}
-            	Operator optRight = null;
-            	if ((i + 1 ) < listSize) {
-            		Token tokenNext = list.get(i + 1);
-            		if (TokenType.OPERATOR.equals(tokenNext.getType())) {
-            			optRight = Operators.getOperator(tokenNext.getToken());
-            		}
-            	}
-            	res = setExpr(stkOp, exprN, optRight, stkExpr);
-            	System.out.println("res=" + res);
-            	stkExpr.push(res);
+                // 操作数或变量的时候
+                Expression exprN = ExprParser.makeExpressionN(token);
+                if (TokenType.VARIABLE.equals(token.getType())) {
+                    exprN = Variables.getVariable(token.getToken());
+                }
+                if (res == null) {
+                    res = exprN;
+                }
+                Operator optRight = null;
+                if ((i + 1 ) < listSize) {
+                    Token tokenNext = list.get(i + 1);
+                    if (TokenType.OPERATOR.equals(tokenNext.getType())) {
+                        optRight = Operators.getOperator(tokenNext.getToken());
+                    }
+                }
+                res = setExpr(stkOp, exprN, optRight, stkExpr);
+                System.out.println("res=" + res);
+                stkExpr.push(res);
             } // TokenType
         } // for
         return res;
     }
     protected static Expression setExpr(Stack<Operator> opLefts, Expression exprN,
-    	Operator opRight, Stack<Expression> stkExpr) throws ExprException {
-    	// 左操作符权限，不存在时为－1
-    	int optLePri = -1;
+        Operator opRight, Stack<Expression> stkExpr) throws ExprException {
+        // 左操作符权限，不存在时为－1
+        int optLePri = -1;
         if (opLefts.size() > 0) {
-        	Operator optLeft = opLefts.peek();
-        	int optLeArity = optLeft.getArity();
-        	if (optLeArity == 2) {
-        		// 二元操作符
-        		optLePri = optLeft.getPriority();
-        	}
-        	if (optLeArity == 1) {
-        		// 一元操作符
-        		int optLeDir = optLeft.getDirection();
-        		if (optLeDir == 1) {
-        			// 右结合
-        			optLePri = optLeft.getPriority();
-        		}
-        	}
+            Operator optLeft = opLefts.peek();
+            int optLeArity = optLeft.getArity();
+            if (optLeArity == 2) {
+                // 二元操作符
+                optLePri = optLeft.getPriority();
+            }
+            if (optLeArity == 1) {
+                // 一元操作符
+                int optLeDir = optLeft.getDirection();
+                if (optLeDir == 1) {
+                    // 右结合
+                    optLePri = optLeft.getPriority();
+                }
+            }
         }// 左操作符权限
 
         // 右操作符权限，不存在时为－1
         int optRiPri = -1;
         if (opRight != null) {
-        	int optRiArity = opRight.getArity();
-        	if (optRiArity == 2) {
-        		// 二元操作符
-        		optRiPri = opRight.getPriority();
-        	}
-        	if (optRiArity == 1) {
-        		// 一元操作符
-        		int optRiDir = opRight.getDirection();
-        		if (optRiDir == -1) {
-        			// 左结合
-        			optRiPri = opRight.getPriority();
-        		}
-        	}
+            int optRiArity = opRight.getArity();
+            if (optRiArity == 2) {
+                // 二元操作符
+                optRiPri = opRight.getPriority();
+            }
+            if (optRiArity == 1) {
+                // 一元操作符
+                int optRiDir = opRight.getDirection();
+                if (optRiDir == -1) {
+                    // 左结合
+                    optRiPri = opRight.getPriority();
+                }
+            }
         }// 右操作符权限
 
-    	if (optLePri == -1 && optRiPri == -1) {
-    		return exprN;
-    	}
-    	if (optLePri >= optRiPri) {
-    		// 左结合
-    		Expression expr = stkExpr.pop();
-    		if (expr instanceof Expression1) {
-    			Expression1 expr1 = (Expression1) expr;
-    			expr1.setNumber(exprN);
-    		} else if (expr instanceof Expression2) {
-    			Expression2 expr2 = (Expression2) expr;
-    			expr2.setNum2(exprN);
-    		} else {
-    			throw new ExprException("error.");
-    		}
-    		opLefts.pop();
-    		// next
-    		return setExpr(opLefts, expr, opRight, stkExpr);
+        if (optLePri == -1 && optRiPri == -1) {
+            return exprN;
+        }
+        if (optLePri >= optRiPri) {
+            // 左结合
+            Expression expr = stkExpr.pop();
+            if (expr instanceof Expression1) {
+                Expression1 expr1 = (Expression1) expr;
+                expr1.setNumber(exprN);
+            } else if (expr instanceof Expression2) {
+                Expression2 expr2 = (Expression2) expr;
+                expr2.setNum2(exprN);
+            } else {
+                throw new ExprException("error.");
+            }
+            opLefts.pop();
+            // next
+            return setExpr(opLefts, expr, opRight, stkExpr);
 
-    	} else {
-    		// 右结合，暂且入栈
-    		// stkExpr.push(exprN);
-    		return exprN;
-    	}
+        } else {
+            // 右结合，暂且入栈
+            // stkExpr.push(exprN);
+            return exprN;
+        }
     }
 
     public static List<Token> toPostfix(List<Token> in) {
-    	System.out.println("---------------------------------");
-    	Stack<Token> stk = new Stack<Token>();
-    	int listSize = in.size();
-    	List<Token> out = new ArrayList<Token>(listSize);
-    	for (int i = 0; i < listSize; i ++) {
-    		Token token = in.get(i);
-    		TokenType type = token.getType();
+        System.out.println("---------------------------------");
+        Stack<Token> stk = new Stack<Token>();
+        int listSize = in.size();
+        List<Token> out = new ArrayList<Token>(listSize);
+        for (int i = 0; i < listSize; i ++) {
+            Token token = in.get(i);
+            TokenType type = token.getType();
 
-    		if (TokenType.NUMBER__.equals(type) || TokenType.VARIABLE.equals(type)) {
-    			out.add(token);
-    		} // number
-    		if (TokenType.OPERATOR.equals(type)) {
-    			String op = token.getToken();
-    			if (ExprConts.LEFT.equals(op)) {
-    				stk.push(token);
-    				System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
-    				continue;
-    			} else if (ExprConts.RIGHT.equals(op)) {
-    				while(stk.size() > 0) {
-    					Token tk = stk.pop();
-    					if (ExprConts.LEFT.equals(tk.getToken())) {
-    						break;
-    					} else {
-    						out.add(tk);
-    					}
-    				}
-    			} else {
-    				// 操作符号比较
-    				Operator op1 = Operators.getOperator(op);
-    				int op1Pri = op1.getPriority();
-//    				System.out.println("stk=" + stk);
-    				while(stk.size() > 0) {
-    					Token tkt = stk.peek();
-    					if (ExprConts.LEFT.equals(tkt.getToken())) {
-    						break;
-    					}
-    					Operator op2 = Operators.getOperator(tkt.getToken());
-    					int op2Pri = op2.getPriority();
-    					if (op2Pri >= op1Pri) {
-    						out.add(stk.pop());
-    					}
-    					if (op2Pri < op1Pri) {
-    						break;
-    					}
-    				}
-    				stk.push(token);
-    			}
-    		} // operator
-    		System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
-    	} // for
-    	while(stk.size() > 0) {
-    		Token tk = stk.pop();
-    		out.add(tk);
-    	}
-    	System.out.println("---------------------------------");
-    	return out;
+            if (TokenType.NUMBER__.equals(type) || TokenType.VARIABLE.equals(type)) {
+                out.add(token);
+            } // number
+            if (TokenType.OPERATOR.equals(type)) {
+                String op = token.getToken();
+                if (ExprConts.LEFT.equals(op)) {
+                    stk.push(token);
+                    System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+                    continue;
+                } else if (ExprConts.RIGHT.equals(op)) {
+                    while(stk.size() > 0) {
+                        Token tk = stk.pop();
+                        if (ExprConts.LEFT.equals(tk.getToken())) {
+                            break;
+                        } else {
+                            out.add(tk);
+                        }
+                    }
+                } else {
+                    // 操作符号比较
+                    Operator op1 = Operators.getOperator(op);
+                    int op1Pri = op1.getPriority();
+//                    System.out.println("stk=" + stk);
+                    while(stk.size() > 0) {
+                        Token tkt = stk.peek();
+                        if (ExprConts.LEFT.equals(tkt.getToken())) {
+                            break;
+                        }
+                        Operator op2 = Operators.getOperator(tkt.getToken());
+                        int op2Pri = op2.getPriority();
+                        if (op2Pri >= op1Pri) {
+                            out.add(stk.pop());
+                        }
+                        if (op2Pri < op1Pri) {
+                            break;
+                        }
+                    }
+                    stk.push(token);
+                }
+            } // operator
+            System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+        } // for
+        while(stk.size() > 0) {
+            Token tk = stk.pop();
+            out.add(tk);
+        }
+        System.out.println("---------------------------------");
+        return out;
     }
 
     /**
@@ -382,59 +382,59 @@ public class ExprParser {
      * @return
      */
     public static Expression toExprFromPostfix(List<Token> list) {
-    	Stack<Expression> stkExpr = new Stack<Expression>();
+        Stack<Expression> stkExpr = new Stack<Expression>();
 
         int listSize = list.size();
         for(int i = 0; i < listSize; i ++) {
-        	Token token = list.get(i);
-        	System.out.println(i + ":" + token + stkExpr.toString());
+            Token token = list.get(i);
+            System.out.println(i + ":" + token + stkExpr.toString());
             if (TokenType.OPERATOR.equals(token.getType())) {
-            	// 操作符的时候
-            	String operate = token.getToken();
-            	
-            	if (ExprConts.ADD.equals(operate) || ExprConts.SUB.equals(operate)) {
-            		// 对正负号的预处理
-            		Token preToken = null;
-            		if ((i - 1) >= 0) {
-            			preToken = list.get(i - 1);
-            		}
-            		if (preToken == null) {
-            			operate = operate + ":";
-            		} else if (TokenType.OPERATOR.equals(preToken.getType())) {
-            			// 前面的操作符
-            			String preOperate = preToken.getToken();
-            			if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
-            				// 当前面的操作符不是%!)的时候，+/-是正负号。
-            				operate = operate + ":";
-            			}
-            		} else if (stkExpr.size() < 2) {
-            			// 暂定方法
-            			operate = operate + ":";
-            		}
-            	}
-            	
-            	Operator op = Operators.getOperator(operate);
-            	int arity = op.getArity();
-            	if (arity == 2) {
-            		Expression expr2 = stkExpr.pop();
-            		Expression expr1 = stkExpr.pop();
-            		Expression2 exprr = new Expression2(expr1, op, expr2);
-            		stkExpr.push(exprr);
-            	}
-            	if (arity == 1) {
-            		Expression expr1 = stkExpr.pop();
-            		Expression1 exprr = new Expression1(op, expr1);
-            		stkExpr.push(exprr);
-            	}
+                // 操作符的时候
+                String operate = token.getToken();
+                
+                if (ExprConts.ADD.equals(operate) || ExprConts.SUB.equals(operate)) {
+                    // 对正负号的预处理
+                    Token preToken = null;
+                    if ((i - 1) >= 0) {
+                        preToken = list.get(i - 1);
+                    }
+                    if (preToken == null) {
+                        operate = operate + ":";
+                    } else if (TokenType.OPERATOR.equals(preToken.getType())) {
+                        // 前面的操作符
+                        String preOperate = preToken.getToken();
+                        if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
+                            // 当前面的操作符不是%!)的时候，+/-是正负号。
+                            operate = operate + ":";
+                        }
+                    } else if (stkExpr.size() < 2) {
+                        // 暂定方法
+                        operate = operate + ":";
+                    }
+                }
+                
+                Operator op = Operators.getOperator(operate);
+                int arity = op.getArity();
+                if (arity == 2) {
+                    Expression expr2 = stkExpr.pop();
+                    Expression expr1 = stkExpr.pop();
+                    Expression2 exprr = new Expression2(expr1, op, expr2);
+                    stkExpr.push(exprr);
+                }
+                if (arity == 1) {
+                    Expression expr1 = stkExpr.pop();
+                    Expression1 exprr = new Expression1(op, expr1);
+                    stkExpr.push(exprr);
+                }
 
             }
             if (!TokenType.OPERATOR.equals(token.getType())) {
-            	// 操作数或变量的时候
-            	Expression exprN = ExprParser.makeExpressionN(token);
-            	if (TokenType.VARIABLE.equals(token.getType())) {
-            		exprN = Variables.getVariable(token.getToken());
-            	}
-            	stkExpr.push(exprN);
+                // 操作数或变量的时候
+                Expression exprN = ExprParser.makeExpressionN(token);
+                if (TokenType.VARIABLE.equals(token.getType())) {
+                    exprN = Variables.getVariable(token.getToken());
+                }
+                stkExpr.push(exprN);
             }
         }// for
 
@@ -443,62 +443,62 @@ public class ExprParser {
     }
 
     public static List<Token> toPrefix(List<Token> in) {
-    	System.out.println("---------------------------------");
-    	Stack<Token> stk = new Stack<Token>();
-    	int listSize = in.size();
-    	List<Token> out = new ArrayList<Token>(listSize);
-    	for (int i = listSize - 1; i >= 0 ; i --) {
-    		Token token = in.get(i);
-    		TokenType type = token.getType();
+        System.out.println("---------------------------------");
+        Stack<Token> stk = new Stack<Token>();
+        int listSize = in.size();
+        List<Token> out = new ArrayList<Token>(listSize);
+        for (int i = listSize - 1; i >= 0 ; i --) {
+            Token token = in.get(i);
+            TokenType type = token.getType();
 
-    		if (TokenType.NUMBER__.equals(type) || TokenType.VARIABLE.equals(type)) {
-    			out.add(token);
-    		} // number
-    		if (TokenType.OPERATOR.equals(type)) {
-    			String op = token.getToken();
-    			if (ExprConts.RIGHT.equals(op)) {
-    				stk.push(token);
-    				System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
-    				continue;
-    			} else if (ExprConts.LEFT.equals(op)) {
-    				while(stk.size() > 0) {
-    					Token tk = stk.pop();
-    					if (ExprConts.RIGHT.equals(tk.getToken())) {
-    						break;
-    					} else {
-    						out.add(tk);
-    					}
-    				}
-    			} else {
-    				// 操作符号比较
-    				Operator op1 = Operators.getOperator(op);
-    				int op1Pri = op1.getPriority();
-//    				System.out.println("stk=" + stk);
-    				while(stk.size() > 0) {
-    					Token tkt = stk.peek();
-    					if (ExprConts.RIGHT.equals(tkt.getToken())) {
-    						break;
-    					}
-    					Operator op2 = Operators.getOperator(tkt.getToken());
-    					int op2Pri = op2.getPriority();
-    					if (op2Pri < op1Pri) {
-    						out.add(stk.pop());
-    					}
-    					if (op2Pri >= op1Pri) {
-    						break;
-    					}
-    				}
-    				stk.push(token);
-    			}
-    		} // operator
-    		System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
-    	} // for
-    	while(stk.size() > 0) {
-    		Token tk = stk.pop();
-    		out.add(tk);
-    	}
-    	System.out.println("---------------------------------");
-    	return out;
+            if (TokenType.NUMBER__.equals(type) || TokenType.VARIABLE.equals(type)) {
+                out.add(token);
+            } // number
+            if (TokenType.OPERATOR.equals(type)) {
+                String op = token.getToken();
+                if (ExprConts.RIGHT.equals(op)) {
+                    stk.push(token);
+                    System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+                    continue;
+                } else if (ExprConts.LEFT.equals(op)) {
+                    while(stk.size() > 0) {
+                        Token tk = stk.pop();
+                        if (ExprConts.RIGHT.equals(tk.getToken())) {
+                            break;
+                        } else {
+                            out.add(tk);
+                        }
+                    }
+                } else {
+                    // 操作符号比较
+                    Operator op1 = Operators.getOperator(op);
+                    int op1Pri = op1.getPriority();
+//                    System.out.println("stk=" + stk);
+                    while(stk.size() > 0) {
+                        Token tkt = stk.peek();
+                        if (ExprConts.RIGHT.equals(tkt.getToken())) {
+                            break;
+                        }
+                        Operator op2 = Operators.getOperator(tkt.getToken());
+                        int op2Pri = op2.getPriority();
+                        if (op2Pri < op1Pri) {
+                            out.add(stk.pop());
+                        }
+                        if (op2Pri >= op1Pri) {
+                            break;
+                        }
+                    }
+                    stk.push(token);
+                }
+            } // operator
+            System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+        } // for
+        while(stk.size() > 0) {
+            Token tk = stk.pop();
+            out.add(tk);
+        }
+        System.out.println("---------------------------------");
+        return out;
     }
 
     /**
@@ -507,37 +507,37 @@ public class ExprParser {
      * @return
      */
     public static Expression toExprFromPrefix(List<Token> list) {
-    	Stack<Expression> stkExpr = new Stack<Expression>();
+        Stack<Expression> stkExpr = new Stack<Expression>();
 
         int listSize = list.size();
         for(int i = listSize - 1; i >= 0; i --) {
-        	Token token = list.get(i);
-        	System.out.println(i + ":" + token + stkExpr.toString());
+            Token token = list.get(i);
+            System.out.println(i + ":" + token + stkExpr.toString());
             if (TokenType.OPERATOR.equals(token.getType())) {
-            	// 操作符的时候
-            	String operate = token.getToken();
-            	Operator op = Operators.getOperator(operate);
-            	int arity = op.getArity();
-            	if (arity == 2) {
-            		Expression expr1 = stkExpr.pop();
-            		Expression expr2 = stkExpr.pop();
-            		Expression2 exprr = new Expression2(expr1, op, expr2);
-            		stkExpr.push(exprr);
-            	}
-            	if (arity == 1) {
-            		Expression expr1 = stkExpr.pop();
-            		Expression1 exprr = new Expression1(op, expr1);
-            		stkExpr.push(exprr);
-            	}
+                // 操作符的时候
+                String operate = token.getToken();
+                Operator op = Operators.getOperator(operate);
+                int arity = op.getArity();
+                if (arity == 2) {
+                    Expression expr1 = stkExpr.pop();
+                    Expression expr2 = stkExpr.pop();
+                    Expression2 exprr = new Expression2(expr1, op, expr2);
+                    stkExpr.push(exprr);
+                }
+                if (arity == 1) {
+                    Expression expr1 = stkExpr.pop();
+                    Expression1 exprr = new Expression1(op, expr1);
+                    stkExpr.push(exprr);
+                }
 
             }
             if (!TokenType.OPERATOR.equals(token.getType())) {
-            	// 操作数或变量的时候
-            	Expression exprN = ExprParser.makeExpressionN(token);
-            	if (TokenType.VARIABLE.equals(token.getType())) {
-            		exprN = Variables.getVariable(token.getToken());
-            	}
-            	stkExpr.push(exprN);
+                // 操作数或变量的时候
+                Expression exprN = ExprParser.makeExpressionN(token);
+                if (TokenType.VARIABLE.equals(token.getType())) {
+                    exprN = Variables.getVariable(token.getToken());
+                }
+                stkExpr.push(exprN);
             }
         }// for
 
@@ -560,13 +560,13 @@ public class ExprParser {
      * @return
      */
     public static Expression makeExpression(Operator op, Expression num) {
-    	int arity = op.getArity();
-    	if (arity == 1) {
-    		return new Expression1(op, num);
-    	}
-    	if (arity == 2) {
-    		return new Expression2(num, op);
-    	}
-    	return null;
+        int arity = op.getArity();
+        if (arity == 1) {
+            return new Expression1(op, num);
+        }
+        if (arity == 2) {
+            return new Expression2(num, op);
+        }
+        return null;
     }
 }

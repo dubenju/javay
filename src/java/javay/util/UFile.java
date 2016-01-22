@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class UFile {
-	private static final Logger log = LoggerFactory.getLogger(UFile.class);
-	public static boolean copyFile(String in, String out) {
-		log.info("copy " + in + " to " + out);
+    private static final Logger log = LoggerFactory.getLogger(UFile.class);
+    public static boolean copyFile(String in, String out) {
+        log.info("copy " + in + " to " + out);
         int bytesum = 0;
         int byteread = 0;
         boolean bRes = false;
@@ -30,24 +30,24 @@ public class UFile {
             fs.close();
             bRes = true;
         } catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
 
         }
         log.info("copy " + in + " to " + out + " : " + (bRes ? "成功" : "失败"));
         return bRes;
-	}
-	public static boolean removeFile(String in) {
+    }
+    public static boolean removeFile(String in) {
         log.info("delete " + in);
-		boolean bRes = false;
-		File file = new File(in);
+        boolean bRes = false;
+        File file = new File(in);
         if(file.isFile() && file.exists()){
             file.delete();
         }
         bRes = true;
         log.info("delete " + in + " : " + (bRes ? "成功" : "失败"));
         return bRes;
-	}
+    }
 }

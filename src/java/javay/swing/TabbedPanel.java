@@ -29,9 +29,9 @@ import java.util.List;
 
 public class TabbedPanel extends JPanel {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(TabbedPanel.class);
     private Dbjcalc conf;
     
@@ -39,7 +39,7 @@ public class TabbedPanel extends JPanel {
     JComboBox<String> comboBox=new JComboBox<String>();
     JTextField retry = new JTextField(2);
 
-	public TabbedPanel(Dbjcalc conf) {
+    public TabbedPanel(Dbjcalc conf) {
         super(new GridLayout(1, 1));
         log.debug("----- begin -----");
         this.conf = conf;
@@ -177,11 +177,11 @@ public class TabbedPanel extends JPanel {
         JFrame frame = new JFrame("TabbedPaneDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         InputStream inStream = null;
-		try {
-			inStream = new     FileInputStream("./conf/dbjcalc.xml");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+        try {
+            inStream = new     FileInputStream("./conf/dbjcalc.xml");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         Dbjcalc conf = javax.xml.bind.JAXB.unmarshal(inStream, Dbjcalc.class);
         //Add content to the window.
         frame.add(new TabbedPanel(conf), BorderLayout.CENTER);

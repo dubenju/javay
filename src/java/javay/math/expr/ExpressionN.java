@@ -11,35 +11,35 @@ public class ExpressionN extends Expression {
     public ExpressionN(String s) {
         this.str = s;
     }
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toInfixString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append(this.str);
-		return buf.toString();
-	}
-	@Override
-	public BigNum value() {
-		return new BigNum(this.str);
-	}
-	@Override
-	public String toPrefixString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append(this.str);
-		return buf.toString();
-	}
-	@Override
-	public String toPostfixString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append(this.str);
-		return buf.toString();
-	}
-	@Override
-	public String toString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append(this.str);
-		return buf.toString();
-	}
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toInfixString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append(this.str);
+        return buf.toString();
+    }
+    @Override
+    public BigNum value() {
+        return new BigNum(this.str);
+    }
+    @Override
+    public String toPrefixString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append(this.str);
+        return buf.toString();
+    }
+    @Override
+    public String toPostfixString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append(this.str);
+        return buf.toString();
+    }
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append(this.str);
+        return buf.toString();
+    }
 }

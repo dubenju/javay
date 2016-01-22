@@ -3,18 +3,12 @@ package javay.swing;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.xml.bind.JAXB;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +22,11 @@ public class JSettingDlg extends JDialog  implements ActionListener {
     private Dbjcalc conf;
     TabbedPanel tabp;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public JSettingDlg(JFrame frame){
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    public JSettingDlg(JFrame frame){
         super(frame, "第一个JDialog窗体", true);//实例化一个JDialog类对象，指定对话框的父窗体、标题、类型
         log.debug("----- begin -----");
         this.conf = Launcher.getConf();
@@ -59,23 +53,23 @@ public class JSettingDlg extends JDialog  implements ActionListener {
 //        setVisible(true);
         log.debug("-----   end -----");
     }
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		dispose();
-		String s = e.getActionCommand();
-		if (s.equals("确定")) {
-			this.conf.getAutoUpdate().setisAutoUpdate(this.tabp.autoUpdate.isSelected());
-			List<Website> list = this.conf.getAutoUpdate().getWebsites();
-			int index = this.tabp.comboBox.getSelectedIndex();
-			for (int i = 0;i < list.size(); i ++) {
-				Website site = list.get(i);
-				site.setSelected(false);
-				if (i == index) {
-					site.setSelected(true);
-				}
-			}
-			this.conf.getAutoUpdate().setRetry(Integer.parseInt(this.tabp.retry.getText()));
-			Launcher.saveConf(this.conf);
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        dispose();
+        String s = e.getActionCommand();
+        if (s.equals("确定")) {
+            this.conf.getAutoUpdate().setisAutoUpdate(this.tabp.autoUpdate.isSelected());
+            List<Website> list = this.conf.getAutoUpdate().getWebsites();
+            int index = this.tabp.comboBox.getSelectedIndex();
+            for (int i = 0;i < list.size(); i ++) {
+                Website site = list.get(i);
+                site.setSelected(false);
+                if (i == index) {
+                    site.setSelected(true);
+                }
+            }
+            this.conf.getAutoUpdate().setRetry(Integer.parseInt(this.tabp.retry.getText()));
+            Launcher.saveConf(this.conf);
+        }
+    }
 }

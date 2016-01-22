@@ -1,7 +1,7 @@
 package javay.math.expr;
 
 public enum TokenType {
-	NONE____,
+    NONE____,
     NUMBER__,
     OPERATOR,
     VARIABLE

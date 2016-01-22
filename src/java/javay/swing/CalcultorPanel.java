@@ -167,6 +167,7 @@ public class CalcultorPanel extends JPanel {
     private static final Logger log = LoggerFactory.getLogger(CalcultorPanel.class);
 
     public CalcultorPanel() {
+    	log.debug("CalcultorPanel");
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
 
         //create the text field
@@ -223,7 +224,7 @@ public class CalcultorPanel extends JPanel {
         group.add(r10);
         group.add(r8);
         group.add(r2);
-        
+
         this.r16.setToolTipText("计算结果");
         this.r10.setToolTipText("计算结果");
         this.r8.setToolTipText("计算结果");
@@ -245,7 +246,7 @@ public class CalcultorPanel extends JPanel {
         this.deg.setToolTipText("计算结果");
         this.rad.setToolTipText("计算结果");
         this.grad.setToolTipText("计算结果");
-        
+
         optionRight.add(deg);
         optionRight.add(rad);
         optionRight.add(grad);
@@ -378,13 +379,13 @@ public class CalcultorPanel extends JPanel {
         this.btnXY.setToolTipText("x^y：计算x的y次方。此按钮为二进制运算符。例如，若要计算2的4次方，请单击2x^y4=，结果为16。若要计算x的y次方根，请使用Inv+x^y。");
         this.btnX3.setToolTipText("x^3：计算显示数字的立方。若要计算立方根，请使用Inv+x^3。");
         this.btnX2.setToolTipText("x^2：计算显示数字的平方。若要计算平方根，请使用Inv+x^2。");
-        
+
         this.btnRight.setToolTipText("计算结果");
         this.btnLn.setToolTipText("ln：计算自然对数（以e为底）。若要计算e的x次方（其中x是当前数字），请使用Inv+ln。");
         this.btnLog.setToolTipText("log：计算常用对数（以10为底）。若要计算10的x次方，请使用Inv+log。");
         this.btnN.setToolTipText("n!：计算显示数字的阶乘。");
         this.btnDivide1.setToolTipText("1/x：计算显示数字的倒数。");
-        
+
         btnPnl3.setLayout(null);
         btnPnl3.setBounds(btnPnl2.getX() + btnPnl2.getWidth(), 0, btnWidth + 1, (btnHeight + 1) * 5);
         btnPnl3.add( btnMC ).setForeground(Color.red);
@@ -404,7 +405,7 @@ public class CalcultorPanel extends JPanel {
         this.btnMS.setToolTipText("MS：将显示框的数值存于存储器中。如果存储器中有数值将会显示M标志。");
         this.btnMP.setToolTipText("M+：将显示框的数与存储器中的数相加并进行存储。");
         this.btnMN.setToolTipText("M-：将显示框的数与存储器中的数相减并进行存储。");
-        
+
         // 小数点
         // 结果是
         // 加
