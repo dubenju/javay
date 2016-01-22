@@ -215,8 +215,9 @@ public class MathBn {
         int    n2 = n;
         BigNum x2 = x;
         if (n > 3) {
-            if (n % 2 == 0)
+            if (n % 2 == 0) {
                 n2 = 2;
+            }
             x2 = x.multiply(new BigNum(n / 2));
         }
         t = x2.divide((new BigNum(n2).add(t)), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);

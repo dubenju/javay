@@ -49,7 +49,7 @@ public class CalcultorFrame extends JFrame {
         JMenuItem menuFileExit = new JMenuItem("退出", KeyEvent.VK_X);
 
         // Add action listener.for the menu button
-        menuFileExit.addActionListener (
+        menuFileExit.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     log.info("----- 文件 > 退出");
@@ -57,21 +57,21 @@ public class CalcultorFrame extends JFrame {
                 }
             }
         );
-        JDialog aboutDialog=new JDialog(); 
-        aboutDialog.setTitle("关于"); 
+        JDialog aboutDialog=new JDialog();
+        aboutDialog.setTitle("关于");
 
         Container con=aboutDialog.getContentPane();
-        Icon icon=new ImageIcon("army.jpg"); 
-        JLabel aboutLabel=new JLabel("<html><b><font size=5>"+"<center>Swing!"+"<br>",icon,JLabel.CENTER); 
-        con.add(aboutLabel,BorderLayout.CENTER); 
-        aboutDialog.setSize(450,225); 
-        aboutDialog.setLocation(300,300); 
+        Icon icon=new ImageIcon("army.jpg");
+        JLabel aboutLabel=new JLabel("<html><b><font size=5>"+"<center>Swing!"+"<br>",icon,JLabel.CENTER);
+        con.add(aboutLabel,BorderLayout.CENTER);
+        aboutDialog.setSize(450,225);
+        aboutDialog.setLocation(300,300);
         aboutDialog.addWindowListener(new WindowAdapter() {
             @SuppressWarnings("unused")
-            public void WindowClosing(WindowEvent e){ 
+            public void WindowClosing(WindowEvent e){
                 dispose();
-           } 
-        }); 
+           }
+        });
 
         JSettingDlg settingDlg = new JSettingDlg(this);
         menuFile.add(menuFileExit);
@@ -88,10 +88,10 @@ public class CalcultorFrame extends JFrame {
 
         JMenu menuView = new JMenu("设置");
         JMenuItem options = new JMenuItem("选项",KeyEvent.VK_O);
-        options.addActionListener(new ActionListener(){ 
-            public void actionPerformed(ActionEvent e){ 
-                settingDlg.setVisible(true); 
-            } 
+        options.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                settingDlg.setVisible(true);
+            }
            });
         menuView.add(options);
         menuBar.add(menuView);
@@ -100,9 +100,9 @@ public class CalcultorFrame extends JFrame {
         JMenuItem helpHelp = new JMenuItem("帮助",KeyEvent.VK_H);
         JMenuItem checkUpdate = new JMenuItem("检查更新",KeyEvent.VK_U);
         JMenuItem aboutMenuItem=new JMenuItem("关于..",KeyEvent.VK_A);
-        aboutMenuItem.addActionListener(new ActionListener(){ 
-            public void actionPerformed(ActionEvent e){ 
-                aboutDialog.setVisible(true); 
+        aboutMenuItem.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                aboutDialog.setVisible(true);
             }
            });
         menuHelp.add(helpHelp);
@@ -114,7 +114,7 @@ public class CalcultorFrame extends JFrame {
         setJMenuBar(menuBar);
 
         // Add window listener.
-        this.addWindowListener (
+        this.addWindowListener(
             new WindowAdapter() {
                 public void windowClosing(WindowEvent e) {
                     CalcultorFrame.this.windowClosed();
@@ -126,7 +126,7 @@ public class CalcultorFrame extends JFrame {
         getContentPane().add(panel, BorderLayout.CENTER);
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        // 注册应用程序全局键盘事件, 所有的键盘事件都会被此事件监听器处理.  
+        // 注册应用程序全局键盘事件, 所有的键盘事件都会被此事件监听器处理.
         toolkit.addAWTEventListener( new CalcultorAWTEventListener(panel), AWTEvent.KEY_EVENT_MASK);
         log.debug("-----   end -----");
     }

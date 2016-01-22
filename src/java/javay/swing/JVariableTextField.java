@@ -36,7 +36,10 @@ public class JVariableTextField extends JTextField implements MouseListener {
     private int display = 0; // normal,1:ScientificNotation
 
     private JPopupMenu pop = null; // 弹出菜单
-    private JMenuItem copy = null, paste = null, cut = null; // 三个功能菜单
+    private JMenuItem copy = null;
+    private JMenuItem paste = null;
+    private JMenuItem cut = null; // 三个功能菜单
+
     /**
      *
      */

@@ -193,11 +193,17 @@ public class BigNum implements Comparable<BigNum> {
     public BigNum(byte b) {
         this(Byte.toString(b));
     }
-    public BigNum(short s) {
-        this(Short.toString(s));
+
+    /**
+     * BigNum
+     * @param snum short
+     */
+    public BigNum(short snum) {
+
+        this(Short.toString(snum));
     }
-    public BigNum(int i) {
-        this(Integer.toString(i));
+    public BigNum(int inum) {
+        this(Integer.toString(inum));
     }
 
     public BigNum(long l) {
@@ -1494,7 +1500,7 @@ public class BigNum implements Comparable<BigNum> {
                     buf.append(by);
                     buf.append(".");
                 }
-                
+
             }
             if (!bflag) {
                 buf.append("0.0");
@@ -1747,7 +1753,7 @@ public class BigNum implements Comparable<BigNum> {
             ob = nb;
         }
         System.out.println(" out" + (oa + ob) + "," + oa + "," + ob);
-        
+
         char[] tar = new char[oa + ob];
         char[] nar = new char[oa + ob];
         char[] oar = new char[oa + ob];
@@ -1833,7 +1839,7 @@ public class BigNum implements Comparable<BigNum> {
             ob = nb;
         }
         System.out.println(" out" + (oa + ob) + "," + oa + "," + ob);
-        
+
         char[] tar = new char[oa + ob];
         char[] nar = new char[oa + ob];
         char[] oar = new char[oa + ob];
@@ -1919,7 +1925,7 @@ public class BigNum implements Comparable<BigNum> {
             ob = nb;
         }
         System.out.println(" out" + (oa + ob) + "," + oa + "," + ob);
-        
+
         char[] tar = new char[oa + ob];
         char[] nar = new char[oa + ob];
         char[] oar = new char[oa + ob];

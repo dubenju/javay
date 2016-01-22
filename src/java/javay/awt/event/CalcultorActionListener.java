@@ -1,6 +1,3 @@
-/**
- *
- */
 package javay.awt.event;
 
 import java.awt.event.ActionEvent;
@@ -53,11 +50,11 @@ public class CalcultorActionListener implements ActionListener {
     }
 
     private boolean isControl(String s) {
-        return s.equals(CalcultorConts.MR) || s.equals(CalcultorConts.MC) ||
-                s.equals(CalcultorConts.MS) || s.equals(CalcultorConts.MP) ||
-                s.equals(CalcultorConts.MM) || s.equals(CalcultorConts.BINARY) ||
-                s.equals(CalcultorConts.OCTAL) || s.equals(CalcultorConts.DECIMAL) ||
-                s.equals(CalcultorConts.HEXADECIMAL) || s.equals(CalcultorConts.SCI);
+        return s.equals(CalcultorConts.MR) || s.equals(CalcultorConts.MC)
+        	|| s.equals(CalcultorConts.MS) || s.equals(CalcultorConts.MP)
+        	|| s.equals(CalcultorConts.MM) || s.equals(CalcultorConts.BINARY)
+        	|| s.equals(CalcultorConts.OCTAL) || s.equals(CalcultorConts.DECIMAL)
+        	|| s.equals(CalcultorConts.HEXADECIMAL) || s.equals(CalcultorConts.SCI);
     }
 
     @Override
