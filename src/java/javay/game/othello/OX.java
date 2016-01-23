@@ -18,32 +18,35 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class OX extends Component implements MouseListener, MouseMotionListener, Runnable {
-    private int[] board; // 盤面狀況,表達有邊框的10*10盤面
-    private int turn, diskdiff; // 現在哪方可下, 與敵方的子數差異
-    private OX parent; // 由哪一個盤面變化而來
-    private double val = -1000000; // 优劣判断值
-    private int hashval; // for hashtable
-    private int[] legals; // 儲存此盤面可以下的著手
+  private int[] board; // 盤面狀況,表達有邊框的10*10盤面
+  private int turn;
+  private int diskdiff; // 現在哪方可下, 與敵方的子數差異
+  private OX parent; // 由哪一個盤面變化而來
+  private double val = -1000000; // 优劣判断值
+  private int hashval; // for hashtable
+  private int[] legals; // 儲存此盤面可以下的著手
 
-    public static final int EMPTY = 0x00; // 空
-    public static final int BLACK = 0x01; // 黑子
-    public static final int WHITE = 0x02; // 白子
-    public static final int STONE = 0x03; // 上面兩個 or
-    public static final int BOUND = 0x04; // 边界
-    public static final int ADEMP = 0x08; // 是否鄰接子的空點
+  public static final int EMPTY = 0x00; // 空
+  public static final int BLACK = 0x01; // 黑子
+  public static final int WHITE = 0x02; // 白子
+  public static final int STONE = 0x03; // 上面兩個 or
+  public static final int BOUND = 0x04; // 边界
+  public static final int ADEMP = 0x08; // 是否鄰接子的空點
 
-    private static final Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR); // 箭頭游標
-    private static final Cursor hintCursor = new Cursor(Cursor.HAND_CURSOR); // 手形游標
-    private static final Cursor thinkCursor = new Cursor(Cursor.WAIT_CURSOR); // 漏斗游標
-    private static Dimension mySize = new Dimension(600,400); // 固定畫面的大小為寬600,高400
+  private static final Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR); // 箭頭游標
+  private static final Cursor hintCursor = new Cursor(Cursor.HAND_CURSOR); // 手形游標
+  private static final Cursor thinkCursor = new Cursor(Cursor.WAIT_CURSOR); // 漏斗游標
+  private static Dimension mySize = new Dimension(600,400); // 固定畫面的大小為寬600,高400
 
-    private static final byte[] directions = {1, -1, 10, -10, 9, -9, 11, -11}; // 8个方向
-    private static final int HASHSIZE = 63999979; // 小於64M的最大質數
-    public  static final int HUMAN = 0, COMPUTER = 1;
+  private static final byte[] directions = {1, -1, 10, -10, 9, -9, 11, -11}; // 8个方向
+  private static final int HASHSIZE = 63999979; // 小於64M的最大質數
+  public  static final int HUMAN = 0;
+  public  static final int COMPUTER = 1;
 
     private static JFrame top; // 包含此元件的最上層Frame
     private static Thread thinking; // 計算中的Thread
-    private  static int whoPlayBlack, whoPlayWhite;
+    private  static int whoPlayBlack;
+    private  static int whoPlayWhite;
 
     private static int newboard[] = { // 游戏界面的初始布局
         BOUND,BOUND,BOUND,BOUND,BOUND,BOUND,BOUND,BOUND,BOUND,BOUND,

@@ -18,7 +18,8 @@ import javay.game.othello.OX;
  *
  */
 public abstract class AbstractGameApp extends JFrame implements ActionListener {
-    private MenuItem black, white;
+    private MenuItem black;
+    private MenuItem white;
     private OX oxBoard;	/**
 	 *
 	 */
