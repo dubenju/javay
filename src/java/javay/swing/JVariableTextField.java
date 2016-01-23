@@ -24,309 +24,309 @@ import org.slf4j.LoggerFactory;
 
 public class JVariableTextField extends JTextField implements MouseListener {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    private static final Logger log = LoggerFactory.getLogger(JVariableTextField.class);
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
+  private static final Logger log = LoggerFactory.getLogger(JVariableTextField.class);
 
-    private int maxWidth = 1;
-    private String numberSystem = CalcultorConts.DECIMAL;
-    private String mem = null;
-    private int display = 0; // normal,1:ScientificNotation
+  private int maxWidth = 1;
+  private String numberSystem = CalcultorConts.DECIMAL;
+  private String mem = null;
+  private int display = 0; // normal,1:ScientificNotation
 
-    private JPopupMenu pop = null; // 弹出菜单
-    private JMenuItem copy = null;
-    private JMenuItem paste = null;
-    private JMenuItem cut = null; // 三个功能菜单
+  private JPopupMenu pop = null; // 弹出菜单
+  private JMenuItem copy = null;
+  private JMenuItem paste = null;
+  private JMenuItem cut = null; // 三个功能菜单
 
-    /**
-     *
-     */
-    public JVariableTextField() {
-        maxWidth = this.getColumns() * this.getFont().getSize();
-        setOpaque(false);
-        this.mem = null;
-        init();
+  /**
+   *
+   */
+  public JVariableTextField() {
+    maxWidth = this.getColumns() * this.getFont().getSize();
+    setOpaque(false);
+    this.mem = null;
+    init();
+  }
+
+  /**
+   * @param text
+   * @param columns
+   */
+  public JVariableTextField(String text, int columns) {
+    super(text, columns);
+    maxWidth = this.getColumns() * this.getFont().getSize();
+    setOpaque(false);
+    this.mem = null;
+    init();
+  }
+
+  /**
+   * @param text
+   */
+  public JVariableTextField(String text) {
+    super(text);
+    maxWidth = this.getColumns() * this.getFont().getSize();
+    setOpaque(false);
+    this.mem = null;
+    init();
+  }
+
+  /**
+   * @param doc
+   * @param text
+   * @param columns
+   */
+  public JVariableTextField(Document doc, String text, int columns) {
+    super(doc, text, columns);
+    maxWidth = this.getColumns() * this.getFont().getSize();
+    setOpaque(false);
+    this.mem = null;
+    init();
+  }
+
+  /**
+   * @param columns
+   */
+  public JVariableTextField(int columns) {
+    super(columns);
+    maxWidth = this.getColumns() * this.getFont().getSize();
+    setOpaque(false);
+    this.mem = null;
+    init();
+  }
+
+  private void init() {
+    this.addMouseListener(this);
+    pop = new JPopupMenu();
+    pop.add(copy = new JMenuItem("复制"));
+    pop.add(paste = new JMenuItem("粘贴"));
+    pop.add(cut = new JMenuItem("剪切"));
+    copy.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_MASK));
+    paste.setAccelerator(KeyStroke.getKeyStroke('V', InputEvent.CTRL_MASK));
+    cut.setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.CTRL_MASK));
+    copy.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        action(e);
+      }
+    });
+    paste.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        action(e);
+      }
+    });
+    cut.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        action(e);
+      }
+    });
+    this.add(pop);
+  }
+   /**
+   * 菜单动作
+   *
+   * @param e
+   */
+  public void action(ActionEvent e) {
+    String str = e.getActionCommand();
+    log.debug(str);
+    if (str.equals(copy.getText())) { // 复制
+      this.copy();
+    } else if (str.equals(paste.getText())) { // 粘贴
+      this.paste();
+    } else if (str.equals(cut.getText())) { // 剪切
+      this.cut();
     }
+  }
 
-    /**
-     * @param text
-     * @param columns
-     */
-    public JVariableTextField(String text, int columns) {
-        super(text, columns);
-        maxWidth = this.getColumns() * this.getFont().getSize();
-        setOpaque(false);
-        this.mem = null;
-        init();
+  /**
+   * @see javax.swing.text.JTextComponent#setText(java.lang.String)
+   */
+  @Override
+  public void setText(String t) {
+    Font font = this.getFont();
+    int fontsize = font.getSize();
+    int length = t.length();
+    if (length > 0) {
+      fontsize = maxWidth / length;
+      if (fontsize == 0 ) {
+        fontsize = 1;
+      }
+      if (fontsize > 36) {
+        fontsize = 36;
+      }
+      Font newFont = new Font(font.getName(), font.getStyle(), fontsize);
+      this.setFont(newFont);
     }
+    super.setText(t);
+  }
 
-    /**
-     * @param text
-     */
-    public JVariableTextField(String text) {
-        super(text);
-        maxWidth = this.getColumns() * this.getFont().getSize();
-        setOpaque(false);
-        this.mem = null;
-        init();
-    }
+  /**
+   * @see javax.swing.JTextField#setColumns(int)
+   */
+  @Override
+  public void setColumns(int columns) {
+    super.setColumns(columns);
+    Font font = this.getFont();
+    maxWidth = columns * font.getSize();
+  }
 
-    /**
-     * @param doc
-     * @param text
-     * @param columns
-     */
-    public JVariableTextField(Document doc, String text, int columns) {
-        super(doc, text, columns);
-        maxWidth = this.getColumns() * this.getFont().getSize();
-        setOpaque(false);
-        this.mem = null;
-        init();
-    }
+  /**
+   * @see javax.swing.JTextField#setFont(java.awt.Font)
+   */
+  @Override
+  public void setFont(Font f) {
+    super.setFont(f);
+  }
 
-    /**
-     * @param columns
-     */
-    public JVariableTextField(int columns) {
-        super(columns);
-        maxWidth = this.getColumns() * this.getFont().getSize();
-        setOpaque(false);
-        this.mem = null;
-        init();
-    }
+  /**
+   * @return the maxWidth
+   */
+  public int getMaxWidth() {
+    maxWidth = this.getColumns() * this.getFont().getSize();
+    return maxWidth;
+  }
 
-    private void init() {
-        this.addMouseListener(this);
-        pop = new JPopupMenu();
-        pop.add(copy = new JMenuItem("复制"));
-        pop.add(paste = new JMenuItem("粘贴"));
-        pop.add(cut = new JMenuItem("剪切"));
-        copy.setAccelerator(KeyStroke.getKeyStroke('C', InputEvent.CTRL_MASK));
-        paste.setAccelerator(KeyStroke.getKeyStroke('V', InputEvent.CTRL_MASK));
-        cut.setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.CTRL_MASK));
-        copy.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action(e);
-            }
-        });
-        paste.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action(e);
-            }
-        });
-        cut.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action(e);
-            }
-        });
-        this.add(pop);
-    }
-     /**
-     * 菜单动作
-     *
-     * @param e
-     */
-    public void action(ActionEvent e) {
-        String str = e.getActionCommand();
-        log.debug(str);
-        if (str.equals(copy.getText())) { // 复制
-            this.copy();
-        } else if (str.equals(paste.getText())) { // 粘贴
-            this.paste();
-        } else if (str.equals(cut.getText())) { // 剪切
-            this.cut();
-        }
-    }
+  /**
+   * @param maxWidth the maxWidth to set
+   */
+  public void setMaxWidth(int maxWidth) {
+    this.maxWidth = maxWidth;
+  }
 
-    /**
-     * @see javax.swing.text.JTextComponent#setText(java.lang.String)
-     */
-    @Override
-    public void setText(String t) {
-        Font font = this.getFont();
-        int fontsize = font.getSize();
-        int length = t.length();
-        if (length > 0) {
-            fontsize = maxWidth / length;
-            if (fontsize == 0 ) {
-                fontsize = 1;
-            }
-            if (fontsize > 36) {
-                fontsize = 36;
-            }
-            Font newFont = new Font(font.getName(), font.getStyle(), fontsize);
-            this.setFont(newFont);
-        }
-        super.setText(t);
+  /*＊
+   * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+   */
+  @Override
+  protected void paintComponent(Graphics g) {
+    Graphics2D g2 = (Graphics2D) g;
+    Color color = g2.getColor();
+    g2.setColor(Color.BLUE);
+    g2.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
+    Font font = this.getFont();
+    int fontSize = font.getSize();
+    fontSize = (int) (fontSize * 0.66);
+    int width = this.getWidth();
+    for(int i = width, cnt = 0; i >= 0; i -= fontSize, cnt ++) {
+      if (cnt % 10 == 0) {
+        g2.drawLine(i, getHeight() - 15, i, getHeight() - 2);
+      } else if (cnt % 5 == 0) {
+        g2.drawLine(i, getHeight() - 10, i, getHeight() - 2);
+      } else {
+        g2.drawLine(i, getHeight() - 5, i, getHeight() - 2);
+      }
     }
+    g2.setColor(color);
 
-    /**
-     * @see javax.swing.JTextField#setColumns(int)
-     */
-    @Override
-    public void setColumns(int columns) {
-        super.setColumns(columns);
-        Font font = this.getFont();
-        maxWidth = columns * font.getSize();
+    if (this.mem != null && this.mem.length() > 0) {
+      Color color2 = g2.getColor();
+      g2.setColor(Color.GRAY);
+      g2.drawString(this.mem, 30, 60);
+      g2.drawString("M", 1, 60);
+      g2.setColor(color2);
     }
+    if (this.display == 1) {
+      Color color2 = g2.getColor();
+      g2.setColor(Color.GRAY);
+      g2.drawString("E", 1, 30);
+      g2.setColor(color2);
+    }
+    super.paintComponent(g);
+  }
 
-    /**
-     * @see javax.swing.JTextField#setFont(java.awt.Font)
-     */
-    @Override
-    public void setFont(Font f) {
-        super.setFont(f);
-    }
+  /**
+   * @return the numberSystem
+   */
+  public String getNumberSystem() {
+    return numberSystem;
+  }
 
-    /**
-     * @return the maxWidth
-     */
-    public int getMaxWidth() {
-        maxWidth = this.getColumns() * this.getFont().getSize();
-        return maxWidth;
-    }
+  /**
+   * @param numberSystem the numberSystem to set
+   */
+  public void setNumberSystem(String numberSystem) {
+    this.numberSystem = numberSystem;
+  }
 
-    /**
-     * @param maxWidth the maxWidth to set
-     */
-    public void setMaxWidth(int maxWidth) {
-        this.maxWidth = maxWidth;
-    }
+  public String getMemory() {
+    return this.mem;
+  }
+  public void setMemory(String m) {
+    this.mem = m;
+  }
 
-    /*＊
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        Color color = g2.getColor();
-        g2.setColor(Color.BLUE);
-        g2.drawLine(0, getHeight() - 2, getWidth(), getHeight() - 2);
-        Font font = this.getFont();
-        int fontSize = font.getSize();
-        fontSize = (int) (fontSize * 0.66);
-        int width = this.getWidth();
-        for(int i = width, cnt = 0; i >= 0; i -= fontSize, cnt ++) {
-            if (cnt % 10 == 0) {
-                g2.drawLine(i, getHeight() - 15, i, getHeight() - 2);
-            } else if (cnt % 5 == 0) {
-                g2.drawLine(i, getHeight() - 10, i, getHeight() - 2);
-            } else {
-                g2.drawLine(i, getHeight() - 5, i, getHeight() - 2);
-            }
-        }
-        g2.setColor(color);
+  /**
+   * @return the display
+   */
+  public int getDisplay() {
+    return display;
+  }
 
-        if (this.mem != null && this.mem.length() > 0) {
-            Color color2 = g2.getColor();
-            g2.setColor(Color.GRAY);
-            g2.drawString(this.mem, 30, 60);
-            g2.drawString("M", 1, 60);
-            g2.setColor(color2);
-        }
-        if (this.display == 1) {
-            Color color2 = g2.getColor();
-            g2.setColor(Color.GRAY);
-            g2.drawString("E", 1, 30);
-            g2.setColor(color2);
-        }
-        super.paintComponent(g);
-    }
+  /**
+   * @param display the display to set
+   */
+  public void setDisplay(int display) {
+    this.display = display;
+  }
 
-    /**
-     * @return the numberSystem
-     */
-    public String getNumberSystem() {
-        return numberSystem;
-    }
+  @Override
+  public void mouseClicked(MouseEvent e) {
+  }
 
-    /**
-     * @param numberSystem the numberSystem to set
-     */
-    public void setNumberSystem(String numberSystem) {
-        this.numberSystem = numberSystem;
+  @Override
+  public void mousePressed(MouseEvent e) {
+    if (e.getButton() == MouseEvent.BUTTON3) {
+      copy.setEnabled(isCanCopy());
+      paste.setEnabled(isClipboardString());
+      cut.setEnabled(isCanCopy());
+      pop.show(this, e.getX(), e.getY());
     }
+  }
 
-    public String getMemory() {
-        return this.mem;
-    }
-    public void setMemory(String m) {
-        this.mem = m;
-    }
+  @Override
+  public void mouseReleased(MouseEvent e) {
+  }
 
-    /**
-     * @return the display
-     */
-    public int getDisplay() {
-        return display;
-    }
+  @Override
+  public void mouseEntered(MouseEvent e) {
+  }
 
-    /**
-     * @param display the display to set
-     */
-    public void setDisplay(int display) {
-        this.display = display;
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON3) {
-            copy.setEnabled(isCanCopy());
-            paste.setEnabled(isClipboardString());
-            cut.setEnabled(isCanCopy());
-            pop.show(this, e.getX(), e.getY());
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
+  @Override
+  public void mouseExited(MouseEvent e) {
+  }
 
 
-    /**
-     * 剪切板中是否有文本数据可供粘贴
-     *
-     * @return true为有文本数据
-     */
-    public boolean isClipboardString() {
-        boolean b = false;
-        Clipboard clipboard = this.getToolkit().getSystemClipboard();
-        Transferable content = clipboard.getContents(this);
-        try {
-            if (content.getTransferData(DataFlavor.stringFlavor) instanceof String) {
-                b = true;
-            }
-        } catch (Exception e) {
-        }
-        return b;
+  /**
+   * 剪切板中是否有文本数据可供粘贴
+   *
+   * @return true为有文本数据
+   */
+  public boolean isClipboardString() {
+    boolean b = false;
+    Clipboard clipboard = this.getToolkit().getSystemClipboard();
+    Transferable content = clipboard.getContents(this);
+    try {
+      if (content.getTransferData(DataFlavor.stringFlavor) instanceof String) {
+        b = true;
+      }
+    } catch (Exception e) {
     }
+    return b;
+  }
 
-    /**
-     * 文本组件中是否具备复制的条件
-     *
-     * @return true为具备
-     */
-    public boolean isCanCopy() {
-        boolean b = false;
-        int start = this.getSelectionStart();
-        int end = this.getSelectionEnd();
-        if (start != end) {
-            b = true;
-        }
-        return b;
+  /**
+   * 文本组件中是否具备复制的条件
+   *
+   * @return true为具备
+   */
+  public boolean isCanCopy() {
+    boolean b = false;
+    int start = this.getSelectionStart();
+    int end = this.getSelectionEnd();
+    if (start != end) {
+      b = true;
     }
+    return b;
+  }
 }

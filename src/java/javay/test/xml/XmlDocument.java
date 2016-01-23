@@ -1,5 +1,5 @@
 package javay.test.xml;
 
 public interface XmlDocument {
-	public void parserXml(String fileName);
+  public void parserXml(String fileName);
 }

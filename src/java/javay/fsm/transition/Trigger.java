@@ -1,7 +1,7 @@
 package javay.fsm.transition;
 
 /**
- * Event
+ * Trigger.
  * @author DBJ
  *
  */

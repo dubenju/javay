@@ -7,44 +7,44 @@ package javay.fsm;
  * 起始状态为Off
  */
 public class Aircon0{
-    // 0:off，1:FanOnly，AC
-	// 0:off, 1:
-	// 起始状态为Off
-    private int state = 0;
+  // 0:off，1:FanOnly，AC
+  // 0:off, 1:
+  // 起始状态为Off
+  private int state = 0;
 
-    public int getState() {
-    	return state;
-    }
+  public int getState() {
+    return state;
+  }
 
-    // 两个Action
-    //按power键
-    public void power(){
-        if(state == 0) {
-        	//off
-            state = 1;
-            System.out.println("start Fan");
-        } else if( state == 1 ) {
-        	//FanOnly
-            state = 0;
-            System.out.println("stop Fan");
-        } else {
-            state = 0;
-            System.out.println("stop Cool");
-        }
+  // 两个Action
+  //按power键
+  public void power(){
+    if(state == 0) {
+      //off
+      state = 1;
+      System.out.println("start Fan");
+    } else if( state == 1 ) {
+      //FanOnly
+      state = 0;
+      System.out.println("stop Fan");
+    } else {
+      state = 0;
+      System.out.println("stop Cool");
     }
+  }
 
-    // 按制冷键
-    public void cool() {
-        if( state == 0 ) {
-        	// off
-        	System.out.println("nothing");
-        } else if( state == 1 ) {
-        	//FanOnly
-            state = 2;
-            System.out.println("start Cool");
-        } else {
-            state=1;
-            System.out.println("stop Cool");
-        }
+  // 按制冷键
+  public void cool() {
+    if( state == 0 ) {
+      // off
+      System.out.println("nothing");
+    } else if( state == 1 ) {
+      //FanOnly
+      state = 2;
+      System.out.println("start Cool");
+    } else {
+      state=1;
+      System.out.println("stop Cool");
     }
+  }
 }

@@ -8,13 +8,13 @@ import javay.math.BigNum;
  *
  */
 public abstract class Expression {
-    /**
-     * 能求得结果的
-     * @return 能求得的结果
-     */
-    public abstract BigNum value();
-    public abstract String toString();
-    public abstract String toPrefixString();
-    public abstract String toInfixString();
-    public abstract String toPostfixString();
+  /**
+   * 能求得结果的
+   * @return 能求得的结果
+   */
+  public abstract BigNum value();
+  public abstract String toString();
+  public abstract String toPrefixString();
+  public abstract String toInfixString();
+  public abstract String toPostfixString();
 }

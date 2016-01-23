@@ -81,13 +81,13 @@ public Test(){
 
    this.addWindowListener(new WindowAdapter(){ 
 
-    public void WindowClosing(WindowEvent e){ 
+  public void WindowClosing(WindowEvent e){ 
 
-     dispose(); 
+   dispose(); 
 
-     System.exit(0); 
+   System.exit(0); 
 
-    } 
+  } 
 
    }); 
 
@@ -129,23 +129,23 @@ class MenuTest extends JMenuBar{
 
    exitMenuItem.addActionListener(new ActionListener(){ 
 
-    public void actionPerformed(ActionEvent e){ 
+  public void actionPerformed(ActionEvent e){ 
 
-     dispose(); 
+   dispose(); 
 
-     System.exit(0); 
+   System.exit(0); 
 
-    } 
+  } 
 
    }); 
 
    aboutMenuItem.addActionListener(new ActionListener(){ 
 
-    public void actionPerformed(ActionEvent e){ 
+  public void actionPerformed(ActionEvent e){ 
 
-     aboutDialog.show(); 
+   aboutDialog.show(); 
 
-    } 
+  } 
 
    }); 
 
@@ -175,11 +175,11 @@ public void initAboutDialog(){
 
    aboutDialog.addWindowListener(new WindowAdapter(){ 
 
-    public void WindowClosing(WindowEvent e){ 
+  public void WindowClosing(WindowEvent e){ 
 
-     dispose(); 
+   dispose(); 
 
-    } 
+  } 
 
    }); 
 
@@ -195,51 +195,51 @@ class LeftPanel extends JPanel{
 
    public LeftPanel(){ 
 
-    DefaultMutableTreeNode root=new DefaultMutableTreeNode("Root"); 
+  DefaultMutableTreeNode root=new DefaultMutableTreeNode("Root"); 
 
-    DefaultMutableTreeNode child=new DefaultMutableTreeNode("Child"); 
+  DefaultMutableTreeNode child=new DefaultMutableTreeNode("Child"); 
 
-    DefaultMutableTreeNode select=new DefaultMutableTreeNode("select"); 
+  DefaultMutableTreeNode select=new DefaultMutableTreeNode("select"); 
 
-    DefaultMutableTreeNode child1=new DefaultMutableTreeNode(""+i); 
+  DefaultMutableTreeNode child1=new DefaultMutableTreeNode(""+i); 
 
-    root.add(child); 
+  root.add(child); 
 
-    root.add(select); 
+  root.add(select); 
 
-    child.add(child1); 
+  child.add(child1); 
 
-    JTree tree=new JTree(root); 
+  JTree tree=new JTree(root); 
 
-    tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION); 
+  tree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION); 
 
-    tree.setRowHeight(20); 
+  tree.setRowHeight(20); 
 
-    tree.addTreeSelectionListener(new TreeSelectionListener(){ 
+  tree.addTreeSelectionListener(new TreeSelectionListener(){ 
 
-     public void valueChanged(TreeSelectionEvent e){ 
+   public void valueChanged(TreeSelectionEvent e){ 
 
-      JTree tree=(JTree)e.getSource(); 
+    JTree tree=(JTree)e.getSource(); 
 
-      DefaultMutableTreeNode selectNode=(DefaultMutableTreeNode)tree.getLastSelectedPathComponent(); 
+    DefaultMutableTreeNode selectNode=(DefaultMutableTreeNode)tree.getLastSelectedPathComponent(); 
 
-      i++; 
+    i++; 
 
-      selectNode.add(new DefaultMutableTreeNode(""+i)); 
+    selectNode.add(new DefaultMutableTreeNode(""+i)); 
 
-     } 
+   } 
 
-    }); 
+  }); 
 
-    tree.setPreferredSize(new Dimension(100,300)); 
+  tree.setPreferredSize(new Dimension(100,300)); 
 
-    JScrollPane scrollPane=new JScrollPane(tree); 
+  JScrollPane scrollPane=new JScrollPane(tree); 
 
-    this.add(scrollPane); 
+  this.add(scrollPane); 
 
-    
+  
 
-    } 
+  } 
 
    
 
@@ -251,57 +251,57 @@ class BottomPanel extends JPanel{
 
    public BottomPanel(){ 
 
-    pb=new JProgressBar(); 
+  pb=new JProgressBar(); 
 
-    pb.setPreferredSize(new Dimension(680,20)); 
+  pb.setPreferredSize(new Dimension(680,20)); 
 
-    Timer time=new Timer(1,new ActionListener(){ 
+  Timer time=new Timer(1,new ActionListener(){ 
 
-     int counter=0; 
+   int counter=0; 
 
-     public void actionPerformed(ActionEvent e){ 
+   public void actionPerformed(ActionEvent e){ 
 
-      counter++; 
+    counter++; 
 
-      pb.setValue(counter); 
+    pb.setValue(counter); 
 
-      Timer t=(Timer)e.getSource(); 
+    Timer t=(Timer)e.getSource(); 
 
-      if(counter==pb.getMaximum()){ 
+    if(counter==pb.getMaximum()){ 
 
-       t.stop(); 
+     t.stop(); 
 
-       counter=0; 
+     counter=0; 
 
-       t.start(); 
+     t.start(); 
 
-      } 
+    } 
 
-     } 
+   } 
 
-    }); 
+  }); 
 
-    time.start(); 
+  time.start(); 
 
-    pb.setStringPainted(true); 
+  pb.setStringPainted(true); 
 
-    pb.setMinimum(0); 
+  pb.setMinimum(0); 
 
-    pb.setMaximum(1000); 
+  pb.setMaximum(1000); 
 
-    pb.setBackground(Color.white); 
+  pb.setBackground(Color.white); 
 
-    pb.setForeground(Color.red); 
+  pb.setForeground(Color.red); 
 
    
 
-    this.add(pb); 
+  this.add(pb); 
 
    } 
 
    public void setProcessBar(BoundedRangeModel rangeModel){ 
 
-    pb.setModel(rangeModel); 
+  pb.setModel(rangeModel); 
 
    } 
 
@@ -311,103 +311,103 @@ class RightPanel extends JPanel{
 
    public RightPanel(){ 
 
-    this.setLayout(new GridLayout(8,1)); 
+  this.setLayout(new GridLayout(8,1)); 
 
-    JCheckBox checkBox=new JCheckBox("复选按钮"); 
+  JCheckBox checkBox=new JCheckBox("复选按钮"); 
 
-    JButton button=new JButton("打开文件"); 
+  JButton button=new JButton("打开文件"); 
 
-    button.addActionListener(new ActionListener(){ 
+  button.addActionListener(new ActionListener(){ 
 
-     public void actionPerformed(ActionEvent e){ 
+   public void actionPerformed(ActionEvent e){ 
 
-      JFileChooser file=new JFileChooser(); 
+    JFileChooser file=new JFileChooser(); 
 
-      int resule=file.showOpenDialog(new JPanel()); 
+    int resule=file.showOpenDialog(new JPanel()); 
 
-      if(resule==file.APPROVE_OPTION){ 
+    if(resule==file.APPROVE_OPTION){ 
 
-       String fileName=file.getSelectedFile().getName(); 
+     String fileName=file.getSelectedFile().getName(); 
 
-       String dir=file.getSelectedFile().getName(); 
+     String dir=file.getSelectedFile().getName(); 
 
-       JOptionPane.showConfirmDialog(null,dir+"\\"+fileName,"选择的文件",JOptionPane.YES_OPTION); 
+     JOptionPane.showConfirmDialog(null,dir+"\\"+fileName,"选择的文件",JOptionPane.YES_OPTION); 
 
-      } 
+    } 
 
-     } 
+   } 
 
-    }); 
+  }); 
 
-    JToggleButton toggleButton=new JToggleButton("双胎按钮"); 
+  JToggleButton toggleButton=new JToggleButton("双胎按钮"); 
 
-    ButtonGroup buttonGroup=new ButtonGroup(); 
+  ButtonGroup buttonGroup=new ButtonGroup(); 
 
-    JRadioButton radioButton1=new JRadioButton("单选按钮1",false); 
+  JRadioButton radioButton1=new JRadioButton("单选按钮1",false); 
 
-    JRadioButton radioButton2=new JRadioButton("单选按钮2",false); 
+  JRadioButton radioButton2=new JRadioButton("单选按钮2",false); 
 
-    JComboBox comboBox=new JComboBox(); 
+  JComboBox comboBox=new JComboBox(); 
 
-    comboBox.setToolTipText("点击下拉列表增加选项"); 
+  comboBox.setToolTipText("点击下拉列表增加选项"); 
 
-    comboBox.addActionListener(new ActionListener(){ 
+  comboBox.addActionListener(new ActionListener(){ 
 
-     public void actionPerformed(ActionEvent e){ 
+   public void actionPerformed(ActionEvent e){ 
 
-      JComboBox comboBox=(JComboBox)e.getSource(); 
+    JComboBox comboBox=(JComboBox)e.getSource(); 
 
-      comboBox.addItem("程序员"); 
+    comboBox.addItem("程序员"); 
 
-      comboBox.addItem("分析员"); 
+    comboBox.addItem("分析员"); 
 
-     } 
+   } 
 
-    }); 
+  }); 
 
-    DefaultListModel litem=new DefaultListModel(); 
+  DefaultListModel litem=new DefaultListModel(); 
 
-    litem.addElement("香蕉"); 
+  litem.addElement("香蕉"); 
 
-    litem.addElement("水果"); 
+  litem.addElement("水果"); 
 
-    JList list=new JList(litem); 
+  JList list=new JList(litem); 
 
-    list.addListSelectionListener(new ListSelectionListener(){ 
+  list.addListSelectionListener(new ListSelectionListener(){ 
 
-     public void valueChanged(ListSelectionEvent e){ 
+   public void valueChanged(ListSelectionEvent e){ 
 
-      JList l=(JList)e.getSource(); 
+    JList l=(JList)e.getSource(); 
 
-      Object s=l.getSelectedValue(); 
+    Object s=l.getSelectedValue(); 
 
-      JOptionPane.showMessageDialog(null,s,"消息框",JOptionPane.YES_OPTION); 
+    JOptionPane.showMessageDialog(null,s,"消息框",JOptionPane.YES_OPTION); 
 
-     
+   
 
-     } 
+   } 
 
-    }); 
+  }); 
 
-    buttonGroup.add(radioButton1); 
+  buttonGroup.add(radioButton1); 
 
-    buttonGroup.add(radioButton2); 
+  buttonGroup.add(radioButton2); 
 
-    add(button); 
+  add(button); 
 
-    add(toggleButton); 
+  add(toggleButton); 
 
-    add(checkBox); 
+  add(checkBox); 
 
-    add(radioButton1); 
+  add(radioButton1); 
 
-    add(radioButton2); 
+  add(radioButton2); 
 
-    add(comboBox); 
+  add(comboBox); 
 
-    add(list); 
+  add(list); 
 
-    this.setBorder(new EtchedBorder(EtchedBorder.LOWERED,Color.LIGHT_GRAY,Color.blue)); 
+  this.setBorder(new EtchedBorder(EtchedBorder.LOWERED,Color.LIGHT_GRAY,Color.blue)); 
 
    } 
 
@@ -417,51 +417,51 @@ class CenterPanel extends JPanel{
 
    public CenterPanel(){ 
 
-    JTabbedPane tab=new JTabbedPane(JTabbedPane.TOP); 
+  JTabbedPane tab=new JTabbedPane(JTabbedPane.TOP); 
 
-    JTextField textField=new JTextField("文本域，点击打开<文件按钮>可选择文件"); 
+  JTextField textField=new JTextField("文本域，点击打开<文件按钮>可选择文件"); 
 
-    textField.setActionCommand("textField"); 
+  textField.setActionCommand("textField"); 
 
-    JTextPane textPane=new JTextPane(); 
+  JTextPane textPane=new JTextPane(); 
 
-    textPane.setCursor(new Cursor(Cursor.TEXT_CURSOR)); 
+  textPane.setCursor(new Cursor(Cursor.TEXT_CURSOR)); 
 
-    textPane.setText("编辑器，试着点击文本区，试着拉动分隔条。"); 
+  textPane.setText("编辑器，试着点击文本区，试着拉动分隔条。"); 
 
    
 
-    textPane.addMouseListener(new MouseAdapter(){ 
+  textPane.addMouseListener(new MouseAdapter(){ 
 
-     public void mousePressed(MouseEvent e){ 
+   public void mousePressed(MouseEvent e){ 
 
-      JTextPane textPane=(JTextPane)e.getSource(); 
+    JTextPane textPane=(JTextPane)e.getSource(); 
 
-      textPane.setText("编辑器点击命令成功"); 
+    textPane.setText("编辑器点击命令成功"); 
 
-     } 
+   } 
 
-    }); 
+  }); 
 
-    JSplitPane splitPane=new JSplitPane(JSplitPane.VERTICAL_SPLIT,textField,textPane); 
+  JSplitPane splitPane=new JSplitPane(JSplitPane.VERTICAL_SPLIT,textField,textPane); 
 
-    JTable table=new JTable(10,10); 
+  JTable table=new JTable(10,10); 
 
-    JPanel pane=new JPanel(); 
+  JPanel pane=new JPanel(); 
 
-    pane.add(table.getTableHeader(),BorderLayout.NORTH); 
+  pane.add(table.getTableHeader(),BorderLayout.NORTH); 
 
-    pane.add(table); 
+  pane.add(table); 
 
-    tab.addTab("文本演示",splitPane); 
+  tab.addTab("文本演示",splitPane); 
 
-    tab.addTab("表格演示", pane); 
+  tab.addTab("表格演示", pane); 
 
-    tab.setPreferredSize(new Dimension(500,600)); 
+  tab.setPreferredSize(new Dimension(500,600)); 
 
-    this.add(tab); 
+  this.add(tab); 
 
-    this.setEnabled(true); 
+  this.setEnabled(true); 
 
    } 
 

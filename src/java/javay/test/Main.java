@@ -13,36 +13,36 @@ import java.math.BigDecimal;
  *
  */
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        BigDecimal a, b, ans, c;
-        c = BigDecimal.valueOf(32);
-        int t = scanner.nextInt();
-        for(int i = 1; i <= t; i++) {
-            a = scanner.nextBigDecimal();
-            b = scanner.nextBigDecimal();
-            if(a.compareTo(b) <= 0) {
-            	// 假设a>=b
-                ans = a;
-                a = b;
-                b = ans;
-            }
-            // 令k=a-b
-            a = a.subtract(b);
-            if(a.compareTo(c) >= 0) {
-            	// 如果k>=32，那么lg(2^k+1)应该接近为k
-            	ans = a.add(b);
-            } else {
-            	// 否则double的pow可以直接计算。
-                double tmp = Math.pow(2, a.doubleValue()) + 1;
-                tmp = Math.log(tmp)/Math.log((double)2);
-                ans = b.add(BigDecimal.valueOf(tmp));
-            }
-            ans = ans.setScale(9, BigDecimal.ROUND_HALF_UP);
-            System.out.println("Case " + i + ": " + ans.toPlainString());
-        }
-        scanner.close();
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    BigDecimal a, b, ans, c;
+    c = BigDecimal.valueOf(32);
+    int t = scanner.nextInt();
+    for(int i = 1; i <= t; i++) {
+      a = scanner.nextBigDecimal();
+      b = scanner.nextBigDecimal();
+      if(a.compareTo(b) <= 0) {
+        // 假设a>=b
+        ans = a;
+        a = b;
+        b = ans;
+      }
+      // 令k=a-b
+      a = a.subtract(b);
+      if(a.compareTo(c) >= 0) {
+        // 如果k>=32，那么lg(2^k+1)应该接近为k
+        ans = a.add(b);
+      } else {
+        // 否则double的pow可以直接计算。
+        double tmp = Math.pow(2, a.doubleValue()) + 1;
+        tmp = Math.log(tmp)/Math.log((double)2);
+        ans = b.add(BigDecimal.valueOf(tmp));
+      }
+      ans = ans.setScale(9, BigDecimal.ROUND_HALF_UP);
+      System.out.println("Case " + i + ": " + ans.toPlainString());
     }
+    scanner.close();
+  }
 }
 
 /*
@@ -70,8 +70,8 @@ Ln(1-x)=-x-x^2/2-x^3/3-x^4/4-……(-1≤x<1)
 【参考《实用数值计算方法》.甄西丰.清华大学出版社.2006.60-61页】
 
 算法优化:
-    其实上面的方法很久就发现了,但是一直没有下手写代码,因为当时一直无法处理收敛速度慢的问题,参考书上也没有具体说明,这几天无意之间发现算法可以进行如下的优化,特写成一篇文章,以为有缘人作参考.
-    根据上面的算法我们可以求一个大于0的数a的对数,即Ln(a),在上面的算法中与a密切相关的是x=(a-1)/(a+1),明显当a趋近1的时候，上面的算法才会收敛快一点,当a远离1的时候，收敛速度是慢得惊人的.那在这里我们有没有好的方法使上面的算法对任意数都收敛较快呢。其实是有的，看下面的式子
+  其实上面的方法很久就发现了,但是一直没有下手写代码,因为当时一直无法处理收敛速度慢的问题,参考书上也没有具体说明,这几天无意之间发现算法可以进行如下的优化,特写成一篇文章,以为有缘人作参考.
+  根据上面的算法我们可以求一个大于0的数a的对数,即Ln(a),在上面的算法中与a密切相关的是x=(a-1)/(a+1),明显当a趋近1的时候，上面的算法才会收敛快一点,当a远离1的时候，收敛速度是慢得惊人的.那在这里我们有没有好的方法使上面的算法对任意数都收敛较快呢。其实是有的，看下面的式子
 Ln(a)=Ln(10^n*a/10^n)=Ln(10^n)+Ln(a/10^n)=n*Ln(10)+Ln(a/10^n)=n*Ln(10)+Ln(b),其中b=a/10^n
 (1)如果a的第一个有效数字为1,7,8,9那么b必须计算到0.7≤b<2,进而得到相应的n.例如我们计算
    Ln(7456789.123456)=7*Ln(10)+Ln(0.7456789123456)
@@ -88,21 +88,21 @@ Ln(a)=Ln(10^n*a/10^n)=Ln(10^n)+Ln(a/10^n)=n*Ln(10)+Ln(a/10^n)=n*Ln(10)+Ln(b),其
 Ln(a)
 {
   If (a=0 or a<0)
-     { Return 数据有误; }
+   { Return 数据有误; }
   Else
-     {
-       start=获取a的第一个有效数字;
-       If (start=1,7,8,9)
-          { b=对a移动n位,移位后b满足0.7≤b<2;
-            c=把b带入算法1计算出Ln(b);
-            Return n*Ln(10)+c;
-           }
-       Else
-          { b=对a移动n位后除以4,最终b满足0.5≤b<7/4;
-            c=把b带入算法1计算出Ln(b);
-            Return Ln(4)+n*Ln(10)+c;
-          }
+   {
+     start=获取a的第一个有效数字;
+     If (start=1,7,8,9)
+      { b=对a移动n位,移位后b满足0.7≤b<2;
+      c=把b带入算法1计算出Ln(b);
+      Return n*Ln(10)+c;
+       }
+     Else
+      { b=对a移动n位后除以4,最终b满足0.5≤b<7/4;
+      c=把b带入算法1计算出Ln(b);
+      Return Ln(4)+n*Ln(10)+c;
       }
+    }
 }
 
 看源码示例《高精度取对数BigNumberLog》
@@ -125,175 +125,175 @@ BigNumberSub_:大自然数减法
 
 源代码:
 Public Function BigNumberLog(ByVal f As String) As String
-        Dim f1, f2 As String
-        Dim IsOver0 As Boolean
-        If BigNumberGet(f, f1, f2, IsOver0) = False Then
-            Return ""
-        End If
-        If IsOver0 = False Then
-            Return ""
-        End If
-        If f1 = "0" Then
-            If f2 = "" Then
-                Return ""
-            End If
-            f1 = ""
-        End If
-        Dim i As Integer = f1.Length
-        If i > 0 Then
-            f = f1 + f2
+    Dim f1, f2 As String
+    Dim IsOver0 As Boolean
+    If BigNumberGet(f, f1, f2, IsOver0) = False Then
+      Return ""
+    End If
+    If IsOver0 = False Then
+      Return ""
+    End If
+    If f1 = "0" Then
+      If f2 = "" Then
+        Return ""
+      End If
+      f1 = ""
+    End If
+    Dim i As Integer = f1.Length
+    If i > 0 Then
+      f = f1 + f2
+    Else
+      Dim j As Integer = f2.Length
+      While j > 0
+        If f2.StartsWith("0") Then
+          j -= 1
+          i -= 1
+          f2 = Mid(f2, 2, j)
         Else
-            Dim j As Integer = f2.Length
-            While j > 0
-                If f2.StartsWith("0") Then
-                    j -= 1
-                    i -= 1
-                    f2 = Mid(f2, 2, j)
-                Else
-                    Exit While
-                End If
-            End While
-            f = f2
+          Exit While
         End If
-        f1 = Mid(f, 1, 1)
-        If f1 = "1" Then
-            i -= 1
-            f = "1." + Mid(f, 2, f.Length) + "0"
-            f2 = ""
-        ElseIf f1 = "7" Or f1 = "8" Or f1 = "9" Then
-            f = "0." + f
-            f2 = ""
-        Else
-            i -= 1
-            f = f1 + "." + Mid(f, 2, f.Length) + "0"
-            f = BigNumberRun(f, "4", 300, 4)
-            f2 = "1"
-        End If
-        f1 = BigNumberLog_Call(f)
-        If f2 <> "" Then
-            f1 = BigNumberRun(f1, "1.38629436111989061883446424291635313615100026872051050824136001898678724393938943121172665399283737508400296204114137146737104047151626111406534150327015192386145514165674287038061407724778334693638836824916485677414663926926303520882545058180287575423519508266161195298", 300, 1)
-        End If
-        f2 = BigNumberRun(i.ToString, MyLog10, 300, 3)
-        f = BigNumberRun(f1, f2, 300, 1)
-        Return f
-    End Function
+      End While
+      f = f2
+    End If
+    f1 = Mid(f, 1, 1)
+    If f1 = "1" Then
+      i -= 1
+      f = "1." + Mid(f, 2, f.Length) + "0"
+      f2 = ""
+    ElseIf f1 = "7" Or f1 = "8" Or f1 = "9" Then
+      f = "0." + f
+      f2 = ""
+    Else
+      i -= 1
+      f = f1 + "." + Mid(f, 2, f.Length) + "0"
+      f = BigNumberRun(f, "4", 300, 4)
+      f2 = "1"
+    End If
+    f1 = BigNumberLog_Call(f)
+    If f2 <> "" Then
+      f1 = BigNumberRun(f1, "1.38629436111989061883446424291635313615100026872051050824136001898678724393938943121172665399283737508400296204114137146737104047151626111406534150327015192386145514165674287038061407724778334693638836824916485677414663926926303520882545058180287575423519508266161195298", 300, 1)
+    End If
+    f2 = BigNumberRun(i.ToString, MyLog10, 300, 3)
+    f = BigNumberRun(f1, f2, 300, 1)
+    Return f
+  End Function
 ‘*********************************核心算法部分*****************************
-    Private Function BigNumberLog_Call(ByVal a As String) As String
-        Dim x As String = BigNumberRun(a, "1", 300, 2)
-        a = BigNumberRun(a, "1", 300, 1)
-        x = BigNumberRun(x, a, 300, 4)
-        Dim IsOver As Boolean
-        BigNumberGet(x, "", a, IsOver)
-        Dim i As Integer = a.Length
-        If i < 265 Then
-            a += StrDup(265 - i, "0")
-        ElseIf i > 265 Then
-            a = Mid(a, 1, 265)
-        End If
-        '每个数据扩大10^(9*30)
-        Dim x1(29), x2(0), One(30), k(0), Div(58), yk(0), temp(0), temp2(0) As Long
-        One(30) = 1
-        Div(58) = 100000000
-        BigNumberGetArry(a, x1)
-        BigNumberMul_(x1, x1, x2)
-        k(0) = 401
-        BigNumberDiv_(One, k, yk, Nothing)
-        While k(0) > 1
-            k(0) -= 2
-            BigNumberMul_(x2, yk, temp)
-            BigNumberDiv_(temp, Div, temp2, Nothing)
-            BigNumberDiv_(One, k, temp, Nothing)
-            BigNumberAdd_(temp, temp2, yk)
-        End While
-        k(0) = 2
-        BigNumberMul_(x1, k, x2)
-        BigNumberMul_(x2, yk, temp)
-        i = temp.Length - 1
-        x = temp(i)
-        While i > 0
-            i -= 1
-            a = temp(i).ToString
-            x += StrDup(9 - a.Length, "0") + a
-        End While
-        i = x.Length
-        If x.Length < 265 + 270 + 1 Then
-            x = StrDup(265 + 270 + 1 - x.Length, "0") + x
-        End If
-        i = x.Length - 265 - 270
-        x = Mid(x, 1, i) + "." + Mid(x, i + 1, 265 + 270)
-        If IsOver = False Then
-            x = "-" + x
-        End If
-        Return x
-    End Function
+  Private Function BigNumberLog_Call(ByVal a As String) As String
+    Dim x As String = BigNumberRun(a, "1", 300, 2)
+    a = BigNumberRun(a, "1", 300, 1)
+    x = BigNumberRun(x, a, 300, 4)
+    Dim IsOver As Boolean
+    BigNumberGet(x, "", a, IsOver)
+    Dim i As Integer = a.Length
+    If i < 265 Then
+      a += StrDup(265 - i, "0")
+    ElseIf i > 265 Then
+      a = Mid(a, 1, 265)
+    End If
+    '每个数据扩大10^(9*30)
+    Dim x1(29), x2(0), One(30), k(0), Div(58), yk(0), temp(0), temp2(0) As Long
+    One(30) = 1
+    Div(58) = 100000000
+    BigNumberGetArry(a, x1)
+    BigNumberMul_(x1, x1, x2)
+    k(0) = 401
+    BigNumberDiv_(One, k, yk, Nothing)
+    While k(0) > 1
+      k(0) -= 2
+      BigNumberMul_(x2, yk, temp)
+      BigNumberDiv_(temp, Div, temp2, Nothing)
+      BigNumberDiv_(One, k, temp, Nothing)
+      BigNumberAdd_(temp, temp2, yk)
+    End While
+    k(0) = 2
+    BigNumberMul_(x1, k, x2)
+    BigNumberMul_(x2, yk, temp)
+    i = temp.Length - 1
+    x = temp(i)
+    While i > 0
+      i -= 1
+      a = temp(i).ToString
+      x += StrDup(9 - a.Length, "0") + a
+    End While
+    i = x.Length
+    If x.Length < 265 + 270 + 1 Then
+      x = StrDup(265 + 270 + 1 - x.Length, "0") + x
+    End If
+    i = x.Length - 265 - 270
+    x = Mid(x, 1, i) + "." + Mid(x, i + 1, 265 + 270)
+    If IsOver = False Then
+      x = "-" + x
+    End If
+    Return x
+  End Function
 ’**************************************************************************************
 ‘下面的2个函数的作用是把类似这种数据3.789装数组之中
 Private Sub BigNumberGetArry(ByVal f As String, ByRef ret() As Long)
-        '由大整数f获得数组形式的ret
-        Dim i, j As Integer
-        i = f.Length
-        j = i \ 9
-        If j * 9 = i Then
-            j -= 1
-        End If
-        ReDim ret(j)
-        j = 0
-        While i > 9
-            ret(j) = CLng(Mid(f, i - 8, 9))
-            j += 1
-            i -= 9
-            f = Mid(f, 1, i)
-        End While
-        ret(j) = CLng(f)
-    End Sub
+    '由大整数f获得数组形式的ret
+    Dim i, j As Integer
+    i = f.Length
+    j = i \ 9
+    If j * 9 = i Then
+      j -= 1
+    End If
+    ReDim ret(j)
+    j = 0
+    While i > 9
+      ret(j) = CLng(Mid(f, i - 8, 9))
+      j += 1
+      i -= 9
+      f = Mid(f, 1, i)
+    End While
+    ret(j) = CLng(f)
+  End Sub
 Public Function BigNumberGet(ByVal f As String, ByRef f1 As String, ByRef f2 As String, ByRef IsOver0 As Boolean) As Boolean
-        '获取数据f,并返回整数部分f1,小数部分f2,IsOver0为False表示f为负数,f不为10进制数据返回False
-        '例子f=2.356时f1=2 f2=365 IsOver0=True
-        'f=-45时 f1=45 f2=  IsOver0=False
-        If f.StartsWith("-") Then
-            IsOver0 = False
-            If f.Length = 1 Then
-                Return False
-            End If
-            f = Mid(f, 2, f.Length - 1)
-        Else
-            IsOver0 = True
-        End If
-        Dim i As Integer = f.IndexOf(".")
-        If i = 0 Or i = f.Length - 1 Then
-            Return False
-        ElseIf i > 0 Then
-            f1 = Mid(f, 1, i)
-            f2 = Mid(f, i + 2, f.Length - i - 1)
-        Else
-            f1 = f
-            f2 = ""
-        End If
-        f = f1 + f2
-        Dim reg As New System.Text.RegularExpressions.Regex("\d+")
-        If reg.IsMatch(f) = False Then
-            Return False
-        ElseIf reg.Match(f).Value <> f Then
-            Return False
-        End If
-        i = f2.Length
-        While i > 0
-            If f2.EndsWith("0") Then
-                i -= 1
-                f2 = Mid(f2, 1, i)
-            Else
-                Exit While
-            End If
-        End While
-        i = f1.Length
-        While i > 1
-            If f1.StartsWith("0") Then
-                i -= 1
-                f1 = Mid(f1, 2, i)
-            Else
-                Exit While
-            End If
-        End While
-        Return True
-    End Function
+    '获取数据f,并返回整数部分f1,小数部分f2,IsOver0为False表示f为负数,f不为10进制数据返回False
+    '例子f=2.356时f1=2 f2=365 IsOver0=True
+    'f=-45时 f1=45 f2=  IsOver0=False
+    If f.StartsWith("-") Then
+      IsOver0 = False
+      If f.Length = 1 Then
+        Return False
+      End If
+      f = Mid(f, 2, f.Length - 1)
+    Else
+      IsOver0 = True
+    End If
+    Dim i As Integer = f.IndexOf(".")
+    If i = 0 Or i = f.Length - 1 Then
+      Return False
+    ElseIf i > 0 Then
+      f1 = Mid(f, 1, i)
+      f2 = Mid(f, i + 2, f.Length - i - 1)
+    Else
+      f1 = f
+      f2 = ""
+    End If
+    f = f1 + f2
+    Dim reg As New System.Text.RegularExpressions.Regex("\d+")
+    If reg.IsMatch(f) = False Then
+      Return False
+    ElseIf reg.Match(f).Value <> f Then
+      Return False
+    End If
+    i = f2.Length
+    While i > 0
+      If f2.EndsWith("0") Then
+        i -= 1
+        f2 = Mid(f2, 1, i)
+      Else
+        Exit While
+      End If
+    End While
+    i = f1.Length
+    While i > 1
+      If f1.StartsWith("0") Then
+        i -= 1
+        f1 = Mid(f1, 2, i)
+      Else
+        Exit While
+      End If
+    End While
+    Return True
+  End Function
 */

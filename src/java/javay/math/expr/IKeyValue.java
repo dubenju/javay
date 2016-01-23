@@ -9,8 +9,8 @@ package javay.math.expr;
  */
 
 public interface IKeyValue<T> extends IBean {
-    public String getKey();
-    public T      getVale¥ue();
-    public void setKey(String k);
-    public void setValue(T v);
+  public String getKey();
+  public T    getVale¥ue();
+  public void setKey(String k);
+  public void setValue(T v);
 }

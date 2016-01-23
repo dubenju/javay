@@ -11,42 +11,42 @@ import java.awt.Color;
 
 public abstract class MineSweeperBlock extends GamePiece
 {
-    /**
-     * A flag that is true iff this block is visible.
-     */
+  /**
+   * A flag that is true iff this block is visible.
+   */
 
-    private boolean visible;
+  private boolean visible;
 
-    /**
-     * Creates an unrevealed block of the given color.
-     *
-     * @param c a color
-     */
+  /**
+   * Creates an unrevealed block of the given color.
+   *
+   * @param c a color
+   */
 
-    public MineSweeperBlock(Color c)
-    {
-	super(c);
+  public MineSweeperBlock(Color c)
+  {
+  super(c);
 
-	visible = false;
-    }
+  visible = false;
+  }
 
-    /**
-     * Reveals this block.
-     */
+  /**
+   * Reveals this block.
+   */
 
-    public void makeVisible()
-    {
-	visible = true;
-    }
+  public void makeVisible()
+  {
+  visible = true;
+  }
 
-    /**
-     * Determines if this block has been revealed.
-     *
-     * return true iff this block has been revealed
-     */
+  /**
+   * Determines if this block has been revealed.
+   *
+   * return true iff this block has been revealed
+   */
 
-    public boolean isVisible()
-    {
-	return visible;
-    }
+  public boolean isVisible()
+  {
+  return visible;
+  }
 }

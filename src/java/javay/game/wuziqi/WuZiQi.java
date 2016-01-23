@@ -14,20 +14,20 @@ import javax.swing.JFrame;
  */
 public class WuZiQi extends JFrame implements ActionListener {
 
-	/**
-	 *
-	 */
-	public WuZiQi() {
-	}
+  /**
+   *
+   */
+  public WuZiQi() {
+  }
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-	}
+  /**
+   * @param args
+   */
+  public static void main(String[] args) {
+  }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	}
+  @Override
+  public void actionPerformed(ActionEvent e) {
+  }
 
 }

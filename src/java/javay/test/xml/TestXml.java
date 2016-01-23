@@ -1,9 +1,9 @@
 package javay.test.xml;
 
-import javay.xml.XMLbyDom4j;
+import javay.xml.XmlbyDom4j;
 
 public class TestXml {
-	public static void main(String[] args) {
-		XMLbyDom4j.parserXml("./conf/dbjcalc.xml");
-	}
+  public static void main(String[] args) {
+    XmlbyDom4j.parserXml("./conf/dbjcalc.xml");
+  }
 }

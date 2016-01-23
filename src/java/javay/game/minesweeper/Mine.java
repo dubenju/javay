@@ -9,12 +9,12 @@ package javay.game.minesweeper;
 
 public class Mine extends MineSweeperBlock
 {
-    /**
-     * Creates an unrevealed black mine.
-     */
+  /**
+   * Creates an unrevealed black mine.
+   */
 
-    public Mine()
-    {
-	super(BLACK);
-    }
+  public Mine()
+  {
+  super(BLACK);
+  }
 }

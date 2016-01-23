@@ -12,43 +12,43 @@ import java.awt.Color;
 
 public class Empty extends MineSweeperBlock
 {
-    /**
-     * The number of mines adjacent to this empty block.
-     */
+  /**
+   * The number of mines adjacent to this empty block.
+   */
 
-    private int mines;
+  private int mines;
 
-    /**
-     * The colors to draw the numbers in.  1 would be drawn in color
-     * <CODE>numberColors[1]</CODE>.
-     */
+  /**
+   * The colors to draw the numbers in.  1 would be drawn in color
+   * <CODE>numberColors[1]</CODE>.
+   */
 
-    private static final Color[] numberColors
-	= {BLACK, BLUE, GREEN, RED, PURPLE, ORANGE, YELLOW, BROWN, WHITE, PINK};
+  private static final Color[] numberColors
+  = {BLACK, BLUE, GREEN, RED, PURPLE, ORANGE, YELLOW, BROWN, WHITE, PINK};
 
-    /**
-     * Creates an unrevealed empty block adjacent to the given number of
-     * mines.
-     *
-     * @param m the number of mines adjacent to the new empty block
-     */
+  /**
+   * Creates an unrevealed empty block adjacent to the given number of
+   * mines.
+   *
+   * @param m the number of mines adjacent to the new empty block
+   */
 
-    public Empty(int m)
-    {
-	super(numberColors[m]);
+  public Empty(int m)
+  {
+  super(numberColors[m]);
 
-	mines = m;
-    }
+  mines = m;
+  }
 
-    /**
-     * Returns the number of mines adjacent to this empty block.
-     *
-     * @return the number of mines adjacent to this empty block
-     */
+  /**
+   * Returns the number of mines adjacent to this empty block.
+   *
+   * @return the number of mines adjacent to this empty block
+   */
 
-    public int getAdjacentMines()
-    {
-	return mines;
-    }
+  public int getAdjacentMines()
+  {
+  return mines;
+  }
 }
 
