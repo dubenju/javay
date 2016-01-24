@@ -6,14 +6,16 @@ public class ExpressionV extends Expression {
 
   private String variableName;
   private BigNum variableValue;
-  
+
   public ExpressionV(String varName) {
     this.variableName = varName;
   }
+
   public ExpressionV(String varName, BigNum varVal) {
     this.variableName = varName;
     this.variableValue = varVal;
   }
+
   @Override
   public BigNum value() {
     return this.variableValue;
@@ -56,6 +58,7 @@ public class ExpressionV extends Expression {
   }
 
   /**
+   * getVariableName.
    * @return the variableName
    */
   public String getVariableName() {
@@ -63,6 +66,7 @@ public class ExpressionV extends Expression {
   }
 
   /**
+   * setVariableName.
    * @param variableName the variableName to set
    */
   public void setVariableName(String variableName) {
@@ -70,6 +74,7 @@ public class ExpressionV extends Expression {
   }
 
   /**
+   * getVariableValue.
    * @return the variableValue
    */
   public BigNum getVariableValue() {
@@ -77,6 +82,7 @@ public class ExpressionV extends Expression {
   }
 
   /**
+   * setVariableValue.
    * @param variableValue the variableValue to set
    */
   public void setVariableValue(BigNum variableValue) {

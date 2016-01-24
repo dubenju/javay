@@ -6,9 +6,9 @@ import java.util.Stack;
 
 public class ExprParser {
   /**
-   * 表达式的分解
+   * 表达式的分解.
    * @param str 表达式
-   * @return
+   * @return List
    */
   public static List<Token> parse(String str) throws ExprException {
     System.out.println(str);
@@ -18,7 +18,7 @@ public class ExprParser {
     List<Token> tokens = new ArrayList<Token>();
     StringBuffer buf = null;
     int stat = 0; // 0:nothing,1:number,2:operator
-    for(int i = 0; i < charAry.length; i ++) {
+    for (int i = 0; i < charAry.length; i ++) {
       char ch = charAry[i];
       System.out.print("{" + ch + "}");
       if ('0' <= ch && ch <= '9' || ch == '.') {
@@ -104,16 +104,16 @@ public class ExprParser {
         tokenOperate(tokens, buf.toString());
         System.out.println(stat + "[OPRc]" + buf.toString());
       }
-    }//if
+    } //if
     System.out.println(tokens.toString());
     return tokens;
   }
 
   /**
-   * 区分是操作符还是变量
-   * @param tokens
-   * @param key
-   * @throws ExprException
+   * 区分是操作符还是变量.
+   * @param tokens List
+   * @param key String
+   * @throws ExprException ExprException
    */
   public static void tokenOperate(List<Token> tokens, String key) throws ExprException {
     if (Operators.isExist(key)) {
@@ -124,13 +124,13 @@ public class ExprParser {
       throw new ExprException("不能被识别的记号。[" + key + "]");
     }
   }
+
   /**
-   * 获取中缀表达式
-   * @param list
-   * @param pos
-   * @param precedence
-   * @return
-   * @throws ExprException
+   * 获取中缀表达式.
+   * @param list List
+   * @param pos int
+   * @return Expression
+   * @throws ExprException ExprException
    */
   public static Expression toExprFromInfix(List<Token> list, int pos) throws ExprException {
     Stack<Expression> stkExpr = new Stack<Expression>();
@@ -140,7 +140,7 @@ public class ExprParser {
     Stack<Token>    stkLeft = new Stack<Token>();
 
     int listSize = list.size();
-    for(int i = pos; i < listSize; i ++) {
+    for (int i = pos; i < listSize; i ++) {
       Token token = list.get(i);
       System.out.println(i + ":" + token + stkExpr.toString() + ":" + stkOp.toString());
       if (TokenType.OPERATOR.equals(token.getType())) {
@@ -157,7 +157,9 @@ public class ExprParser {
           } else if (TokenType.OPERATOR.equals(preToken.getType())) {
             // 前面的操作符
             String preOperate = preToken.getToken();
-            if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
+            if (!(ExprConts.PER.equals(preOperate) 
+                || ExprConts.FAC.equals(preOperate) 
+                || ExprConts.RIGHT.equals(preOperate))) {
               // 当前面的操作符不是%!)的时候，+/-是正负号。
               operate = operate + ":";
             }
@@ -168,7 +170,7 @@ public class ExprParser {
           subList = new ArrayList<Token>();
           stkLeft.push(token);
           i++;
-          while(stkLeft.size() > 0 && i < listSize) {
+          while (stkLeft.size() > 0 && i < listSize) {
             // 当一直存在的时候
             Token token2 = list.get(i);
             if (ExprConts.LEFT.equals(token2.getToken())) {
@@ -252,8 +254,9 @@ public class ExprParser {
     } // for
     return res;
   }
+
   protected static Expression setExpr(Stack<Operator> opLefts, Expression exprN,
-    Operator opRight, Stack<Expression> stkExpr) throws ExprException {
+      Operator opRight, Stack<Expression> stkExpr) throws ExprException {
     // 左操作符权限，不存在时为－1
     int optLePri = -1;
     if (opLefts.size() > 0) {
@@ -271,7 +274,7 @@ public class ExprParser {
           optLePri = optLeft.getPriority();
         }
       }
-    }// 左操作符权限
+    } // 左操作符权限
 
     // 右操作符权限，不存在时为－1
     int optRiPri = -1;
@@ -289,7 +292,7 @@ public class ExprParser {
           optRiPri = opRight.getPriority();
         }
       }
-    }// 右操作符权限
+    } // 右操作符权限
 
     if (optLePri == -1 && optRiPri == -1) {
       return exprN;
@@ -317,6 +320,11 @@ public class ExprParser {
     }
   }
 
+  /**
+   * toPostfix.
+   * @param in List
+   * @return List
+   */
   public static List<Token> toPostfix(List<Token> in) {
     System.out.println("---------------------------------");
     Stack<Token> stk = new Stack<Token>();
@@ -333,10 +341,11 @@ public class ExprParser {
         String op = token.getToken();
         if (ExprConts.LEFT.equals(op)) {
           stk.push(token);
-          System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+          System.out.println("in[" + token.getToken() + "]out=[" + out
+              + "]stk=[" + stk + "]");
           continue;
         } else if (ExprConts.RIGHT.equals(op)) {
-          while(stk.size() > 0) {
+          while (stk.size() > 0) {
             Token tk = stk.pop();
             if (ExprConts.LEFT.equals(tk.getToken())) {
               break;
@@ -348,8 +357,7 @@ public class ExprParser {
           // 操作符号比较
           Operator op1 = Operators.getOperator(op);
           int op1Pri = op1.getPriority();
-//          System.out.println("stk=" + stk);
-          while(stk.size() > 0) {
+          while (stk.size() > 0) {
             Token tkt = stk.peek();
             if (ExprConts.LEFT.equals(tkt.getToken())) {
               break;
@@ -366,9 +374,10 @@ public class ExprParser {
           stk.push(token);
         }
       } // operator
-      System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+      System.out.println("in[" + token.getToken() + "]out=[" + out + "]stk=["
+          + stk + "]");
     } // for
-    while(stk.size() > 0) {
+    while (stk.size() > 0) {
       Token tk = stk.pop();
       out.add(tk);
     }
@@ -377,15 +386,15 @@ public class ExprParser {
   }
 
   /**
-   * 逆波兰式
-   * @param list
-   * @return
+   * 逆波兰式.
+   * @param list List
+   * @return Expression
    */
   public static Expression toExprFromPostfix(List<Token> list) {
     Stack<Expression> stkExpr = new Stack<Expression>();
 
     int listSize = list.size();
-    for(int i = 0; i < listSize; i ++) {
+    for (int i = 0; i < listSize; i ++) {
       Token token = list.get(i);
       System.out.println(i + ":" + token + stkExpr.toString());
       if (TokenType.OPERATOR.equals(token.getType())) {
@@ -403,7 +412,9 @@ public class ExprParser {
           } else if (TokenType.OPERATOR.equals(preToken.getType())) {
             // 前面的操作符
             String preOperate = preToken.getToken();
-            if (!(ExprConts.PER.equals(preOperate) || ExprConts.FAC.equals(preOperate) || ExprConts.RIGHT.equals(preOperate))) {
+            if (!(ExprConts.PER.equals(preOperate) 
+                || ExprConts.FAC.equals(preOperate) 
+                || ExprConts.RIGHT.equals(preOperate))) {
               // 当前面的操作符不是%!)的时候，+/-是正负号。
               operate = operate + ":";
             }
@@ -436,12 +447,17 @@ public class ExprParser {
         }
         stkExpr.push(exprN);
       }
-    }// for
+    } // for
 
     Expression res = stkExpr.pop();
     return res;
   }
 
+  /**
+   * toPrefix.
+   * @param in List
+   * @return List
+   */
   public static List<Token> toPrefix(List<Token> in) {
     System.out.println("---------------------------------");
     Stack<Token> stk = new Stack<Token>();
@@ -458,10 +474,11 @@ public class ExprParser {
         String op = token.getToken();
         if (ExprConts.RIGHT.equals(op)) {
           stk.push(token);
-          System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+          System.out.println("in[" + token.getToken() + "]out=[" + out
+              + "]stk=[" + stk + "]");
           continue;
         } else if (ExprConts.LEFT.equals(op)) {
-          while(stk.size() > 0) {
+          while (stk.size() > 0) {
             Token tk = stk.pop();
             if (ExprConts.RIGHT.equals(tk.getToken())) {
               break;
@@ -473,8 +490,7 @@ public class ExprParser {
           // 操作符号比较
           Operator op1 = Operators.getOperator(op);
           int op1Pri = op1.getPriority();
-//          System.out.println("stk=" + stk);
-          while(stk.size() > 0) {
+          while (stk.size() > 0) {
             Token tkt = stk.peek();
             if (ExprConts.RIGHT.equals(tkt.getToken())) {
               break;
@@ -491,9 +507,10 @@ public class ExprParser {
           stk.push(token);
         }
       } // operator
-      System.out.println("in[" + token.getToken() +"]out=[" + out + "]stk=[" + stk + "]");
+      System.out.println("in[" + token.getToken() + "]out=[" + out
+          + "]stk=[" + stk + "]");
     } // for
-    while(stk.size() > 0) {
+    while (stk.size() > 0) {
       Token tk = stk.pop();
       out.add(tk);
     }
@@ -502,15 +519,15 @@ public class ExprParser {
   }
 
   /**
-   * 波兰式
-   * @param list
-   * @return
+   * 波兰式.
+   * @param list List
+   * @return Expression
    */
   public static Expression toExprFromPrefix(List<Token> list) {
     Stack<Expression> stkExpr = new Stack<Expression>();
 
     int listSize = list.size();
-    for(int i = listSize - 1; i >= 0; i --) {
+    for (int i = listSize - 1; i >= 0; i --) {
       Token token = list.get(i);
       System.out.println(i + ":" + token + stkExpr.toString());
       if (TokenType.OPERATOR.equals(token.getType())) {
@@ -539,25 +556,26 @@ public class ExprParser {
         }
         stkExpr.push(exprN);
       }
-    }// for
+    } // for
 
     Expression res = stkExpr.pop();
     return res;
   }
 
   /**
-   *
-   * @param t
-   * @return
+   * makeExpressionN.
+   * @param t Token
+   * @return ExpressionN
    */
-  public static ExpressionN makeExpressionN(Token t) {
-    return new ExpressionN(t.getToken());
+  public static ExpressionN makeExpressionN(Token tk) {
+    return new ExpressionN(tk.getToken());
   }
+
   /**
-   *
-   * @param op
-   * @param num
-   * @return
+   * makeExpression.
+   * @param op Operator
+   * @param num Expression
+   * @return Expression
    */
   public static Expression makeExpression(Operator op, Expression num) {
     int arity = op.getArity();

@@ -1,9 +1,9 @@
 package javay.awt.event;
 
+import javay.fsm.transition.Action;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javay.fsm.transition.Action;
 
 public class ActionInit implements Action<ExprInfo> {
   private static final Logger log = LoggerFactory.getLogger(ActionInit.class);

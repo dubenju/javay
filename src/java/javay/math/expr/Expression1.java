@@ -7,11 +7,13 @@ public class Expression1 extends Expression {
   private Operator operator;
   private Expression number;
 
-  public Expression1(Operator o, Expression v) {
-    this.operator = o;
-    this.number = v;
+  public Expression1(Operator op, Expression va) {
+    this.operator = op;
+    this.number = va;
   }
+
   /**
+   * toInfixString.
    * @see java.lang.Object#toString()
    */
   @Override
@@ -30,7 +32,9 @@ public class Expression1 extends Expression {
     }
     return buf.toString();
   }
+
   /**
+   * value.
    * @see javay.math.expr.ExpressionN#value()
    */
   @Override
@@ -38,30 +42,39 @@ public class Expression1 extends Expression {
     BigNum val = this.number.value();
     return this.operator.getOpcb().op(val, null);
   }
+
   /**
+   * getOperator.
    * @return the operator
    */
   public Operator getOperator() {
     return operator;
   }
+
   /**
+   * setOperator.
    * @param operator the operator to set
    */
   public void setOperator(Operator operator) {
     this.operator = operator;
   }
+
   /**
+   * getNumber.
    * @return the number
    */
   public Expression getNumber() {
     return number;
   }
+
   /**
+   * setNumber.
    * @param number the number to set
    */
   public void setNumber(Expression number) {
     this.number = number;
   }
+
   @Override
   public String toPrefixString() {
     StringBuffer buf = new StringBuffer();
@@ -71,6 +84,7 @@ public class Expression1 extends Expression {
     buf.append(" ");
     return buf.toString();
   }
+
   @Override
   public String toPostfixString() {
     StringBuffer buf = new StringBuffer();
@@ -80,6 +94,7 @@ public class Expression1 extends Expression {
     buf.append(" ");
     return buf.toString();
   }
+
   @Override
   public String toString() {
     StringBuffer buf = new StringBuffer();

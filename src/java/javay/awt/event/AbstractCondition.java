@@ -41,6 +41,7 @@ public abstract class AbstractCondition implements Condition {
       || scmd.equals(CalcultorConts.NOT)
       || scmd.equals(CalcultorConts.LEFT) || scmd.equals(CalcultorConts.RIGHT); // TODO:()
   }
+
   /**
    * isOperator2.
    * @param scmd cmd
@@ -63,6 +64,7 @@ public abstract class AbstractCondition implements Condition {
   public boolean isEqual(String scmd) {
     return scmd.equals(CalcultorConts.EQUAL);
   }
+
   /**
    * isBackSpace.
    * @param scmd cmd
@@ -71,6 +73,7 @@ public abstract class AbstractCondition implements Condition {
   public boolean isBackSpace(String scmd) {
     return scmd.equals(CalcultorConts.BACKSPACE);
   }
+
   /**
    * isClearEntry.
    * @param scmd cmd
@@ -79,6 +82,7 @@ public abstract class AbstractCondition implements Condition {
   public boolean isClearEntry(String scmd) {
     return scmd.equals(CalcultorConts.CLEAR_ERROR);
   }
+
   /**
    * isClear.
    * @param scmd cmd

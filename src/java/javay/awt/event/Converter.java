@@ -1,10 +1,10 @@
 package javay.awt.event;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javay.math.expr.ExprConts;
 import javay.swing.CalcultorConts;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Converter {
   private static final Map<String, String> conv = new HashMap<String, String>();
@@ -27,11 +27,6 @@ public class Converter {
     conv.put(CalcultorConts.DIVIDE1 , " 1 " + ExprConts.DIV); // 1
     conv.put(CalcultorConts.INT, ExprConts.INT); // 1
     conv.put(CalcultorConts.POS_MINUS, ExprConts.NEGATE); // 1
-//    conv.put(CalcultorConts.MOD, ExprConts.MOD);
-//    conv.put(CalcultorConts.MOD, ExprConts.MOD);
-//    conv.put(CalcultorConts.MOD, ExprConts.MOD);
-//    conv.put(CalcultorConts.MOD, ExprConts.MOD);
-//    conv.put(CalcultorConts.MOD, ExprConts.MOD);
 
     conv2.put(ExprConts.SIN + "d", ExprConts.SIN + "d");
     conv2.put(ExprConts.SIN + "r", ExprConts.SIN + "r");

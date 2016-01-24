@@ -16,6 +16,7 @@ public class StateFinal<T> implements State<T> {
   public String getLabel() {
     return this.label;
   }
+
   /**
    * getValue.
    * @return the value

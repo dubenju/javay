@@ -1,5 +1,7 @@
 package javay.swing;
 
+import javay.main.PerpetualCalendar;  
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -9,8 +11,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import javay.main.PerpetualCalendar;  
-  
 public class CalendarFrame extends JFrame {  
   private static final long serialVersionUID = 1L;  
   private PerpetualCalendar calendar;  
@@ -26,11 +26,18 @@ public class CalendarFrame extends JFrame {
       new JLabel("五"),  
       new JLabel("六"), };  
   private JLabel[] days = new JLabel[42];  
+
   public void setYearAndMonth(String yearAndMonth) {  
     this.yearAndMonth.setText(yearAndMonth);  
   }  
-  public void setCalendar(int begin, int maxDay, int currentDay)  
- {  
+
+  /**
+   * setCalendar.
+   * @param begin int
+   * @param maxDay int
+   * @param currentDay int
+   */
+  public void setCalendar(int begin, int maxDay, int currentDay) {
     for (int i = 0; i < days.length; i++) {  
       days[i].setText("");  
       days[i].setForeground(Color.BLACK);  
@@ -43,30 +50,35 @@ public class CalendarFrame extends JFrame {
       }  
     }  
   }  
-  public CalendarFrame(PerpetualCalendar calendar) {  
+
+  /**
+   * CalendarFrame.
+   * @param calendar PerpetualCalendar
+   */
+  public CalendarFrame(PerpetualCalendar calendar) {
     this.calendar = calendar;  
     setTitle("PerpetualCalendar");  
     setSize(400, 350);  
-    init();  
-    Dimension d =  
- Toolkit.getDefaultToolkit().getScreenSize();  
-    setLocation((d.width - getWidth()) / 2,   
-(d.height - getHeight()) / 2);  
+    init();
+    Dimension di = Toolkit.getDefaultToolkit().getScreenSize();
+    setLocation((di.width - getWidth()) / 2, ( di.height - getHeight() ) / 2);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
     setResizable(false);  
   }  
+
   private void init() {  
     Container contentPane = getContentPane();  
     contentPane.setLayout(null);  
     for (int i = 0; i < weeks.length; i++) {  
       weeks[i].setBounds(40 + i * 50, 50, 50, 30);  
-      if(i==0||i==6) weeks[i].setForeground(Color.BLUE);  
+      if (i == 0 || i == 6) {
+        weeks[i].setForeground(Color.BLUE);
+      }
       contentPane.add(weeks[i]);  
     }  
     for (int i = 0; i < days.length; i++) {  
       days[i] = new JLabel("");  
-      days[i].setBounds(40 + (i % 7) * 50, 90 + (i / 7) * 30,  
- 50, 30);  
+      days[i].setBounds(40 + (i % 7) * 50, 90 + (i / 7) * 30, 50, 30);
       contentPane.add(days[i]);  
     }  
     monthInc = new JLabel(">>");  
@@ -79,36 +91,44 @@ public class CalendarFrame extends JFrame {
     yearAndMonth.setBounds(165, 20, 80, 20);  
     contentPane.add(yearAndMonth);  
     monthInc.addMouseListener(new MouseAdapter() {  
+
       @Override  
-      public void mouseEntered(MouseEvent e) {  
+      public void mouseEntered(MouseEvent ev) {
         monthInc.setForeground(Color.RED);  
       }  
+
       @Override  
-      public void mouseExited(MouseEvent e) {  
+      public void mouseExited(MouseEvent ev) {
         monthInc.setForeground(Color.BLACK);  
       }  
+
       @Override  
-      public void mouseClicked(MouseEvent e) {  
+      public void mouseClicked(MouseEvent ev) {  
         calendar.incMonth();  
       }  
     });  
     monthDec.addMouseListener(new MouseAdapter() {  
+
       @Override  
-      public void mouseEntered(MouseEvent e) {  
+      public void mouseEntered(MouseEvent ev) {  
         monthDec.setForeground(Color.RED);  
       }  
+
       @Override  
-      public void mouseExited(MouseEvent e) {  
+      public void mouseExited(MouseEvent ev) {  
         monthDec.setForeground(Color.BLACK);  
       }  
+
       @Override  
-      public void mouseClicked(MouseEvent e) {  
+      public void mouseClicked(MouseEvent ev) {  
         calendar.decMonth();  
           
       }  
     });  
   } 
-//  private final static ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(10);
+
+//  private final static ScheduledThreadPoolExecutor scheduler = 
+//  new ScheduledThreadPoolExecutor(10);
 //  static {
 //    scheduler.setKeepAliveTime(20, TimeUnit.MINUTES);
 //    scheduler.allowCoreThreadTimeOut(true);

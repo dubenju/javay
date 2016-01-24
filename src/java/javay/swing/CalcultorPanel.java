@@ -1,7 +1,9 @@
-/**
- *
- */
 package javay.swing;
+
+import javay.awt.event.CalcultorActionListener;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,12 +26,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javay.awt.event.CalcultorActionListener;
-
 /**
+ * CalcultorPanel.
  * @author dubenju
  *
  */
@@ -93,8 +91,8 @@ public class CalcultorPanel extends JPanel {
   public JButton btnDat  = new JButton("Dat");
 
   // 科学记数法 Scientific notation
-  public JButton btnFE = new JButton(CalcultorConts.SCI);
-  public JButton btnDMS = new JButton(CalcultorConts.DMS);
+  public JButton btnFe = new JButton(CalcultorConts.SCI);
+  public JButton btnDms = new JButton(CalcultorConts.DMS);
   // 正弦
   public JButton btnSin   = new JButton(CalcultorConts.SIN);
   // 余弦
@@ -106,7 +104,7 @@ public class CalcultorPanel extends JPanel {
   JButton btnLeft  = new JButton("(");
   public JButton btnExp = new JButton(CalcultorConts.EXP);
   // x的y次方
-  JButton btnXY  = new JButton(CalcultorConts.XY);
+  JButton btnXy  = new JButton(CalcultorConts.XY);
   // 立方
   JButton btnX3  = new JButton(CalcultorConts.X3);
   // 平方
@@ -121,11 +119,11 @@ public class CalcultorPanel extends JPanel {
   // 倒数
   JButton btnDivide1   = new JButton(CalcultorConts.DIVIDE1);
 
-  JButton btnMC = new JButton(CalcultorConts.MC);
-  JButton btnMR = new JButton(CalcultorConts.MR);
-  JButton btnMS = new JButton(CalcultorConts.MS);
-  JButton btnMP = new JButton(CalcultorConts.MP);
-  JButton btnMN = new JButton(CalcultorConts.MM);
+  JButton btnMc = new JButton(CalcultorConts.MC);
+  JButton btnMr = new JButton(CalcultorConts.MR);
+  JButton btnMs = new JButton(CalcultorConts.MS);
+  JButton btnMp = new JButton(CalcultorConts.MP);
+  JButton btnMn = new JButton(CalcultorConts.MM);
 
   // 0-9数字按钮
   public JButton[] numButtons = new JButton[10];
@@ -161,11 +159,14 @@ public class CalcultorPanel extends JPanel {
   JButton btnMod     = new JButton(CalcultorConts.MOD);
 
   /**
-   *
+   * serialVersionUID.
    */
   private static final long serialVersionUID = 1L;
   private static final Logger log = LoggerFactory.getLogger(CalcultorPanel.class);
 
+  /**
+   * CalcultorPanel.
+   */
   public CalcultorPanel() {
     log.debug("CalcultorPanel");
     this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
@@ -175,13 +176,14 @@ public class CalcultorPanel extends JPanel {
 
     this.topDisplay.setLayout(null);
     this.topDisplay.setPreferredSize(new Dimension((btnWidth + 1) * 11, 210));
-//    this.topDisplay.setBorder(BorderFactory.createLineBorder(Color.red));
     this.topDisplay.add(this.expr);
     this.topDisplay.add(this.textField);
 
-    DefaultListCellRenderer rendererStatistics = (DefaultListCellRenderer) this.listStatistics.getCellRenderer();
+    DefaultListCellRenderer rendererStatistics = 
+        (DefaultListCellRenderer) this.listStatistics.getCellRenderer();
     rendererStatistics.setHorizontalAlignment(SwingConstants.RIGHT);
-    DefaultListCellRenderer rendererHistory = (DefaultListCellRenderer) this.listHistory.getCellRenderer();
+    DefaultListCellRenderer rendererHistory = 
+        (DefaultListCellRenderer) this.listHistory.getCellRenderer();
     rendererHistory.setHorizontalAlignment(SwingConstants.RIGHT);
 
     this.spStatistics.getViewport().setView(this.listStatistics);
@@ -190,11 +192,15 @@ public class CalcultorPanel extends JPanel {
     this.topDisplay.add(this.spStatistics);
 
     this.spHistory.getViewport().setView(this.listHistory);
-    this.spHistory.setBounds(this.spStatistics.getX() + this.spStatistics.getWidth() + 1, 1, 295, btnHeight * 3);
+    this.spHistory.setBounds(
+        this.spStatistics.getX() + this.spStatistics.getWidth() + 1, 1, 
+        295, btnHeight * 3);
     this.listHistory.setToolTipText("履历");
     this.topDisplay.add(this.spHistory);
 
-    this.expr.setBounds(1, this.spHistory.getY() + this.spHistory.getHeight(), (btnWidth + 1) * 11, btnHeight);
+    this.expr.setBounds(
+        1, this.spHistory.getY() + this.spHistory.getHeight(),
+        (btnWidth + 1) * 11, btnHeight);
     this.expr.setHorizontalAlignment(JTextField.RIGHT);
     this.expr.setEditable(false);
     this.expr.setFont(new Font("Dialog", Font.PLAIN, 36));
@@ -213,12 +219,9 @@ public class CalcultorPanel extends JPanel {
 
     /* A */
     mainPanel.add(option);
-
-//    option.add(this.mmry);
     option.add(optionLeft);
     optionLeft.setBorder(BorderFactory.createLineBorder(Color.red));
 
-//    this.mmry.setHorizontalAlignment(JTextField.RIGHT);
     r10.setSelected(true);
     group.add(r16);
     group.add(r10);
@@ -288,7 +291,6 @@ public class CalcultorPanel extends JPanel {
 
     buttonPanel.setLayout(null);
     buttonPanel.setPreferredSize(new Dimension((btnWidth + 1) * 11, (btnHeight + 1) * 5));
-//    buttonPanel.setBorder(BorderFactory.createLineBorder(Color.green));
     buttonPanel.add(btnPnl1);
     buttonPanel.add(btnPnl2);
     buttonPanel.add(btnPnl3);
@@ -333,15 +335,16 @@ public class CalcultorPanel extends JPanel {
     // 余弦
     // 正切
     btnPnl2.setLayout(null);
-    btnPnl2.setBounds(btnPnl1.getX() + btnPnl1.getWidth(), 0,(btnWidth + 1) * 3, (btnHeight + 1) * 5);
-    btnPnl2.add( btnFE ).setForeground(Color.red);
+    btnPnl2.setBounds(btnPnl1.getX() + btnPnl1.getWidth(), 0,
+        (btnWidth + 1) * 3, (btnHeight + 1) * 5);
+    btnPnl2.add( btnFe ).setForeground(Color.red);
     btnPnl2.add( btnLeft ).setForeground(Color.red);
     btnPnl2.add( btnRight ).setForeground(Color.red);
-    btnPnl2.add( btnDMS ).setForeground(Color.red);
+    btnPnl2.add( btnDms ).setForeground(Color.red);
     btnPnl2.add( btnExp ).setForeground(Color.red);
     btnPnl2.add( btnLn ).setForeground(Color.red);
     btnPnl2.add( btnSin ).setForeground(Color.red);
-    btnPnl2.add( btnXY ).setForeground(Color.red);
+    btnPnl2.add( btnXy ).setForeground(Color.red);
     btnPnl2.add( btnLog ).setForeground(Color.red);
     btnPnl2.add( btnCos ).setForeground(Color.red);
     btnPnl2.add( btnX3 ).setForeground(Color.red);
@@ -350,16 +353,16 @@ public class CalcultorPanel extends JPanel {
     btnPnl2.add( btnX2 ).setForeground(Color.red);
     btnPnl2.add( btnDivide1 ).setForeground(Color.red);
 
-    btnFE.setBounds(1, 1, btnWidth, btnHeight);
-    btnDMS.setBounds(btnFE.getX(), btnFE.getY() + btnHeight, btnWidth, btnHeight);
-    btnSin.setBounds(btnDMS.getX(), btnDMS.getY() + btnHeight, btnWidth, btnHeight);
+    btnFe.setBounds(1, 1, btnWidth, btnHeight);
+    btnDms.setBounds(btnFe.getX(), btnFe.getY() + btnHeight, btnWidth, btnHeight);
+    btnSin.setBounds(btnDms.getX(), btnDms.getY() + btnHeight, btnWidth, btnHeight);
     btnCos.setBounds(btnSin.getX(), btnSin.getY() + btnHeight, btnWidth, btnHeight);
     btnTan.setBounds(btnCos.getX(), btnCos.getY() + btnHeight, btnWidth, btnHeight);
 
-    btnLeft.setBounds(btnFE.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
+    btnLeft.setBounds(btnFe.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
     btnExp.setBounds(btnLeft.getX(), btnLeft.getY() + btnHeight, btnWidth, btnHeight);
-    btnXY.setBounds(btnExp.getX(), btnExp.getY() + btnHeight, btnWidth, btnHeight);
-    btnX3.setBounds(btnXY.getX(), btnXY.getY() + btnHeight, btnWidth, btnHeight);
+    btnXy.setBounds(btnExp.getX(), btnExp.getY() + btnHeight, btnWidth, btnHeight);
+    btnX3.setBounds(btnXy.getX(), btnXy.getY() + btnHeight, btnWidth, btnHeight);
     btnX2.setBounds(btnX3.getX(), btnX3.getY() + btnHeight, btnWidth, btnHeight);
 
     btnRight.setBounds(btnLeft.getX() + btnWidth + 1, 1, btnWidth, btnHeight);
@@ -368,15 +371,20 @@ public class CalcultorPanel extends JPanel {
     btnN.setBounds(btnLog.getX(), btnLog.getY() + btnHeight, btnWidth, btnHeight);
     btnDivide1.setBounds(btnN.getX(), btnN.getY() + btnHeight, btnWidth, btnHeight);
 
-    this.btnFE.setToolTipText("F-E：打开或关闭科学计数法。大于10^32的数总是以指数形式表示。F-E只能用于十进制数字系统。");
-    this.btnDMS.setToolTipText("Dms：将显示数字转换为度-分-秒格式（假设显示数字是用度数表示的）。若要将显示数字转换为用度数表示的格式（假设显示数字是用度-分-秒格式表示的），请使用Inv+dms。dms只能用于十进制数字系统。");
-    this.btnSin.setToolTipText("Sin：计算显示数字的正弦。若要计算反正弦，请使用Inv+sin。若要计算双曲正弦，请使用Hyp+sin。若要计算反双曲正弦，请使用Inv+Hyp+sin。sin只能用于十进制数字系统。");
-    this.btnCos.setToolTipText("Cos：cos计算显示数字的余弦。若要计算反余弦，请使用Inv+cos。若要计算双曲余弦，请使用Hyp+cos。若要计算反双曲余弦，请使用Inv+Hyp+cos。cos只能用于十进制数字系统。");
-    this.btnTan.setToolTipText("Tan：计算显示数字的正切。若要计算反正切，请使用Inv+tan。若要计算双曲正切，请使用Hyp+tan。若要计算反双曲正切，请使用Inv+Hyp+tan。tan只能用于十进制数字系统。");
+    this.btnFe.setToolTipText("F-E：打开或关闭科学计数法。大于10^32的数总是以指数形式表示。F-E只能用于十进制数字系统。");
+    this.btnDms.setToolTipText("Dms：将显示数字转换为度-分-秒格式"
+        + "（假设显示数字是用度数表示的）。若要将显示数字转换为用度数表示的格式（假设显示数字是用度-分-秒格式表示的），请使用Inv+dms。dms只能用于十进制数字系统。");
+    this.btnSin.setToolTipText("Sin：计算显示数字的正弦。若要计算反正弦，请使用Inv+sin。"
+        + "若要计算双曲正弦，请使用Hyp+sin。若要计算反双曲正弦，请使用Inv+Hyp+sin。sin只能用于十进制数字系统。");
+    this.btnCos.setToolTipText("Cos：cos计算显示数字的余弦。若要计算反余弦，请使用Inv+cos。"
+        + "若要计算双曲余弦，请使用Hyp+cos。若要计算反双曲余弦，请使用Inv+Hyp+cos。cos只能用于十进制数字系统。");
+    this.btnTan.setToolTipText("Tan：计算显示数字的正切。若要计算反正切，请使用Inv+tan。"
+        + "若要计算双曲正切，请使用Hyp+tan。若要计算反双曲正切，请使用Inv+Hyp+tan。tan只能用于十进制数字系统。");
 
     this.btnLeft.setToolTipText("计算结果");
     this.btnExp.setToolTipText("Exp：允许输入用科学计数法表示的数字。指数限制为四位数。指数中只能使用十进制数（键0-9）。Exp只能用于十进制数字系统。");
-    this.btnXY.setToolTipText("x^y：计算x的y次方。此按钮为二进制运算符。例如，若要计算2的4次方，请单击2x^y4=，结果为16。若要计算x的y次方根，请使用Inv+x^y。");
+    this.btnXy.setToolTipText("x^y：计算x的y次方。此按钮为二进制运算符。"
+        + "例如，若要计算2的4次方，请单击2x^y4=，结果为16。若要计算x的y次方根，请使用Inv+x^y。");
     this.btnX3.setToolTipText("x^3：计算显示数字的立方。若要计算立方根，请使用Inv+x^3。");
     this.btnX2.setToolTipText("x^2：计算显示数字的平方。若要计算平方根，请使用Inv+x^2。");
 
@@ -388,23 +396,23 @@ public class CalcultorPanel extends JPanel {
 
     btnPnl3.setLayout(null);
     btnPnl3.setBounds(btnPnl2.getX() + btnPnl2.getWidth(), 0, btnWidth + 1, (btnHeight + 1) * 5);
-    btnPnl3.add( btnMC ).setForeground(Color.red);
-    btnPnl3.add( btnMR ).setForeground(Color.red);
-    btnPnl3.add( btnMS ).setForeground(Color.red);
-    btnPnl3.add( btnMP ).setForeground(Color.red);
-    btnPnl3.add( btnMN ).setForeground(Color.red);
+    btnPnl3.add( btnMc ).setForeground(Color.red);
+    btnPnl3.add( btnMr).setForeground(Color.red);
+    btnPnl3.add( btnMs ).setForeground(Color.red);
+    btnPnl3.add( btnMp ).setForeground(Color.red);
+    btnPnl3.add( btnMn ).setForeground(Color.red);
 
-    btnMC.setBounds(1, 1, btnWidth, btnHeight);
-    btnMR.setBounds(1, btnMC.getY() + btnHeight, btnWidth, btnHeight);
-    btnMS.setBounds(1, btnMR.getY() + btnHeight, btnWidth, btnHeight);
-    btnMP.setBounds(1, btnMS.getY() + btnHeight, btnWidth, btnHeight);
-    btnMN.setBounds(1, btnMP.getY() + btnHeight, btnWidth, btnHeight);
+    btnMc.setBounds(1, 1, btnWidth, btnHeight);
+    btnMr.setBounds(1, btnMc.getY() + btnHeight, btnWidth, btnHeight);
+    btnMs.setBounds(1, btnMr.getY() + btnHeight, btnWidth, btnHeight);
+    btnMp.setBounds(1, btnMs.getY() + btnHeight, btnWidth, btnHeight);
+    btnMn.setBounds(1, btnMp.getY() + btnHeight, btnWidth, btnHeight);
 
-    this.btnMC.setToolTipText("MC：清除存储器中的数值。");
-    this.btnMR.setToolTipText("MR：将存于存储器中的数显示在计算器的显示框上。");
-    this.btnMS.setToolTipText("MS：将显示框的数值存于存储器中。如果存储器中有数值将会显示M标志。");
-    this.btnMP.setToolTipText("M+：将显示框的数与存储器中的数相加并进行存储。");
-    this.btnMN.setToolTipText("M-：将显示框的数与存储器中的数相减并进行存储。");
+    this.btnMc.setToolTipText("MC：清除存储器中的数值。");
+    this.btnMr.setToolTipText("MR：将存于存储器中的数显示在计算器的显示框上。");
+    this.btnMs.setToolTipText("MS：将显示框的数值存于存储器中。如果存储器中有数值将会显示M标志。");
+    this.btnMp.setToolTipText("M+：将显示框的数与存储器中的数相加并进行存储。");
+    this.btnMn.setToolTipText("M-：将显示框的数与存储器中的数相减并进行存储。");
 
     // 小数点
     // 结果是
@@ -430,7 +438,8 @@ public class CalcultorPanel extends JPanel {
 
     //add these buttons to buttonPanel
     btnPnl4.setLayout(null);
-    btnPnl4.setBounds(btnPnl3.getX() + btnPnl3.getWidth(), 0, (btnWidth + 1) * 6, (btnHeight + 1) * 5);
+    btnPnl4.setBounds(btnPnl3.getX() + btnPnl3.getWidth(), 0, 
+        (btnWidth + 1) * 6, (btnHeight + 1) * 5);
     btnPnl4.add( numButtons[7] ).setForeground(Color.blue);
     btnPnl4.add( numButtons[8] ).setForeground(Color.blue);
     btnPnl4.add( numButtons[9] ).setForeground(Color.blue);
@@ -467,20 +476,30 @@ public class CalcultorPanel extends JPanel {
     btnPnl4.add( btnF ).setForeground(Color.blue);
 
     numButtons[7].setBounds(1, 1, btnWidth, btnHeight);
-    numButtons[4].setBounds(numButtons[7].getX(), numButtons[7].getY() + btnHeight, btnWidth, btnHeight);
-    numButtons[1].setBounds(numButtons[4].getX(), numButtons[4].getY() + btnHeight, btnWidth, btnHeight);
-    numButtons[0].setBounds(numButtons[1].getX(), numButtons[1].getY() + btnHeight, btnWidth, btnHeight);
-    btnA.setBounds(numButtons[0].getX(), numButtons[0].getY() + btnHeight, btnWidth, btnHeight);
+    numButtons[4].setBounds(numButtons[7].getX(), 
+        numButtons[7].getY() + btnHeight, btnWidth, btnHeight);
+    numButtons[1].setBounds(numButtons[4].getX(), 
+        numButtons[4].getY() + btnHeight, btnWidth, btnHeight);
+    numButtons[0].setBounds(numButtons[1].getX(), 
+        numButtons[1].getY() + btnHeight, btnWidth, btnHeight);
+    btnA.setBounds(numButtons[0].getX(), numButtons[0].getY() + btnHeight, 
+        btnWidth, btnHeight);
 
     numButtons[8].setBounds(numButtons[7].getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-    numButtons[5].setBounds(numButtons[8].getX(), numButtons[8].getY() + btnHeight, btnWidth, btnHeight);
-    numButtons[2].setBounds(numButtons[5].getX(), numButtons[5].getY() + btnHeight, btnWidth, btnHeight);
-    btnPosMinus.setBounds(numButtons[2].getX(), numButtons[2].getY() + btnHeight, btnWidth, btnHeight);
-    btnB.setBounds(btnPosMinus.getX(), btnPosMinus.getY() + btnHeight, btnWidth, btnHeight);
+    numButtons[5].setBounds(numButtons[8].getX(), 
+        numButtons[8].getY() + btnHeight, btnWidth, btnHeight);
+    numButtons[2].setBounds(numButtons[5].getX(), 
+        numButtons[5].getY() + btnHeight, btnWidth, btnHeight);
+    btnPosMinus.setBounds(numButtons[2].getX(), 
+        numButtons[2].getY() + btnHeight, btnWidth, btnHeight);
+    btnB.setBounds(btnPosMinus.getX(), btnPosMinus.getY() + btnHeight, 
+        btnWidth, btnHeight);
 
     numButtons[9].setBounds(numButtons[8].getX() + btnWidth + 1, 1, btnWidth, btnHeight);
-    numButtons[6].setBounds(numButtons[9].getX(), numButtons[9].getY() + btnHeight, btnWidth, btnHeight);
-    numButtons[3].setBounds(numButtons[6].getX(), numButtons[6].getY() + btnHeight, btnWidth, btnHeight);
+    numButtons[6].setBounds(numButtons[9].getX(), 
+        numButtons[9].getY() + btnHeight, btnWidth, btnHeight);
+    numButtons[3].setBounds(numButtons[6].getX(), 
+        numButtons[6].getY() + btnHeight, btnWidth, btnHeight);
     btnDot.setBounds(numButtons[3].getX(), numButtons[3].getY() + btnHeight, btnWidth, btnHeight);
     btnC.setBounds(btnDot.getX(), btnDot.getY() + btnHeight, btnWidth, btnHeight);
 
@@ -521,7 +540,8 @@ public class CalcultorPanel extends JPanel {
     this.btnOr.setToolTipText("Or：计算按位OR。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
     this.btnNot.setToolTipText("Not：计算按位取反。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
     this.btnXor.setToolTipText("Xor：计算按位异OR。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
-    this.btnLsh.setToolTipText("Lsh：左移。若要右移，请使用Inv+Lsh。在单击该按钮后，必须指定（以二进制形式）要将显示区中的数字左移或右移多少位，然后单击=。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
+    this.btnLsh.setToolTipText("Lsh：左移。若要右移，请使用Inv+Lsh。在单击该按钮后，"
+        + "必须指定（以二进制形式）要将显示区中的数字左移或右移多少位，然后单击=。逻辑运算符在执行任何按位运算时将截断数字的小数部分。");
     this.btnInt.setToolTipText("Int：显示十进制数值的整数部分。若要显示十进制数值的小数部分，请使用Inv+Int。");
     //create the control
     CalcultorActionListener controler = new CalcultorActionListener( this );
@@ -541,7 +561,7 @@ public class CalcultorPanel extends JPanel {
     btnS.addActionListener( controler );
     btnDat.addActionListener( controler );
 
-    btnFE.addActionListener( controler );
+    btnFe.addActionListener( controler );
     btnLeft.addActionListener( controler );
     btnRight.addActionListener( controler );
     btnSin.addActionListener( controler );
@@ -549,24 +569,23 @@ public class CalcultorPanel extends JPanel {
     btnTan.addActionListener( controler );
     btnX2.addActionListener( controler );
     btnX3.addActionListener( controler );
-    btnXY.addActionListener( controler );
+    btnXy.addActionListener( controler );
     btnN.addActionListener( controler );
     btnDivide1.addActionListener( controler );
 
-    btnDMS.addActionListener( controler );
+    btnDms.addActionListener( controler );
     btnExp.addActionListener( controler );
     btnLn.addActionListener( controler );
     btnLog.addActionListener( controler );
-//    btnSqrt.addActionListener( controler );
 
-    btnMC.addActionListener( controler );
-    btnMR.addActionListener( controler );
-    btnMS.addActionListener( controler );
-    btnMP.addActionListener( controler );
-    btnMN.addActionListener( controler );
+    btnMc.addActionListener( controler );
+    btnMr.addActionListener( controler );
+    btnMs.addActionListener( controler );
+    btnMp.addActionListener( controler );
+    btnMn.addActionListener( controler );
 
     //add let the control listen to the buttons
-    for( int i = 0; i < 10; i++ ) {
+    for ( int i = 0; i < 10; i++ ) {
       numButtons[i].addActionListener( controler );
     }
     btnA.addActionListener( controler );

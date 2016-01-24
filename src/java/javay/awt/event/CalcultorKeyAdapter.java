@@ -1,9 +1,9 @@
 package javay.awt.event;
 
+import javay.swing.CalcultorPanel;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import javay.swing.CalcultorPanel;
 
 public class CalcultorKeyAdapter extends KeyAdapter {
   private CalcultorPanel panel;

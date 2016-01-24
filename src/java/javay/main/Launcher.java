@@ -1,28 +1,32 @@
 package javay.main;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.List;
-
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.xml.bind.JAXB;
-
 import javay.http.JavayHttp;
 import javay.util.UFile;
 import javay.xml.Dbjcalc;
 import javay.xml.Website;
 import javay.zip.UnpackZip;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.xml.bind.JAXB;
+
 public class Launcher {
   private static final Logger log = LoggerFactory.getLogger(Launcher.class);
 
+  /**
+   * main.
+   * @param args String[]
+   */
   public static void main(String[] args) {
     log.debug("----- begin -----");
     Launcher launcher = new Launcher();
@@ -30,6 +34,9 @@ public class Launcher {
     log.debug("-----   end -----");
   }
 
+  /**
+   * run.
+   */
   public void run() {
     log.debug("----- begin -----");
     // 检查检查更新选项
@@ -53,9 +60,9 @@ public class Launcher {
         if (curVer.compareTo(nextVer) < 0) {
           int max = conf.getAutoUpdate().getRetry();
           log.debug("max：" + max);
-          int i = 0;
-          while(i < max) {
-            i ++;
+          int icnt = 0;
+          while (icnt < max) {
+            icnt ++;
             // 下载新版本
             http = new JavayHttp(url + "build/" + nextVer + ".zip");
             // 检查下载内容
@@ -79,10 +86,17 @@ public class Launcher {
       }
     }
     // 启动
-    SwingUtilities.invokeLater(()->{UIManager.put("swing.boldMetal", Boolean.FALSE);Calculator.createAndShowGui();});
+    SwingUtilities.invokeLater(()-> {
+      UIManager.put("swing.boldMetal", Boolean.FALSE);
+      Calculator.createAndShowGui();
+    });
     log.debug("-----   end -----");
   }
 
+  /**
+   * getConf.
+   * @return Dbjcalc
+   */
   public static Dbjcalc getConf() {
     log.debug("----- begin -----");
     Dbjcalc conf = null;
@@ -102,6 +116,10 @@ public class Launcher {
     return conf;
   }
 
+  /**
+   * saveConf.
+   * @param conf Dbjcalc
+   */
   public static void saveConf(Dbjcalc conf) {
     log.debug("----- begin -----");
     FileOutputStream fs = null;

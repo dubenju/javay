@@ -1,13 +1,13 @@
 package javay.main;
 
+import javay.swing.CalcultorFrame;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-
-import javay.swing.CalcultorFrame;
 
 /**
  * Calculator.

@@ -1,5 +1,11 @@
 package javay.awt.event;
 
+import javay.fsm.state.State;
+import javay.math.BigNum;
+import javay.math.MathBn;
+import javay.swing.CalcultorConts;
+import javay.swing.CalcultorPanel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,12 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javay.fsm.state.State;
-import javay.math.BigNum;
-import javay.math.MathBn;
-import javay.swing.CalcultorConts;
-import javay.swing.CalcultorPanel;
 
 /**
  * 第一种：自身类实现ActionListener接口，作为事件监听器.
@@ -229,8 +229,8 @@ public class CalcultorActionListener implements ActionListener {
       this.panel.btnE.setEnabled(false);
       this.panel.btnF.setEnabled(false);
 
-      this.panel.btnFE.setEnabled(false);
-      this.panel.btnDMS.setEnabled(false);
+      this.panel.btnFe.setEnabled(false);
+      this.panel.btnDms.setEnabled(false);
       this.panel.btnSin.setEnabled(false);
       this.panel.btnCos.setEnabled(false);
       this.panel.btnTan.setEnabled(false);
@@ -254,8 +254,8 @@ public class CalcultorActionListener implements ActionListener {
       this.panel.btnE.setEnabled(false);
       this.panel.btnF.setEnabled(false);
 
-      this.panel.btnFE.setEnabled(false);
-      this.panel.btnDMS.setEnabled(false);
+      this.panel.btnFe.setEnabled(false);
+      this.panel.btnDms.setEnabled(false);
       this.panel.btnSin.setEnabled(false);
       this.panel.btnCos.setEnabled(false);
       this.panel.btnTan.setEnabled(false);
@@ -276,8 +276,8 @@ public class CalcultorActionListener implements ActionListener {
       this.panel.btnE.setEnabled(false);
       this.panel.btnF.setEnabled(false);
 
-      this.panel.btnFE.setEnabled(true);
-      this.panel.btnDMS.setEnabled(true);
+      this.panel.btnFe.setEnabled(true);
+      this.panel.btnDms.setEnabled(true);
       this.panel.btnSin.setEnabled(true);
       this.panel.btnCos.setEnabled(true);
       this.panel.btnTan.setEnabled(true);
@@ -298,8 +298,8 @@ public class CalcultorActionListener implements ActionListener {
       this.panel.btnE.setEnabled(true);
       this.panel.btnF.setEnabled(true);
 
-      this.panel.btnFE.setEnabled(false);
-      this.panel.btnDMS.setEnabled(false);
+      this.panel.btnFe.setEnabled(false);
+      this.panel.btnDms.setEnabled(false);
       this.panel.btnSin.setEnabled(false);
       this.panel.btnCos.setEnabled(false);
       this.panel.btnTan.setEnabled(false);

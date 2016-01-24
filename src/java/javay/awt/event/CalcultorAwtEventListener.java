@@ -1,10 +1,10 @@
 package javay.awt.event;
 
+import javay.swing.CalcultorPanel;
+
 import java.awt.AWTEvent;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
-
-import javay.swing.CalcultorPanel;
 
 public class CalcultorAwtEventListener implements AWTEventListener {
 

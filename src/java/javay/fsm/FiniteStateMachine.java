@@ -1,9 +1,9 @@
 package javay.fsm;
 
-import java.util.List;
-
 import javay.fsm.state.State;
 import javay.fsm.transition.Transition;
+
+import java.util.List;
 
 /**
  * FiniteStateMachine.
@@ -23,22 +23,27 @@ public interface FiniteStateMachine<T> {
   public List<String> getInputs();
 
   public void setInputs(List<String> in);
+
   // States
   public List<State<T>> getStates();
 
   public void setStates(List<State<T>> states);
+
   // Initial State
   public State<T> getInitialState();
 
   public void setInitialState(State<T> initial);
+
   // Transition
   public List<Transition<T>> getTransitions();
 
   public void setTransitions(List<Transition<T>> transition);
+
   // Final State
   public List<State<T>> getFinalStates();
 
   public void setFinalStates(List<State<T>> finalStates);
+
   // Output
   public List<String> getOutputs();
 

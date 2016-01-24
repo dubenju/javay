@@ -1,12 +1,15 @@
 package javay.swing;
 
+import javay.xml.Dbjcalc;
+import javay.xml.Website;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -24,9 +27,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
-import javay.xml.Dbjcalc;
-import javay.xml.Website;
 
 public class TabbedPanel extends JPanel {
   /**
@@ -49,7 +49,6 @@ public class TabbedPanel extends JPanel {
     log.debug("----- begin -----");
     this.conf = conf;
     JTabbedPane tabbedPane = new JTabbedPane();
-//    ImageIcon icon = createImageIcon("images/middle.gif");
     ImageIcon icon = null;
 
     JComponent panel1 = makeTextPanel1("Panel #1");

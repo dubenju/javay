@@ -21,6 +21,7 @@ public class ExprInfo {
     this.input = "";
     this.inbuf = new StringBuffer();
   }
+
   /**
    * 表达式.
    * @return the expr 表达式
@@ -28,6 +29,7 @@ public class ExprInfo {
   public String getExpr() {
     return expr;
   }
+
   /**
    * 表达式.
    * @param expr the expr to set
@@ -35,6 +37,7 @@ public class ExprInfo {
   public void setExpr(String expr) {
     this.expr = expr;
   }
+
   /**
    * getNum1.
    * @return the num1
@@ -42,6 +45,7 @@ public class ExprInfo {
   public String getNum1() {
     return num1;
   }
+
   /**
    * setNum1.
    * @param num1 the num1 to set
@@ -49,6 +53,7 @@ public class ExprInfo {
   public void setNum1(String num1) {
     this.num1 = num1;
   }
+
   /**
    * getOpt.
    * @return the opt
@@ -56,6 +61,7 @@ public class ExprInfo {
   public String getOpt() {
     return opt;
   }
+
   /**
    * setOpt.
    * @param opt the opt to set
@@ -63,6 +69,7 @@ public class ExprInfo {
   public void setOpt(String opt) {
     this.opt = opt;
   }
+
   /**
    * getNum2.
    * @return the num2
@@ -70,6 +77,7 @@ public class ExprInfo {
   public String getNum2() {
     return num2;
   }
+
   /**
    * setNum2.
    * @param num2 the num2 to set
@@ -77,6 +85,7 @@ public class ExprInfo {
   public void setNum2(String num2) {
     this.num2 = num2;
   }
+
   /**
    * toString.
    * @see java.lang.Object#toString()
@@ -97,6 +106,7 @@ public class ExprInfo {
     buf.append("操作数2:" + this.num2);
     return buf.toString();
   }
+
   /**
    * getInput.
    * @return the input
@@ -104,6 +114,7 @@ public class ExprInfo {
   public String getInput() {
     return input;
   }
+
   /**
    * setInput.
    * @param input the input to set
@@ -120,6 +131,7 @@ public class ExprInfo {
     this.inbuf.append(str);
     // this.expr = this.expr + s;
   }
+
   /**
    * 当前输入表示.
    * @return the inbuf 当前输入表示
@@ -127,6 +139,7 @@ public class ExprInfo {
   public StringBuffer getInbuf() {
     return inbuf;
   }
+
   /**
    * 当前输入表示.
    * @param inbuf the inbuf to set

@@ -1,9 +1,9 @@
 package javay.awt.event;
 
+import javay.fsm.transition.Action;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javay.fsm.transition.Action;
 
 public class ActionNum1 implements Action<ExprInfo> {
   private static final Logger log = LoggerFactory.getLogger(ActionNum1.class);
@@ -18,9 +18,6 @@ public class ActionNum1 implements Action<ExprInfo> {
     buf.append(curIn);
     in.setInbuf(buf);
 
-//    String expr = "";
-//    in.setExpr(expr + buf.toString());
-//    in.setNum1(cur_in);
     in.setExpr("");
     return in;
   }

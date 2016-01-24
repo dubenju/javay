@@ -8,6 +8,7 @@ public class Website {
   private String name;
   private String address;
   private boolean isSelected;
+
   /**
    * getName.
    * @return the name
@@ -15,6 +16,7 @@ public class Website {
   public String getName() {
     return name;
   }
+
   /**
    * setName.
    * @param name the name to set
@@ -22,6 +24,7 @@ public class Website {
   public void setName(String name) {
     this.name = name;
   }
+
   /**
    * getAddress.
    * @return the address
@@ -29,6 +32,7 @@ public class Website {
   public String getAddress() {
     return address;
   }
+
   /**
    * setAddress.
    * @param address the address to set
@@ -36,6 +40,7 @@ public class Website {
   public void setAddress(String address) {
     this.address = address;
   }
+
   /**
    * isSelected.
    * @return the isSelected
@@ -44,6 +49,7 @@ public class Website {
   public boolean isSelected() {
     return isSelected;
   }
+
   /**
    * setSelected.
    * @param isSelected the isSelected to set

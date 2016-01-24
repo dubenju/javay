@@ -1,12 +1,5 @@
 package javay.awt.event;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import javay.fsm.FiniteStateMachine;
 import javay.fsm.state.State;
 import javay.fsm.state.StateFinal;
@@ -14,6 +7,14 @@ import javay.fsm.state.StateInitial;
 import javay.fsm.transition.Action;
 import javay.fsm.transition.Condition;
 import javay.fsm.transition.Transition;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * C¥S 1 2 3 4 5 6 7
  * 0.9 3   3 3 6 6

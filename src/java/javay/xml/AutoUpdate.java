@@ -11,6 +11,7 @@ public class AutoUpdate {
   private boolean isAutoUpdate;
   private List<Website> websites;
   private int retry;
+
   /**
    * getisAutoUpdate.
    * @return the isAutoUpdate
@@ -18,6 +19,7 @@ public class AutoUpdate {
   public boolean getisAutoUpdate() {
     return isAutoUpdate;
   }
+
   /**
    * setisAutoUpdate.
    * @param isAutoUpdate the isAutoUpdate to set
@@ -25,6 +27,7 @@ public class AutoUpdate {
   public void setisAutoUpdate(boolean isAutoUpdate) {
     this.isAutoUpdate = isAutoUpdate;
   }
+
   /**
    * getWebsites.
    * @return the websites
@@ -34,6 +37,7 @@ public class AutoUpdate {
   public List<Website> getWebsites() {
     return websites;
   }
+
   /**
    * setWebsites.
    * @param websites the websites to set
@@ -41,6 +45,7 @@ public class AutoUpdate {
   public void setWebsites(List<Website> websites) {
     this.websites = websites;
   }
+
   /**
    * getRetry.
    * @return the retry
@@ -48,6 +53,7 @@ public class AutoUpdate {
   public int getRetry() {
     return retry;
   }
+
   /**
    * setRetry.
    * @param retry the retry to set

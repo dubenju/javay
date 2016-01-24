@@ -1,14 +1,15 @@
 package javay.xml;
 
-import javax.xml.bind.annotation.XmlType;
-
 import javay.math.BigNumRound;
+
+import javax.xml.bind.annotation.XmlType;
 
 @XmlType(propOrder = {"currentVersion", "decimalLength", "roundMode"})
 public class Calcultor {
   private String currentVersion;
   private int decimalLength;
   private BigNumRound roundMode;
+
   /**
    * getCurrentVersion.
    * @return the currentVersion
@@ -16,6 +17,7 @@ public class Calcultor {
   public String getCurrentVersion() {
     return currentVersion;
   }
+
   /**
    * setCurrentVersion.
    * @param currentVersion the currentVersion to set
@@ -23,6 +25,7 @@ public class Calcultor {
   public void setCurrentVersion(String currentVersion) {
     this.currentVersion = currentVersion;
   }
+
   /**
    * getDecimalLength.
    * @return the decimalLength
@@ -30,6 +33,7 @@ public class Calcultor {
   public int getDecimalLength() {
     return decimalLength;
   }
+
   /**
    * setDecimalLength.
    * @param decimalLength the decimalLength to set
@@ -37,6 +41,7 @@ public class Calcultor {
   public void setDecimalLength(int decimalLength) {
     this.decimalLength = decimalLength;
   }
+
   /**
    * getRoundMode.
    * @return the roundMode
@@ -44,6 +49,7 @@ public class Calcultor {
   public BigNumRound getRoundMode() {
     return roundMode;
   }
+
   /**
    * setRoundMode.
    * @param roundMode the roundMode to set

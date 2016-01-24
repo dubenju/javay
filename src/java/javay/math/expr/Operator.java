@@ -9,12 +9,20 @@ public class Operator {
   private int  arity;
   private int  direction; // unary,在逆波兰式的时候这是不需要考虑的。
   private BigNumCallBack opcb;
-  
-  public Operator(String op, int pri, int cnt, int d, BigNumCallBack callback) {
+
+  /**
+   * Operator.
+   * @param op String
+   * @param pri int
+   * @param cnt int
+   * @param dr int
+   * @param callback BigNumCallBack
+   */
+  public Operator(String op, int pri, int cnt, int dr, BigNumCallBack callback) {
     this.operator = op;
     this.priority = pri;
     this.arity = cnt;
-    this.direction = d;
+    this.direction = dr;
     this.opcb = callback;
   }
 
@@ -25,15 +33,11 @@ public class Operator {
   public String toString() {
     StringBuffer buf = new StringBuffer();
     buf.append(this.operator);
-//    buf.append("<");
-//    buf.append(this.priority);
-//    buf.append(this.arity);
-//    buf.append(this.direction);
-//    buf.append(">");
     return buf.toString();
   }
 
   /**
+   * getOperator.
    * @return the operator
    */
   public String getOperator() {
@@ -41,6 +45,7 @@ public class Operator {
   }
 
   /**
+   * setOperator.
    * @param operator the operator to set
    */
   public void setOperator(String operator) {
@@ -48,7 +53,7 @@ public class Operator {
   }
 
   /**
-   * 优先级
+   * 优先级.
    * @return the priority
    */
   public int getPriority() {
@@ -56,7 +61,7 @@ public class Operator {
   }
 
   /**
-   * 优先级
+   * 优先级.
    * @param priority the priority to set
    */
   public void setPriority(int priority) {
@@ -64,6 +69,7 @@ public class Operator {
   }
 
   /**
+   * getArity.
    * @return the arity
    */
   public int getArity() {
@@ -71,6 +77,7 @@ public class Operator {
   }
 
   /**
+   * setArity.
    * @param arity the arity to set
    */
   public void setArity(int arity) {
@@ -78,6 +85,7 @@ public class Operator {
   }
 
   /**
+   * getDirection.
    * @return the direction
    */
   public int getDirection() {
@@ -85,6 +93,7 @@ public class Operator {
   }
 
   /**
+   * setDirection.
    * @param direction the direction to set
    */
   public void setDirection(int direction) {
@@ -92,6 +101,7 @@ public class Operator {
   }
 
   /**
+   * getOpcb.
    * @return the opcb
    */
   public BigNumCallBack getOpcb() {
@@ -99,6 +109,7 @@ public class Operator {
   }
 
   /**
+   * setOpcb.
    * @param opcb the opcb to set
    */
   public void setOpcb(BigNumCallBack opcb) {

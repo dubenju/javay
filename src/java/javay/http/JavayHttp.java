@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -302,6 +302,7 @@ public class JavayHttp {
     }
     return blRes;
   }
+
   /**
    * getUrl.
    * @return the url
@@ -309,6 +310,7 @@ public class JavayHttp {
   public String getUrl() {
     return urlAddr;
   }
+
   /**
    * setUrl.
    * @param url the url to set

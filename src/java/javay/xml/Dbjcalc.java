@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Dbjcalc {
   private Calcultor calcultor;
   private AutoUpdate autoUpdate;
+
   /**
    * getCalcultor.
    * @return the calcultor
@@ -15,6 +16,7 @@ public class Dbjcalc {
   public Calcultor getCalcultor() {
     return calcultor;
   }
+
   /**
    * setCalcultor.
    * @param calcultor the calcultor to set
@@ -22,6 +24,7 @@ public class Dbjcalc {
   public void setCalcultor(Calcultor calcultor) {
     this.calcultor = calcultor;
   }
+
   /**
    * getAutoUpdate.
    * @return the autpUpdate
@@ -29,6 +32,7 @@ public class Dbjcalc {
   public AutoUpdate getAutoUpdate() {
     return autoUpdate;
   }
+
   /**
    * setAutoUpdate.
    * @param autpUpdate the autpUpdate to set
