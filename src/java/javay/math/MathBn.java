@@ -229,15 +229,6 @@ public class MathBn {
     return yn.add(myLog(x2, numerator, denominator, an, cnt));
   }
 
-  /**
-   * log2.
-   * @param xn BigNum
-   * @return BigNum
-   */
-  public static BigNum log2(BigNum xn) {
-    return myLog(xn.subtract(new BigNum(1)), 27, new BigNum(0.0));
-  }
-
   private static BigNum myLog(BigNum xn, int nn, BigNum tn) {
     int  n2 = nn;
     BigNum x2 = xn;
@@ -253,6 +244,15 @@ public class MathBn {
       return xn.divide((new BigNum(1).add(tn)), CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
     }
     return myLog(xn, --nn, tn);
+  }
+
+  /**
+   * log2.
+   * @param xn BigNum
+   * @return BigNum
+   */
+  public static BigNum log2(BigNum xn) {
+    return myLog(xn.subtract(new BigNum(1)), 27, new BigNum(0.0));
   }
 
   /**
@@ -272,98 +272,104 @@ public class MathBn {
      * 　　再用：arctanh(y)= y + y^3/3 + y^5/5 + ... (y≤1)
      * 　　由于：ln(x)=y+ln(x/e^y)，(y 是任意實數)，這樣就可以通過選擇適當的 y 值使 x/e^y 盡量接近1
      */
-    BigNum x = num;
+    BigNum xn = num;
     final BigNum one = new BigNum("1.0");
-    if (x.compareTo(BigNum.ZERO) <= 0) {
+    if (xn.compareTo(BigNum.ZERO) <= 0) {
       throw new ArithmeticException("Must be positive");
     }
-    int k = 0, l = 0;
-    for (; x.compareTo(new BigNum("1.0")) > 0; k++) {
-      x = x.divide(new BigNum("10.0"),40, BigNumRound.HALF_EVENT);
+    int kn = 0;
+    int ln = 0;
+    for (; xn.compareTo(new BigNum("1.0")) > 0; kn++) {
+      xn = xn.divide(new BigNum("10.0"),40, BigNumRound.HALF_EVENT);
     }
-    for (; x.compareTo(new BigNum("0.1")) <= 0; k--) {
-      x = x.multiply(new BigNum("10"));    // ( 0.1, 1 ]
+    for (; xn.compareTo(new BigNum("0.1")) <= 0; kn--) {
+      xn = xn.multiply(new BigNum("10"));    // ( 0.1, 1 ]
     }
-    for (; x.compareTo(new BigNum("0.9047")) < 0; l--) {
-      x = x.multiply(new BigNum("1.2217")); // [ 0.9047, 1.10527199 )
+    for (; xn.compareTo(new BigNum("0.9047")) < 0; ln--) {
+      xn = xn.multiply(new BigNum("1.2217")); // [ 0.9047, 1.10527199 )
     }
-    BigNum a =new BigNum(k).multiply(BigNum.LN10);
-    BigNum b = new BigNum(l).multiply(BigNum.LNR);
-    BigNum res = a.add(b);
-    res = res.add(logarithm((x.subtract(one)).divide(x.add(one), 40, BigNumRound.HALF_EVENT)));
+    BigNum an = new BigNum(kn).multiply(BigNum.LN10);
+    BigNum bn = new BigNum(ln).multiply(BigNum.LNR);
+    BigNum res = an.add(bn);
+    res = res.add(logarithm((xn.subtract(one)).divide(xn.add(one), 40, BigNumRound.HALF_EVENT)));
     return res;
   }
 
-  private static BigNum logarithm(BigNum y) { // y in ( -0.05-, 0.05+ ), return ln((1+y)/(1-y))
-    BigNum v = new BigNum("1.0");
-    BigNum y2 = y.pow(2);
-    BigNum t = y2;
-    BigNum z = t.divide(new BigNum("3.0"), 40, BigNumRound.HALF_EVENT);
-    for (int i = 3; z.compareTo(BigNum.ZERO) != 0; i += 2) {
-      v = v.add(z);
-      t = t.multiply(y2);
-      z = t.divide(new BigNum(i), 40, BigNumRound.HALF_EVENT);
+  private static BigNum logarithm(BigNum yn) { // y in ( -0.05-, 0.05+ ), return ln((1+y)/(1-y))
+    BigNum vn = new BigNum("1.0");
+    BigNum y2 = yn.pow(2);
+    BigNum tn = y2;
+    BigNum zn = tn.divide(new BigNum("3.0"), 40, BigNumRound.HALF_EVENT);
+    for (int i = 3; zn.compareTo(BigNum.ZERO) != 0; i += 2) {
+      vn = vn.add(zn);
+      tn = tn.multiply(y2);
+      zn = tn.divide(new BigNum(i), 40, BigNumRound.HALF_EVENT);
     }
-    return new BigNum("2.0").multiply(v.multiply(y));
+    return new BigNum("2.0").multiply(vn.multiply(yn));
   }
 
   /**
+   * sinhx.
    * sinh x = x+x^3/3!+x^5/5!+……+(-1)^(k-1)*(x^2k-1)/(2k-1)!+…… (-∞< x <∞)
    * @param x BigNum
    * @return BigNum
    */
-  public static BigNum sinhx(BigNum x) {
-    return mySinh(x, 1, x, new BigNum(1.0), x, 1);
+  public static BigNum sinhx(BigNum xn) {
+    return mySinh(xn, 1, xn, new BigNum(1.0), xn, 1);
   }
 
-  private static BigNum mySinh(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
-    int m     = 2 * n;
-    long k = (m + 1) * m;
-    denominator = denominator.multiply(new BigNum(k));
-    numerator   = numerator.multiply(x.pow(2));
-    BigNum a  = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+  private static BigNum mySinh(BigNum xn, int nn, BigNum numerator, 
+      BigNum denominator, BigNum yn, int cnt) {
+    int mn     = 2 * nn;
+    long kn = (mn + 1) * mn;
+    denominator = denominator.multiply(new BigNum(kn));
+    numerator   = numerator.multiply(xn.pow(2));
+    BigNum an  = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
     if (cnt > 11) {
-      return y;
+      return yn;
     }
     cnt ++;
-    return y.add(mySinh(x, ++n, numerator, denominator, a, cnt));
+    return yn.add(mySinh(xn, ++nn, numerator, denominator, an, cnt));
   }
 
   /**
+   * coshx.
    * cosh x = 1+x^2/2!+x^4/4!+……+(-1)k*(x^2k)/(2k)!+……(-∞< x <∞)
    * @param xn BigNum
    * @return BigNum
    */
-  public static BigNum coshx(BigNum x) {
-    return myCosh(x, 1, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"), 1);
+  public static BigNum coshx(BigNum xn) {
+    return myCosh(xn, 1, new BigNum("1.0"), new BigNum("1.0"), new BigNum("1.0"), 1);
   }
 
-  private static BigNum myCosh(BigNum x, int n, BigNum numerator, BigNum denominator, BigNum y, int cnt) {
-    int m     = 2 * n;
-    long k = m * (m - 1);
-    denominator = denominator.multiply(new BigNum(k));
-    numerator   = numerator.multiply(x.pow(2));
-    BigNum a  = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN, BigNumRound.HALF_EVENT);
+  private static BigNum myCosh(BigNum xn, int nn, BigNum numerator, 
+      BigNum denominator, BigNum yn, int cnt) {
+    int mn     = 2 * nn;
+    long kn = mn * (mn - 1);
+    denominator = denominator.multiply(new BigNum(kn));
+    numerator   = numerator.multiply(xn.pow(2));
+    BigNum an  = numerator.divide(denominator, CalcultorConts.DECIMAL_LEN,
+        BigNumRound.HALF_EVENT);
     if (cnt > 11) {
-      return y;
+      return yn;
     }
     cnt ++;
-    return y.add(myCosh(x, ++n, numerator, denominator, a, cnt));
+    return yn.add(myCosh(xn, ++nn, numerator, denominator, an, cnt));
   }
 
   /**
    *   pi / 4 = 1 - 1/3 + 1/ 5 - 1/7 + ...
    * @return BigNum
    */
-  public static BigNum pi(int n) {
+  public static BigNum pi(int nn) {
     BigNum one = new BigNum("1.0");
     BigNum four = new BigNum("4.0");
     BigNum res = new BigNum("1.0");
-    BigNum a = new BigNum("-1.0");
+    BigNum an = new BigNum("-1.0");
     BigNum sign = new BigNum("-1.0");
     for (int i = 3; i < 40; i += 2) {
       res = res.add(one.multiply(sign).divide(new BigNum(i), 40, BigNumRound.HALF_EVENT));
-      sign = sign.multiply(a);
+      sign = sign.multiply(an);
     }
     res = res.multiply(four);
     System.out.print(res);
@@ -380,13 +386,13 @@ public class MathBn {
     BigNum four = new BigNum("4.0");
     BigNum five = new BigNum("5.0");
     BigNum n239 = new BigNum("239.0");
-    BigNum a = one.divide(five, 40, BigNumRound.HALF_EVENT);
-    BigNum b = arctan(a);
-    BigNum c = four.multiply(b);
-    BigNum d = one.divide(n239, 40, BigNumRound.HALF_EVENT);
-    BigNum e = arctan(d);
-    BigNum f = c.subtract(e);
-    BigNum res = f.multiply(four);
+    BigNum an = one.divide(five, 40, BigNumRound.HALF_EVENT);
+    BigNum bn = arctan(an);
+    BigNum cn = four.multiply(bn);
+    BigNum dn = one.divide(n239, 40, BigNumRound.HALF_EVENT);
+    BigNum en = arctan(dn);
+    BigNum fn = cn.subtract(en);
+    BigNum res = fn.multiply(four);
     System.out.println("pi=" + res);
     return res;
   }
@@ -408,10 +414,10 @@ public class MathBn {
       BigNum bi21 = bi2.add(one);
       BigNum fac = bi.factorial();
       BigNum fac2 = bi2.factorial();
-      BigNum m = fac2.multiply(num.pow(bi21));
-      BigNum n = bi21.multiply(four.pow(bi).multiply(fac.pow(2)));
-      BigNum b = m.divide(n, 40, BigNumRound.HALF_EVENT);
-      res = res.add(b);
+      BigNum mn = fac2.multiply(num.pow(bi21));
+      BigNum nn = bi21.multiply(four.pow(bi).multiply(fac.pow(2)));
+      BigNum bn = mn.divide(nn, 40, BigNumRound.HALF_EVENT);
+      res = res.add(bn);
     }
     System.out.print(res);
     return res;
@@ -434,8 +440,8 @@ public class MathBn {
    */
   public static BigNum arccos(BigNum num) {
     BigNum two = new BigNum("2.0");
-    BigNum a = BigNum.PI.divide(two, 40, BigNumRound.HALF_EVENT);
-    return a.subtract(arcsin(num));
+    BigNum an = BigNum.PI.divide(two, 40, BigNumRound.HALF_EVENT);
+    return an.subtract(arcsin(num));
   }
 
   public static BigNum arccosd(BigNum num) {
@@ -457,14 +463,14 @@ public class MathBn {
   public static BigNum arctan(BigNum num) {
     System.out.print("★★★arctan(" + num + ")等于");
     BigNum res = new BigNum("0.0");
-    BigNum a = new BigNum("-1.0");
+    BigNum an = new BigNum("-1.0");
     BigNum sign = new BigNum("1.0");
     for (int i = 1; i < 40; i += 2) {
       BigNum augend = num.pow(i).multiply(sign);
       BigNum fac = new BigNum(i);
-      BigNum b = augend.divide(fac, 40, BigNumRound.HALF_EVENT);
-      res = res.add(b);
-      sign = sign.multiply(a);
+      BigNum bn = augend.divide(fac, 40, BigNumRound.HALF_EVENT);
+      res = res.add(bn);
+      sign = sign.multiply(an);
     }
     System.out.print(res);
     return res;
@@ -497,9 +503,9 @@ public class MathBn {
       BigNum bi2 = bi.multiply(two);
       BigNum bi21 = bi2.add(one);
       BigNum fac21 = bi21.factorial();
-      BigNum m = num.pow(bi21);
-      BigNum b = m.divide(fac21, 40, BigNumRound.HALF_EVENT);
-      res = res.add(b);
+      BigNum mn = num.pow(bi21);
+      BigNum bn = mn.divide(fac21, 40, BigNumRound.HALF_EVENT);
+      res = res.add(bn);
     }
     System.out.print(res);
     return res;
@@ -520,9 +526,9 @@ public class MathBn {
       BigNum bi = new BigNum(i);
       BigNum bi2 = bi.multiply(two);
       BigNum fac2 = bi2.factorial();
-      BigNum m = num.pow(bi2);
-      BigNum b = m.divide(fac2, 40, BigNumRound.HALF_EVENT);
-      res = res.add(b);
+      BigNum mn = num.pow(bi2);
+      BigNum bn = mn.divide(fac2, 40, BigNumRound.HALF_EVENT);
+      res = res.add(bn);
     }
     System.out.print(res);
     return res;
@@ -554,7 +560,7 @@ public class MathBn {
     BigNum one = new BigNum("1.0");
     BigNum two = new BigNum("2.0");
     BigNum four = new BigNum("4.0");
-    BigNum a = new BigNum("-1.0");
+    BigNum an = new BigNum("-1.0");
     BigNum sign = new BigNum("1.0");
     for (int i = 0; i < 40; i ++) {
       BigNum bi = new BigNum(i);
@@ -562,11 +568,11 @@ public class MathBn {
       BigNum bi21 = bi2.add(one);
       BigNum fac = bi.factorial();
       BigNum fac2 = bi2.factorial();
-      BigNum m = sign.multiply(fac2.multiply(num.pow(bi21)));
-      BigNum n = bi21.multiply(four.pow(bi).multiply(fac.pow(2)));
-      BigNum b = m.divide(n, 40, BigNumRound.HALF_EVENT);
-      res = res.add(b);
-      sign = sign.multiply(a);
+      BigNum mn = sign.multiply(fac2.multiply(num.pow(bi21)));
+      BigNum nn = bi21.multiply(four.pow(bi).multiply(fac.pow(2)));
+      BigNum bn = mn.divide(nn, 40, BigNumRound.HALF_EVENT);
+      res = res.add(bn);
+      sign = sign.multiply(an);
     }
     System.out.print(res);
     return res;
@@ -581,8 +587,8 @@ public class MathBn {
   public static BigNum arccosh(BigNum num) {
     BigNum two = new BigNum("2.0");
     BigNum one = new BigNum("1.0");
-    BigNum a = num.add(MathBn.root(num.pow(two).subtract(one), two));
-    return ln(a);
+    BigNum an = num.add(MathBn.root(num.pow(two).subtract(one), two));
+    return ln(an);
   }
 
   /**

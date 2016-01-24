@@ -1,5 +1,12 @@
 package javay.awt;
 
+import javay.distance.city.ModelCity;
+import javay.util.UGraph;
+import javay.util.graph.DefaultGraph;
+import javay.util.graph.Edge;
+import javay.util.graph.Graph;
+import javay.util.graph.Vertex;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Container;
@@ -12,22 +19,20 @@ import java.util.LinkedList;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.DimensionUIResource;
 
-import javay.distance.city.ModelCity;
-import javay.util.UGraph;
-import javay.util.graph.DefaultGraph;
-import javay.util.graph.Edge;
-import javay.util.graph.Graph;
-import javay.util.graph.Vertex;
-
-public class ViewMapPanel extends Container {// JPanel {
+public class ViewMapPanel extends Container {
+  /**
+   * serialVersionUID.
+   */
+  private static final long serialVersionUID = 1L;
   private DefaultGraph graph;
-//  private ArrayList<ViewPath> paths;
 
+  /**
+   * ViewMapPanel.
+   * @param graph Graph
+   */
   public ViewMapPanel(Graph graph) {
     this.graph = (DefaultGraph) graph;
     UGraph.setVertexXY(this.graph, 30, 30, 1240, 640);
-//    UGraph.setEdgeXY(this.graph);
-    // 640,640 30
     this.setPreferredSize(new DimensionUIResource(1320, 700));
     this.setLayout(null);
     this.setBackground(ColorUIResource.BLACK);
@@ -38,24 +43,24 @@ public class ViewMapPanel extends Container {// JPanel {
    * @see java.awt.Container#paint(java.awt.Graphics)
    */
   @Override
-  public void paint(Graphics g) {
-    g.setColor(ColorUIResource.BLACK);
-    g.fillRect(0, 0, this.getWidth(), this.getHeight());
-    drawMap(g);
-    super.paint(g);
+  public void paint(Graphics gh) {
+    gh.setColor(ColorUIResource.BLACK);
+    gh.fillRect(0, 0, this.getWidth(), this.getHeight());
+    drawMap(gh);
+    super.paint(gh);
   }
 
-  private void drawMap(Graphics g) {
-    Graphics2D g2d = (Graphics2D) g.create();
+  private void drawMap(Graphics gh) {
+    Graphics2D g2d = (Graphics2D) gh.create();
 
-    Color color = g2d.getColor();
+    final Color color = g2d.getColor();
     g2d.setColor(ColorUIResource.GRAY);
     g2d.drawRect(30, 30, 1240, 640);
-    for (int i = 30; i <=670; i += 20) {
+    for (int i = 30; i <= 670; i += 20) {
       g2d.drawLine(30, i, 1270, i); // X
       g2d.drawLine(i, 30, i, 670); // Y
     }
-    for (int i = 690; i <=1270; i += 20) {
+    for (int i = 690; i <= 1270; i += 20) {
       g2d.drawLine(i, 30, i, 670); // Y
     }
 
@@ -76,18 +81,31 @@ public class ViewMapPanel extends Container {// JPanel {
     for (LinkedList<Edge> edgs : this.graph.getAdjacencyList()) {
       for (Edge edge : edgs) {
         g2d.setColor(ColorUIResource.RED);
-        g2d.drawLine(edge.getFrom().getX(), edge.getFrom().getY(), edge.getTo().getX(), edge.getTo().getY());
+        g2d.drawLine(edge.getFrom().getX(), edge.getFrom().getY(), 
+            edge.getTo().getX(), edge.getTo().getY());
       }
     }
 
     g2d.setColor(color);
   }
-  public void drawTriangle(Graphics2D g2d, int x1, int   y1,int   x2,int   y2,int   x3,int   y3) {
-      Polygon filledPolygon = new Polygon();
-      filledPolygon.addPoint(x1,y1);
-      filledPolygon.addPoint(x2,y2);
-      filledPolygon.addPoint(x3,y3);
-      g2d.drawPolygon(filledPolygon);
-      g2d.fillPolygon(filledPolygon);
+
+  /**
+   * drawTriangle.
+   * @param g2d Graphics2D
+   * @param x1 int
+   * @param y1 int
+   * @param x2 int
+   * @param y2 int
+   * @param x3 int
+   * @param y3 int
+   */
+  public void drawTriangle(Graphics2D g2d, int x1, int   y1,int   x2, int   y2,
+      int   x3,int   y3) {
+    Polygon filledPolygon = new Polygon();
+    filledPolygon.addPoint(x1,y1);
+    filledPolygon.addPoint(x2,y2);
+    filledPolygon.addPoint(x3,y3);
+    g2d.drawPolygon(filledPolygon);
+    g2d.fillPolygon(filledPolygon);
   }
 }

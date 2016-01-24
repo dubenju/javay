@@ -1,6 +1,3 @@
-/**
- * A star
- */
 package javay.astar;
 
 /**
@@ -13,7 +10,7 @@ public class Terrain {
   private int cost;
 
   /**
-   * 构造函数
+   * 构造函数.
    */
   public Terrain(int val) {
     this.val = val;
@@ -70,42 +67,48 @@ public class Terrain {
   }
 
   /**
-   * @return val
+   * getVal.
+   * @return val int
    */
   public int getVal() {
     return val;
   }
 
   /**
-   * @param val
+   * setVal.
+   * @param val int
    */
   public void setVal(int val) {
     this.val = val;
   }
 
   /**
-   * @return walkable
+   * getWalkable.
+   * @return walkable int
    */
   public int getWalkable() {
     return walkable;
   }
 
   /**
-   * @param walkable
+   * setWalkable.
+   * @param walkable int
    */
   public void setWalkable(int walkable) {
     this.walkable = walkable;
   }
 
   /**
-   * @return cost
+   * getCost.
+   * @return cost int
    */
   public int getCost() {
     return cost;
   }
 
   /**
-   * @param cost
+   * setCost.
+   * @param cost int
    */
   public void setCost(int cost) {
     this.cost = cost;

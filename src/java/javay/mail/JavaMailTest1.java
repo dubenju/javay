@@ -11,6 +11,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class JavaMailTest1 {
+  /**
+   * main.
+   * @param args String[]
+   * @throws MessagingException MessagingException
+   */
   public static void main(String[] args) throws MessagingException {
     Properties props = new Properties();
     // 开启debug调试

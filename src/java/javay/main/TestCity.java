@@ -1,7 +1,11 @@
-/**
- *
- */
 package javay.main;
+
+import javay.awt.ViewMapPanel;
+import javay.distance.city.TGraph;
+import javay.util.UCity;
+import javay.util.graph.DefaultGraph;
+import javay.util.graph.DefaultVertex;
+import javay.util.graph.Graph;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -17,14 +21,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.ColorUIResource;
 
-import javay.awt.ViewMapPanel;
-import javay.distance.city.TGraph;
-import javay.util.UCity;
-import javay.util.graph.DefaultGraph;
-import javay.util.graph.DefaultVertex;
-import javay.util.graph.Graph;
-
 /**
+ * TestCity.
  * @author DBJ
  *
  */
@@ -36,18 +34,19 @@ public class TestCity {
   private ViewMapPanel panel = null;
 
   /**
-   * @param args
+   * main.
+   * @param args String[]
    */
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
         public void run() {
-    TestCity fg = new TestCity();
+          TestCity fg = new TestCity();
         }
     });
   }
 
   /**
-   *
+   * TestCity.
    */
   public TestCity() {
     DefaultVertex 北京 = new DefaultVertex(UCity.getCity("北京"));
@@ -1375,13 +1374,13 @@ public class TestCity {
 //    }
 //    System.out.println();
 
-    JFrame frame = new JFrame();
+    final JFrame frame = new JFrame();
     // ViewMapPanel panel = new ViewMapPanel(graph);
     panel = new ViewMapPanel(graph);
-    JPanel panelBtn = new JPanel();
+    final JPanel panelBtn = new JPanel();
     JButton dftBtn = new JButton("DFT");
     dftBtn.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent ev) {
         System.out.println("DFT begin");
         panel.removeAll();
 
@@ -1396,7 +1395,7 @@ public class TestCity {
     });
     JButton bftBtn = new JButton("BFT");
     bftBtn.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent ev) {
         System.out.println("BFT");
         panel.removeAll();
 
@@ -1409,7 +1408,7 @@ public class TestCity {
     });
     JButton ksjBtn = new JButton("KSJ");
     ksjBtn.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent ev) {
         System.out.println("KSJ");
         panel.removeAll();
         graph.kosaraju(new TGraph(panel, ColorUIResource.YELLOW));
@@ -1419,7 +1418,7 @@ public class TestCity {
     });
     JButton trjBtn = new JButton("TRJ");
     trjBtn.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent ev) {
         System.out.println("TRJ");
         panel.removeAll();
         graph.tarjan(new TGraph(panel, ColorUIResource.BLUE));
@@ -1427,7 +1426,7 @@ public class TestCity {
     });
     JButton gbwBtn = new JButton("GBW");
     gbwBtn.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+      public void actionPerformed(ActionEvent ev) {
         System.out.println("GBW");
         panel.removeAll();
         graph.Gabow(new TGraph(panel, ColorUIResource.BLUE));

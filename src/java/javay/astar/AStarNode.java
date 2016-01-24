@@ -1,6 +1,3 @@
-/**
- * A star
- */
 package javay.astar;
 
 /**
@@ -10,79 +7,79 @@ package javay.astar;
 public class AStarNode {
 
   /**
-   * x坐标
+   * x坐标.
    */
   private int x;
 
   /**
-   * y坐标
+   * y坐标.
    */
   private int y;
 
   /**
-   * g值 起始点到当前点的合计
+   * g值 起始点到当前点的合计.
    */
   private int g;
 
   /**
-   * h值 当前点到目标点的合计
+   * h值 当前点到目标点的合计.
    */
   private int h;
 
   /**
-   * f值=g+h
+   * f值=g+h.
    */
   private int f;
 
   /**
-   * 父
+   * 父.
    */
   private AStarNode parent = null;
 
   /**
-   * 地形
+   * 地形.
    */
   private Terrain terrain = null;
 
   /**
-   * 状态
+   * 状态.
    */
   private int status;
 
   /**
-   * 构造函数
-   * @param x x坐标
-   * @param y y坐标
+   * 构造函数.
+   * @param xn x坐标
+   * @param yn y坐标
    * @param terrain 地形
    * @param status 状态
    */
-  public AStarNode(int x, int y, int terrain) {
-    this(x, y, terrain, AStarConstants.NOTE_STATUS_NONE);
+  public AStarNode(int xn, int yn, int terrain) {
+    this(xn, yn, terrain, AStarConstants.NOTE_STATUS_NONE);
   }
 
   /**
-   * 构造函数
-   * @param x x坐标
-   * @param y y坐标
+   * 构造函数.
+   * @param xn x坐标
+   * @param yn y坐标
    * @param terrain 地形
    * @param status 状态
    */
-  public AStarNode(int x, int y, int terrain, int status) {
-    this.x = x;
-    this.y = y;
+  public AStarNode(int xn, int yn, int terrain, int status) {
+    this.x = xn;
+    this.y = yn;
     this.terrain = new Terrain(terrain);
     this.status = status;
   }
 
   /**
-   * AStarNode
-   * @param x x坐标
-   * @param y y坐标
+   * AStarNode.
+   * @param xn x坐标
+   * @param yn y坐标
    * @param parent 父
    */
-  public AStarNode(int x, int y, AStarNode parent) {
-    this.x = x;
-    this.y = y;
+  public AStarNode(int xn, int yn, AStarNode parent) {
+    this.x = xn;
+    this.y = yn;
     this.parent = parent;
   }
 
@@ -98,24 +95,24 @@ public class AStarNode {
     return f;
   }
 
-  public void setF(int f) {
-    this.f = f;
+  public void setF(int fn) {
+    this.f = fn;
   }
 
   public int getG() {
     return g;
   }
 
-  public void setG(int g) {
-    this.g = g;
+  public void setG(int gn) {
+    this.g = gn;
   }
 
   public int getH() {
     return h;
   }
 
-  public void setH(int h) {
-    this.h = h;
+  public void setH(int hn) {
+    this.h = hn;
   }
 
   public AStarNode getParent() {
@@ -127,6 +124,7 @@ public class AStarNode {
   }
 
   /**
+   * getTerrain.
    * @return terrain
    */
   public Terrain getTerrain() {
@@ -134,37 +132,40 @@ public class AStarNode {
   }
 
   /**
-   * @param terrain
+   * setTerrain.
+   * @param terrain Terrain
    */
   public void setTerrain(Terrain terrain) {
     this.terrain = terrain;
   }
 
   /**
-   * @return status
+   * getStatus.
+   * @return status int
    */
   public int getStatus() {
     return status;
   }
 
   /**
-   * @param status
+   * setStatus.
+   * @param status int
    */
   public void setStatus(int status) {
     this.status = status;
   }
 
   /**
-   * 在contains的indexOf中使用
+   * 在contains的indexOf中使用.
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
   public boolean equals(Object obj) {
-    boolean bRes = false;
+    boolean blRes = false;
     if (obj instanceof AStarNode) {
-      bRes = (this.x == ((AStarNode) obj).x && this.y == ((AStarNode) obj).y);
+      blRes = (this.x == ((AStarNode) obj).x && this.y == ((AStarNode) obj).y);
     }
-    return bRes;
+    return blRes;
   }
 
   /**

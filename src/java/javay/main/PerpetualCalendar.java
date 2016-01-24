@@ -31,16 +31,15 @@ public class PerpetualCalendar {
   private void updateCalendar() {  
     int maxDay =  
         calendar.getActualMaximum(Calendar.DAY_OF_MONTH);  
-    int miniDay =  
-        calendar.getActualMinimum(Calendar.DAY_OF_MONTH);  
+    // int miniDay = calendar.getActualMinimum(Calendar.DAY_OF_MONTH);
     int currentDay = -1;  
-    Calendar c = Calendar.getInstance();
-    if (c.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)  
-        && c.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
-      currentDay = c.get(Calendar.DATE);
+    Calendar ca = Calendar.getInstance();
+    if (ca.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)  
+        && ca.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
+      currentDay = ca.get(Calendar.DATE);
     }
-    c.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),1);
-    int begin = c.get(Calendar.DAY_OF_WEEK);
+    ca.set(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),1);
+    int begin = ca.get(Calendar.DAY_OF_WEEK);
     view.setCalendar(begin, maxDay, currentDay);
     view.setYearAndMonth(sdf.format(calendar.getTime()));
   }
@@ -49,6 +48,11 @@ public class PerpetualCalendar {
     view.setVisible(true);
   }
 
+  /**
+   * main.
+   * @param args String[]
+   * @throws Exception Exception
+   */
   public static void main(String[] args) throws Exception {
     for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
       if ("Nimbus".equals(info.getName())) {

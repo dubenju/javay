@@ -1,6 +1,3 @@
-/**
- * A star
- */
 package javay.astar;
 
 /**
