@@ -1429,7 +1429,7 @@ public class TestCity {
       public void actionPerformed(ActionEvent ev) {
         System.out.println("GBW");
         panel.removeAll();
-        graph.Gabow(new TGraph(panel, ColorUIResource.BLUE));
+        graph.gabow(new TGraph(panel, ColorUIResource.BLUE));
       }
     });
     // JButton b = new JButton("按我", new ImageIcon(".\\icons\\hand.jpg"));

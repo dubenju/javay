@@ -7,7 +7,6 @@ import java.util.Comparator;
  * 二叉堆
  * @author DBJ(dubenju@126.com)
  *
- * @param <E>
  */
 public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
 
@@ -16,6 +15,11 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
   private boolean minHeap;
   private Comparator<E> comparator;
 
+  /**
+   * BinaryHeap.
+   * @param isMinHeap boolean
+   * @param comparator Comparator
+   */
   public BinaryHeap(boolean isMinHeap, Comparator<E> comparator) {
     this.values = new ArrayList<E>();
     this.minHeap = isMinHeap;
@@ -98,7 +102,7 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
 
 
   /**
-   * 从索引位置向下过滤最小堆
+   * 从索引位置向下过滤最小堆.
    *
    * @param index 被过滤元素的索引
    */
@@ -111,7 +115,8 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
       int child = (((hole  + 1) * 2) - 1);
 
       // if we have a right child and that child can not be percolated up then move onto other child
-      if (child < this.values.size() - 1 && compare(this.values.get(child + 1), this.values.get(child)) < 0) {
+      if (child < this.values.size() - 1
+          && compare(this.values.get(child + 1), this.values.get(child)) < 0) {
         child ++;
       }
 
@@ -128,7 +133,7 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
   }
 
   /**
-   * 从索引位置向下过滤最大堆
+   * 从索引位置向下过滤最大堆.
    *
    * @param index 被过滤元素的索引
    */
@@ -140,7 +145,8 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
       int child = hole * 2;
 
       // if we have a right child and that child can not be percolated up then move onto other child
-      if (child != this.values.size() && compare(this.values.get(child + 1), this.values.get(child)) > 0) {
+      if (child != this.values.size()
+          && compare(this.values.get(child + 1), this.values.get(child)) > 0) {
         child ++;
       }
 
@@ -157,7 +163,7 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
   }
 
   /**
-   * 从索引位置向上过滤最小堆
+   * 从索引位置向上过滤最小堆.
    *
    * @param index 被过滤元素的索引
    */
@@ -174,7 +180,7 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
   }
 
   /**
-   * 过滤在最小堆底部的新元素
+   * 过滤在最小堆底部的新元素.
    *
    * @param element 数据元素
    */
@@ -186,7 +192,7 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
   }
 
   /**
-   * 从索引位置向上过滤最大堆
+   * 从索引位置向上过滤最大堆.
    *
    * @param index 被过滤元素的索引
    */
@@ -203,7 +209,7 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
   }
 
   /**
-   * 过滤在最大堆底部的新元素
+   * 过滤在最大堆底部的新元素.
    *
    * @param element 数据元素
    */
@@ -215,19 +221,19 @@ public class BinaryHeap<E extends Comparable<?>> implements Heap<E> {
   }
 
   /**
-   * 如果指定比较器，使用比较器比较两个对象,否则自然比较
+   * 如果指定比较器，使用比较器比较两个对象,否则自然比较.
    *
-   * @param a  the first object
-   * @param b  the second object
+   * @param ae the first object
+   * @param be the second object
    * @return 比较结果
    */
-  private int compare(E a, E b) {
+  private int compare(E ae, E be) {
     if (this.comparator != null) {
-      return this.comparator.compare(a, b);
+      return this.comparator.compare(ae, be);
     } else {
       @SuppressWarnings("unchecked")
-      Comparable<E> ca = Comparable.class.cast(a);
-      return ca.compareTo(b);
+      Comparable<E> ca = Comparable.class.cast(ae);
+      return ca.compareTo(be);
     }
   }
 

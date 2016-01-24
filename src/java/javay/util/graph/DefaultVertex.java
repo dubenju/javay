@@ -8,17 +8,21 @@ import java.util.LinkedList;
  */
 public class DefaultVertex implements Vertex {
 
-  private int x;
-  private int y;
+  private int xi;
+  private int yi;
   private int index;
   private Object value;
   private boolean visit;
 
   private LinkedList<Edge> adjacencyEdges;
 
-  public DefaultVertex(Object v) {
+  /**
+   * DefaultVertex.
+   * @param vo Object
+   */
+  public DefaultVertex(Object vo) {
     this.index = -1;
-    this.value = v;
+    this.value = vo;
     this.visit = false;
     this.adjacencyEdges = new LinkedList<Edge>();
   }
@@ -39,7 +43,8 @@ public class DefaultVertex implements Vertex {
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof DefaultVertex) {
-      return this.index > -1 && this.index == ((DefaultVertex) obj).index ? true : this.value.equals(((DefaultVertex) obj).value);
+      return this.index > -1 && this.index == ((DefaultVertex) obj).index
+          ? true : this.value.equals(((DefaultVertex) obj).value);
     }
     return super.equals(obj);
   }
@@ -56,9 +61,9 @@ public class DefaultVertex implements Vertex {
     buf.append(":");
     buf.append(this.visit);
     buf.append("(");
-    buf.append(this.x);
+    buf.append(this.xi);
     buf.append(",");
-    buf.append(this.y);
+    buf.append(this.yi);
     buf.append(")");
     return buf.toString();
   }
@@ -69,6 +74,7 @@ public class DefaultVertex implements Vertex {
   }
 
   /**
+   * getAdjacencyEdges.
    * @return adjacencyEdges
    */
   public LinkedList<Edge> getAdjacencyEdges() {
@@ -76,6 +82,7 @@ public class DefaultVertex implements Vertex {
   }
 
   /**
+   * setAdjacencyEdges.
    * @param adjacencyEdges セットする adjacencyEdges
    */
   public void setAdjacencyEdges(LinkedList<Edge> adjacencyEdges) {
@@ -83,6 +90,7 @@ public class DefaultVertex implements Vertex {
   }
 
   /**
+   * isVisited.
    * @return visit
    */
   public boolean isVisited() {
@@ -90,37 +98,42 @@ public class DefaultVertex implements Vertex {
   }
 
   /**
-   * @param visit
+   * setVisit.
+   * @param visit boolean
    */
   public void setVisit(boolean visit) {
     this.visit = visit;
   }
 
   /**
+   * getX.
    * @return x
    */
   public int getX() {
-    return x;
+    return xi;
   }
 
   /**
-   * @param x
+   * setX.
+   * @param x int
    */
-  public void setX(int x) {
-    this.x = x;
+  public void setX(int xi) {
+    this.xi = xi;
   }
 
   /**
+   * getY.
    * @return y
    */
   public int getY() {
-    return y;
+    return yi;
   }
 
   /**
-   * @param y
+   * setY.
+   * @param y int
    */
-  public void setY(int y) {
-    this.y = y;
+  public void setY(int yi) {
+    this.yi = yi;
   }
 }

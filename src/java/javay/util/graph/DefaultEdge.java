@@ -1,6 +1,3 @@
-/**
- *
- */
 package javay.util.graph;
 
 /**
@@ -12,26 +9,26 @@ public class DefaultEdge implements Edge, Comparable<DefaultEdge> {
   // TODO:Del
   public static final DefaultEdge NullEdge = new DefaultEdge();
 
-  /**  */
-  private int x;
-  private int y;
+  /** . */
+  private int xi;
+  private int yi;
   private int x2;
   private int y2;
-  /** 起始顶点 */
+  /** 起始顶点. */
   private Vertex from;
-  /** 终止顶点 */
+  /** 终止顶点. */
   private Vertex to;
-  /** 权  */
+  /** 权. */
   private int weight;
 
   private DefaultEdge nextEdge;
 
   public DefaultEdge() {
-    weight=Integer.MAX_VALUE;
+    weight = Integer.MAX_VALUE;
   }
 
   /**
-   * 边
+   * 边.
    * @param from 起始顶点
    * @param to 终止顶点
    * @param weight 权
@@ -47,10 +44,13 @@ public class DefaultEdge implements Edge, Comparable<DefaultEdge> {
   }
 
   @Override
-  public int compareTo(DefaultEdge o) {
-    return weight - o.weight;
+  public int compareTo(DefaultEdge oe) {
+    return weight - oe.weight;
   }
 
+  /**
+   * toString.
+   */
   public String toString() {
     StringBuffer buf = new StringBuffer();
     buf.append(from);
@@ -62,6 +62,7 @@ public class DefaultEdge implements Edge, Comparable<DefaultEdge> {
   }
 
   /**
+   * getFrom.
    * @return from
    */
   public Vertex getFrom() {
@@ -69,6 +70,7 @@ public class DefaultEdge implements Edge, Comparable<DefaultEdge> {
   }
 
   /**
+   * getTo.
    * @return to
    */
   public Vertex getTo() {
@@ -76,6 +78,7 @@ public class DefaultEdge implements Edge, Comparable<DefaultEdge> {
   }
 
   /**
+   * getNextEdge.
    * @return nextEdge
    */
   public DefaultEdge getNextEdge() {
@@ -83,41 +86,47 @@ public class DefaultEdge implements Edge, Comparable<DefaultEdge> {
   }
 
   /**
-   * @param nextEdge
+   * setNextEdge.
+   * @param nextEdge Edge
    */
   public void setNextEdge(Edge nextEdge) {
     this.nextEdge = (DefaultEdge) nextEdge;
   }
 
   /**
+   * getX1.
    * @return x
    */
   public int getX1() {
-    return x;
+    return xi;
   }
 
   /**
-   * @param x
+   * setX1.
+   * @param x1 int
    */
-  public void setX1(int x) {
-    this.x = x;
+  public void setX1(int x1) {
+    this.xi = x1;
   }
 
   /**
+   * getY1.
    * @return y
    */
   public int getY1() {
-    return y;
+    return yi;
   }
 
   /**
-   * @param y
+   * setY1.
+   * @param y1 int
    */
-  public void setY1(int y) {
-    this.y = y;
+  public void setY1(int y1) {
+    this.yi = y1;
   }
 
   /**
+   * getX2.
    * @return x2
    */
   public int getX2() {
@@ -125,13 +134,15 @@ public class DefaultEdge implements Edge, Comparable<DefaultEdge> {
   }
 
   /**
-   * @param x2
+   * setX2.
+   * @param x2 int
    */
   public void setX2(int x2) {
     this.x2 = x2;
   }
 
   /**
+   * getY2.
    * @return y2
    */
   public int getY2() {
@@ -139,7 +150,8 @@ public class DefaultEdge implements Edge, Comparable<DefaultEdge> {
   }
 
   /**
-   * @param y2
+   * getY2.
+   * @param y2 int
    */
   public void setY2(int y2) {
     this.y2 = y2;

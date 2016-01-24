@@ -1,6 +1,3 @@
-/**
- *
- */
 package javay.util.graph;
 
 /**
@@ -9,16 +6,28 @@ package javay.util.graph;
  */
 public interface Edge {
   public int getX1();
-  public void setX1(int x);
+
+  public void setX1(int xi);
+
   public int getY1();
-  public void setY1(int y);
+
+  public void setY1(int yi);
+
   public int getX2();
+
   public void setX2(int x2);
+
   public int getY2();
+
   public void setY2(int y2);
+
   public Vertex getFrom();
+
   public Vertex getTo();
+
   public int getWeight();
+
   public DefaultEdge getNextEdge();
+
   public void setNextEdge(Edge nextEdge);
 }

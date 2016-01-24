@@ -1,6 +1,3 @@
-/**
- *
- */
 package javay.util.graph;
 
 /**
@@ -12,13 +9,17 @@ public class Distance implements Comparable<Distance> {
   public int curV;
   public int distance;
 
-  public Distance(int v) {
-    this.curV = v;
+  /**
+   * Distance.
+   * @param ov int
+   */
+  public Distance(int ov) {
+    this.curV = ov;
     this.preV = -1;
     this.distance = Integer.MAX_VALUE;
   }
 
-  public int compareTo(Distance o) {
-    return distance - o.distance;
+  public int compareTo(Distance od) {
+    return distance - od.distance;
   }
 }

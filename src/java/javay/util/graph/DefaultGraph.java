@@ -1,7 +1,7 @@
-/**
- *
- */
 package javay.util.graph;
+
+import javay.util.graph.x.ParentTree;
+import javay.util.heap.BinaryHeap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,23 +9,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import javay.util.graph.x.ParentTree;
-import javay.util.heap.BinaryHeap;
-
 /**
  * 图
  * @author DBJ(dubenju@126.com)
  */
 public class DefaultGraph implements Graph {
 
-  /** 顶点集  */
+  /** 顶点集. */
   private ArrayList<Vertex> vertexes;
-  /** 邻接表  */
+  /** 邻接表. */
   private ArrayList<LinkedList<Edge>> adjacencyList;
   private int edgeSize;
 
   /**
-   * 图
+   * 图.
    */
   public DefaultGraph() {
     this.vertexes = new ArrayList<Vertex>();
@@ -34,7 +31,7 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * 顶点数
+   * 顶点数.
    */
   public int size() {
     return this.vertexes.size();
@@ -45,13 +42,13 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * 边
+   * 边.
    * @param from 起始顶点
    * @param to 终止顶点
    * @param weight 权
    */
   public void setEdge(Vertex from, Vertex to, int weight) {
-    if(weight < 0 || from.equals(to) == true ) {
+    if (weight < 0 || from.equals(to) == true ) {
       throw new IllegalArgumentException();
     }
 
@@ -89,20 +86,20 @@ public class DefaultGraph implements Graph {
     }
   }
 
-  /** 获取顶点v在图中的位置 */
+  /** 获取顶点v在图中的位置. */
   public int indexOf(Vertex vertex) {
     return this.vertexes.indexOf(vertex);
   }
 
-  /** 获取顶点v在图中的值 */
-  /** 向图中放入值位value的顶点v */
+  /** 获取顶点v在图中的值. */
+  /** 向图中放入值位value的顶点v. */
 
-  /** 指定顶点vertex的第一邻接顶点 */
-  /** 指定顶点vertex的下一个邻接顶点 */
-  /** 向图中放入顶点v */
-  /** 删除顶点v */
-  /** 向图中放入边e */
-  /** s删除边e */
+  /** 指定顶点vertex的第一邻接顶点. */
+  /** 指定顶点vertex的下一个邻接顶点. */
+  /** 向图中放入顶点v. */
+  /** 删除顶点v. */
+  /** 向图中放入边e. */
+  /** s删除边e. */
 
   public DefaultEdge firstEdge(Vertex vertex) {
     DefaultEdge result = DefaultEdge.NullEdge;
@@ -114,25 +111,25 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * 遍历
+   * 遍历.
    */
 
   /**
-   * 深度优先遍历(DFS)
+   * 深度优先遍历(DFS).
    */
   public void depthFirstTraversal(GraphVisitor visitor) {
     // reset Visited
     initVisit();
-    for(int i = 0; i < this.vertexes.size(); i ++) {
+    for (int i = 0; i < this.vertexes.size(); i ++) {
       Vertex vertex = this.vertexes.get(i);
-      if(vertex.isVisited() == false) {
+      if (vertex.isVisited() == false) {
         do_DFS(vertex,  firstEdge(vertex), visitor);
       }
     }
   }
 
   /**
-   * 深度优先遍历x
+   * 深度优先遍历x.
    * @param v 顶点
    * @param edge
    * @param visitor
@@ -151,7 +148,7 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * 广度优先遍历(BFS)
+   * 广度优先遍历(BFS).
    */
   public void breathFirstTraversal(GraphVisitor visitor) {
     // reset Visited
@@ -165,7 +162,7 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * 广度优先遍历x
+   * 广度优先遍历x.
    * @param v 顶点
    * @param visitor
    */
@@ -200,15 +197,15 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * A星
+   * A星.
    */
 
   /**
-   * Flood fill
+   * Flood fill.
    */
 
   /**
-   * 强连通分量
+   * 强连通分量.
    */
 
   /**
@@ -218,7 +215,7 @@ public class DefaultGraph implements Graph {
    * 3.构造G的反向图GT
    * 4.设置置换后的图中的所有顶点为未访问过的；
    * 5.从与步骤 2 中相同的顶点 v 开始做 DFS 遍历，如果遍历没有访问到所有顶点，则说明图不是强连通的，否则说明图是强连通的。
-   * @param visitor
+   * @param visitor GraphVisitor
    * @return 函数最终返回一个二维单链表slk，单链表每个节点又是一个单链表， 每个节点处的单链表表示一个连通区域；slk的长度代表了图中联通区域的个数。
    */
   public boolean kosaraju(GraphVisitor visitor) {
@@ -261,10 +258,10 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * Tarjan算法
+   * Tarjan算法.
    * Trajan 算法实现图的强连通区域求解；
    * 算法步骤：
-   * @param visitor
+   * @param visitor GraphVisitor
    * @return一个二维单链表slk，单链表每个节点也是一个单链表，每个节点处的单链表表示一个联通区域；slk的长度代表了图中联通区域的个数。
    */
   public LinkedList<LinkedList<Integer>> tarjan(GraphVisitor visitor) {
@@ -274,23 +271,23 @@ public class DefaultGraph implements Graph {
     int low[] = new int[this.vertexes.size()];
     int cnt[] = new int[1];
     // 初始化
-    for(int i = 0; i < this.vertexes.size(); i ++) {
+    for (int i = 0; i < this.vertexes.size(); i ++) {
       pre[i] = -1;
       low[i] = -1;
     }
 
     // 对顶点运行递归函数TrajanDFS
     LinkedList<LinkedList<Integer>> slk = new LinkedList<LinkedList<Integer>>();
-    for(int i = 0; i < this.vertexes.size(); i ++) {
+    for (int i = 0; i < this.vertexes.size(); i ++) {
       if(pre[i] == -1) {
-        tarjanDFS(i, pre, low, cnt, ls, slk);
+        tarjanDfs(i, pre, low, cnt, ls, slk);
       }
     }
 
     // 打印所有的连通区域
-    for(LinkedList<Integer> comp_i: slk) {
+    for (LinkedList<Integer> comp_i: slk) {
       // 获取一个链表元素项，即一个连通区域，打印这个连通区域的每个图节点
-      for(Integer elem : comp_i) {
+      for (Integer elem : comp_i) {
         System.out.print(elem + "\t");
       }
       System.out.println();
@@ -299,17 +296,17 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * Tarjan算法的递归DFS函数
+   * Tarjan算法的递归DFS函数.
    */
-  public void tarjanDFS(int w, int pre[], int low[], int cnt[], Stack<Integer> ls, LinkedList<LinkedList<Integer>> slk) {
+  public void tarjanDfs(int w, int pre[], int low[], int cnt[], Stack<Integer> ls, LinkedList<LinkedList<Integer>> slk) {
     int t , min = low[w] = pre[w] = cnt[0]++;
     // 将当前顶点号压栈
     ls.push(new Integer(w));
     // 对当前顶点的每个邻点循环
-    for(Edge e = this.firstEdge(this.vertexes.get(w)); this.isEdge(e); e = e.getNextEdge()) {
+    for (Edge e = this.firstEdge(this.vertexes.get(w)); this.isEdge(e); e = e.getNextEdge()) {
       // 如果邻点没有遍历过，则对其递归调用
-      if(pre[e.getTo().getIndex()] == -1) {
-        tarjanDFS(e.getTo().getIndex(), pre, low, cnt, ls, slk);
+      if (pre[e.getTo().getIndex()] == -1) {
+        tarjanDfs(e.getTo().getIndex(), pre, low, cnt, ls, slk);
       }
       /* 如果邻点已经被遍历过了，比较其编号与min,
        * 如果编号较小，则更新min的大小*/
@@ -317,7 +314,7 @@ public class DefaultGraph implements Graph {
         min = low[e.getTo().getIndex()];
     }
     // 如果此时min小于low[w]，则返回
-    if(min < low[w]){
+    if (min < low[w]){
       low[w] = min;
       return ;
     }
@@ -335,7 +332,7 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * Gabow算法
+   * Gabow算法.
    */
   /* Gabow 算法实现图的强连通区域查找；
    * @param G  输入为图结构
@@ -344,7 +341,7 @@ public class DefaultGraph implements Graph {
    * 每个节点处的单链表表示一个联通区域；
    * slk的长度代表了图中联通区域的个数。
    */
-  public LinkedList<LinkedList<Integer>> Gabow(GraphVisitor visitor) {
+  public LinkedList<LinkedList<Integer>> gabow(GraphVisitor visitor) {
     // 函数使用两个堆栈
     Stack<Integer> ls = new Stack<Integer>();
     Stack<Integer> P = new Stack<Integer>();
@@ -353,23 +350,23 @@ public class DefaultGraph implements Graph {
     // 标注各个顶点所在的连通分支的名称
     int id[]  = new int[this.vertexes.size()];
     // 初始化
-    for(int i = 0; i < this.vertexes.size(); i++){
+    for (int i = 0; i < this.vertexes.size(); i++){
       pre[i] = -1;
       id[i] = -1;
     }
 
     LinkedList<LinkedList<Integer>> slk = new LinkedList<LinkedList<Integer>>();
-    for(int i = 0; i < this.vertexes.size(); i ++) {
-      if(pre[i] == -1) {
-        gabowDFS(i, pre, id, cnt, ls, P, slk);
+    for (int i = 0; i < this.vertexes.size(); i ++) {
+      if (pre[i] == -1) {
+        gabowDfs(i, pre, id, cnt, ls, P, slk);
       }
     }
 
     //打印所有的联通区域
-    for(LinkedList<Integer> comp_i: slk) {
+    for (LinkedList<Integer> comp_i: slk) {
       //获取一个链表元素项，即一个联通区域
       //打印这个联通区域的每个图节点
-      for(Integer elem : comp_i) {
+      for (Integer elem : comp_i) {
         System.out.print(elem + "\t");
       }
       System.out.println();
@@ -382,7 +379,7 @@ public class DefaultGraph implements Graph {
    * @param ls  栈1,
    * @param P  栈2，决定何时弹出栈1中顶点
    */
-  public void gabowDFS(int w, int pre[],  int[] id, int cnt[], Stack<Integer> ls, Stack<Integer> P, LinkedList<LinkedList<Integer>> slk) {
+  public void gabowDfs(int w, int pre[],  int[] id, int cnt[], Stack<Integer> ls, Stack<Integer> P, LinkedList<LinkedList<Integer>> slk) {
     int v;
     pre[w] = cnt[0] ++;
     //将当前顶点号压栈
@@ -395,7 +392,7 @@ public class DefaultGraph implements Graph {
     for(Edge e = firstEdge(this.vertexes.get(w)); isEdge(e); e = e.getNextEdge()){
       if(pre[e.getTo().getIndex()] == -1) {
         //如果邻点没有遍历过，则对其递归调用
-        gabowDFS(e.getTo().getIndex(), pre, id, cnt, ls, P, slk);
+        gabowDfs(e.getTo().getIndex(), pre, id, cnt, ls, P, slk);
       } else if(id[e.getTo().getIndex()] == -1) {
         // 否则，如果邻点被遍历过但又没有被之前的连通域包含，则循环弹出
         int ptop = ((Integer)(P.peek())).intValue();
@@ -552,10 +549,10 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * 拓扑排序(DFS)
+   * 拓扑排序(DFS).
    * @param sortedVertexes
    */
-  public void topologySort_byDFS(Vertex[] sortedVertexes) {
+  public void topologySort_byDfs(Vertex[] sortedVertexes) {
     initVisit();
     int num = 0;
     for(int i = 0; i < this.vertexes.size(); i ++) {
@@ -568,7 +565,7 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * 拓扑排序
+   * 拓扑排序.
    * @param v
    * @param sortedVertexes
    * @param num
@@ -589,7 +586,7 @@ public class DefaultGraph implements Graph {
   }
 
   /**
-   * 最短路径
+   * 最短路径.
    * 单源最短路径问题
    */
 
@@ -599,7 +596,7 @@ public class DefaultGraph implements Graph {
    * Floyd-Warshall算法（Floyd-Warshall algorithm），简称Floyd算法
    * http://www.cppblog.com/mythit/archive/2009/04/21/80579.html
    * 每两个顶点之间的最短距离
-   * @param dists
+   * @param dists Distance[][]
    */
   public void floyd(Distance[][] dists) {
     for(int i = 0; i < this.vertexes.size(); i ++) {

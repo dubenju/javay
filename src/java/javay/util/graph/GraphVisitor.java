@@ -1,6 +1,3 @@
-/**
- *
- */
 package javay.util.graph;
 
 /**
@@ -8,5 +5,5 @@ package javay.util.graph;
  */
 public interface GraphVisitor {
 
-  public void visit(Graph g, Edge edge, Vertex vertex);
+  public void visit(Graph gr, Edge edge, Vertex vertex);
 }
