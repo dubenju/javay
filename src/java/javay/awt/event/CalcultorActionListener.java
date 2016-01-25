@@ -5,6 +5,7 @@ import javay.math.BigNum;
 import javay.math.MathBn;
 import javay.swing.CalcultorConts;
 import javay.swing.CalcultorPanel;
+import javay.util.log.expt.HandleExpt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,123 +56,127 @@ public class CalcultorActionListener implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent ev) {
-    String scmd = ev.getActionCommand();
-    log.debug("scmd=" + scmd);
+    try {
+      String scmd = ev.getActionCommand();
+      log.debug("scmd=" + scmd);
 
-    if (scmd.equals(CalcultorConts.APP)) {
-      if (this.panel.inv.isSelected()) {
-        int idx = this.panel.modelStatistics.getSize() - 1;
-        if (this.panel.listStatistics.getSelectedIndex() != -1) {
-          idx = this.panel.listStatistics.getSelectedIndex();
-        }
-        if (idx != -1) {
-          this.panel.modelStatistics.remove(idx);
-        }
-      } else {
-        this.panel.modelStatistics.addElement(this.panel.textField.getText());
-        this.panel.listStatistics.ensureIndexIsVisible(this.panel.modelStatistics.getSize() - 1);
-        this.panel.textField.setText("");
-      }
-      if (this.panel.modelStatistics.getSize() > 0) {
-        this.panel.btnAve.setEnabled(true);
-        this.panel.btnSum.setEnabled(true);
-        this.panel.btnS.setEnabled(true);
-        this.panel.btnDat.setEnabled(true);
-      } else {
-        this.panel.btnAve.setEnabled(false);
-        this.panel.btnSum.setEnabled(false);
-        this.panel.btnS.setEnabled(false);
-        this.panel.btnDat.setEnabled(false);
-      }
-      return ;
-    }
-    if (scmd.equals(CalcultorConts.AVE)
-        || scmd.equals(CalcultorConts.SUM)
-        || scmd.equals(CalcultorConts.SSD)) {
-      int cnt = this.panel.modelStatistics.size();
-      if (cnt > 0) {
-        List<BigNum> ins = new ArrayList<BigNum>();
-        for (int i = 0; i < cnt; i ++) {
-          String str = this.panel.modelStatistics.get(i);
-          ins.add(new BigNum(str));
-        }
-        BigNum val = new BigNum("0.0");
+      if (scmd.equals(CalcultorConts.APP)) {
         if (this.panel.inv.isSelected()) {
-          if (scmd.equals(CalcultorConts.AVE)) {
-            val = MathBn.rms(ins);
+          int idx = this.panel.modelStatistics.getSize() - 1;
+          if (this.panel.listStatistics.getSelectedIndex() != -1) {
+            idx = this.panel.listStatistics.getSelectedIndex();
           }
-          if (scmd.equals(CalcultorConts.SUM)) {
-            val = MathBn.sos(ins);
-          }
-          if (scmd.equals(CalcultorConts.SSD)) {
-            val = MathBn.psd(ins);
+          if (idx != -1) {
+            this.panel.modelStatistics.remove(idx);
           }
         } else {
-          if (scmd.equals(CalcultorConts.AVE)) {
-            val = MathBn.ave(ins);
-          }
-          if (scmd.equals(CalcultorConts.SUM)) {
-            val = MathBn.sum(ins);
-          }
-          if (scmd.equals(CalcultorConts.SSD)) {
-            val = MathBn.ssd(ins);
-          }
+          this.panel.modelStatistics.addElement(this.panel.textField.getText());
+          this.panel.listStatistics.ensureIndexIsVisible(this.panel.modelStatistics.getSize() - 1);
+          this.panel.textField.setText("");
         }
-        this.panel.textField.setText(val.toString());
+        if (this.panel.modelStatistics.getSize() > 0) {
+          this.panel.btnAve.setEnabled(true);
+          this.panel.btnSum.setEnabled(true);
+          this.panel.btnS.setEnabled(true);
+          this.panel.btnDat.setEnabled(true);
+        } else {
+          this.panel.btnAve.setEnabled(false);
+          this.panel.btnSum.setEnabled(false);
+          this.panel.btnS.setEnabled(false);
+          this.panel.btnDat.setEnabled(false);
+        }
+        return ;
       }
-      return ;
-    }
-    if (this.isControl(scmd)) {
-      control(scmd);
-      return ;
-    }
+      if (scmd.equals(CalcultorConts.AVE)
+          || scmd.equals(CalcultorConts.SUM)
+          || scmd.equals(CalcultorConts.SSD)) {
+        int cnt = this.panel.modelStatistics.size();
+        if (cnt > 0) {
+          List<BigNum> ins = new ArrayList<BigNum>();
+          for (int i = 0; i < cnt; i ++) {
+            String str = this.panel.modelStatistics.get(i);
+            ins.add(new BigNum(str));
+          }
+          BigNum val = new BigNum("0.0");
+          if (this.panel.inv.isSelected()) {
+            if (scmd.equals(CalcultorConts.AVE)) {
+              val = MathBn.rms(ins);
+            }
+            if (scmd.equals(CalcultorConts.SUM)) {
+              val = MathBn.sos(ins);
+            }
+            if (scmd.equals(CalcultorConts.SSD)) {
+              val = MathBn.psd(ins);
+            }
+          } else {
+            if (scmd.equals(CalcultorConts.AVE)) {
+              val = MathBn.ave(ins);
+            }
+            if (scmd.equals(CalcultorConts.SUM)) {
+              val = MathBn.sum(ins);
+            }
+            if (scmd.equals(CalcultorConts.SSD)) {
+              val = MathBn.ssd(ins);
+            }
+          }
+          this.panel.textField.setText(val.toString());
+        }
+        return ;
+      }
+      if (this.isControl(scmd)) {
+        control(scmd);
+        return ;
+      }
 
-    final Map<String, String> context = new HashMap<String, String>();
-    String value = "d"; // 度
-    if (this.panel.rad.isSelected()) {
-      //弧度
-      value = "r";
-    }
-    if (this.panel.grad.isSelected()) {
-      //百分度
-      value = "g";
-    }
-    String inverse = "";
-    if (this.panel.inv.isSelected()) {
-      inverse = "inverse";
-    }
-    String hyperbolic = "";
-    if (this.panel.hyp.isSelected()) {
-      hyperbolic = "hyperbolic";
-    }
-    context.put(CalcultorConts.TRIGONOMETRIC_FUNCTION, value);
-    context.put(CalcultorConts.INVERSE, inverse);
-    context.put(CalcultorConts.HYPERBOLIC, hyperbolic);
-    context.put(CalcultorConts.INPUT, scmd);
-    // 在状态机内对操作符进行变换
-    ExprInfo expr = this.fsm.receive(scmd, context);
-
-    /* *** 表达式求值 *** */
-    String expression = expr.getExpr();
-    this.panel.expr.setText(expression);
-    String display = expr.getInbuf().toString();
-    this.panel.textField.setText(display);
-    /* *** 表达式求值 *** */
-
-    /* 控制 */
-    if (scmd.equals(CalcultorConts.DMS)) {
+      final Map<String, String> context = new HashMap<String, String>();
+      String value = "d"; // 度
+      if (this.panel.rad.isSelected()) {
+        //弧度
+        value = "r";
+      }
+      if (this.panel.grad.isSelected()) {
+        //百分度
+        value = "g";
+      }
+      String inverse = "";
       if (this.panel.inv.isSelected()) {
-        this.panel.inv.setSelected(false);
+        inverse = "inverse";
       }
-    }
-    if (scmd.equals(CalcultorConts.EQUAL)) {
-      this.panel.modelHistory.addElement(this.panel.expr.getText());
-      this.panel.listHistory.ensureIndexIsVisible(this.panel.modelHistory.getSize() - 1);
-    }
-    if (scmd.equals(CalcultorConts.CLEAR)) {
-      this.panel.modelHistory.removeAllElements();
-    }
+      String hyperbolic = "";
+      if (this.panel.hyp.isSelected()) {
+        hyperbolic = "hyperbolic";
+      }
+      context.put(CalcultorConts.TRIGONOMETRIC_FUNCTION, value);
+      context.put(CalcultorConts.INVERSE, inverse);
+      context.put(CalcultorConts.HYPERBOLIC, hyperbolic);
+      context.put(CalcultorConts.INPUT, scmd);
+      // 在状态机内对操作符进行变换
+      ExprInfo expr = this.fsm.receive(scmd, context);
 
+      /* *** 表达式求值 *** */
+      String expression = expr.getExpr();
+      this.panel.expr.setText(expression);
+      String display = expr.getInbuf().toString();
+      this.panel.textField.setText(display);
+      /* *** 表达式求值 *** */
+
+      /* 控制 */
+      if (scmd.equals(CalcultorConts.DMS)) {
+        if (this.panel.inv.isSelected()) {
+          this.panel.inv.setSelected(false);
+        }
+      }
+      if (scmd.equals(CalcultorConts.EQUAL)) {
+        this.panel.modelHistory.addElement(this.panel.expr.getText());
+        this.panel.listHistory.ensureIndexIsVisible(this.panel.modelHistory.getSize() - 1);
+      }
+      if (scmd.equals(CalcultorConts.CLEAR)) {
+        this.panel.modelHistory.removeAllElements();
+      }
+    } catch (Exception ex) {
+      HandleExpt.handle(ex);
+      //ex.printStackTrace();
+    }
   }
 
   private void control(String scmd) {
