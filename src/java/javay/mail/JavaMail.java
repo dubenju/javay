@@ -1,18 +1,27 @@
 package javay.mail;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
-
+/**
+ * telnet smtp.gmail.com 25 SSL
+ * telnet smtp.gmail.com 465  SSL
+ * telnet smtp.gmail.com 587 TLS
+ * @author dubenju
+ *
+ */
 public class JavaMail {
   /**
    * Message对象将存储我们实际发送的电子邮件信息.
@@ -45,8 +54,10 @@ public class JavaMail {
    * 初始化方法.
    */
   public JavaMail(boolean debug) {
-    InputStream in = JavaMail.class.getResourceAsStream("MailServer.properties");
+    // InputStream in = JavaMail.class.getResourceAsStream("../../../conf/MailServer.properties");
+    InputStream in = null;
     try {
+      in = new FileInputStream("./conf/MailServer.properties");
       properties.load(in);
       this.mailHost = properties.getProperty("mail.smtp.host");
       this.senderUsername = properties.getProperty("mail.sender.username");
@@ -55,8 +66,12 @@ public class JavaMail {
       e.printStackTrace();
     }
     
-    session = Session.getInstance(properties);
-    session.setDebug(debug);//开启后有调试信息
+    // session = Session.getInstance(properties);
+    session = Session.getDefaultInstance(properties);
+    // Session session = Session.getInstance( properties, new MyAuth() );
+    // Authenticator auth = new SMTPAuthenticator();
+    // session = Session.getInstance( properties, new SendMailUsingAuthentication() );
+    session.setDebug(debug); // 开启后有调试信息
     message = new MimeMessage(session);
   }
 
@@ -75,6 +90,7 @@ public class JavaMail {
       InternetAddress from = new InternetAddress(MimeUtility.encodeWord("幻影")
           + " <" + senderUsername + ">");
       message.setFrom(from);
+      // message.setFrom(InternetAddress.parse("<mail>"));
 
       // 收件人
       InternetAddress to = new InternetAddress(receiveUser);
@@ -95,6 +111,7 @@ public class JavaMail {
       transport.connect(mailHost, senderUsername, senderPassword);
       // 发送
       transport.sendMessage(message, message.getAllRecipients());
+      
       //System.out.println("send success!");
     } catch (Exception e) {
       e.printStackTrace();
@@ -110,7 +127,13 @@ public class JavaMail {
   }
 
   public static void main(String[] args) {
-    JavaMail se = new JavaMail(false);
-    se.doSendHtmlEmail("邮件主题", "邮件内容", "xxx@XX.com");
+    JavaMail se = new JavaMail(true);
+    se.doSendHtmlEmail("邮件主题", "邮件内容", "dbjcalc@163.com");
   }
+  
+  private class MyAuth extends Authenticator {
+	    protected PasswordAuthentication getPasswordAuthentication() {
+	      return new PasswordAuthentication( senderUsername, senderPassword);
+	    }
+	  }
 }

@@ -22,7 +22,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class SendMail extends JFrame {
-	  /**
+  /**
+   * serialVersionUID.
+   */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	   * The constructor. Do all basic setup for this application.
 	   */
 	  public SendMail() {
