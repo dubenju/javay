@@ -24,9 +24,6 @@ import javax.crypto.spec.DESKeySpec;
  * 具体内容 需要关注 JDK Document http://.../docs/technotes/guides/security/SunProviders.html 
  * </pre> 
  *  
- * @author 梁栋 
- * @version 1.0 
- * @since 1.0 
  */  
 public abstract class DESCoder extends Coder {  
   /** 
@@ -99,7 +96,7 @@ public abstract class DESCoder extends Coder {
     Key k = toKey(decryptBASE64(key));  
     Cipher cipher = Cipher.getInstance(ALGORITHM);  
     cipher.init(Cipher.ENCRYPT_MODE, k);  
-  
+
     return cipher.doFinal(data);  
   }  
   
@@ -122,18 +119,18 @@ public abstract class DESCoder extends Coder {
    */  
   public static String initKey(String seed) throws Exception {  
     SecureRandom secureRandom = null;  
-  
+
     if (seed != null) {  
       secureRandom = new SecureRandom(decryptBASE64(seed));  
     } else {  
       secureRandom = new SecureRandom();  
     }  
-  
+
     KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM);  
     kg.init(secureRandom);  
   
     SecretKey secretKey = kg.generateKey();  
-  
+
     return encryptBASE64(secretKey.getEncoded());  
   }  
 }
