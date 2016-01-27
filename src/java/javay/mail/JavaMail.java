@@ -38,15 +38,9 @@ public class JavaMail {
    */
   private Session session;
 
-  /**
-   * 邮件是既可以被发送也可以被受到。.JavaMail使用了两个不同的类来完成这两个功能：Transport 和 Store。 
-   * Transport 是用来发送信息的，而Store用来收信。对于这的教程我们只需要用到Transport对象。
-   */
-  private Transport transport;
-  
-  private String mailHost = "";
-  private String senderUsername = "";
-  private String senderPassword = "";
+  // private String mailHost = "";
+  //private String senderUsername = "";
+  //private String senderPassword = "";
 
   private Properties properties = new Properties();
 
@@ -57,63 +51,75 @@ public class JavaMail {
     // InputStream in = JavaMail.class.getResourceAsStream("../../../conf/MailServer.properties");
     InputStream in = null;
     try {
+      // Step1
+      System.out.println("\n 1st ===> setup Mail Server Properties..");
       in = new FileInputStream("./conf/MailServer.properties");
       properties.load(in);
-      this.mailHost = properties.getProperty("mail.smtp.host");
-      this.senderUsername = properties.getProperty("mail.sender.username");
-      this.senderPassword = properties.getProperty("mail.sender.password");
+      // this.mailHost = properties.getProperty("mail.smtp.host");
+      // this.senderUsername = properties.getProperty("mail.sender.username");
+      // this.senderPassword = properties.getProperty("mail.sender.password");
     } catch (IOException e) {
       e.printStackTrace();
     }
-    
+    System.out.println("Mail Server Properties have been setup successfully..");
+
+
+    // Step1
+    System.out.println("\n 1st ===> setup Mail Server Properties..");
+    session = Session.getDefaultInstance(properties, null);
     // session = Session.getInstance(properties);
-    session = Session.getDefaultInstance(properties);
     // Session session = Session.getInstance( properties, new MyAuth() );
     // Authenticator auth = new SMTPAuthenticator();
     // session = Session.getInstance( properties, new SendMailUsingAuthentication() );
     session.setDebug(debug); // 开启后有调试信息
+
     message = new MimeMessage(session);
   }
 
   /**
    * 发送邮件.
-   * 
+   *
    * @param subject 邮件主题
    * @param sendHtml 邮件内容
    * @param receiveUser 收件人地址
    */
   public void doSendHtmlEmail(String subject, String sendHtml, String receiveUser) {
-    try {
+
+      /**
+       * 邮件是既可以被发送也可以被受到。.JavaMail使用了两个不同的类来完成这两个功能：Transport 和 Store。
+       * Transport 是用来发送信息的，而Store用来收信。对于这的教程我们只需要用到Transport对象。
+       */
+      Transport transport = null;
+	  try {
       // 发件人
       //InternetAddress from = new InternetAddress(sender_username);
       // 下面这个是设置发送人的Nick name
-      InternetAddress from = new InternetAddress(MimeUtility.encodeWord("幻影")
-          + " <" + senderUsername + ">");
-      message.setFrom(from);
-      // message.setFrom(InternetAddress.parse("<mail>"));
-
+      InternetAddress from = new InternetAddress(MimeUtility.encodeWord("幻影") + " <" + properties.getProperty("mail.sender.username") + ">");
       // 收件人
       InternetAddress to = new InternetAddress(receiveUser);
-      message.setRecipient(Message.RecipientType.TO, to);//还可以有CC、BCC
 
+      // message.setFrom(InternetAddress.parse("<mail>"));
+      message.setFrom(from);
+      message.setRecipient(Message.RecipientType.TO, to);//还可以有CC、BCC
       // 邮件主题
       message.setSubject(subject);
-
       String content = sendHtml.toString();
       // 邮件内容,也可以使纯文本"text/plain"
       message.setContent(content, "text/html;charset=UTF-8");
-
       // 保存邮件
-      message.saveChanges();
+      // message.saveChanges();
+      System.out.println("Mail Session has been created successfully..");
 
-      // transport = session.getTransport("smtp");
-      transport = session.getTransport("smtps");
-      System.out.println("user:" + senderUsername + ",pwd:" + senderPassword);
+
+
+      transport = session.getTransport("smtp");
+      // transport = session.getTransport("smtps"); *
+      System.out.println("user:" + properties.getProperty("mail.sender.username") + ",pwd:" + properties.getProperty("mail.sender.password"));
       // smtp验证，就是你用来发邮件的邮箱用户名密码
-      transport.connect(mailHost, Integer.parseInt(properties.getProperty("mail.smtp.port")), senderUsername, senderPassword);
+      transport.connect(properties.getProperty("mail.smtp.host"), Integer.parseInt(properties.getProperty("mail.smtp.port")), properties.getProperty("mail.sender.username"), properties.getProperty("mail.sender.password"));
       // 发送
       transport.sendMessage(message, message.getAllRecipients());
-      
+
       //System.out.println("send success!");
     } catch (Exception e) {
       e.printStackTrace();
@@ -130,12 +136,13 @@ public class JavaMail {
 
   public static void main(String[] args) {
     JavaMail se = new JavaMail(true);
-    se.doSendHtmlEmail("邮件主题", "邮件内容", "dbjcalc@163.com");
+    // se.doSendHtmlEmail("邮件主题", "邮件内容", "dbjcalc@163.com");
+    se.doSendHtmlEmail("邮件主题", "邮件内容", "dbjcalc@gmail.com");
   }
-  
+
   private class MyAuth extends Authenticator {
 	    protected PasswordAuthentication getPasswordAuthentication() {
-	      return new PasswordAuthentication( senderUsername, senderPassword);
+	      return new PasswordAuthentication( properties.getProperty("mail.sender.username"), properties.getProperty("mail.sender.password"));
 	    }
 	  }
 }
