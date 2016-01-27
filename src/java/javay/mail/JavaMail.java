@@ -106,9 +106,11 @@ public class JavaMail {
       // 保存邮件
       message.saveChanges();
 
-      transport = session.getTransport("smtp");
+      // transport = session.getTransport("smtp");
+      transport = session.getTransport("smtps");
+      System.out.println("user:" + senderUsername + ",pwd:" + senderPassword);
       // smtp验证，就是你用来发邮件的邮箱用户名密码
-      transport.connect(mailHost, senderUsername, senderPassword);
+      transport.connect(mailHost, Integer.parseInt(properties.getProperty("mail.smtp.port")), senderUsername, senderPassword);
       // 发送
       transport.sendMessage(message, message.getAllRecipients());
       
