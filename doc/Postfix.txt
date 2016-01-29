@@ -1,0 +1,276 @@
+确认版本
+postconf | grep mail_version
+启动
+sudo postfix start
+停止
+sudo postfix stop
+再启动
+sudo postfix reload
+
+sudo launchctl load -F /System/Library/LaunchDaemons/org.postfix.master.plist
+sudo launchctl unload /System/Library/LaunchDaemons/org.postfix.master.plist
+/etc/postfix
+/var/log/mail.log
+telnet localhos 25
+HELO localhost
+MAIL FROM:[发信]
+RCPT TO:[收信]
+DATA
+Subjet: [件名]
+[送信内容]
+.
+QUIT
+
+
+nmap MacBook-Pro.local
+
+1. 系统安装：
+1）centos4.3 选上MAIL组件里的全部。
+2）hostname: mail.51test.com
+
+2。搭建域名服务器DNS:
+设置mail.51test.com ==192.168.1.223,并PING、NSLOOKUUP测试。
+注意：#nmap mail.test.com要看到25、110、143等端口才行。
+
+3。设置POSTFIX
+[root@sample ~]# vi /etc/postfix/main.cf　 ← 编辑Postfix的配置文件
+#myhostname = host.domain.tld　 ← 找到此行，将等号后面的部分改写为主机名
+　↓
+myhostname = sample.centospub.com　 ← 变为此状态，设置系统的主机名
+#mydomain = domain.tld　 ← 找到此行，将等号后面的部分改写为域名
+　↓
+mydomain = centospub.com　 ← 变为此状态，设置域名（我们将让此处设置将成为E-mail地址“@”后面的部分）
+#myorigin = $mydomain　 ← 找到此行，将行首的#去掉
+　↓
+myorigin = $mydomain　 ← 变为此状态，将发信地址“@”后面的部分设置为域名（非系统主机名）
+inet_interfaces = localhost　 ← 找到此行，将“localhost”改为“all”
+　↓
+inet_interfaces = all　 ← 变为此状态，接受来自所有网络的请求
+mydestination = $myhostname, localhost.$mydomain, localhost　 ← 找到此行，在行为添加“$mydomain”
+　↓
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain　 ← 变为此状态，指定发给本地邮件的域名
+#relay_domains = $mydestination　 ← 找到此行，将行首的#去掉
+　↓
+relay_domains = $mydestination　 ← 变为此状态，定义允许转发的域名
+#mynetworks = 168.100.189.0/28, 127.0.0.0/8　 ← 找到此行，依照自己的内网情况修改
+　↓
+mynetworks = 168.100.189.0/28, 127.0.0.0/8　 ← 变为此状态，指定内网和本地的IP地址范围
+#home_mailbox = Maildir/　 ← 找到这一行，去掉行首的#
+　↓
+home_mailbox = Maildir/　 ← 变为此状态，指定用户邮箱目录
+# SHOW SOFTWARE VERSION OR NOT
+#
+# The smtpd_banner parameter specifies the text that follows the 220
+# code in the SMTP server's greeting banner. Some people like to see
+# the mail version advertised. By default, Postfix shows no version.
+#
+# You MUST specify $myhostname at the start of the text. That is an
+# RFC requirement. Postfix itself does not care.
+#
+#smtpd_banner = $myhostname ESMTP $mail_name
+#smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)　 ← 找到这一行，接此行添加如下行：
+smtpd_banner = $myhostname ESMTP unknow　 ← 添加这一行，不显示SMTP服务器的相关信息
+在配置文件的文尾，添加如下行：
+smtpd_sasl_auth_enable = yes　 ← 服务器使用SMTP认证
+smtpd_sasl_local_domain = $myhostname　 ← 指定SMTP认证的本地域名（主机名）
+smtpd_sasl_security_options = noanonymous 　 ← 不允许匿名的方式认证
+smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+message_size_limit = 15728640　 ← 规定邮件最大尺寸为15MB
+
+4。 配置SMTP认证的相关选项
+为了提高安全性，我们不将系统用户的密码作为相应用户SMTP认证的密码，而将在后面为用户建立SMTP认证专用的密码。
+[root@sample ~]# vi /usr/lib/sasl2/smtpd.conf　 ← 编辑SMTP认证的配置文件
+pwcheck_method: saslauthd　 ← 找到此行，将“saslauthd”改为“auxprop”
+↓
+pwcheck_method: auxprop　 ← 不使用系统用户密码作为用户的SMTP认证密码
+[root@sample ~]# vi /etc/sysconfig/saslauthd
+MECH=shadow　 ← 找到这一行，在前面加#
+　↓
+#MECH=shadow　 ← 不使用shadow机制
+FLAGS=　 ← 找到此行，在等号后面添加“sasldb”
+　↓
+FLAGS=sasldb 　 ← 定义认证方式为sasldb2
+5。建立用户的邮箱目录
+首先建立用户模板下的邮箱目录，以便于建立新用户时，相应用户的邮箱目录自动被建立。
+[root@sample ~]# mkdir /etc/skel/Maildir　 ← 在用户模板下建立用户邮箱目录
+[root@sample ~]# chmod 700 /etc/skel/Maildir　 ← 设置用户邮箱目录属性为700
+
+然后再为已经存在的用户建立相应邮箱目录。
+[root@sample ~]# mkdir /home/centospub/Maildir　 ← 为用户（这里以centospub用户为例）建立邮箱目录
+[root@sample ~]# chmod 700 /home/centospub/Maildir　 ← 设置该用户邮箱目录属性为700
+[root@sample ~]# chown centospub. /home/centospub/Maildir　 ← 设置该用户邮箱目录为该用户所有
+6。为用户设置SMTP认证密码
+[root@sample ~]# saslpasswd2 -u sample.centospub.com -c centospub　 ← 为centospub用户设置SMTP认证密码 
+Password:　 ← 在这里输入密码（不会显示）
+Again (for verification):　 ← 再次输入密码
+7。改变SALS的属性及归属
+[root@sample ~]# chgrp postfix /etc/sasldb2　 ← 将数据库归属改为postfix，
+[root@sample ~]# chmod 640 /etc/sasldb2　 ← 将数据库属性改为640
+8。关闭sendmail服务及设置默认MTA
+因为在用Postfix作为SMTP服务器的前提下，我们不准备再用sendmail，所以将sendmail服务关掉，以确保安全及节省系统资源。
+[root@sample ~]# /etc/rc.d/init.d/sendmail stop　 ← 关闭sendmail服务
+Shutting down sendmail:　　　　　　　　 [ OK ]
+Shutting down sm-client: 　　　　　　　　[ OK ]
+[root@sample ~]# chkconfig sendmail off　 ← 关闭sendmail自启动
+[root@sample ~]# chkconfig --list sendmail　 ← 确认sendmail自启动已被关闭（都为off就OK）
+sendmail 0:off 1:off 2:off 3:off 4:off 5:off 6:off
+9。然后再将默认的MTA设置为Postfix。
+[root@sample ~]# alternatives --config mta　 ← 设置默认MTA
+There are 2 programs which provide 'mta'.
+Selection Command
+-----------------------------------------------
+*+ 1 /usr/sbin/sendmail.sendmail　 ← 当前状态：sendmail为默认MTA
+　2 /usr/sbin/sendmail.postfix
+Enter to keep the current selection[+], or type selection number: 2　 ← 在这里输入2，使Postfix成为默认MTA
+10。最后，启动SMTP认证及Postfix服务，并设置相应服务为自启动。 
+[root@sample ~]# chkconfig saslauthd on　 ← 将SMTP-Auth设置为自启动
+[root@sample ~]# chkconfig --list saslauthd　 ← 确认SMTP-Auth服务状态
+saslauthd 0:off 1:off 2:on 3:on 4:on 5:on 6:off　 ← 确认2~5为on的状态就OK
+[root@sample ~]# /etc/rc.d/init.d/saslauthd start　 ← 启动SMTP-Auth
+Starting saslauthd: 　　　　　　　　　　[ OK ]
+[root@sample ~]# chkconfig postfix on　 ← 将Postfix设置为自启动 
+[root@sample ~]# chkconfig --list postfix　 ← 确认Postfix服务状态
+postfix 0:off 1:off 2:on 3:on 4:on 5:on 6:off　 ← 确认2~5为on的状态就OK
+[root@sample ~]# /etc/rc.d/init.d/postfix start　 ← 启动Postfix
+Starting postfix: 　　　　　　　　　　　[ OK ]
+至此，就完成了SMTP服务器方面的配置，但目前只具从备客户端通过服务器发送邮件的功能。做为完整的邮件服务器，还需具备从客户端通过POP/IMAP协议接受邮件到本地的功能。
+11。POP / IMAP 
+pop/imap是 MUA 从邮件服务器中读取邮件时使用的协议。其中，与 POP3 是从邮件服务器中下载邮件比起来，IMAP4 则是将邮件留在服务器端直接对邮件进行管理、操作。这里，我们用 Dovecot 来实现对 POP3 及 IMAP4 等协议支持的邮件接收服务器的搭建。
+　　Dovecot 是一个比较新的软件，由 Timo Sirainen 开发，最初发布于 2002年7月。作者将安全性考虑在第一，所以 Dovecot 在安全性方面比较出众。另外，Dovecot 支持多种认证方式，所以在功能方面也比较符合一般的应用。
+12。首先，安装 Dovecot 
+[root@sample ~]# yum -y install dovecot　 ← 在线安装 Dovecot
+13。然后，修改相应配置文件，配置 Dovecot 。 
+[root@sample ~]# vi /etc/dovecot.conf　 ← 编辑Dovecot 的配置文件
+#protocols = imap imaps　 ← 找到这一行，将协议设置为imap与pop3
+　↓
+protocols = imap pop3　 ← 变为此状态
+#default_mail_env =　 ← 找到这一行，定义邮件目录
+　↓
+default_mail_env = maildir:~/Maildir　 ← 定义邮件目录为用户目录下的Maildir目录
+14。由于 POP3 协议与 IMAP4 协议要分别用到110号和143号端口，所以在启动服务前，配置防火墙，开通这两个端口。
+root@sample ~]# vi /etc/sysconfig/iptables　 ← 编辑防火墙规则
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 25 -j ACCEPT　 ← 找到此行，接着添加如下两行：
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 110 -j ACCEPT　 ← 允许POP使用的110号端口
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 143 -j ACCEPT　 ← 允许IMAP使用的143号端口
+[root@sample ~]# /etc/rc.d/init.d/iptables restart　 ← 重新启动防火墙，使新的设置生效
+Flushing firewall rules:　　　　　　　　　 [ OK ]
+Setting chains to policy ACCEPT: filter　　 [ OK ]
+Unloading iptables modules:　　　　　　 [ OK ]
+Applying iptables firewall rules: 　　　　　[ OK ]
+15。最后，启动 Dovecot ，并将其设置为自启动。
+[root@sample ~]# chkconfig dovecot on　 ← 设置Dovecot为自启动
+[root@sample ~]# chkconfig --list dovecot
+dovecot 0:off 1:off 2:on 3:on 4:on 5:on 6:off　 ← 确认2~5为on的状态就OK
+[root@sample ~]# /etc/rc.d/init.d/dovecot start　 ← 启动Dovecot服务
+Starting Dovecot Imap: 　　　　　　　[ OK ]
+
+
+
+ALIASES.REGの作成
+
+$ sudo vi /etc/postfix/aliases.reg
+# 下記内容を追記
+# okumuraとなっている部分はユーザー名なので各々で書き換え
+/(?!^root$|^okumura$)^.*$/ okumura
+transport_mapsの作成
+
+$ sudo vi /etc/postfix/transport_maps
+# 下記内容を追記
+/^.*@.*$/ local
+main.cfの書き換え
+
+$ sudo vi /etc/postfix/main.cf
+# 未指定のlocal_recipient_mapsを追記
+#local_recipient_maps =
+↓
+#local_recipient_maps =
+local_recipient_maps =
+# postfix内のaliasesと先ほど作成したaliases.regを指定
+#alias_maps = netinfo:/aliases
+↓
+#alias_maps = netinfo:/aliases
+alias_maps = hash:/etc/postfix/aliases,regexp:/etc/postfix/aliases.reg
+# メールボックスタイプに指定
+#home_mailbox = Mailbox
+↓
+#home_mailbox = Mailbox
+home_mailbox = Maildir/
+# 知らないアドレスに対するメールを転送するユーザーを指定
+#luser_relay = admin+$local
+↓
+#luser_relay = admin+$local
+luser_relay = okumura
+#先ほど作成したtransport_mapsを指定
+# transport_mapsは既存のconf内では使われていないので最下行に追記
+transport_maps = pcre:/etc/postfix/transport_maps
+これでJavaMailなどから25ポート向けにメールが発送された場合に自動的に/Users/okumura/Maildirへすべて転送されます。
+aliases.regの内容が自身のローカルドメインに対するメール設定配信。
+transport_mapsの内容がその他のドメインに対するメールの設定になってます。
+おまけ
+諸々のメールコマンド
+
+# postfix起動
+$ sudo /usr/sbin/postfix start
+ps -ef | grep postfix
+# postfix再起動
+$ sudo /usr/sbin/postfix reload
+# メールキュー一覧表示
+$ mailq
+# メール内容表示
+$ sudo postcat -q [キューID]
+sudo postcat -q 1080B284F41
+# メール内容デコード表示(nkf必須)
+$ sudo postcat -q [キューID] | nkf -m
+sudo postcat -q 1080B284F41 | nkf -m
+
+# メールキュー全削除
+$ sudo postsuper -d ALL
+# postfixバージョン確認
+$ postconf mail_version
+# メール送信確認
+$ mail [メールアドレス]
+$ Subject: [件名入力後Enter]
+$ [本文入力後Enter]
+$ [本文入力を終了し送信する場合は Ctrl + D ]
+
+mail dubenju@MacBook-Pro.local
+Subject: test
+test text
+
+
+
+ローカルのメールアドレス
+
+[ユーザー名]@[PC名].local
+
+TELNETを使ったメール送信
+
+$ telnet localhost 25
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+220 mbp-pc.local ESMTP Postfix
+HELO localhost ←ドメイン名は適当でOK
+250 mbp-pc.local
+
+MAIL FROM:ken@tagbangers.co.jp ←送信元メールアドレス
+250 2.1.0 Ok
+RCPT TO:okumura@tagbangers.co.jp ←送信先メールアドレス
+250 2.1.5 Ok
+DATA ←メール内容の記載開始を通知
+354 End data with <CR><LF>.<CR><LF>
+subject: test ←件名
+from: ken@tagbangers.co.jp ←送信元メールアドレス
+to: okumura@tagbangers.co.jp ←送信先メールアドレス
+mail test body ←本文
+. ←メール終了&送信
+250 2.0.0 Ok: queued as F32D559FD77
+quit ←telnet終了
+221 2.0.0 Bye
+Connection closed by foreign host.
+
+
+
+
+postfix: warning: /etc/postfix/main.cf, line 680: overriding earlier entry: inet_interfaces=all
+postfix: warning: /etc/postfix/main.cf, line 686: overriding earlier entry: message_size_limit=10485760
