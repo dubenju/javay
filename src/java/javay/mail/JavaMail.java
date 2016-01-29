@@ -365,4 +365,80 @@ CONNECTED(00000003)
 didn't found starttls in server response, try anyway...
 140735123649360:error:140790E5:SSL routines:ssl23_write:ssl handshake failure:s23_lib.c:177:
 ---
+
+openssl s_client -connect smtp.163.com:587
+openssl s_client -connect smtp.gmail.com:465
+HELO localhost
+AUTH LOGIN
+
+HELO
+
+使用标准的SMTP，向服务器标识用户身份。发送者能进行欺骗，但一般情况下服务器都能检测到
+
+EHLO
+
+使用ESMTP，向服务器标识用户身份。发送者能进行欺骗，但一般情况下服务器都能检测到。
+
+STARTTLS
+
+启用TLS
+
+MAIL FROM
+
+命令中指定的地址是发件人地址
+
+RCPT TO
+
+标识单个的邮件接收人；可有多个 RCPT TO；常在 MAIL 命令后面
+
+DATA
+
+在单个或多个 RCPT 命令后，表示所有的邮件接收人已标识，并初始化数据传输，以CRLF.CRLF 结束
+
+VRFY
+
+用于验证指定的用户/邮箱是否存在；由于安全方面的原因，服务器常禁止此命令
+
+EXPN
+
+验证给定的邮箱列表是否存在，扩充邮箱列表，也常被禁用
+
+HELP
+
+查询服务器支持什么命令
+
+NOOP
+
+无操作，服务器响应 250 OK
+
+RSET
+501 参数格式错误
+502 命令不可实现
+503 错误的命令序列
+504 命令参数不可实现
+211 系统状态或系统帮助响应
+214 帮助信息
+220 ＜domain＞服务就绪
+221 ＜domain＞服务关闭
+421 ＜domain＞服务未就绪，关闭传输信道
+250 要求的邮件操作完成
+251 用户非本地，将转发向＜forward-path＞
+450 要求的邮件操作未完成，邮箱不可用
+550 要求的邮件操作未完成，邮箱不可用
+451 放弃要求的操作；处理过程中出错
+551 用户非本地，请尝试＜forward-path＞
+452 系统存储不足，要求的操作未执行
+552 过量的存储分配，要求的操作未执行
+553 邮箱名不可用，要求的操作未执行
+354 开始邮件输入，以"."结束
+554 操作失败
+重置会话，当前传输被取消，服务器响应 250 OK
+
+QUIT
+
+结束会话
+
+http://cochma.net/blog/?p=192
+postconf | grep mail_version
+
 */
