@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main() {
+int maind() {
     double pi = 3.141592653589793;
     double d = 30.0;
     double a = d * pi;

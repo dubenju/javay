@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main() {
+int maina() {
     float pi = 3.14159265;
     float d  = 30.0;
     float a = d * pi;
