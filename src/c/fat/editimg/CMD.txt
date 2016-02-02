@@ -1,0 +1,165 @@
+Microsoft Windows [Version 6.0.6002]
+Copyright (c) 2006 Microsoft Corporation.  All rights reserved.
+
+C:\Users\DBJ>cd C:\prj\fat\editimg
+
+C:\prj\fat\editimg>dir
+ ドライブ C のボリューム ラベルがありません。
+ ボリューム シリアル番号は 5E0A-7B48 です
+
+ C:\prj\fat\editimg のディレクトリ
+
+2010/07/27  22:46    <DIR>          .
+2010/07/27  22:46    <DIR>          ..
+2010/07/27  08:50            74,143 a.log
+2010/05/04  22:11               512 boot.bin
+2010/07/25  15:22                22 build.bat
+2010/07/27  23:02            12,890 editimg.c
+2010/07/27  19:00            57,767 editimg.exe
+2010/07/26  09:00           195,584 error.xls
+2010/07/25  20:12               279 Makefile
+2010/07/25  22:10               454 memo.txt
+2010/07/27  22:46               200 r.bat
+2010/07/25  17:22                32 s.bat
+2010/07/29  22:36         1,474,560 testimg.img
+2010/07/25  17:25         1,474,560 win98img.img
+              12 個のファイル           3,291,003 バイト
+               2 個のディレクトリ  277,542,756,352 バイトの空き領域
+
+C:\prj\fat\editimg>build
+
+C:\prj\fat\editimg>C:\prj\tools\gnumake
+C:/MinGW/bin/gcc.exe -B -include ../readfat.h -std=c99 -v -o editimg.exe editimg.c
+Using built-in specs.
+COLLECT_GCC=C:/MinGW/bin/gcc.exe
+COLLECT_LTO_WRAPPER=c:/mingw/bin/../libexec/gcc/mingw32/4.5.0/lto-wrapper.exe
+Target: mingw32
+RtBOIvV: ../gcc-4.5.0/configure --enable-languages=c,c++,ada,fortran,objc,obj-c++ --disable-sjlj-exceptions --with-dwarf2 --enable-shared --enable-libgomp --disable-win32-registry --enable-libstdcxx-debug --enable-version-specific-runtime-libs --disable-werror --build=mingw32 --prefix=/mingw
+Xbhf: win32
+gcc version 4.5.0 (GCC)
+COLLECT_GCC_OPTIONS='-B' '-include' '-std=c99' '-v' '-o' 'editimg.exe' '-mtune=i386' '-march=i386'
+
+ c:/mingw/bin/../libexec/gcc/mingw32/4.5.0/cc1.exe 
+-quiet 
+-v 
+-iprefix 
+c:\mingw\bin\../lib/gcc/mingw32/4.5.0/ 
+../readfat.h 
+-quiet 
+-dumpbase 
+readfat.h 
+-mtune=i386 
+-march=i386 
+-auxbase 
+readfat 
+-std=c99 
+-version 
+-o 
+C:\Users\DBJ\AppData\Local\Temp\cclGeC4R.s 
+--output-pch= editimg.exe
+
+GNU C (GCC) version 4.5.0 (mingw32)
+        compiled by GNU C version 4.5.0, GMP version 5.0.1, MPFR version 2.4.1,
+MPC version 0.8.1
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ｶﾝｵﾈ｢fBNg "c:\mingw\bin\../lib/gcc/mingw32/4.5.0/../../../../mingw32/include" ｳｵ
+ﾜｷ
+d｡ｵｽfBNg "c:/mingw/lib/gcc/mingw32/4.5.0/../../../../include" ｳｵﾜｷ
+d｡ｵｽfBNg "/mingw/include" ｳｵﾜｷ
+d｡ｵｽfBNg "c:/mingw/lib/gcc/../../lib/gcc/mingw32/4.5.0/include" ｳｵﾜｷ
+d｡ｵｽfBNg "c:/mingw/lib/gcc/../../lib/gcc/mingw32/4.5.0/include-fixed" ｳｵﾜｷ
+ｶﾝｵﾈ｢fBNg "c:/mingw/lib/gcc/../../lib/gcc/mingw32/4.5.0/../../../../mingw32/incl
+ude" ｳｵﾜｷ
+d｡ｵｽfBNg "/mingw/include" ｳｵﾜｷ
+#include "..." ﾌTﾍｱｱｩnﾜﾜｷ:
+#include <...> ﾌTﾍｱｱｩnﾜﾜｷ:
+ c:\mingw\bin\../lib/gcc/mingw32/4.5.0/../../../../include
+ c:\mingw\bin\../lib/gcc/mingw32/4.5.0/include
+ c:\mingw\bin\../lib/gcc/mingw32/4.5.0/include-fixed
+TXgﾌI
+GNU C (GCC) version 4.5.0 (mingw32)
+        compiled by GNU C version 4.5.0, GMP version 5.0.1, MPFR version 2.4.1,
+MPC version 0.8.1
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 6773400e8bc9df4b012089071ac4c86b
+COLLECT_GCC_OPTIONS='-B' '-include' '-std=c99' '-v' '-o' 'editimg.exe' '-mtune=i386' '-march=i386'
+
+============================================================
+ c:/mingw/bin/../libexec/gcc/mingw32/4.5.0/cc1.exe 
+-quiet 
+-v 
+-iprefix c:\mingw\bin\../lib/gcc/mingw32/4.5.0/ editimg.c 
+-quiet 
+-dumpbase editimg.c 
+-mtune=i386 
+-march=i386 
+-auxbase editimg 
+-std=c99 
+-version 
+-o C:\Users\DBJ\AppData\Local\Temp\cclGeC4R.s
+============================================================
+
+GNU C (GCC) version 4.5.0 (mingw32)
+        compiled by GNU C version 4.5.0, GMP version 5.0.1, MPFR version 2.4.1,
+MPC version 0.8.1
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ｶﾝｵﾈ｢fBNg "c:\mingw\bin\../lib/gcc/mingw32/4.5.0/../../../../mingw32/include" ｳｵ
+ﾜｷ
+d｡ｵｽfBNg "c:/mingw/lib/gcc/mingw32/4.5.0/../../../../include" ｳｵﾜｷ
+d｡ｵｽfBNg "/mingw/include" ｳｵﾜｷ
+d｡ｵｽfBNg "c:/mingw/lib/gcc/../../lib/gcc/mingw32/4.5.0/include" ｳｵﾜｷ
+d｡ｵｽfBNg "c:/mingw/lib/gcc/../../lib/gcc/mingw32/4.5.0/include-fixed" ｳｵﾜｷ
+ｶﾝｵﾈ｢fBNg "c:/mingw/lib/gcc/../../lib/gcc/mingw32/4.5.0/../../../../mingw32/include" ｳｵﾜｷ
+d｡ｵｽfBNg "/mingw/include" ｳｵﾜｷ
+#include "..." ﾌTﾍｱｱｩnﾜﾜｷ:
+#include <...> ﾌTﾍｱｱｩnﾜﾜｷ:
+ c:\mingw\bin\../lib/gcc/mingw32/4.5.0/../../../../include
+ c:\mingw\bin\../lib/gcc/mingw32/4.5.0/include
+ c:\mingw\bin\../lib/gcc/mingw32/4.5.0/include-fixed
+TXgﾌI
+GNU C (GCC) version 4.5.0 (mingw32)
+        compiled by GNU C version 4.5.0, GMP version 5.0.1, MPFR version 2.4.1,
+MPC version 0.8.1
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072Compiler executable checksum: 6773400e8bc9df4b012089071ac4c86b
+COLLECT_GCC_OPTIONS='-B' '-include' '-std=c99' '-v' '-o' 'editimg.exe' '-mtune=i386' '-march=i386'
+
+============================================================
+ c:/mingw/bin/../lib/gcc/mingw32/4.5.0/../../../../mingw32/bin/as.exe 
+-o C:\Users\DBJ\AppData\Local\Temp\ccXLEaDC.o 
+C:\Users\DBJ\AppData\Local\Temp\cclGeC4R.s
+============================================================
+
+COMPILER_PATH=c:/mingw/bin/../libexec/gcc/mingw32/4.5.0/;c:/mingw/bin/../libexec/gcc/;c:/mingw/bin/../lib/gcc/mingw32/4.5.0/../../../../mingw32/bin/
+LIBRARY_PATH=c:/mingw/bin/../lib/gcc/mingw32/4.5.0/;c:/mingw/bin/../lib/gcc/;c:/mingw/bin/../lib/gcc/mingw32/4.5.0/../../../../mingw32/lib/;c:/mingw/bin/../lib/gcc/mingw32/4.5.0/../../../;/mingw/lib/
+COLLECT_GCC_OPTIONS='-B' '-include' '-std=c99' '-v' '-o' 'editimg.exe' '-mtune=i386' '-march=i386' 
+
+============================================================
+c:/mingw/bin/../libexec/gcc/mingw32/4.5.0/collect2.exe 
+-Bdynamic 
+-o editimg.exe 
+c:/mingw/bin/../lib/gcc/mingw32/4.5.0/../../../crt2.o 
+c:/mingw/bin/../lib/gcc/mingw32/4.5.0/crtbegin.o 
+-Lc:/mingw/bin/../lib/gcc/mingw32/4.5.0 
+-Lc:/mingw/bin/../lib/gcc 
+-Lc:/mingw/bin/../lib/gcc/mingw32/4.5.0/../../../../mingw32/lib 
+-Lc:/mingw/bin/../lib/gcc/mingw32/4.5.0/../../.. 
+-L/mingw/lib C:\Users\DBJ\AppData\Local\Temp\ccXLEaDC.o 
+-lmingw32 
+-lgcc_eh 
+-lgcc 
+-lmoldname 
+-lmingwex 
+-lmsvcrt 
+-luser32 
+-lkernel32 
+-ladvapi32 
+-lshell32 
+-lmingw32 
+-lgcc_eh 
+-lgcc 
+-lmoldname 
+-lmingwex 
+-lmsvcrt c:/mingw/bin/../lib/gcc/mingw32/4.5.0/crtend.o
+============================================================
+
+C:\prj\fat\editimg>

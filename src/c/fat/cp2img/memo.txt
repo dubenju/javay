@@ -1,0 +1,2 @@
+cp2img -f fat12 -i inputfile -o outputfile -chs 0,0,1
+cp2img -f fat12 -i inputfile -o outputfile -path /dir

@@ -1,0 +1,1 @@
+C:\prj\tools\qemu\qemu -L C:\prj\tools\qemu\  -M pc -fda  C:\prj\fat\editimg\testimg.img -boot a -std-vga -localtime

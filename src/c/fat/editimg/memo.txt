@@ -1,0 +1,12 @@
+pgm filesystem option type moudle 
+editimg imgfile init  fat12 1474560
+editimg imgfile write file boot.bin to disk 0-0-1
+editimg imgfile read  disk 0-0-1 512 to file a.bin
+editimg imgfile write file kernel.sys to dir \
+editimg imgfile read  file \kernel.sys to file k.sys
+editimg imgfile write dir  \test\
+
+
+editimg imgfile write file boot.bin   to disk 0-0-1
+editimg imgfile write file kernel.sys to dir  \
+editimg imgfile write dir  \test\
