@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <windows.h>
+/* #include <windows.h> */
 /* #include <mcheck.h> */
 
 #define MAX_PARAM_CNT 3
@@ -382,8 +382,8 @@ int getsettings(pdatamodel obj) {
 int chksettings(pdatamodel obj) {
     int i;
     int j;
-    /* ’P€–Úƒ`ƒFƒbƒN */
-    /* (’P)“ü—Í•K{ƒ`ƒFƒbƒN */
+    /* ï¿½Pï¿½ï¿½ï¿½Úƒ`ï¿½Fï¿½bï¿½N */
+    /* (ï¿½P)ï¿½ï¿½ï¿½Í•Kï¿½{ï¿½`ï¿½Fï¿½bï¿½N */
     if (obj->param_cnt <= 0) {
         printf("PARAM or PARAM1 is need.\n");
         return -1;
@@ -406,7 +406,7 @@ int chksettings(pdatamodel obj) {
         return -1;
     }
 
-    /* d•¡ƒ`ƒFƒbƒN */
+    /* ï¿½dï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N */
     obj->key_len = 0;
     for (i = 0; i <obj->sort_key_cnt; i ++) {
         if (obj->sort_keys[i].sk_start <= 0) {
@@ -460,10 +460,10 @@ int chksettings(pdatamodel obj) {
         }
     }
 
-    /* ŠÖ˜Aƒ`ƒFƒbƒN */
-    /* ƒ\[ƒgƒL[AWŒvEW–ñ€–Ú‚ÌŽw’èƒ`ƒFƒbƒN */
-    /* (ŠÖ)“ü—Íƒtƒ@ƒCƒ‹ƒTƒCƒYƒ`ƒFƒbƒN */
-    /* “ü—Íƒtƒ@ƒCƒ‹‚Í‘¶Ý‚·‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN */
+    /* ï¿½Ö˜Aï¿½`ï¿½Fï¿½bï¿½N */
+    /* ï¿½\ï¿½[ï¿½gï¿½Lï¿½[ï¿½Aï¿½Wï¿½vï¿½Eï¿½Wï¿½ñ€–Ú‚ÌŽwï¿½ï¿½`ï¿½Fï¿½bï¿½N */
+    /* (ï¿½ï¿½)ï¿½ï¿½ï¿½Íƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Tï¿½Cï¿½Yï¿½`ï¿½Fï¿½bï¿½N */
+    /* ï¿½ï¿½ï¿½Íƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Í‘ï¿½ï¿½Ý‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N */
     j = 0;
     for(i = 0; i < obj->infile_cnt; i ++) {
         if(obj->infile_name[i] != NULL) {
@@ -495,7 +495,7 @@ int chksettings(pdatamodel obj) {
         return -1;
     }
 
-    /* ‹Æ–±ƒ`ƒFƒbƒN */
+    /* ï¿½Æ–ï¿½ï¿½`ï¿½Fï¿½bï¿½N */
     return 0;
 }
 
@@ -1019,7 +1019,7 @@ printf("pid:%d.\n", pid);
             }
         }
 
-        // ‚æ‚­‚È‚¢ŽÀ‘•
+        // ï¿½æ‚­ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
         min_flag = 0;
 /* printf("temp file's count:%d.\n", out_temp_cnt); */
         for (i = 0; i < out_temp_cnt; i ++) {
@@ -1128,7 +1128,7 @@ int releasememory(pdatamodel obj) {
 int main(int argc, char * argv[]) {
     datamodel pam;
     int r;
-    MEMORYSTATUS status;
+    /* MEMORYSTATUS status; */
     time_t timer;
     struct tm * timeinfo;
 
@@ -1141,8 +1141,8 @@ int main(int argc, char * argv[]) {
     r = 0;
 
     /* mtrace(); */
-    GlobalMemoryStatus(&status);
-    printf("%ld / %ld.(%d)\n", status.dwAvailPhys / 1024, status.dwTotalPhys / 1024, status.dwMemoryLoad); // 
+    /* GlobalMemoryStatus(&status);
+    printf("%ld / %ld.(%d)\n", status.dwAvailPhys / 1024, status.dwTotalPhys / 1024, status.dwMemoryLoad); */ //
     printf("%s begin.\n", argv[0]);
     time(&timer);
     timeinfo = localtime(&timer);
@@ -1169,8 +1169,8 @@ int main(int argc, char * argv[]) {
     } else {
         printf("%s is abend.\n", argv[0]);
     }
-    GlobalMemoryStatus(&status);
-    printf("%ld / %ld.(%d)\n", status.dwAvailPhys / 1024, status.dwTotalPhys / 1024, status.dwMemoryLoad); // dwMemoryLoad
+    /* GlobalMemoryStatus(&status);
+    printf("%ld / %ld.(%d)\n", status.dwAvailPhys / 1024, status.dwTotalPhys / 1024, status.dwMemoryLoad); */ // dwMemoryLoad
 
     /* muntrace(); */
     return r;
