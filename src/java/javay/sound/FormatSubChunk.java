@@ -15,6 +15,7 @@ public class FormatSubChunk {
 	private byte[] samplesPerSec; // 4采样频率
 	private byte[] avgBytesPerSec; //4每秒所需字节数== samplesPerSec * channels * bitsPerSample/8
 	private byte[] blockAlign; // 2数据块对齐单位(每个采样需要的字节数)== channels * bitsPerSample/8
+	private long blockalign;
 	private byte[] bitsPerSample; // 2每个采样需要的bit数
 	private long bitsperSample;
 	/* 一般情况下Size为16，此时最后附加信息没有；如果为18则最后多了2个字节的附加信息。 */
@@ -39,6 +40,7 @@ public class FormatSubChunk {
 		System.arraycopy(in, 22, this.bitsPerSample, 0, 2);
 		
 		this.numChannel = UBytes.toLong(this.channels, 1);
+		this.blockalign = UBytes.toLong(this.blockAlign, 1);
 		this.bitsperSample = UBytes.toLong(this.bitsPerSample, 1);
 	}
 

@@ -9,6 +9,11 @@ public class TestWave {
 		RiffChunkDescriptor riff = null;
 		FormatSubChunk format = null;
 		DataSubChunk data = null;
+		ListChunk list = null;
+		ListChunkInfo info = null;
+		Id3Chunk id3 = null;
+		Id3v23Header id3header = null;
+		Id3v23Frame id3frame = null;
 
 		int bytesum = 0;
 		int byteread = 0;
@@ -49,8 +54,103 @@ public class TestWave {
 		data = new DataSubChunk(buffer, format);
 //		data.setFormat(format);
 		System.out.println("DataChunk=" + data);
+		
+		// data
+		buffer = new byte[(int) data.getChunkSize()];
+		if ( (byteread = inStream.read(buffer)) == -1) {
+			System.out.println("error");
+			inStream.close();
+			return ;
+		}
+		bytesum  += byteread;
+		
 
+		// ListChunk
+		buffer = new byte[12];
+		if ( (byteread = inStream.read(buffer)) == -1) {
+			System.out.println("error");
+			inStream.close();
+			return ;
+		}
+		bytesum  += byteread;
+		list = new ListChunk(buffer);
+		System.out.println("ListChunk=" + list);
+
+		long listChunkSize = list.getChunkSize();
+		System.out.println("size=" + listChunkSize);
+		listChunkSize -= 4;
+		while (listChunkSize > 0) {
+			// InfoChunk
+			buffer = new byte[8];
+			if ( (byteread = inStream.read(buffer)) == -1) {
+				System.out.println("error");
+				inStream.close();
+				return ;
+			}
+			bytesum  += byteread;
+			listChunkSize -= byteread;
+			info = new ListChunkInfo(buffer);
+			System.out.println("ListChunkInfo=" + info);
+			buffer = new byte[(int)info.getTextSize()];
+			if ( (byteread = inStream.read(buffer)) == -1) {
+				System.out.println("error");
+				inStream.close();
+				return ;
+			}
+			bytesum  += byteread;
+			listChunkSize -= byteread;
+			info.setText(buffer);
+			System.out.println("ListChunkInfo=" + info);
+		}
+		
+		// ID3Chunk
+		buffer = new byte[8];
+		if ( (byteread = inStream.read(buffer)) == -1) {
+			System.out.println("error");
+			inStream.close();
+			return ;
+		}
+		bytesum  += byteread;
+		id3 = new Id3Chunk(buffer);
+		System.out.println("ID3Chunk=" + id3);
+		
+		// ID3Header
+		buffer = new byte[10];
+		if ( (byteread = inStream.read(buffer)) == -1) {
+			System.out.println("error");
+			inStream.close();
+			return ;
+		}
+		bytesum  += byteread;
+		id3header = new Id3v23Header(buffer);
+		System.out.println("ID3Header=" + id3header);
+		long id3Size = id3header.getId3Size();
+		while(id3Size > 0) {
+			buffer = new byte[10];
+			if ( (byteread = inStream.read(buffer)) == -1) {
+				System.out.println("error");
+				inStream.close();
+				return ;
+			}
+			bytesum  += byteread;
+			id3Size -= byteread;
+			id3frame = new Id3v23Frame(buffer);
+			System.out.println("ID3Frame=" + id3frame);
+			buffer = new byte[(int)id3frame.getDataSize()];
+			if ( (byteread = inStream.read(buffer)) == -1) {
+				System.out.println("error");
+				inStream.close();
+				return ;
+			}
+			bytesum  += byteread;
+			id3Size -= byteread;
+			id3frame.setData(buffer);
+			System.out.println("ID3Frame=" + id3frame);
+			
+		}
+		
 		inStream.close();
+		System.out.println("read=" + bytesum);
 	}
 
 }

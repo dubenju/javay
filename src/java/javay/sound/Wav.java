@@ -180,6 +180,55 @@ wav数据的bit位置可以分成以下几种形式：
     1、李敏, 声频文件格式WAVE的转换, 电脑知识与技术(学术交流), 2005.
     2、http://www.codeguru.com/cpp/g-m/multimedia/audio/article.php/c8935__1/
     3、http://www.smth.org/pc/pcshowcom.php?cid=129276
+    
+    0x0000	unknown
+    0x0001	PCM
+    0x0002	MS ADPCM
+    0x0005	IBM CSVD
+    0x0006	A-Law
+    0x0007	μ-Law
+    0x0010	OKI ADPCM
+    0x0011	IMA/DVI ADPCM
+    0x0012	MediaSpace ADPCM
+    0x0013	Sierra ADPCM
+0x0014	ADPCM (G.723)
+0x0015	DIGISTD
+0x0016	DIGIFIX
+0x0020	YAMAHA ADPCM
+0x0021	SONARC
+0x0022	TrueSpeech
+0x0023	Echo Speech1
+0x0024	AF36 (Audiofile)
+0x0025	Apix
+0x0026	AF10 (Audiofile)
+0x0030	AC2 (Dolby)
+0x0031	GSM 6.10
+0x0033	ANTEX ADPCM
+0x0034	VQLPC (Control Resources)
+0x0035	DIGIREAL
+0x0036	DIGIADPCM
+0x0037	CR10 (Control Resources)
+0x0040	ADPCM (G.721)
+0x0101	IBM μ-LAW
+0x0102	IBM A-LAW
+0x0103	IBM ADPCM
+0x0200	Creative Labs ADPCM
+0x0300	FM TOWNS
+0x1000	Olivetti GSM
+0x1001	Olivetti ADPCM
+0x1002	Olivetti CELP
+0x1003	Olivetti SBC
+0x1004	Olivetti OPR
+
+データ読み出し手順の例
+
+RIFFとWAVEをチェック
+チャンクの種類とチャンクデータサイズをチェック
+チャンクが "fmt " なら, フォーマット情報を読み込む
+チャンクが "fact" なら, サンプル数を読み込む
+チャンクが "data" なら, PCM データをブロック単位で読み込む
+
+    
  * @author dubenju
  *
  */
