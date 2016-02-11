@@ -23,11 +23,20 @@ public class Strings {
   }
   public static String format(String in, int len) {
     int ln = in.length();
+    int diff = (len - ln);
     StringBuffer buf = new StringBuffer();
-    for(int i = 0; i < (len - ln); i ++) {
-      buf.append("  ");
+    if (diff > 0) {
+      for(int i = 0; i < diff; i ++) {
+        buf.append(" ");
+      }
+      buf.append(in);
     }
-    buf.append(in);
+    if (diff == 0) {
+      buf.append(in);
+    }
+    if (diff < 0) {
+      buf.append(in.substring(0 - diff));
+    }
     return buf.toString();
   }
 }

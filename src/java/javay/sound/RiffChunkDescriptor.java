@@ -1,5 +1,12 @@
 package javay.sound;
 
+import javay.util.UBytes;
+
+/**
+ * file size - 8
+ * @author dubenju
+ *
+ */
 public class RiffChunkDescriptor {
 	private byte[] chunkId; // 4RIFF
 	/* fileSize - 8*/
@@ -23,9 +30,11 @@ public class RiffChunkDescriptor {
 		StringBuffer buf = new StringBuffer();
 		buf.append("Chunk ID:");
 		buf.append(new String(this.chunkId));
-		buf.append("¥nSize:");
-		buf.append(this.chunkSize);
-		buf.append("¥nFormat:");
+		buf.append(",Size:");
+		buf.append(UBytes.toLong(this.chunkSize, 1));
+//		System.out.println(UBytes.toHexString(this.chunkSize));
+//		System.out.println(UBytes.toLong(this.chunkSize, 1));
+		buf.append(",Format:");
 		buf.append(new String(this.format));
 		return buf.toString();
 	}

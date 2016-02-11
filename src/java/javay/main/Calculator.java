@@ -9,6 +9,8 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+
+// TODO:20160211 33603206 toHex error.
 /**
  * Calculator.
  * @author dubenju
