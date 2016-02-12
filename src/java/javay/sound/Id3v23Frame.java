@@ -6,6 +6,7 @@ import javay.util.UBytes;
 
 public class Id3v23Frame {
 	private byte[] id; // 4
+	private String frameId;
 	private byte[] size; // 4
 	private long dataSize;
 	private byte[] flags; // 2
@@ -18,6 +19,7 @@ public class Id3v23Frame {
 		System.arraycopy(in, 0, this.id, 0, 4);
 		System.arraycopy(in, 4, this.size, 0, 4);
 		System.arraycopy(in, 8, this.flags, 0, 2);
+		this.frameId = new String(this.id);
 		this.dataSize = UBytes.toLong(this.size, 2);
 	}
 	/**
@@ -27,7 +29,7 @@ public class Id3v23Frame {
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("Chunk ID:");
-		buf.append(new String(this.id));
+		buf.append(this.frameId);
 		buf.append(",Size:");
 		buf.append(UBytes.toLong(this.size, 2));
 		buf.append(",Flags:");
@@ -57,5 +59,17 @@ public class Id3v23Frame {
 	public void setData(byte[] in) {
 		this.data = new byte[(int)dataSize];
 		System.arraycopy(in, 0, this.data, 0, (int)dataSize);
+	}
+	/**
+	 * @return the frameId
+	 */
+	public String getFrameId() {
+		return frameId;
+	}
+	/**
+	 * @param frameId the frameId to set
+	 */
+	public void setFrameId(String frameId) {
+		this.frameId = frameId;
 	}
 }
