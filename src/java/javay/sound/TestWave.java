@@ -17,15 +17,17 @@ public class TestWave {
 
 		int bytesum = 0;
 		int byteread = 0;
-		String in = "./classes/javay/sound/shangxinlei.wav";
+		//String in = "./classes/javay/sound/shangxinlei.wav";
+		String in = "./classes/javay/sound/Windows Shutdown.wav";
 		InputStream inStream = new FileInputStream(in);
 //		InputStream inStream = TestWave.class.getClassLoader().getResource("shangxinlei.wav");
 
 		// RiffChunkDescriptor
 		byte[] buffer = new byte[12];
 		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("error");
+			System.out.println("read error RiffChunk");
 			inStream.close();
+			System.out.println("read=" + bytesum);
 			return ;
 		}
 		bytesum  += byteread;
@@ -35,8 +37,9 @@ public class TestWave {
 		// FormatSubChunk
 		buffer = new byte[24];
 		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("error");
+			System.out.println("read error FormatChunk");
 			inStream.close();
+			System.out.println("read=" + bytesum);
 			return ;
 		}
 		bytesum  += byteread;
@@ -46,8 +49,9 @@ public class TestWave {
 		// DataSubChunk
 		buffer = new byte[8];
 		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("error");
+			System.out.println("read error DataChunk");
 			inStream.close();
+			System.out.println("read=" + bytesum);
 			return ;
 		}
 		bytesum  += byteread;
@@ -58,8 +62,9 @@ public class TestWave {
 		// data
 		buffer = new byte[(int) data.getChunkSize()];
 		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("error");
+			System.out.println("read error data");
 			inStream.close();
+			System.out.println("read=" + bytesum);
 			return ;
 		}
 		bytesum  += byteread;
@@ -68,8 +73,9 @@ public class TestWave {
 		// ListChunk
 		buffer = new byte[12];
 		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("error");
+			System.out.println("read error ListChunk");
 			inStream.close();
+			System.out.println("read=" + bytesum);
 			return ;
 		}
 		bytesum  += byteread;
@@ -83,8 +89,9 @@ public class TestWave {
 			// InfoChunk
 			buffer = new byte[8];
 			if ( (byteread = inStream.read(buffer)) == -1) {
-				System.out.println("error");
+				System.out.println("read error InfoChunk");
 				inStream.close();
+				System.out.println("read=" + bytesum);
 				return ;
 			}
 			bytesum  += byteread;
@@ -93,8 +100,9 @@ public class TestWave {
 			System.out.println("ListChunkInfo=" + info);
 			buffer = new byte[(int)info.getTextSize()];
 			if ( (byteread = inStream.read(buffer)) == -1) {
-				System.out.println("error");
+				System.out.println("read error InfoChunk Text");
 				inStream.close();
+				System.out.println("read=" + bytesum);
 				return ;
 			}
 			bytesum  += byteread;
@@ -106,8 +114,9 @@ public class TestWave {
 		// ID3Chunk
 		buffer = new byte[8];
 		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("error");
+			System.out.println("read error ID3Chunk");
 			inStream.close();
+			System.out.println("read=" + bytesum);
 			return ;
 		}
 		bytesum  += byteread;
@@ -117,8 +126,9 @@ public class TestWave {
 		// ID3Header
 		buffer = new byte[10];
 		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("error");
+			System.out.println("read error ID3Header");
 			inStream.close();
+			System.out.println("read=" + bytesum);
 			return ;
 		}
 		bytesum  += byteread;
@@ -128,8 +138,9 @@ public class TestWave {
 		while(id3Size > 0) {
 			buffer = new byte[10];
 			if ( (byteread = inStream.read(buffer)) == -1) {
-				System.out.println("error");
+				System.out.println("read error ID3Header");
 				inStream.close();
+				System.out.println("read=" + bytesum);
 				return ;
 			}
 			bytesum  += byteread;
@@ -138,8 +149,9 @@ public class TestWave {
 			System.out.println("ID3Frame=" + id3frame);
 			buffer = new byte[(int)id3frame.getDataSize()];
 			if ( (byteread = inStream.read(buffer)) == -1) {
-				System.out.println("error");
+				System.out.println("read error ID3Frame");
 				inStream.close();
+				System.out.println("read=" + bytesum);
 				return ;
 			}
 			bytesum  += byteread;
