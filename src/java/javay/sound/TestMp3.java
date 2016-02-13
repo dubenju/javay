@@ -10,6 +10,7 @@ public class TestMp3 {
 	public static void main(String[] args) throws Exception {
 		Id3v23Header id3header = null;
 		Id3v23Frame id3frame = null;
+		Mp3FrameHeader mp3header = null;
 
 		int bytesum = 0;
 		int byteread = 0;
@@ -74,6 +75,29 @@ public class TestMp3 {
 		}
 
 		// MP3
+		buffer = new byte[4];
+		if ( (byteread = inStream.read(buffer)) == -1) {
+			System.out.println("read error ID3Header");
+			inStream.close();
+			System.out.println("read=" + bytesum);
+			return ;
+		}
+		bytesum  += byteread;
+		mp3header = new Mp3FrameHeader(buffer);
+		System.out.println("MP3Header=" + mp3header);
+		int crc = mp3header.getProtection();
+		if (crc == 0) {
+			buffer = new byte[2];
+			if ( (byteread = inStream.read(buffer)) == -1) {
+				System.out.println("read error ID3Header");
+				inStream.close();
+				System.out.println("read=" + bytesum);
+				return ;
+			}
+			bytesum  += byteread;
+			System.out.println(UBytes.toHexString(buffer));
+		}
+		
 		inStream.close();
 		System.out.println("read=" + bytesum);
 	}
