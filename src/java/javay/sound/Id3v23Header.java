@@ -17,7 +17,7 @@ public class Id3v23Header {
 		System.arraycopy(in, 3, this.ver, 0, 2);
 		System.arraycopy(in, 5, this.flags, 0, 1);
 		System.arraycopy(in, 6, this.size, 0, 4);
-		this.id3Size = UBytes.toLong(this.size, 2);
+		this.id3Size = getValue(this.size);
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -32,7 +32,8 @@ public class Id3v23Header {
 		buf.append(",Flags:");
 		buf.append(UBytes.toHexString(this.flags));
 		buf.append(",Size:");
-		buf.append(UBytes.toLong(this.size, 2));
+		// buf.append(UBytes.toLong(this.size, 2));
+		buf.append(getValue(this.size));
 		return buf.toString();
 	}
 	/**
@@ -46,5 +47,13 @@ public class Id3v23Header {
 	 */
 	public void setId3Size(long id3Size) {
 		this.id3Size = id3Size;
+	}
+
+	public static int getValue(byte[] in) {
+		int res = ( ( in[0] & 0x7F ) << 21 )
+				+ ( ( in[1] & 0x7F ) << 14 )
+				+ ( ( in[2] & 0x7F ) << 7 )
+				+ ( ( in[3] & 0x7F ) << 0 );
+		return res;
 	}
 }

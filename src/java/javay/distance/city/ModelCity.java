@@ -85,7 +85,7 @@ public class ModelCity {
   @Override
   public String toString() {
     StringBuffer buf = new StringBuffer();
-    buf.append(Strings.format(this.name, 4));
+    buf.append(Strings.format(this.name, 4, ' '));
     buf.append("(");
     buf.append(this.longitude);
     buf.append(",");

@@ -21,13 +21,13 @@ public class Strings {
     if (str1.length() != str2.length()) return false;
     return str1.indexOf(str2) == 0;
   }
-  public static String format(String in, int len) {
+  public static String format(String in, int len, char ch) {
     int ln = in.length();
     int diff = (len - ln);
     StringBuffer buf = new StringBuffer();
     if (diff > 0) {
       for(int i = 0; i < diff; i ++) {
-        buf.append(" ");
+        buf.append(ch);
       }
       buf.append(in);
     }

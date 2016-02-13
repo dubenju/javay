@@ -3,17 +3,19 @@ package javay.sound;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import javay.util.UBytes;
+
 public class TestMp3 {
 
 	public static void main(String[] args) throws Exception {
 		Id3v23Header id3header = null;
 		Id3v23Frame id3frame = null;
-		
+
 		int bytesum = 0;
 		int byteread = 0;
 		String in = "./classes/javay/sound/test.mp3";
 		InputStream inStream = new FileInputStream(in);
-		
+
 		// ID3Header
 		byte[] buffer = new byte[10];
 		if ( (byteread = inStream.read(buffer)) == -1) {
@@ -36,6 +38,21 @@ public class TestMp3 {
 			}
 			bytesum  += byteread;
 			id3Size -= byteread;
+
+			if (UBytes.isZero(buffer)) {
+				// Padding
+				buffer = new byte[(int) id3Size];
+				if ( (byteread = inStream.read(buffer)) == -1) {
+					System.out.println("read error Padding");
+					inStream.close();
+					System.out.println("read=" + bytesum);
+					return ;
+				}
+				bytesum  += byteread;
+				id3Size -= byteread;
+				continue;
+			}
+
 			id3frame = new Id3v23Frame(buffer);
 			System.out.println("ID3Frame=" + id3frame);
 			buffer = new byte[(int)id3frame.getDataSize()];
@@ -55,7 +72,8 @@ public class TestMp3 {
 			}
 			System.out.println("id3Size=" + id3Size);
 		}
-		
+
+		// MP3
 		inStream.close();
 		System.out.println("read=" + bytesum);
 	}

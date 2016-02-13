@@ -36,10 +36,34 @@ public class Id3v23Frame {
 		buf.append(UBytes.toHexString(this.flags));
 		if (this.data != null) {
 			buf.append(",Data:");
-			try {
-				buf.append(new String(this.data, "UTF16"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+			if (this.frameId.startsWith("C") ) {
+				// COMM
+				// Text encoding 1byte
+				// Language 3byte
+				// Short content descrip. 4byte
+				// The actual text
+				byte[] tb = new byte[this.data.length - 8];
+				System.arraycopy(this.data, 8, tb, 0, this.data.length - 8);
+				System.out.println(UBytes.toHexString(tb));
+				try {
+					// System.out.println(new String(tb, "UTF-16BE"));
+					String str = new String(tb, Id3v23FrameTextEncode.getName(this.data[0]));
+					// System.out.println("str=" + str);
+					buf.append(str);
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+			if (this.frameId.startsWith("T")) {
+				byte[] tb = new byte[this.data.length - 1];
+				System.arraycopy(this.data, 1, tb, 0, this.data.length - 1);
+				try {
+					String str = new String(tb, Id3v23FrameTextEncode.getName(this.data[0]));
+					System.out.println("str=" + str);
+					buf.append(str);
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return buf.toString();

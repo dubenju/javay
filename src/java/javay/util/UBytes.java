@@ -5,13 +5,14 @@ public class UBytes {
 		StringBuffer buf = new StringBuffer();
 		for (byte by : in) {
 			//System.out.println("by" + by);
-			String str = Strings.format(Integer.toHexString(by), 2);
+			String str = Strings.format(Integer.toHexString(by), 2, '0');
 			buf.append(str);
+			buf.append(" ");
 		}
 		return buf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @param in
 	 * @param endian 1:Little endian,2:big endian
 	 * @return
@@ -29,7 +30,17 @@ public class UBytes {
 			//System.out.println(in[i]);
 			res = res * 256 + Byte.toUnsignedInt(in[i]);
 		}
-		
+
 		return res;
+	}
+	public static boolean isZero(byte[] in) {
+		boolean bRes = true;
+		for(byte by : in) {
+			if (by != 0x00) {
+				bRes = false;
+				break;
+			}
+		}
+		return bRes;
 	}
 }
