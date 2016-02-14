@@ -97,7 +97,9 @@ public class TestMp3 {
 			bytesum  += byteread;
 			System.out.println(UBytes.toHexString(buffer));
 		}
-		
+		// side information
+
+
 		inStream.close();
 		System.out.println("read=" + bytesum);
 	}
