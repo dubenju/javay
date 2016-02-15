@@ -98,7 +98,19 @@ public class TestMp3 {
 			System.out.println(UBytes.toHexString(buffer));
 		}
 		// side information
-
+		int channel = mp3header.getChannelMode();
+		buffer = new byte[17];
+		if (3 != channel) {
+			buffer = new byte[32];
+		}
+		if ( (byteread = inStream.read(buffer)) == -1) {
+			System.out.println("read error ID3Header");
+			inStream.close();
+			System.out.println("read=" + bytesum);
+			return ;
+		}
+		bytesum  += byteread;
+		System.out.println(UBytes.toHexString(buffer));
 
 		inStream.close();
 		System.out.println("read=" + bytesum);
