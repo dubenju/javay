@@ -11,6 +11,7 @@ public class TestMp3 {
 		Id3v23Header id3header = null;
 		Id3v23Frame id3frame = null;
 		Mp3FrameHeader mp3header = null;
+		Mp3FrameSideInfo mp3side = null;
 
 		int bytesum = 0;
 		int byteread = 0;
@@ -111,6 +112,8 @@ public class TestMp3 {
 		}
 		bytesum  += byteread;
 		System.out.println(UBytes.toHexString(buffer));
+		mp3side = new Mp3FrameSideInfo(buffer);
+		System.out.println("MP3Side=" + mp3side);
 
 		inStream.close();
 		System.out.println("read=" + bytesum);
