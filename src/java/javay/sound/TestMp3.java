@@ -75,20 +75,10 @@ public class TestMp3 {
 			System.out.println("id3Size=" + id3Size);
 		}
 
-		// MP3
-		buffer = new byte[4];
-		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("read error ID3Header");
-			inStream.close();
-			System.out.println("read=" + bytesum);
-			return ;
-		}
-		bytesum  += byteread;
-		mp3header = new Mp3FrameHeader(buffer);
-		System.out.println("MP3Header=" + mp3header);
-		int crc = mp3header.getProtection();
-		if (crc == 0) {
-			buffer = new byte[2];
+		while (bytesum > 0) {
+			// frame
+			// MP3
+			buffer = new byte[4];
 			if ( (byteread = inStream.read(buffer)) == -1) {
 				System.out.println("read error ID3Header");
 				inStream.close();
@@ -96,25 +86,54 @@ public class TestMp3 {
 				return ;
 			}
 			bytesum  += byteread;
+			mp3header = new Mp3FrameHeader(buffer);
+			System.out.println("MP3Header=" + mp3header);
+			int frameSize = mp3header.getSize();
+			int crc = mp3header.getProtection();
+			if (crc == 0) {
+				buffer = new byte[2];
+				if ( (byteread = inStream.read(buffer)) == -1) {
+					System.out.println("read error ID3Header");
+					inStream.close();
+					System.out.println("read=" + bytesum);
+					return ;
+				}
+				bytesum  += byteread;
+				frameSize -= byteread;
+				System.out.println(UBytes.toHexString(buffer));
+			}
+			// side information
+			int channel = mp3header.getChannelMode();
+			buffer = new byte[17];
+			if (3 != channel) {
+				buffer = new byte[32];
+			}
+			if ( (byteread = inStream.read(buffer)) == -1) {
+				System.out.println("read error ID3Header");
+				inStream.close();
+				System.out.println("read=" + bytesum);
+				return ;
+			}
+			bytesum  += byteread;
+			frameSize -= byteread;
 			System.out.println(UBytes.toHexString(buffer));
+			mp3side = new Mp3FrameSideInfo(buffer);
+			System.out.println("MP3Side=" + mp3side);
+	
+			if (frameSize > 0) {
+				buffer = new byte[frameSize];
+				if ( (byteread = inStream.read(buffer)) == -1) {
+					System.out.println("read error ID3Header");
+					inStream.close();
+					System.out.println("read=" + bytesum);
+					return ;
+				}
+				bytesum  += byteread;
+			}
+			// Frame
 		}
-		// side information
-		int channel = mp3header.getChannelMode();
-		buffer = new byte[17];
-		if (3 != channel) {
-			buffer = new byte[32];
-		}
-		if ( (byteread = inStream.read(buffer)) == -1) {
-			System.out.println("read error ID3Header");
-			inStream.close();
-			System.out.println("read=" + bytesum);
-			return ;
-		}
-		bytesum  += byteread;
-		System.out.println(UBytes.toHexString(buffer));
-		mp3side = new Mp3FrameSideInfo(buffer);
-		System.out.println("MP3Side=" + mp3side);
-
+		
+		
 		inStream.close();
 		System.out.println("read=" + bytesum);
 	}
