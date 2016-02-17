@@ -43,4 +43,24 @@ public class UBytes {
 		}
 		return bRes;
 	}
+	public static int comp (byte[] a, int posa, byte[] b, int posb, int len) {
+		int lena = a.length - posa;
+		int lenb = b.length - posb;
+		if (lena < lenb) {
+			return -1;
+		}
+
+		int maxLen = len;
+		if (lenb < maxLen) {
+			maxLen = lenb;
+		}
+		int iRes = 0;
+		for (int i = 0; i < maxLen; i ++) {
+			if (a[posa + i] != b[posb + i]) {
+				iRes = a[posa + i] > b[posb + i] ? 1 : -1;
+				break;
+			}
+		}
+		return iRes;
+	}
 }

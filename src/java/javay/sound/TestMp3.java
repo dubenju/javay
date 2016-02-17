@@ -13,13 +13,16 @@ public class TestMp3 {
 		Mp3FrameHeader mp3header = null;
 		Mp3FrameSideInfo mp3side = null;
 
-		int bytesum = 0;
+		int bytesum = 1;
 		int byteread = 0;
 		String in = "./classes/javay/sound/test.mp3";
+		in = "./out/01-Get Your Head Straight_noId3.mp3";
+		in = "./out/01/f_00018.mp3";
 		InputStream inStream = new FileInputStream(in);
 
 		// ID3Header
 		byte[] buffer = new byte[10];
+		/*
 		if ( (byteread = inStream.read(buffer)) == -1) {
 			System.out.println("read error ID3Header");
 			inStream.close();
@@ -74,6 +77,7 @@ public class TestMp3 {
 			}
 			System.out.println("id3Size=" + id3Size);
 		}
+		*/
 
 		while (bytesum > 0) {
 			// frame
@@ -119,7 +123,7 @@ public class TestMp3 {
 			System.out.println(UBytes.toHexString(buffer));
 			mp3side = new Mp3FrameSideInfo(buffer);
 			System.out.println("MP3Side=" + mp3side);
-	
+
 			if (frameSize > 0) {
 				buffer = new byte[frameSize];
 				if ( (byteread = inStream.read(buffer)) == -1) {
@@ -132,8 +136,8 @@ public class TestMp3 {
 			}
 			// Frame
 		}
-		
-		
+
+
 		inStream.close();
 		System.out.println("read=" + bytesum);
 	}
