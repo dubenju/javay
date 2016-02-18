@@ -12,6 +12,12 @@ import javay.util.UBytes;
 public class Mp3FrameHeader {
 	private byte[] head;
 	private int sync; // 11
+	/**
+	 * 0:MPEG Version 2.5
+	 * 1:MPEG Version reserved
+	 * 2:MPEG Version 2
+	 * 3:MPEG Version 1
+	 */
 	private int version; // 2
 	public static String[] versName = {"MPEG Version 2.5", "MPEG Version reserved", "MPEG Version 2", "MPEG Version 1"};
 	private int layer; // 2
@@ -28,9 +34,16 @@ public class Mp3FrameHeader {
 	public static String[] paddName = {"frame is not padded", "frame is padded with one extra bit"};
 	private int privatebit; // 1
 
+	/**
+	 * 0:Stereo
+	 * 1:Joint stereo (Stereo)
+	 * 2:Dual channel (Stereo)
+	 * 3:Single channel (Mono)
+	 */
 	private int channelMode; // 2
 	public static String[] modeName = {"Stereo", "Joint stereo (Stereo)", "Dual channel (Stereo)", "Single channel (Mono)"};
 	private int modeExtension; // 2
+	public static String[] modExtName = {"Intensity stereo:Off,MS stereo:Off", "Intensity stereo:On,MS stereo:Off", "Intensity stereo:Off,MS stereo:On", "Intensity stereo:On,MS stereo:On"};
 	private int copyright; // 1
 	public static String[] rightName = {"Audio is not copyrighted", "Audio is copyrighted"};
 	private int original; // 1
@@ -39,7 +52,7 @@ public class Mp3FrameHeader {
 	public static String[] emphName = {"none", "50/15 ms", "reserved", "CCIT J.17"};
 
 	static {
-		// ver layer Bitrate 
+		// ver layer Bitrate   kbps
 		bitrateIndex.put("1_1_0", "free");
 		bitrateIndex.put("1_2_0", "free");
 		bitrateIndex.put("1_3_0", "free");
@@ -76,33 +89,33 @@ public class Mp3FrameHeader {
 		bitrateIndex.put("2_3_4", "32");
 
 		
-		bitrateIndex.put("1_1_5", "64");
-		bitrateIndex.put("1_2_5", "48");
-		bitrateIndex.put("1_3_5", "40");
-		bitrateIndex.put("2_1_5", "64");
-		bitrateIndex.put("2_2_5", "48");
-		bitrateIndex.put("2_3_5", "16");
+		bitrateIndex.put("1_1_5", "160");
+		bitrateIndex.put("1_2_5", "80");
+		bitrateIndex.put("1_3_5", "64");
+		bitrateIndex.put("2_1_5", "160");
+		bitrateIndex.put("2_2_5", "80");
+		bitrateIndex.put("2_3_5", "64");
 		
-		bitrateIndex.put("1_1_6", "64");
-		bitrateIndex.put("1_2_6", "48");
-		bitrateIndex.put("1_3_6", "40");
-		bitrateIndex.put("2_1_6", "64");
-		bitrateIndex.put("2_2_6", "48");
-		bitrateIndex.put("2_3_6", "16");
+		bitrateIndex.put("1_1_6", "192");
+		bitrateIndex.put("1_2_6", "96");
+		bitrateIndex.put("1_3_6", "80");
+		bitrateIndex.put("2_1_6", "192");
+		bitrateIndex.put("2_2_6", "96");
+		bitrateIndex.put("2_3_6", "80");
 		
-		bitrateIndex.put("1_1_7", "64");
-		bitrateIndex.put("1_2_7", "48");
+		bitrateIndex.put("1_1_7", "224");
+		bitrateIndex.put("1_2_7", "112");
 		bitrateIndex.put("1_3_7", "40");
-		bitrateIndex.put("2_1_7", "64");
-		bitrateIndex.put("2_2_7", "48");
-		bitrateIndex.put("2_3_7", "16");
+		bitrateIndex.put("2_1_7", "96");
+		bitrateIndex.put("2_2_7", "112");
+		bitrateIndex.put("2_3_7", "56");
 		
-		bitrateIndex.put("1_1_8", "64");
-		bitrateIndex.put("1_2_8", "48");
-		bitrateIndex.put("1_3_8", "40");
-		bitrateIndex.put("2_1_8", "64");
-		bitrateIndex.put("2_2_8", "48");
-		bitrateIndex.put("2_3_8", "16");
+		bitrateIndex.put("1_1_8", "256");
+		bitrateIndex.put("1_2_8", "128");
+		bitrateIndex.put("1_3_8", "112");
+		bitrateIndex.put("2_1_8", "256");
+		bitrateIndex.put("2_2_8", "128");
+		bitrateIndex.put("2_3_8", "64");
 		
 		bitrateIndex.put("1_1_9", "288");
 		bitrateIndex.put("1_2_9", "160");
@@ -112,41 +125,48 @@ public class Mp3FrameHeader {
 		bitrateIndex.put("2_3_9", "128");
 
 		
-		bitrateIndex.put("1_1_2", "64");
-		bitrateIndex.put("1_2_2", "48");
-		bitrateIndex.put("1_3_2", "40");
-		bitrateIndex.put("2_1_2", "64");
-		bitrateIndex.put("2_2_2", "48");
-		bitrateIndex.put("2_3_2", "16");
+		bitrateIndex.put("1_1_10", "320");
+		bitrateIndex.put("1_2_10", "192");
+		bitrateIndex.put("1_3_10", "160");
+		bitrateIndex.put("2_1_10", "320");
+		bitrateIndex.put("2_2_10", "192");
+		bitrateIndex.put("2_3_10", "160");
 		
-		bitrateIndex.put("1_1_2", "64");
-		bitrateIndex.put("1_2_2", "48");
-		bitrateIndex.put("1_3_2", "40");
-		bitrateIndex.put("2_1_2", "64");
-		bitrateIndex.put("2_2_2", "48");
-		bitrateIndex.put("2_3_2", "16");
+		bitrateIndex.put("1_1_11", "352");
+		bitrateIndex.put("1_2_11", "224");
+		bitrateIndex.put("1_3_11", "192");
+		bitrateIndex.put("2_1_11", "352");
+		bitrateIndex.put("2_2_11", "224");
+		bitrateIndex.put("2_3_11", "112");
 		
-		bitrateIndex.put("1_1_2", "64");
-		bitrateIndex.put("1_2_2", "48");
-		bitrateIndex.put("1_3_2", "40");
-		bitrateIndex.put("2_1_2", "64");
-		bitrateIndex.put("2_2_2", "48");
-		bitrateIndex.put("2_3_2", "16");
+		bitrateIndex.put("1_1_12", "384");
+		bitrateIndex.put("1_2_12", "256");
+		bitrateIndex.put("1_3_12", "224");
+		bitrateIndex.put("2_1_12", "384");
+		bitrateIndex.put("2_2_12", "256");
+		bitrateIndex.put("2_3_12", "128");
 		
-		bitrateIndex.put("1_1_2", "64");
-		bitrateIndex.put("1_2_2", "48");
-		bitrateIndex.put("1_3_2", "40");
-		bitrateIndex.put("2_1_2", "64");
-		bitrateIndex.put("2_2_2", "48");
-		bitrateIndex.put("2_3_2", "16");
+		bitrateIndex.put("1_1_13", "416");
+		bitrateIndex.put("1_2_13", "320");
+		bitrateIndex.put("1_3_13", "256");
+		bitrateIndex.put("2_1_13", "416");
+		bitrateIndex.put("2_2_13", "320");
+		bitrateIndex.put("2_3_13", "256");
 		
-		bitrateIndex.put("1_1_2", "64");
-		bitrateIndex.put("1_2_2", "48");
-		bitrateIndex.put("1_3_2", "40");
-		bitrateIndex.put("2_1_2", "64");
-		bitrateIndex.put("2_2_2", "48");
-		bitrateIndex.put("2_3_2", "16");
-		
+		bitrateIndex.put("1_1_14", "448");
+		bitrateIndex.put("1_2_14", "384");
+		bitrateIndex.put("1_3_14", "320");
+		bitrateIndex.put("2_1_14", "448");
+		bitrateIndex.put("2_2_14", "384");
+		bitrateIndex.put("2_3_14", "320");
+
+		bitrateIndex.put("1_1_14", "bad");
+		bitrateIndex.put("1_2_14", "bad");
+		bitrateIndex.put("1_3_14", "bad");
+		bitrateIndex.put("2_1_14", "bad");
+		bitrateIndex.put("2_2_14", "bad");
+		bitrateIndex.put("2_3_14", "bad");
+
 		// ver val
 		frequencyIndex.put("0_0", "11025");
 		frequencyIndex.put("2_0", "22050");
@@ -205,6 +225,7 @@ public class Mp3FrameHeader {
 		buf.append(this.protection);
 		buf.append(":");
 		buf.append(procName[this.protection]);
+		buf.append("\n");
 		
 		buf.append(",bitrate:");
 		buf.append(this.bitrate);
@@ -221,6 +242,7 @@ public class Mp3FrameHeader {
 		buf.append(this.frequency);
 		k = this.version + "_" + this.frequency;
 		buf.append(frequencyIndex.get(k));
+		buf.append("\n");
 		buf.append(",padding:");
 		buf.append(paddName[this.padding]);
 		buf.append(":");
@@ -234,6 +256,8 @@ public class Mp3FrameHeader {
 		buf.append(modeName[this.channelMode]);
 		buf.append(",modeExtension:");
 		buf.append(this.modeExtension);
+		buf.append(":");
+		buf.append(modExtName[this.modeExtension]);
 		buf.append(",copyright:");
 		buf.append(this.copyright);
 		buf.append(":");
@@ -266,6 +290,12 @@ public class Mp3FrameHeader {
 	}
 
 	/**
+	 *
+	 * 0:Stereo
+	 * 1:Joint stereo (Stereo)
+	 * 2:Dual channel (Stereo)
+	 * 3:Single channel (Mono)
+	 *
 	 * @return the channelMode
 	 */
 	public int getChannelMode() {
@@ -290,7 +320,7 @@ public class Mp3FrameHeader {
 	 * @return
 	 */
 	public int getSize() {
-		int a = this.version == 3 ? 144 : 72;
+		int a = this.layer == 3 ? (this.version == 3 ? 48 : 24) : (this.version == 3 ? 144 : 72);
 		String ver = "";
 		if (this.version == 3) {
 			ver = "1";
@@ -311,6 +341,30 @@ public class Mp3FrameHeader {
 			samplingRate = Integer.valueOf(strSamplingRate);
 		}
 		int frameSize = a * bitrate / samplingRate + this.padding;
+		System.out.println("a=" + a);
+		System.out.println("bitrate=" + bitrate);
+		System.out.println("samplingRate=" + samplingRate);
+		System.out.println("padding=" + padding);
+		System.out.println("frameSize=" + frameSize);
 		return frameSize;
+	}
+
+	/**
+	 * 0:MPEG Version 2.5
+	 * 1:MPEG Version reserved
+	 * 2:MPEG Version 2
+	 * 3:MPEG Version 1
+	 * 
+	 * @return the version
+	 */
+	public int getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(int version) {
+		this.version = version;
 	}
 }

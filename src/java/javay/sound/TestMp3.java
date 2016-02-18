@@ -108,9 +108,28 @@ public class TestMp3 {
 			}
 			// side information
 			int channel = mp3header.getChannelMode();
-			buffer = new byte[17];
+			int version = mp3header.getVersion();
+			buffer = null;
 			if (3 != channel) {
-				buffer = new byte[32];
+				// Stereo
+				if (version == 3) {
+					// MPEG 1
+					buffer = new byte[32];
+				} 
+				if (version == 0 || version == 2) {
+					// MPEG 2/2.5 (LSF)
+					buffer = new byte[17];
+				}
+			} else {
+				// Mono
+				if (version == 3) {
+					// MPEG 1
+					buffer = new byte[17];
+				}
+				if (version == 0 || version == 2) {
+					// MPEG 2/2.5 (LSF)
+					buffer = new byte[9];
+				}
 			}
 			if ( (byteread = inStream.read(buffer)) == -1) {
 				System.out.println("read error ID3Header");
