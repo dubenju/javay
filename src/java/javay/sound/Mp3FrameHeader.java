@@ -11,28 +11,28 @@ import javay.util.UBytes;
  */
 public class Mp3FrameHeader {
 	private byte[] head;
-	private int sync; // 11
+	private int sync; // 11//同步信息
 	/**
 	 * 0:MPEG Version 2.5
 	 * 1:MPEG Version reserved
 	 * 2:MPEG Version 2
 	 * 3:MPEG Version 1
 	 */
-	private int version; // 2
+	private int version; // 2//版本
 	public static String[] versName = {"MPEG Version 2.5", "MPEG Version reserved", "MPEG Version 2", "MPEG Version 1"};
-	private int layer; // 2
+	private int layer; // 2//层
 	public static String[] laysName = {"Layer reserved", "Layer III", "Layer II", "Layer I"};
 	/* 0 - Protected by CRC (16bit CRC follows header) */
-	private int protection; // 1
+	private int protection; // 1// CRC校验
 	public static String[] procName = {"Protected by CRC", "Not protected"};
 
-	private int bitrate; // 4
+	private int bitrate; // 4//位率
 	public static HashMap<String, String> bitrateIndex = new HashMap<String, String>();
-	private int frequency; // 2
+	private int frequency; // 2//采样频率
 	public static HashMap<String, String> frequencyIndex = new HashMap<String, String>();
-	private int padding; // 1
+	private int padding; // 1//帧长调节
 	public static String[] paddName = {"frame is not padded", "frame is padded with one extra bit"};
-	private int privatebit; // 1
+	private int privatebit; // 1//保留字
 
 	/**
 	 * 0:Stereo
@@ -40,19 +40,20 @@ public class Mp3FrameHeader {
 	 * 2:Dual channel (Stereo)
 	 * 3:Single channel (Mono)
 	 */
-	private int channelMode; // 2
+	private int channelMode; // 2//声道模式
 	public static String[] modeName = {"Stereo", "Joint stereo (Stereo)", "Dual channel (Stereo)", "Single channel (Mono)"};
-	private int modeExtension; // 2
+	private int modeExtension; // 2//扩充模式
 	public static String[] modExtName = {"Intensity stereo:Off,MS stereo:Off", "Intensity stereo:On,MS stereo:Off", "Intensity stereo:Off,MS stereo:On", "Intensity stereo:On,MS stereo:On"};
-	private int copyright; // 1
-	public static String[] rightName = {"Audio is not copyrighted", "Audio is copyrighted"};
-	private int original; // 1
-	public static String[] origName = {"Copy of original media", "Original media"};
-	private int emphasis; // 2
+	private int copyright; // 1// 版权
+	public static String[] rightName = {"无版权", "版权"};
+	private int original; // 1//原版标志
+	public static String[] origName = {"复制品", "原版"};
+	private int emphasis; // 2//强调模式
 	public static String[] emphName = {"none", "50/15 ms", "reserved", "CCIT J.17"};
 
 	static {
 		// ver layer Bitrate   kbps
+		// "free" 表示位率可变
 		bitrateIndex.put("1_1_0", "free");
 		bitrateIndex.put("1_2_0", "free");
 		bitrateIndex.put("1_3_0", "free");
@@ -166,6 +167,7 @@ public class Mp3FrameHeader {
 		bitrateIndex.put("2_1_14", "bad");
 		bitrateIndex.put("2_2_14", "bad");
 		bitrateIndex.put("2_3_14", "bad");
+		//  "bad"  表示不允许值
 
 		// ver val
 		frequencyIndex.put("0_0", "11025");

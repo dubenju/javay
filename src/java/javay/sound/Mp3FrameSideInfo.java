@@ -34,6 +34,12 @@ private int  subblock_gain;          // 9; // 18
 		this.side = new byte[in.length];
 		System.arraycopy(in, 0, this.side, 0, in.length);
 		this.main_data_begin = ( (this.side[0] & 0xFF) << 1) | ((this.side[1] & 0x80) >>> 7);
+		if (in.length == 32) {
+			this.private_bits = (this.side[1] & 0x70) >>> 4;
+		}
+		if (in.length == 17) {
+			this.private_bits = (this.side[1] & 0x7C) >>> 2;
+		}
 	}
 
 	/**
