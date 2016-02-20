@@ -11,6 +11,16 @@ public class UBytes {
 		}
 		return buf.toString();
 	}
+	public static String toBinaryString(byte[] in) {
+		StringBuffer buf = new StringBuffer();
+		for (byte by : in) {
+			//System.out.println("by" + by);
+			String str = Strings.format(Integer.toBinaryString(by), 8, '0');
+			buf.append(str);
+			buf.append(" ");
+		}
+		return buf.toString();
+	}
 	/**
 	 *
 	 * @param in

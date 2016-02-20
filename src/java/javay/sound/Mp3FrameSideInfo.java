@@ -1,5 +1,7 @@
 package javay.sound;
 
+import javay.util.UBytes;
+
 /**
  * 17 or 32
  * @author DBJ
@@ -14,7 +16,8 @@ public class Mp3FrameSideInfo {
 
 	private int  part2_3_length_1;         // 12; // 24
 	private int  part2_3_length_2;
-	private int  big_values;             // 9; // 18
+	private int  big_values_1;             // 9; // 18
+	private int  big_values_2;
 	private int  global_gain;            // 8; // 16
 	private int  scalefac_compress;      // 4; // 8
 	private int  windows_switching_flag; // 1; // 2
@@ -35,21 +38,24 @@ private int  subblock_gain;          // 9; // 18
 	public Mp3FrameSideInfo(byte[] in) {
 		this.side = new byte[in.length];
 		System.arraycopy(in, 0, this.side, 0, in.length);
+		System.out.println("bin:" + UBytes.toBinaryString(this.side));
 		// 1111 1111 1
-		this.main_data_begin = ( (this.side[0] & 0xFF) << 1) | ((this.side[1] & 0x80) >>> 7);
+		this.main_data_begin = ( (this.side[0] & 0xFF) << 1) | ((this.side[1] & 0x80) >> 7);
 
 		if (in.length == 32) {
 			// 1222 3333
-			this.private_bits = (this.side[1] & 0x70) >>> 4;
+			this.private_bits = ((this.side[1] & 0x70) >> 4);
 			// 3333 4444
 			this.scfsi_1 = (this.side[1] & 0x0F);
-			this.scfsi_2 = (this.side[2] & 0xF0) >>> 4;
+			this.scfsi_2 = ((this.side[2] & 0xF0) >> 4);
 			// 4444 4444
-			this.part2_3_length_1 = ((this.side[2] & 0x0F) << 8 ) | (this.side[3]);
+			this.part2_3_length_1 = (((this.side[2] & 0x0F) << 8 ) | (this.side[3])) & 0x0FFF;
 			// 4444 4444 4444
-			this.part2_3_length_2 = (this.side[4] << 4) | ((this.side[5] & 0xF0) >>> 4);
+			this.part2_3_length_2 = ((this.side[4] << 4) | ((this.side[5] & 0xF0) >> 4)) & 0x0FFF;
+			this.big_values_1 = ( ( (this.side[5] & 0x0F) << 5) | ( ( this.side[6] & 0xF8) >> 3) ) & 0x01FF;
+			this.big_values_2 = (((this.side[6] & 0x03) << 6) | ((this.side[7] & 0xFC) >> 2) ) & 0x01FF;
 		}
-		
+
 		if (in.length == 17) {
 			// 1222 2233
 			this.private_bits = (this.side[1] & 0x7C) >>> 2;
@@ -80,6 +86,10 @@ private int  subblock_gain;          // 9; // 18
 		buf.append(this.part2_3_length_1);
 		buf.append(",part2_3_length_2:");
 		buf.append(this.part2_3_length_2);
+		buf.append(",big_values_1:");
+		buf.append(this.big_values_1);
+		buf.append(",big_values_2:");
+		buf.append(this.big_values_2);
 		return buf.toString();
 	}
 }
