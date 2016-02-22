@@ -66,12 +66,20 @@ public class MathBn {
     BigNum res = new BigNum("0.0");
     BigNum an = new BigNum("-1.0");
     BigNum sign = new BigNum("1.0");
+
     for (int i = 1; i < 40; i += 2) {
+      System.out.println("@sin:i=" + i);
       BigNum augend = radian.pow(i).multiply(sign);
+      System.out.println("@sin:augend=" + augend);
       BigNum fac = new BigNum(i).factorial();
+      System.out.println("@sin:fac=" + fac);
       BigNum bn = augend.divide(fac, 40, BigNumRound.HALF_EVENT);
+      System.out.println("@sin:bn=augend/fac=" + bn);
       res = res.add(bn);
+      System.out.println("@sin:res=" + res);
       sign = sign.multiply(an);
+      System.out.println("@sin:sign=" + sign);
+      System.out.println();
     }
     System.out.print(res);
     return res;

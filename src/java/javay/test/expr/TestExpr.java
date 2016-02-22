@@ -20,6 +20,7 @@ public class TestExpr {
 //    // 波兰式
 //    str = "+ + 1 * x 3 / 4 x";
     str = "negate(-2.0)";
+    str = "sin(sin(2.0))";
 
 //    ExpressionV x = Variables.create("x");
 //    x.setVariableValue(new BigNum("2.0"));
