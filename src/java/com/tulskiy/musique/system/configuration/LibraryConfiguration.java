@@ -17,6 +17,7 @@
 
 package com.tulskiy.musique.system.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tulskiy.musique.system.Application;
@@ -26,25 +27,35 @@ import com.tulskiy.musique.system.Application;
  * Date: Aug 27, 2011
  */
 public class LibraryConfiguration {
-    
+
     private LibraryConfiguration() {
         // prevent instantiation
     }
-    
+
     public static String getFolderKey() {
         return "library.folders.folder";
     }
-    
+
     public static List<String> getFolders() {
         Configuration config = Application.getInstance().getConfiguration();
-        return (List<String>) config.getList(getFolderKey());
+        List<Object> list = config.getList(getFolderKey());
+        List<String> res = new ArrayList<String>();
+        for (Object obj : list) {
+        	res.add(obj.toString());
+        }
+        return res;
     }
-    
+
     public static List<String> getFolders(List<String> def) {
         Configuration config = Application.getInstance().getConfiguration();
-        return (List<String>) config.getList(getFolderKey(), def);
+        List<Object> list =  config.getList(getFolderKey(), def);
+        List<String> res = new ArrayList<String>();
+        for (Object obj : list) {
+        	res.add(obj.toString());
+        }
+        return res;
     }
-    
+
     public static void setFolders(List<String> values) {
         Configuration config = Application.getInstance().getConfiguration();
         config.setList(getFolderKey(), values);

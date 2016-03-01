@@ -17,6 +17,7 @@
 
 package com.tulskiy.musique.system.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tulskiy.musique.system.Application;
@@ -26,25 +27,35 @@ import com.tulskiy.musique.system.Application;
  * Date: Aug 27, 2011
  */
 public class AlbumArtConfiguration {
-    
+
     private AlbumArtConfiguration() {
         // prevent instantiation
     }
-    
+
     public static String getStubKey() {
         return "albumart.stubs.stub";
     }
-    
+
     public static List<String> getStubs() {
         Configuration config = Application.getInstance().getConfiguration();
-        return (List<String>) config.getList(getStubKey());
+        List<Object> list =  config.getList(getStubKey());
+        List<String> res = new ArrayList<String>();
+        for (Object obj : list) {
+        	res.add(obj.toString());
+        }
+        return res;
     }
-    
+
     public static List<String> getStubs(List<String> def) {
         Configuration config = Application.getInstance().getConfiguration();
-        return (List<String>) config.getList(getStubKey(), def);
+        List<Object> list =  config.getList(getStubKey(), def);
+        List<String> res = new ArrayList<String>();
+        for (Object obj : list) {
+        	res.add(obj.toString());
+        }
+        return res;
     }
-    
+
     public static void setStubs(List<String> values) {
         Configuration config = Application.getInstance().getConfiguration();
         config.setList(getStubKey(), values);

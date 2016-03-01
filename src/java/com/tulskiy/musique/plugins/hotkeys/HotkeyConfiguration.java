@@ -37,7 +37,7 @@ import com.tulskiy.musique.system.configuration.Configuration;
  * Date: Aug 27, 2011
  */
 public class HotkeyConfiguration {
-    
+
     private HotkeyConfiguration() {
         // prevent instantiation
     }
@@ -46,12 +46,18 @@ public class HotkeyConfiguration {
     public static String getHotkeyKey() {
         return "hotkeys.hotkey";
     }
-    
+
     public static Map<KeyStroke, HotKeyEvent> getHotkeys(Logger logger) {
         Configuration config = Application.getInstance().getConfiguration();
-        List<String> hotkeysRaw = (List<String>) config.getList(getHotkeyKey());
+        List<Object> list =  config.getList(getHotkeyKey());
+        List<String> hotkeysRaw = new ArrayList<String>();
+        for (Object obj : list) {
+        	hotkeysRaw.add(obj.toString());
+        }
+
         Map<KeyStroke, HotKeyEvent> hotkeys = new LinkedHashMap<KeyStroke, HotKeyEvent>();
-        if (!CollectionUtils.isEmpty(hotkeysRaw)) {
+        //if (!CollectionUtils.isEmpty(hotkeysRaw)) {
+        if (hotkeysRaw.size() > 0) {
             for (String hotkeyRaw : hotkeysRaw) {
                 try {
                     String[] tokens = hotkeyRaw.split(": ");
@@ -77,7 +83,7 @@ public class HotkeyConfiguration {
         Configuration config = Application.getInstance().getConfiguration();
         config.setList(getHotkeyKey(), values);
     }
-    
+
     public static void setHotkeys(Vector<Vector> values) {
         Configuration config = Application.getInstance().getConfiguration();
         ArrayList<String> hotkeysRaw = new ArrayList<String>();

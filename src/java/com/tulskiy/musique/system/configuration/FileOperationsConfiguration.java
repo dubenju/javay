@@ -17,6 +17,7 @@
 
 package com.tulskiy.musique.system.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tulskiy.musique.system.Application;
@@ -26,25 +27,35 @@ import com.tulskiy.musique.system.Application;
  * Date: Aug 27, 2011
  */
 public class FileOperationsConfiguration {
-    
+
     private FileOperationsConfiguration() {
         // prevent instantiation
     }
-    
+
     public static String getPatternKey() {
         return "fileOperations.patterns.pattern";
     }
-    
+
     public static List<String> getPatterns() {
         Configuration config = Application.getInstance().getConfiguration();
-        return (List<String>) config.getList(getPatternKey());
+        List<Object> list =  config.getList(getPatternKey());
+        List<String> res = new ArrayList<String>();
+        for (Object obj : list) {
+        	res.add(obj.toString());
+        }
+        return res;
     }
-    
+
     public static List<String> getPatterns(List<String> def) {
         Configuration config = Application.getInstance().getConfiguration();
-        return (List<String>) config.getList(getPatternKey(), def);
+        List<Object> list =  config.getList(getPatternKey(), def);
+        List<String> res = new ArrayList<String>();
+        for (Object obj : list) {
+        	res.add(obj.toString());
+        }
+        return res;
     }
-    
+
     public static void setPatterns(List<String> values) {
         Configuration config = Application.getInstance().getConfiguration();
         config.setList(getPatternKey(), values);

@@ -35,7 +35,7 @@ import com.tulskiy.musique.system.Application;
  * Date: Aug 27, 2011
  */
 public class PlaylistConfiguration {
-    
+
     private PlaylistConfiguration() {
         // prevent instantiation
     }
@@ -44,11 +44,16 @@ public class PlaylistConfiguration {
     public static String getColumnKey() {
         return getPlaylistKey() + ".columns.column";
     }
-    
+
     @Deprecated
     public static List<PlaylistColumn> getColumns() {
         Configuration config = Application.getInstance().getConfiguration();
-        List<String> columnsRaw = (List<String>) config.getList(getColumnKey());
+        List<Object> list =  config.getList(getColumnKey());
+        List<String> columnsRaw = new ArrayList<String>();
+        for (Object obj : list) {
+        	columnsRaw.add(obj.toString());
+        }
+
         ArrayList<PlaylistColumn> columns = new ArrayList<PlaylistColumn>();
         //if (!CollectionUtils.isEmpty(columnsRaw)) {
         if (columnsRaw.size() > 0) {
@@ -72,18 +77,28 @@ public class PlaylistConfiguration {
     public static String getTabBoundKey() {
         return "playlists.tabs.bounds.bound";
     }
-    
+
     // TODO refactor bounds: String->Int
     public static List<String> getTabBounds() {
         Configuration config = Application.getInstance().getConfiguration();
-        return (List<String>) config.getList(getTabBoundKey());
+        List<Object> list =  config.getList(getTabBoundKey());
+        List<String> res = new ArrayList<String>();
+        for (Object obj : list) {
+        	res.add(obj.toString());
+        }
+        return res;
     }
-    
+
     public static List<String> getTabBounds(List<String> def) {
         Configuration config = Application.getInstance().getConfiguration();
-        return (List<String>) config.getList(getTabBoundKey(), def);
+        List<Object> list =  config.getList(getTabBoundKey(), def);
+        List<String> res = new ArrayList<String>();
+        for (Object obj : list) {
+        	res.add(obj.toString());
+        }
+        return res;
     }
-    
+
     @Deprecated
     /*
      * Temporary method to convert old configuration values.
@@ -92,7 +107,7 @@ public class PlaylistConfiguration {
         Configuration config = Application.getInstance().getConfiguration();
         config.setList(getTabBoundKey(), values);
     }
-    
+
     public static void setTabBounds(List<Integer> values) {
         Configuration config = Application.getInstance().getConfiguration();
         config.setList(getTabBoundKey(), values);
@@ -101,12 +116,12 @@ public class PlaylistConfiguration {
     public static String getPlaylistKey() {
         return "playlists.playlist";
     }
-    
+
     public static List<Playlist> getPlaylists() {
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
 
         Configuration config = Application.getInstance().getConfiguration();
-        
+
         Iterator pConfs = config.configurationsAt(getPlaylistKey()).iterator();
         while (pConfs.hasNext()) {
             Playlist playlist = new Playlist();
@@ -116,7 +131,7 @@ public class PlaylistConfiguration {
             playlist.setName(pConf.getString("name", "Default"));
             playlist.setGroupBy(pConf.getString("groupBy"));
             playlist.setLibraryView(pConf.getBoolean("isLibraryView", false));
-            
+
             Iterator cConfs = pConf.configurationsAt("columns.column").iterator();
             while (cConfs.hasNext()) {
                 PlaylistColumn column = new PlaylistColumn();
@@ -135,7 +150,7 @@ public class PlaylistConfiguration {
 
         return playlists;
     }
-    
+
     public static List<Playlist> getPlaylists(List<Playlist> def) {
         List<Playlist> playlists = getPlaylists();
 
@@ -159,10 +174,10 @@ public class PlaylistConfiguration {
             playlist.setColumns(getColumns());
             playlists.add(playlist);
         }
-        
+
         setPlaylists(playlists);
     }
-    
+
     public static void setPlaylists(List<Playlist> playlists) {
         Configuration config = Application.getInstance().getConfiguration();
 
