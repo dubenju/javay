@@ -50,7 +50,8 @@ public class PlaylistConfiguration {
         Configuration config = Application.getInstance().getConfiguration();
         List<String> columnsRaw = (List<String>) config.getList(getColumnKey());
         ArrayList<PlaylistColumn> columns = new ArrayList<PlaylistColumn>();
-        if (!CollectionUtils.isEmpty(columnsRaw)) {
+        //if (!CollectionUtils.isEmpty(columnsRaw)) {
+        if (columnsRaw.size() > 0) {
             for (String columnRaw : columnsRaw) {
                 columns.add(new PlaylistColumn(columnRaw));
             }
@@ -138,7 +139,8 @@ public class PlaylistConfiguration {
     public static List<Playlist> getPlaylists(List<Playlist> def) {
         List<Playlist> playlists = getPlaylists();
 
-        if (CollectionUtils.isEmpty(playlists)) {
+        //if (CollectionUtils.isEmpty(playlists)) {
+        if (playlists.size() <= 0) {
             playlists.addAll(def);
         }
 

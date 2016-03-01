@@ -57,8 +57,11 @@ public class Library {
 
     public void rescan(Map<String, Object> progress) {
         List<String> folders = LibraryConfiguration.getFolders();
-        if (CollectionUtils.isEmpty(folders)) {
-            return;
+//        if (CollectionUtils.isEmpty(folders)) {
+//            return;
+//        }
+        if(folders == null || folders.size() <= 0) {
+          return ;
         }
         progress.put("processing.file", "");
 
