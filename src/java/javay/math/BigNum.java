@@ -294,7 +294,7 @@ public class BigNum implements Comparable<BigNum> {
         return augend.subtract(new BigNum((byte)(0x00 - this.signed), this.datas,
             this.length, this.scale));
       } else {
-        return this.subtract(new BigNum((byte)(0x00 - augend.signed), 
+        return this.subtract(new BigNum((byte)(0x00 - augend.signed),
             augend.datas, augend.length, augend.scale));
       }
     }
@@ -395,7 +395,7 @@ public class BigNum implements Comparable<BigNum> {
       check(this, subtrahendi, res, "-", 0, RoundingMode.UNNECESSARY);
       return res;
     } else {
-      return this.add(new BigNum((byte)(0x00 - subtrahendi.signed), 
+      return this.add(new BigNum((byte)(0x00 - subtrahendi.signed),
           subtrahendi.datas, subtrahendi.length, subtrahendi.scale));
     }
   }
@@ -516,6 +516,7 @@ public class BigNum implements Comparable<BigNum> {
     if (divisor.equals(BigNum.ONE)) {
       return this;
     }
+    // -1
     if (this.isZero()) {
       return this;
     }
@@ -1117,7 +1118,7 @@ public class BigNum implements Comparable<BigNum> {
     }
     if (result == 0) {
       // 小数部
-      for (an = this.scale, bn = on.scale; 0 <= an && an < this.length 
+      for (an = this.scale, bn = on.scale; 0 <= an && an < this.length
           && 0 <= bn && bn < on.length; an ++, bn ++) {
         result = this.datas[an] - on.datas[bn];
         if ( result != 0 ) {
@@ -1461,7 +1462,7 @@ public class BigNum implements Comparable<BigNum> {
     }
     return (byte) (this.signed * result);
   }
- 
+
   /**
    * toShort.
    * @return short
@@ -2088,7 +2089,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param an BigNum
    * @param bn BigNum
    * @param cn BigNum
-   * @param optionS String 
+   * @param optionS String
    * @param scale String
    * @param roundingMode RoundingMode
    * @return boolean
@@ -2192,7 +2193,7 @@ public class BigNum implements Comparable<BigNum> {
 
   /**
    * toCharary.
-   * @param in byte[] 
+   * @param in byte[]
    * @param len int
    * @return char[]
    */
