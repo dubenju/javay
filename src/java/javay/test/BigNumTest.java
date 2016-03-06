@@ -308,12 +308,19 @@ public class BigNumTest {
     System.out.println(new BigNum("0.0000").toScientificNotation());
     System.out.println(new BigNum("123450").toScientificNotation());
   }
+  public void testAddxx() {
+	  BigNum a = new BigNum("110000000000000000000000000.0000000000000011");
+	  BigNum b = new BigNum( "10000000000000000000000000.0000000000000001");
+	  BigNum c = a.addxx(b);
+	  System.out.println(c);
+  }
 //  public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
   /**
    * @param args
    */
   public static void main(String[] args) throws Exception {
-    BigNum test = new BigNum("0.0T");
+//    BigNum e = new BigNum("test");
+//    BigNum test = new BigNum("0.0T");
     BigNumTest proc = new BigNumTest();
 //    proc.testbyte();
 ////    proc.testshort();
@@ -336,7 +343,8 @@ public class BigNumTest {
 //    proc.testLastZero();
 //    proc.testDivide2();
 //    proc.testLogic();
-    proc.testSCI();
+//    proc.testSCI();
+    proc.testAddxx();
 
 //    System.out.println("byte" + Byte.MIN_VALUE + "...＋" + Byte.MAX_VALUE); // 8
 //    System.out.println("short" + Short.MIN_VALUE + "...＋" + Short.MAX_VALUE); // 16

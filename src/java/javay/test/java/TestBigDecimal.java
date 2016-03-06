@@ -21,6 +21,8 @@ public class TestBigDecimal {
     System.out.println("(a == d)=" + (a == d));
     System.out.println("a.equals(d)=" + a.equals(d));
     System.out.println("a.compareTo(d)=" + a.compareTo(d));
+    
+    BigDecimal e = new BigDecimal("test.");
   }
 
 }
