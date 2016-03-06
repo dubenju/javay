@@ -244,11 +244,11 @@ public class BigNum implements Comparable<BigNum> {
    * @return 和
    */
   public BigNum add(BigNum augend) {
-    if (augend.isZero()) {
+    if (augend.isZero) {
       // a + 0 = a
       return this;
     }
-    if (this.isZero()) {
+    if (this.isZero) {
       // 0 + a = a
       return augend;
     }
@@ -321,11 +321,11 @@ public class BigNum implements Comparable<BigNum> {
    * @return 和
    */
   public BigNum addxx(BigNum augend) {
-    if (augend.isZero()) {
+    if (augend.isZero) {
       // a + 0 = a
       return this;
     }
-    if (this.isZero()) {
+    if (this.isZero) {
     	// 0 + a = a
       return augend;
     }
@@ -382,10 +382,10 @@ public class BigNum implements Comparable<BigNum> {
    * @return BigNum
    */
   public BigNum subtract(BigNum subtrahendi) {
-    if (subtrahendi.isZero()) {
+    if (subtrahendi.isZero) {
       return this;
     }
-    if (this.isZero()) {
+    if (this.isZero) {
       return new BigNum((byte)(0x00 - subtrahendi.signed), subtrahendi.datas,
           subtrahendi.length, subtrahendi.scale);
     }
@@ -485,13 +485,13 @@ public class BigNum implements Comparable<BigNum> {
    * @return BigNum
    */
   public BigNum multiply(BigNum multiplicand) {
-    if (multiplicand.isZero()) {
+    if (multiplicand.isZero) {
       return multiplicand;
     }
     if (multiplicand.equals(BigNum.ONE)) {
       return this;
     }
-    if (this.isZero()) {
+    if (this.isZero) {
       return this;
     }
     if (this.equals(BigNum.ONE)) {
@@ -591,7 +591,7 @@ public class BigNum implements Comparable<BigNum> {
    * @return BigNum
    */
   public BigNum divide(BigNum divisor, int decimalLen, BigNumRound roundmode) {
-    if (divisor.isZero()) {
+    if (divisor.isZero) {
       // 除数为零时
       throw new ArithmeticException("Division by zero");
     }
@@ -599,7 +599,7 @@ public class BigNum implements Comparable<BigNum> {
       return this;
     }
     // -1
-    if (this.isZero()) {
+    if (this.isZero) {
       return this;
     }
 
@@ -894,9 +894,9 @@ public class BigNum implements Comparable<BigNum> {
    * isZero.
    * @return boolean
    */
-  public boolean isZero() {
-    return this.isZero;
-  }
+//  public boolean isZero() {
+//    return this.isZero;
+//  }
   public boolean chkIsZero() {
     boolean result = true;
     for (byte b : this.datas) {
@@ -1002,14 +1002,14 @@ public class BigNum implements Comparable<BigNum> {
    * @return BigNum
    */
   public BigNum mod(BigNum divisor) {
-    if (divisor.isZero()) {
+    if (divisor.isZero) {
       // 除数为零时
       throw new ArithmeticException("Division by zero");
     }
     if (divisor.equals(BigNum.ONE)) {
       return this;
     }
-    if (this.isZero()) {
+    if (this.isZero) {
       return this;
     }
 
@@ -1143,7 +1143,7 @@ public class BigNum implements Comparable<BigNum> {
       return new BigNum("1.0").divide(pow(nn.negate()), 40, BigNumRound.HALF_EVENT);
     }
     BigNum result = new BigNum("1");
-    if (nn.isZero()) {
+    if (nn.isZero) {
       return result;
     }
     BigNum idx = new BigNum("0");

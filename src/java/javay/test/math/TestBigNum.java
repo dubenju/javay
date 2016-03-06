@@ -1,6 +1,6 @@
 package javay.test.math;
 
-import java.math.BigDecimal;
+ import java.math.BigDecimal;
 
 import javay.math.BigNum;
 
