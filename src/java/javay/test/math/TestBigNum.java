@@ -6,7 +6,8 @@ import javay.math.BigNum;
 
 public class TestBigNum {
 	public static int MAX_CNT = 10000000;
-	public static String STR = "10000000000000000000000000.0000000000000001";
+//	public static String STR = "10000000000000000000000000.0000000000000001";
+	public static String STR = "10000000000000000000000000.01";
 	public void testAdda() {
 		BigDecimal a = new BigDecimal(STR);
 		BigDecimal b = new BigDecimal(STR);

@@ -16,9 +16,9 @@ import java.util.Stack;
  */
 public class BigNum implements Comparable<BigNum> {
   /** 符号:正号:1,负号:-1. */
-  private byte signed;
+  private int signed;
   /** 数据 十进制 一位对应一位. */
-  private byte[] datas;
+  private int[] datas;
   /** 数据的长度. */
   private int length;
   /** 小数点的起始位置. */
@@ -72,7 +72,7 @@ public class BigNum implements Comparable<BigNum> {
     int idy = 0;
     this.scale = -1;
     int cnt = 0;
-    byte[] dats = new byte[len];
+    int[] dats = new int[len];
     for (; idx < len; idx ++) {
       if (in[idx] == '.') {
         if (this.scale != -1) {
@@ -84,9 +84,9 @@ public class BigNum implements Comparable<BigNum> {
       cnt ++;
 
       if (in[idx] >= '0' && in[idx] <= '9') {
-        dats[idy] = (byte) (in[idx] - '0');
+        dats[idy] = (in[idx] - '0');
       } else if (in[idx] >= 'A' && in[idx] <= 'F') {
-        dats[idy] = (byte) (in[idx] - 'A' + 10);
+        dats[idy] =  (in[idx] - 'A' + 10);
       } else {
         throw new NumberFormatException();
       }
@@ -98,7 +98,7 @@ public class BigNum implements Comparable<BigNum> {
       // 整数a.的时候，补成a.0的形式。
       this.scale = this.length;
       this.length ++;
-      this.datas = new byte[this.length];
+      this.datas = new int[this.length];
       int size = this.length;
       if (size > dats.length) {
         size = dats.length;
@@ -107,13 +107,14 @@ public class BigNum implements Comparable<BigNum> {
       System.arraycopy(dats, 0, this.datas, 0, size);
       dats = null;
     } else {
-      this.datas = new byte[idy];
+      this.datas = new int[idy];
       System.arraycopy(dats, 0, this.datas, 0, idy);
       dats = null;
     }
 
 //    this.datas = this.removeLastZero(this.datas, this.scale);
-    this.datas = this.trimZero(this.datas, this.scale);
+    // TODO:??
+//    this.datas = this.trimZero(this.datas, this.scale);
     this.length = this.datas.length;
     if (numberSystem != 10) {
       BigNum res = this.createNum(0);
@@ -136,7 +137,7 @@ public class BigNum implements Comparable<BigNum> {
   }
 
   private BigNum createNum(int in) {
-    byte signed = 0x01;
+    int signed = 0x01;
     int an = in;
     if (in < 0) {
       signed = -0x01;
@@ -144,20 +145,20 @@ public class BigNum implements Comparable<BigNum> {
     }
     int lengt = 1;
     int scal = 1;
-    byte[] datas = null;
+    int[] datas = null;
     if (an < 10) {
-      datas = new byte[1];
-      datas[0] = (byte) in;
+      datas = new int[1];
+      datas[0] =  in;
     } else if (an < 100) {
       lengt = 2;
       scal = 2;
-      datas = new byte[2];
+      datas = new int[2];
       if (an < 20) {
-        datas[0] = (byte) 1;
-        datas[1] = (byte) (an - 10);
+        datas[0] = 1;
+        datas[1] = (an - 10);
       }
     }
-    return new BigNum(signed, datas, lengt, scal);
+    return new BigNum(signed, datas, scal);
   }
 
   /**
@@ -167,16 +168,43 @@ public class BigNum implements Comparable<BigNum> {
    * @param len 长度
    * @param sca 小数点位置
    */
-  public BigNum(byte si, byte[] da, int len, int sca) {
+  public BigNum(int si, int[] da, int len, int sca) {
     this.signed = si;
-//    byte[] buf = this.removeLastZero(da, sca);
-    byte[] buf = this.trimZero(da, sca);
-    this.datas = buf;
-    this.length = buf.length;
+    this.datas = da;
+    this.length = len;
     this.scale = sca;
-    if (da[0] == 0) {
-      this.scale = sca + (this.datas.length - da.length);
-    }
+    // check is zero.
+    this.isZero = chkIsZero();
+  }
+  public BigNum(int si, int[] in, int dotpos) {
+	  this.signed = si;
+	  this.scale = dotpos;
+    
+    int start = 0;
+    if (in[start] == 0) {
+      for (; start < dotpos; start ++) {
+        if (in[start] != 0) {
+          break;
+        }
+      }
+    } // if
+    this.scale -= start;
+
+    int end = in.length - 1;
+    if (in[end] == 0) {
+      for (;end > dotpos; end --) {
+        if (in[end] != 0) {
+          break;
+        }
+      }
+    } // if
+
+    int len = end - start + 1;
+    this.datas = new int[len];
+      for (int idxi = start, idxr = 0; idxr < len; idxi ++, idxr ++) {
+        this.datas[idxr] = in[idxi];
+      }
+    this.length = this.datas.length;
     // check is zero.
     this.isZero = chkIsZero();
   }
@@ -267,9 +295,9 @@ public class BigNum implements Comparable<BigNum> {
       // System.out.println("整数部长度:" + scaleS + "小数部长度:" + decS);
       /* 长度 */
       int lengthS = 2 + scaleS + decS;
-      byte[] dataS = new byte[lengthS];
+      int[] dataS = new int[lengthS];
 
-      long an = 0;
+      int an = 0;
       /* 小数部 */
       for (int idx = decS; idx > 0; idx --) {
         if (0 <= (this.scale + idx) && (this.scale + idx) < this.length) {
@@ -278,8 +306,8 @@ public class BigNum implements Comparable<BigNum> {
         if (0 <= (augend.scale + idx) && (augend.scale + idx) < augend.length) {
           an = an + augend.datas[augend.scale + idx];
         }
-        dataS[1 + scaleS + idx] = (byte) (0xFF & (an % 10));
-        an = an / 10;
+        dataS[1 + scaleS + idx] = an % 10;
+        an /= 10;
       }
       /* 整数部 */
       for (int idx = 0; idx <= scaleS; idx ++) {
@@ -290,27 +318,23 @@ public class BigNum implements Comparable<BigNum> {
           an = an + augend.datas[augend.scale - idx];
         }
         if ((1 + scaleS - idx) < dataS.length) {
-          dataS[1 + scaleS - idx] = (byte) (0xFF & (an % 10));
+          dataS[1 + scaleS - idx] = an % 10;
         }
-        an = an / 10;
+        an /= 10;
       }
-      dataS[0] = (byte) (0xFF & an);
+      dataS[0] = an;
 
       scaleS ++;
-       byte[] dataS1 = removeFirstZero(dataS, scaleS);
-
-      BigNum res = new BigNum(this.signed, dataS1, dataS1.length,
-          dataS1.length - dataS.length + scaleS);
-//      BigNum res = new BigNum(this.signed, dataS, datas.length, scaleS);
+      BigNum res = new BigNum(this.signed, dataS, scaleS);
 //      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
       return res;
     } else {
       if (this.signed < 0) {
-        return augend.subtract(new BigNum((byte)(0x00 - this.signed), this.datas,
-            this.length, this.scale));
+        return augend.subtract(new BigNum((0x00 - this.signed), this.datas,
+             this.scale));
       } else {
-        return this.subtract(new BigNum((byte)(0x00 - augend.signed),
-            augend.datas, augend.length, augend.scale));
+        return this.subtract(new BigNum((0x00 - augend.signed),
+            augend.datas,  augend.scale));
       }
     }
   }
@@ -339,39 +363,43 @@ public class BigNum implements Comparable<BigNum> {
       /* 小数部长度 */
       int decS = this.length - this.scale - 1;
       if ((augend.length - augend.scale - 1) > decS) {
-        decS = augend.length - augend.scale;
+        decS = augend.length - augend.scale - 1;;
       }
       // System.out.println("整数部长度:" + scaleS + "小数部长度:" + decS);
       /* 长度 */
       int lengthS = 2 + scaleS + decS;
-      byte[] tdata = new byte[lengthS];
-      byte[] adata = new byte[lengthS];
-      byte[] dataS = new byte[lengthS];
+      int[] tdata = new int[lengthS];
+      int[] adata = new int[lengthS];
+      int[] dataS = new int[lengthS];
 
-      System.arraycopy(  this.datas, 0, tdata, 1 + scaleS -   this.scale,   this.datas.length);
-      System.arraycopy(augend.datas, 0, adata, 1 + scaleS - augend.scale, augend.datas.length);
+      for (int idxt = 0; idxt < this.datas.length; idxt ++) {
+        tdata[idxt + 1 + scaleS - this.scale] = this.datas[idxt];
+      }
+      for (int idxt = 0; idxt < augend.datas.length; idxt ++) {
+        adata[idxt + 1 + scaleS - augend.scale] = augend.datas[idxt];
+      }
 
       int an = 0;
       /* 小数部 */
       for (int idx = lengthS - 1; idx > 0; idx --) {
         an = an + tdata[idx] + adata[idx];
-        dataS[idx] = (byte) (an % 10);
-        an = an / 10;
+        dataS[idx] =  (an % 10);
+        an /= 10;
       }
-      dataS[0] = (byte) (0xFF & an);
+      dataS[0] = an;
 
       scaleS ++;
 
-      BigNum res = new BigNum(this.signed, dataS, datas.length, scaleS);
+      BigNum res = new BigNum(this.signed, dataS, scaleS);
 //      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
       return res;
     } else {
       if (this.signed < 0) {
-        return augend.subtract(new BigNum((byte)(0x00 - this.signed), this.datas,
-            this.length, this.scale));
+        return augend.subtract(new BigNum((0x00 - this.signed), this.datas,
+             this.scale));
       } else {
-        return this.subtract(new BigNum((byte)(0x00 - augend.signed),
-            augend.datas, augend.length, augend.scale));
+        return this.subtract(new BigNum((0x00 - augend.signed),
+            augend.datas,  augend.scale));
       }
     }
   }
@@ -386,11 +414,11 @@ public class BigNum implements Comparable<BigNum> {
       return this;
     }
     if (this.isZero) {
-      return new BigNum((byte)(0x00 - subtrahendi.signed), subtrahendi.datas,
-          subtrahendi.length, subtrahendi.scale);
+      return new BigNum((0x00 - subtrahendi.signed), subtrahendi.datas,
+           subtrahendi.scale);
     }
     if (this.signed == subtrahendi.signed) {
-      byte signeds = 0x01;
+      int signeds = 0x01;
       // 大小调整
       BigNum minuend = this;
       BigNum subtrahend = subtrahendi;
@@ -412,11 +440,11 @@ public class BigNum implements Comparable<BigNum> {
       }
       /* 长度 */
       int lengthS = 2 + scaleS + decS;
-      byte[] dataS = new byte[lengthS];
-      byte[] carryS = new byte[lengthS];
+      int[] dataS = new int[lengthS];
+      int[] carryS = new int[lengthS];
 
       long an = 0;
-      byte carry = 0;
+      int carry = 0;
       /* 小数部 */
       for (int idx = decS; idx > 0; idx --) {
         if (0 <= (minuend.scale + idx) && (minuend.scale + idx) < minuend.length) {
@@ -429,7 +457,7 @@ public class BigNum implements Comparable<BigNum> {
           an = 10 + an;
           carry = -1;
         }
-        dataS[1 + scaleS + idx] = (byte) (0xFF & (an % 10));
+        dataS[1 + scaleS + idx] = (int) (0xFF & (an % 10));
         carryS[1 + scaleS + idx] = carry;
         an = an / 10;
         an = an + carry;
@@ -448,7 +476,7 @@ public class BigNum implements Comparable<BigNum> {
           carry = -1;
         }
         if ((1 + scaleS - idx) < dataS.length) {
-          dataS[1 + scaleS - idx] = (byte) (0xFF & (an % 10));
+          dataS[1 + scaleS - idx] = (int) (0xFF & (an % 10));
           carryS[1 + scaleS - idx] = carry;
         }
         an = an / 10;
@@ -460,7 +488,7 @@ public class BigNum implements Comparable<BigNum> {
         an = 10 + an;
         carry = -1;
       }
-      dataS[0] = (byte) (0xFF & an);
+      dataS[0] = (int) (0xFF & an);
       carryS[0] = carry;
 
       scaleS += 1;
@@ -470,12 +498,12 @@ public class BigNum implements Comparable<BigNum> {
       BigNum res = new BigNum(signeds, dataS1, dataS1.length,
           dataS1.length - dataS.length + scaleS);
       */
-      BigNum res = new BigNum(signeds, dataS, dataS.length, scaleS);
+      BigNum res = new BigNum(signeds, dataS,  scaleS);
 //      check(this, subtrahendi, res, "-", 0, RoundingMode.UNNECESSARY);
       return res;
     } else {
-      return this.add(new BigNum((byte)(0x00 - subtrahendi.signed),
-          subtrahendi.datas, subtrahendi.length, subtrahendi.scale));
+      return this.add(new BigNum((0x00 - subtrahendi.signed),
+          subtrahendi.datas,  subtrahendi.scale));
     }
   }
 
@@ -498,9 +526,9 @@ public class BigNum implements Comparable<BigNum> {
       return multiplicand;
     }
     /* 符号 */
-    byte signed1 = this.signed;
-    byte signed2 = multiplicand.signed;
-    final byte signed = (byte) (signed1 * signed2);
+    int signed1 = this.signed;
+    int signed2 = multiplicand.signed;
+    final int signed = (signed1 * signed2);
 
     /* 长度 */
     int len1 = this.length;
@@ -541,31 +569,31 @@ public class BigNum implements Comparable<BigNum> {
       dat[n] = value;
     }
 
-    byte[] result = new byte[len];
+    int[] result = new int[len];
     if (carry != 0) {
       // carry是最高位。
       len ++;
-      result = new byte[len];
+      result = new int[len];
     }
     long carry2 = 0;
     int jn = len - 1;
     for (int i = 0; i < dat.length; i ++) {
       if ((dat[i] + carry2) >= 10) {
-        result[jn - i] = (byte) (( dat[i] + carry2 ) % 10);
+        result[jn - i] = (int) (( dat[i] + carry2 ) % 10);
         carry2 = dat[i] / 10;
       } else {
-        result[jn - i] = (byte) (dat[i] + carry2);
+        result[jn - i] = (int) (dat[i] + carry2);
       }
     }
     if (jn - dat.length >= 0) {
       if ((carry + carry2)  >= 10) {
-        result[jn - dat.length] = (byte) ((carry + carry2 ) % 10);
+        result[jn - dat.length] = (int) ((carry + carry2 ) % 10);
         carry2 = (carry + carry2) / 10;
         if (carry2 != 0) {
           // TODO:ERROR
         }
       } else {
-        result[jn - dat.length] = (byte) (carry + carry2);
+        result[jn - dat.length] = (int) (carry + carry2);
       }
     } else {
       // TODO:ERROR
@@ -578,7 +606,7 @@ public class BigNum implements Comparable<BigNum> {
     BigNum res = new BigNum(signed, result1, result1.length,
         result1.length - result.length + decimalLen);
     */
-    BigNum res = new BigNum(signed, result, result.length, decimalLen);
+    BigNum res = new BigNum(signed, result,  decimalLen);
     check(this, multiplicand, res, "*", 0, RoundingMode.UNNECESSARY);
     return res;
   }
@@ -604,7 +632,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     // 符号
-    byte osigned = 0x01;
+    int osigned = 0x01;
     if (this.signed != divisor.signed) {
       osigned = -1;
     }
@@ -623,7 +651,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     int dlen  = divisor.length;
-    byte[] tmpDivi = this.removeFirstZero(divisor.datas, divisor.datas.length);
+    int[] tmpDivi = this.removeFirstZero(divisor.datas, divisor.datas.length);
     dlen = tmpDivi.length;
 
     int ido = 0;
@@ -641,11 +669,11 @@ public class BigNum implements Comparable<BigNum> {
     	odecimalCnt = 0;
     }
     System.out.println("@div:odecimalCnt=" + odecimalCnt + ",olen=" +olen);
-    byte[] out = new byte[olen];
+    int[] out = new int[olen];
 
     int idx = 0;
     int idxNext = 0;
-    byte[] tmp = new byte[dlen];
+    int[] tmp = new int[dlen];
     int lenTmp = tmp.length;
     if (this.datas.length < tmp.length) {
       // 不足位零补齐
@@ -660,17 +688,17 @@ public class BigNum implements Comparable<BigNum> {
       int cn = cmp_ary(tmp, lenTmp, tmpDivi);
       System.out.println("@div:cn=" + cn);
       if (cn >= 0) {
-        out[ido] = (byte) (out[ido] + 1);
+        out[ido] = (int) (out[ido] + 1);
         // shift postition
         tmp = sub_ary(tmp, lenTmp, tmpDivi);
       }
       if (cn < 0) {
-        byte[] temp;
+        int[] temp;
         if (tmp[0] == 0) {
-          temp = new byte[tmp.length];
+          temp = new int[tmp.length];
           System.arraycopy(tmp, 1, temp, 0, tmp.length - 1);
         } else {
-          temp = new byte[lenTmp + 1];
+          temp = new int[lenTmp + 1];
           System.arraycopy(tmp, 0, temp, 0, lenTmp);
         }
 
@@ -713,7 +741,7 @@ public class BigNum implements Comparable<BigNum> {
 
         // 向右移位
         olen ++;
-        byte[] out2 = new byte[olen];
+        int[] out2 = new int[olen];
         System.arraycopy(out, 0, out2, 0, out.length);
         out = out2;
 
@@ -730,7 +758,7 @@ public class BigNum implements Comparable<BigNum> {
       rm = RoundingMode.UP;
       // 远离零方向舍入,> 0 进上
       if (out[(oscale + decimalLen - 1)] != 0) {
-        out = add_ary(out, (oscale + decimalLen - 1), (byte) 1);
+        out = add_ary(out, (oscale + decimalLen - 1), (int) 1);
       }
     }
     if (BigNumRound.DOWN.equals(roundmode)) {
@@ -742,7 +770,7 @@ public class BigNum implements Comparable<BigNum> {
       // 向正无穷方向舍入,
       if (osigned > 0) {
         if (out[(oscale + decimalLen - 1)] != 0) {
-          out = add_ary(out, (oscale + decimalLen - 1), (byte) 1);
+          out = add_ary(out, (oscale + decimalLen - 1), (int) 1);
         }
       }
     }
@@ -751,7 +779,7 @@ public class BigNum implements Comparable<BigNum> {
       // 向负无穷方向舍入,
       if (osigned < 0) {
         if (out[(oscale + decimalLen - 1)] != 0) {
-          out = add_ary(out, (oscale + decimalLen - 1), (byte) 1);
+          out = add_ary(out, (oscale + decimalLen - 1), (int) 1);
         }
       }
     }
@@ -759,14 +787,14 @@ public class BigNum implements Comparable<BigNum> {
       rm = RoundingMode.HALF_UP;
       // 最近数字舍入(5进)。这是我们最经典的四舍五入。
       if (out[(oscale + decimalLen - 1)] > 4) {
-        out = add_ary(out, (oscale + decimalLen - 1), (byte) 1);
+        out = add_ary(out, (oscale + decimalLen - 1), (int) 1);
       }
     }
     if (BigNumRound.HALF_DOWN.equals(roundmode)) {
       rm = RoundingMode.HALF_DOWN;
       // 最近数字舍入(5舍)。在这里5是要舍弃的。五舍六入。
       if (out[(oscale + decimalLen - 1)] > 5) {
-        out = add_ary(out, (oscale + decimalLen - 1), (byte) 1);
+        out = add_ary(out, (oscale + decimalLen - 1), (int) 1);
       }
     }
     if (BigNumRound.HALF_EVENT.equals(roundmode)) {
@@ -774,27 +802,27 @@ public class BigNum implements Comparable<BigNum> {
       // 银行家舍入法。
       if (5 < out[(oscale + decimalLen)]) {
         // （2）如果保留位数的后一位如果是6，则进上去。例如5.216保留两位小数为5.22。
-        out = add_ary(out, (oscale + decimalLen - 1), (byte) 1);
+        out = add_ary(out, (oscale + decimalLen - 1), (int) 1);
       }
       if (5 == out[(oscale + decimalLen)]) {
         if (is_zero_ary(out, (oscale + decimalLen + 1)) == false) {
           // （4）如果保留位数的后一位如果是5，而且5后面仍有数。例如5.2254保留两位小数为5.23，也就是说如果5后面还有数据，则无论奇偶都要进入。
-          out = add_ary(out, (oscale + decimalLen - 1), (byte) 1);
+          out = add_ary(out, (oscale + decimalLen - 1), (int) 1);
         } else {
           if (out[(oscale + decimalLen - 1)] % 2 != 0) {
             // （3）如果保留位数的后一位如果是5，而且5后面不再有数，要根据应看尾数“5”的前一位决定是舍去还是进入: 如果是奇数则进入，如果是偶数则舍去。
-            out = add_ary(out, (oscale + decimalLen - 1), (byte) 1);
+            out = add_ary(out, (oscale + decimalLen - 1), (int) 1);
           }
         }
       }
       // （1）要求保留位数的后一位如果是4，则舍去。例如5.214保留两位小数为5.21。
     }
-    byte[] out3 = new byte[(oscale + decimalLen)];
+    int[] out3 = new int[(oscale + decimalLen)];
     System.arraycopy(out, 0, out3, 0, out3.length);
-    byte[] out2 = removeFirstZero(out3, oscale);
+    int[] out2 = removeFirstZero(out3, oscale);
     oscale = oscale - out3.length + out2.length;
 
-    BigNum res = new BigNum(osigned, out2, out2.length, oscale);
+    BigNum res = new BigNum(osigned, out2,  oscale);
 //    check(this, divisor, res, "/", decimalLen, rm);
     double dres = res.toDouble(16);
     double t1 = this.toDouble(14);
@@ -809,12 +837,12 @@ public class BigNum implements Comparable<BigNum> {
 
   /**
    * cmp_ary.
-   * @param a byte[]
+   * @param a int[]
    * @param lena int
-   * @param b byte[]
+   * @param b int[]
    * @return 1: a > b, 0: a = b, -1:a < b
    */
-  protected int cmp_ary(byte[] an, int lena, byte[] bn) {
+  protected int cmp_ary(int[] an, int lena, int[] bn) {
     int cn = 0;
     int offset = 0;
     printary(an);
@@ -857,13 +885,13 @@ public class BigNum implements Comparable<BigNum> {
 
   /**
    * sub_ary.
-   * @param an byte[]
+   * @param an int[]
    * @param lena int
-   * @param bn byte[]
+   * @param bn int[]
    * @return a - b
    */
-  protected byte[] sub_ary(byte[] an, int lena, byte[] bn) {
-    byte[] c2 = new byte[lena];
+  protected int[] sub_ary(int[] an, int lena, int[] bn) {
+    int[] c2 = new int[lena];
     long mn = 0;
     long carry = 0;
     int posb;
@@ -875,14 +903,14 @@ public class BigNum implements Comparable<BigNum> {
         carry --;
         mn = 10 + mn;
       }
-      c2[posa] = (byte) mn;
+      c2[posa] = (int) mn;
     }
     while (carry == 0 && posa >= 0 && an[posa] != 0) {
       c2[posa] = an[posa];
       posa --;
     }
     while (posa >= 0 && carry < 0) {
-      c2[posa] = (byte) (an[posa] + carry);
+      c2[posa] = (int) (an[posa] + carry);
       carry = 0;
       posa --;
     }
@@ -891,16 +919,13 @@ public class BigNum implements Comparable<BigNum> {
   }
 
   /**
-   * isZero.
+   * chkIsZero.
    * @return boolean
    */
-//  public boolean isZero() {
-//    return this.isZero;
-//  }
   public boolean chkIsZero() {
     boolean result = true;
-    for (byte b : this.datas) {
-      if (b != 0x00) {
+    for (int b : this.datas) {
+      if (b != 0) {
         result = false;
         break ;
       }
@@ -914,7 +939,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param dotpos 整数部的长度
    * @return 格式化后的数据
    */
-  protected byte[] removeFirstZero(byte[] in, int dotpos) {
+  protected int[] removeFirstZero(int[] in, int dotpos) {
     int decimalLen = in.length - dotpos;
     int inu = 0;
     boolean blFlag = false;
@@ -933,17 +958,17 @@ public class BigNum implements Comparable<BigNum> {
       return in;
     }
 
-    byte[] res;
+    int[] res;
     if (dotpos > 1 && inu == dotpos) {
       // 整数部为零
-      res = new byte[decimalLen + 1];
+      res = new int[decimalLen + 1];
       //i --;
     } else {
       if (blFlag) {
-        res = new byte[decimalLen + dotpos - inu + 1];
+        res = new int[decimalLen + dotpos - inu + 1];
         //i --;
       } else {
-        res = new byte[decimalLen + dotpos + 1];
+        res = new int[decimalLen + dotpos + 1];
         inu = 0;
       }
     }
@@ -957,42 +982,6 @@ public class BigNum implements Comparable<BigNum> {
     } else {
       System.arraycopy(in, inu + 1, res, res.length - in.length, in.length);
     }
-    return res;
-  }
-/*
-  protected byte[] removeLastZero(byte[] in, int dotpos) {
-    int pos = in.length - 1;
-    for (;pos > (dotpos - 1); pos --) {
-      if (in[pos] != 0) {
-        break;
-      }
-    }
-    pos ++;
-    byte[] res = new byte[pos];
-    System.arraycopy(in, 0, res, 0, pos);
-    return res;
-  }
-  */
-  protected byte[] trimZero(byte[] in, int dotpos) {
-    int start = 0;
-    if (in[start] == 0) {
-      for (; start < dotpos; start ++) {
-        if (in[start] != 0) {
-          start --;
-          break;
-        }
-      }
-    }
-    int end = in.length - 1;
-    if (in[end] == 0) {
-      for (;end > dotpos; end --) {
-        if (in[end] != 0) {
-          break;
-        }
-      }
-    }
-    byte[] res = new byte[end - start + 1];
-    System.arraycopy(in, start, res, 0, end - start + 1);
     return res;
   }
 
@@ -1014,7 +1003,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     // 符号
-    byte osigned = 0x01;
+    int osigned = 0x01;
     if (this.signed != divisor.signed) {
       osigned = -1;
     }
@@ -1039,27 +1028,27 @@ public class BigNum implements Comparable<BigNum> {
 
     int idx = 0;
     int idxNext = 0;
-    byte[] tmp = new byte[dlen];
+    int[] tmp = new int[dlen];
     int lenTmp = tmp.length;
     System.arraycopy(this.datas, idx, tmp, idx, lenTmp);
     idxNext = lenTmp;
 
-    byte[] out = new byte[olen];
+    int[] out = new int[olen];
     int ido = 0;
     while (true) {
       int cn = cmp_ary(tmp, lenTmp, divisor.datas);
       if (cn >= 0) {
-        out[ido] = (byte) (out[ido] + 1);
+        out[ido] = (int) (out[ido] + 1);
         // shift postition
         tmp = sub_ary(tmp, lenTmp, divisor.datas);
       }
       if (cn < 0) {
-        byte[] temp;
+    	  int[] temp;
         if (tmp[0] == 0) {
-          temp = new byte[tmp.length];
+          temp = new int[tmp.length];
           System.arraycopy(tmp, 1, temp, 0, tmp.length - 1);
         } else {
-          temp = new byte[tmp.length + 1];
+          temp = new int[tmp.length + 1];
           System.arraycopy(tmp, 0, temp, 0, tmp.length);
         }
 
@@ -1088,10 +1077,10 @@ public class BigNum implements Comparable<BigNum> {
           int lent = tmp.length;
           int leny = this.datas.length - 1 - idx;
           if (lent + leny + lead == 0) {
-            out = new byte[1];
+            out = new int[1];
             out[0] = 0;
           } else {
-            out = new byte[lent + leny + lead];
+            out = new int[lent + leny + lead];
             for (int i = 0; i < lead; i ++) {
               out[i] = 0;
             }
@@ -1109,7 +1098,7 @@ public class BigNum implements Comparable<BigNum> {
         lenTmp = tmp.length;
       }
     }
-    return new BigNum(osigned, out, out.length, out.length - odecimalLen - off);
+    return new BigNum(osigned, out,  out.length - odecimalLen - off);
   }
 
   /**
@@ -1284,7 +1273,7 @@ public class BigNum implements Comparable<BigNum> {
    * @return BigNum
    */
   public BigNum negate() {
-    return new BigNum((byte) (0x00 - this.signed), this.datas, this.length, this.scale);
+    return new BigNum((0x00 - this.signed), this.datas,  this.scale);
   }
 
   /**
@@ -1308,7 +1297,7 @@ public class BigNum implements Comparable<BigNum> {
    * @return BigNum
    */
   public BigNum integral() {
-    byte[] data = new byte[this.scale];
+    int[] data = new int[this.scale];
     System.arraycopy(this.datas, 0, data, 0, this.scale);
     return new BigNum(this.signed, data, this.scale, this.scale);
   }
@@ -1413,7 +1402,7 @@ public class BigNum implements Comparable<BigNum> {
     int idx = 0;
     String tmp;
     for (idx = 0; idx < this.length; idx ++) {
-      short ch = this.datas[idx];
+      int ch = this.datas[idx];
       if (ch >= 62) {
         tmp = ch + ",";
       } else if (ch >= 36) {
@@ -1514,7 +1503,7 @@ public class BigNum implements Comparable<BigNum> {
     boolean bflag = false;
     int in = 0;
     for (; in < this.scale; in ++) {
-      byte by = this.datas[in];
+      int by = this.datas[in];
       if (bflag) {
         nn ++;
         buf.append(by);
@@ -1529,7 +1518,7 @@ public class BigNum implements Comparable<BigNum> {
     }
     if (bflag == false) {
       for (;in < this.length; in ++) {
-        byte by = this.datas[in];
+        int by = this.datas[in];
         if (!bflag) {
           nn --;
         } else {
@@ -1548,7 +1537,7 @@ public class BigNum implements Comparable<BigNum> {
       }
     } else {
       for (;in < this.length; in ++) {
-        byte by = this.datas[in];
+        int by = this.datas[in];
         buf.append(by);
       }
     }
@@ -1662,7 +1651,7 @@ public class BigNum implements Comparable<BigNum> {
     return res;
   }
 
-  protected byte[] add_ary(byte[] data, int pos, byte val) {
+  protected int[] add_ary(int[] data, int pos, int val) {
     int carry = val;
     int an = 0;
     for (int i = pos; i >= 0; i --) {
@@ -1672,18 +1661,18 @@ public class BigNum implements Comparable<BigNum> {
       } else {
         carry = 0;
       }
-      data[i] = (byte) (an % 10);
+      data[i] = (int) (an % 10);
     }
     if (carry != 0) {
-      byte[] tmp = new byte[data.length + 1];
-      tmp[0] = (byte) carry;
+    	int[] tmp = new int[data.length + 1];
+      tmp[0] = (int) carry;
       System.arraycopy(data, 0, tmp, 1, data.length);
       data = tmp;
     }
     return data;
   }
 
-  protected boolean is_zero_ary(byte[] data, int pos) {
+  protected boolean is_zero_ary(int[] data, int pos) {
     for (int i = pos; i < data.length; i ++) {
       if (data[i] != 0) {
         return false;
@@ -1704,26 +1693,26 @@ public class BigNum implements Comparable<BigNum> {
     if (pos < 0 || pos > this.length) {
       return this;
     }
-    byte curVal = this.datas[pos];
+    int curVal = this.datas[pos];
 
-    byte nexVal = 0;
+    int nexVal = 0;
     if (posNext >= 0 && posNext < this.length) {
       nexVal = this.datas[posNext];
     }
-    byte signed = this.signed;
+    int signed = this.signed;
     int scaleo = this.scale;
     int length = scaleo;
     if (pos > scaleo) {
       length = pos;
     }
     length ++;
-    byte[] datas = new byte[length];
+    int[] datas = new int[length];
     System.arraycopy(this.datas, 0, datas, 0, length);
 
     if (BigNumRound.UP.equals(roundmode)) {
       // 远离零方向舍入,> 0 进上
       if (nexVal != 0) {
-        datas = add_ary(datas, pos, (byte) 1);
+        datas = add_ary(datas, pos, (int) 1);
       }
     }
     if (BigNumRound.DOWN.equals(roundmode)) {
@@ -1733,7 +1722,7 @@ public class BigNum implements Comparable<BigNum> {
       // 向正无穷方向舍入,
       if (signed > 0) {
         if (nexVal != 0) {
-          datas = add_ary(datas, pos, (byte) 1);
+          datas = add_ary(datas, pos, (int) 1);
         }
       }
     }
@@ -1741,37 +1730,37 @@ public class BigNum implements Comparable<BigNum> {
       // 向负无穷方向舍入,
       if (signed < 0) {
         if (nexVal != 0) {
-          datas = add_ary(datas, pos, (byte) 1);
+          datas = add_ary(datas, pos, (int) 1);
         }
       }
     }
     if (BigNumRound.HALF_UP.equals(roundmode)) {
       // 最近数字舍入(5进)。这是我们最经典的四舍五入。
       if (nexVal > 4) {
-        datas = add_ary(datas, pos, (byte) 1);
+        datas = add_ary(datas, pos, (int) 1);
       }
     }
     if (BigNumRound.HALF_DOWN.equals(roundmode)) {
       // 最近数字舍入(5舍)。在这里5是要舍弃的。五舍六入。
       if (nexVal > 5) {
-        datas = add_ary(datas, pos, (byte) 1);
+        datas = add_ary(datas, pos, (int) 1);
       }
     }
     if (BigNumRound.HALF_EVENT.equals(roundmode)) {
       // 银行家舍入法。
       if (nexVal > 5) {
         // （2）如果保留位数的后一位如果是6，则进上去。例如5.216保留两位小数为5.22。
-        datas = add_ary(datas, pos, (byte) 1);
+        datas = add_ary(datas, pos, (int) 1);
       }
       if (nexVal == 5) {
         if (is_zero_ary(this.datas, posNext + 1) == false) {
           // is not zero
           // （4）如果保留位数的后一位如果是5，而且5后面仍有数。例如5.2254保留两位小数为5.23，也就是说如果5后面还有数据，则无论奇偶都要进入。
-          datas = add_ary(datas, pos, (byte) 1);
+          datas = add_ary(datas, pos, (int) 1);
         } else {
           if ((curVal % 2) != 0) {
             // （3）如果保留位数的后一位如果是5，而且5后面不再有数，要根据应看尾数“5”的前一位决定是舍去还是进入: 如果是奇数则进入，如果是偶数则舍去。
-            datas = add_ary(datas, pos, (byte) 1);
+            datas = add_ary(datas, pos, (int) 1);
           }
         }
       }
@@ -2247,10 +2236,10 @@ public class BigNum implements Comparable<BigNum> {
   }
   /**
    * printary.
-   * @param in byte[]
+   * @param in int[]
    */
-  public void printary(byte[] in) {
-    for (byte ch: in) {
+  public void printary(int[] in) {
+    for (int ch: in) {
       System.out.print(ch);
     }
     System.out.println();
@@ -2303,11 +2292,11 @@ public class BigNum implements Comparable<BigNum> {
 
   /**
    * toCharary.
-   * @param in byte[]
+   * @param in int[]
    * @param len int
    * @return char[]
    */
-  public char[] toCharary(byte[] in, int len) {
+  public char[] toCharary(int[] in, int len) {
     char[] res = new char[len];
     for (int i = 0; i < len; i ++) {
       res[i] = (char) ('0' + in[i]);
@@ -2319,11 +2308,11 @@ public class BigNum implements Comparable<BigNum> {
    * test_cmp_ary.
    */
   public void test_cmp_ary() {
-    byte[] an = { 2, 4};
-    byte[] bn = { 0, 3, 0};
+    int[] an = { 2, 4};
+    int[] bn = { 0, 3, 0};
     System.out.println(cmp_ary(an, 2, bn));
-    an = new byte[] {1, 5, 0};
-    bn = new byte[] {1, 8, 0, 0};
+    an = new int[] {1, 5, 0};
+    bn = new int[] {1, 8, 0, 0};
     System.out.println(cmp_ary(an, 3, bn));
   }
 
@@ -2331,8 +2320,8 @@ public class BigNum implements Comparable<BigNum> {
    * test_add_ary.
    */
   public void test_add_ary() {
-    byte[] an = { 9, 9, 9};
-    byte[] bn = add_ary(an, 1, (byte) 0x01);
+	  int[] an = { 9, 9, 9};
+	  int[] bn = add_ary(an, 1, (int) 0x01);
     System.out.println("datas=" + String.valueOf(toCharary(bn, bn.length)));
   }
 }
