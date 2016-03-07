@@ -5,9 +5,10 @@ public class TestLoop {
 
 	public static void main(String[] args) {
 		TestForCnt test = new TestForCnt();
-		test.testa();
-		test.testb();
-/*
+//		test.testa();
+//		test.testb();
+		test.testc();
+		/*
 		int count = 0;
 		TestFor proc = new TestFor();
 		for(int cnt = 0; cnt < 16; cnt ++) {
@@ -94,24 +95,49 @@ class TestData {
 	}
 }
 
+/**
+ *        for 5      ; a=1+1; a = 1;
+ * 100W     3ms    3ms    3ms    3ms    3ms
+ * 1000W   15ms    6ms    6ms    6ms    6ms
+ * 1WW    105ms   32ms   33ms   34ms   34ms
+ * 10Y   1022ms  308ms  329ms  304ms  304ms
+ * 100Y  9678ms 2845ms 2846ms 2828ms 2850ms
+ * @author dubenju
+ *
+ */
 class TestForCnt {
-	public static int MAX_CNT = 1000000;
+	public static long MAX_CNT = 10000000000L;
 	public void testa() {
+		int a = 0;
 		long st = System.currentTimeMillis();
-		for (int i = 0; i < MAX_CNT; i ++) {
-			for (int j = 0; j < 500; j ++) {
-				;
-			}
+		for (long i = 0; i < MAX_CNT; i ++) {
+//			for (int j = 0; j < 500; j ++) {
+//				;
+//			}
+			a = 1;
 		}
-		System.out.println(":" + (System.currentTimeMillis() - st));
+		System.out.println(":" + (System.currentTimeMillis() - st) + "ms");
 	}
 	public void testb() {
+		int a = 0;
 		long st = System.currentTimeMillis();
-		for (int i = 0; i < MAX_CNT; i ++) {
-			for (int j = 0; j < 250; j ++) {
-				;
-			}
+		for (long i = 0; i < MAX_CNT; i ++) {
+//			for (int j = 0; j < 250; j ++) {
+//				;
+//			}
+			a = 1;
 		}
-		System.out.println(":" + (System.currentTimeMillis() - st));
+		System.out.println(":" + (System.currentTimeMillis() - st) + "ms");
+	}
+	public void testc() {
+		long st = System.currentTimeMillis();
+		long i = 0;
+		for (;;) {
+			if (i >= MAX_CNT) {
+				break;
+			}
+			i ++;
+		}
+		System.out.println(":" + (System.currentTimeMillis() - st) + "ms");
 	}
 }
