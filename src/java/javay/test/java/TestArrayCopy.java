@@ -16,7 +16,7 @@ class TestArrayCopyProc {
         long st = System.currentTimeMillis();
         for (int j = 0; j < MAX_CNT; j ++) {
           for (int i = 0; i < a.length; i ++) {
-            a[i] = 3;
+            a[i] = b[i];
           }
         }
         System.out.println((System.currentTimeMillis() - st) + "ms");

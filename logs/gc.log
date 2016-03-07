@@ -1,0 +1,56 @@
+Java HotSpot(TM) 64-Bit Server VM (25.65-b01) for bsd-amd64 JRE (1.8.0_65-b17), built on Oct  6 2015 15:36:46 by "java_re" with gcc 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.11.00)
+Memory: 4k page, physical 16777216k(1157832k free)
+
+/proc/meminfo:
+
+CommandLine flags: -XX:-BytecodeVerificationLocal -XX:-BytecodeVerificationRemote -XX:CMSInitiatingOccupancyFraction=60 -XX:CMSParPromoteBlocksToClaim=16 -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC -XX:GCLogFileSize=10485760 -XX:+HeapDumpOnOutOfMemoryError -XX:InitialHeapSize=32212254720 -XX:MaxHeapSize=32212254720 -XX:NewRatio=10 -XX:OldPLABSize=16 -XX:ParallelGCThreads=4 -XX:+PrintGC -XX:+PrintGCApplicationConcurrentTime -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintStringTableStatistics -XX:+PrintTenuringDistribution -XX:StringTableSize=1000003 -XX:SurvivorRatio=4 -XX:TargetSurvivorRatio=50 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseConcMarkSweepGC -XX:+UseParNewGC 
+2016-03-08T04:55:50.997-0900: 0.106: Total time for which application threads were stopped: 0.0000755 seconds, Stopping threads took: 0.0000397 seconds
+2016-03-08T04:55:50.997-0900: 0.107: Application time: 0.0001242 seconds
+2016-03-08T04:55:50.997-0900: 0.107: Total time for which application threads were stopped: 0.0000291 seconds, Stopping threads took: 0.0000056 seconds
+2016-03-08T04:55:52.625-0900: 1.735: Application time: 1.5255088 seconds
+2016-03-08T04:55:52.625-0900: 1.735: [GC (Allocation Failure) 2016-03-08T04:55:52.625-0900: 1.735: [ParNew
+Desired survivor size 244023296 bytes, new threshold 15 (max 15)
+- age   1:     336464 bytes,     336464 total
+: 1906496K->338K(2383104K), 0.0841036 secs] 1906496K->338K(30980672K), 0.0842415 secs] [Times: user=0.32 sys=0.01, real=0.09 secs] 
+2016-03-08T04:55:52.710-0900: 1.819: Total time for which application threads were stopped: 0.0843810 seconds, Stopping threads took: 0.0000157 seconds
+2016-03-08T04:55:54.006-0900: 3.116: Application time: 1.2969169 seconds
+2016-03-08T04:55:54.007-0900: 3.116: [GC (Allocation Failure) 2016-03-08T04:55:54.007-0900: 3.116: [ParNew
+Desired survivor size 244023296 bytes, new threshold 15 (max 15)
+- age   1:        344 bytes,        344 total
+- age   2:     334400 bytes,     334744 total
+: 1906834K->472K(2383104K), 0.0814018 secs] 1906834K->472K(30980672K), 0.0814458 secs] [Times: user=0.32 sys=0.00, real=0.08 secs] 
+2016-03-08T04:55:54.088-0900: 3.197: Total time for which application threads were stopped: 0.0815366 seconds, Stopping threads took: 0.0000143 seconds
+2016-03-08T04:55:54.980-0900: 4.089: Application time: 0.8916257 seconds
+2016-03-08T04:55:54.980-0900: 4.089: [GC (Allocation Failure) 2016-03-08T04:55:54.980-0900: 4.089: [ParNew
+Desired survivor size 244023296 bytes, new threshold 15 (max 15)
+- age   1:        848 bytes,        848 total
+- age   3:     333920 bytes,     334768 total
+: 1906968K->484K(2383104K), 0.0803675 secs] 1906968K->484K(30980672K), 0.0804137 secs] [Times: user=0.31 sys=0.00, real=0.08 secs] 
+2016-03-08T04:55:55.060-0900: 4.170: Total time for which application threads were stopped: 0.0805099 seconds, Stopping threads took: 0.0000156 seconds
+2016-03-08T04:55:55.130-0900: 4.240: Application time: 0.0702989 seconds
+2016-03-08T04:55:55.131-0900: 4.240: Total time for which application threads were stopped: 0.0001819 seconds, Stopping threads took: 0.0000705 seconds
+2016-03-08T04:55:55.709-0900: 4.818: Application time: 0.5781132 seconds
+2016-03-08T04:55:55.709-0900: 4.818: [GC (Allocation Failure) 2016-03-08T04:55:55.709-0900: 4.818: [ParNew
+Desired survivor size 244023296 bytes, new threshold 15 (max 15)
+- age   1:        504 bytes,        504 total
+- age   2:        344 bytes,        848 total
+- age   4:     333920 bytes,     334768 total
+: 1906980K->467K(2383104K), 0.0801439 secs] 1906980K->467K(30980672K), 0.0801869 secs] [Times: user=0.31 sys=0.00, real=0.08 secs] 
+2016-03-08T04:55:55.789-0900: 4.898: Total time for which application threads were stopped: 0.0802824 seconds, Stopping threads took: 0.0000222 seconds
+2016-03-08T04:55:56.458-0900: 5.568: Application time: 0.6693078 seconds
+2016-03-08T04:55:56.458-0900: 5.568: [GC (Allocation Failure) 2016-03-08T04:55:56.458-0900: 5.568: [ParNew
+Desired survivor size 244023296 bytes, new threshold 15 (max 15)
+- age   1:        696 bytes,        696 total
+- age   3:        344 bytes,       1040 total
+- age   5:     333920 bytes,     334960 total
+: 1906963K->565K(2383104K), 0.0826460 secs] 1906963K->565K(30980672K), 0.0827070 secs] [Times: user=0.32 sys=0.01, real=0.09 secs] 
+2016-03-08T04:55:56.541-0900: 5.651: Total time for which application threads were stopped: 0.0827966 seconds, Stopping threads took: 0.0000150 seconds
+Heap
+ par new generation   total 2383104K, used 1553472K [0x000000011a800000, 0x00000001c90b0000, 0x00000001c90b0000)
+  eden space 1906496K,  81% used [0x000000011a800000, 0x0000000179482bf8, 0x000000018edd0000)
+  from space 476608K,   0% used [0x00000001abf40000, 0x00000001abfcd570, 0x00000001c90b0000)
+  to   space 476608K,   0% used [0x000000018edd0000, 0x000000018edd0000, 0x00000001abf40000)
+ concurrent mark-sweep generation total 28597568K, used 0K [0x00000001c90b0000, 0x000000089a800000, 0x000000089a800000)
+ Metaspace       used 2906K, capacity 4554K, committed 4864K, reserved 1056768K
+  class space    used 296K, capacity 386K, committed 512K, reserved 1048576K
+2016-03-08T04:55:57.067-0900: 6.176: Application time: 0.5256925 seconds

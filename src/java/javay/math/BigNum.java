@@ -176,37 +176,28 @@ public class BigNum implements Comparable<BigNum> {
     // check is zero.
     this.isZero = chkIsZero();
   }
+
+  // TODO:0.0
   public BigNum(int si, int[] in, int dotpos) {
-	  this.signed = si;
-	  this.scale = dotpos;
-    
+    this.signed = si;
+    this.scale = dotpos;
+
     int start = 0;
-    if (in[start] == 0) {
-      for (; start < dotpos; start ++) {
-        if (in[start] != 0) {
-          break;
-        }
-      }
-    } // if
+    for (; start < dotpos && in[start] == 0; start ++) ;
     this.scale -= start;
 
     int end = in.length - 1;
-    if (in[end] == 0) {
-      for (;end > dotpos; end --) {
-        if (in[end] != 0) {
-          break;
-        }
-      }
-    } // if
+    for (;end > dotpos && in[end] == 0; end --) ;
 
-    int len = end - start + 1;
-    this.datas = new int[len];
-      for (int idxi = start, idxr = 0; idxr < len; idxi ++, idxr ++) {
-        this.datas[idxr] = in[idxi];
-      }
-    this.length = this.datas.length;
-    // check is zero.
-    this.isZero = chkIsZero();
+    this.isZero = in[start] == 0 && in[end] == 0;
+    this.length = end - start + 1;
+    this.datas = new int[this.length];
+    for (int idxi = start, idxr = 0; idxr < this.length; idxi ++, idxr ++) {
+      this.datas[idxr] = in[idxi];
+//      if (this.isZero && this.datas[idxr] != 0) {
+//        this.isZero = false;
+//      }
+    }
   }
 
   /**
@@ -290,7 +281,7 @@ public class BigNum implements Comparable<BigNum> {
       /* 小数部长度 */
       int decS = this.length - this.scale - 1;
       if ((augend.length - augend.scale - 1) > decS) {
-        decS = augend.length - augend.scale;
+        decS = augend.length - augend.scale - 1;
       }
       // System.out.println("整数部长度:" + scaleS + "小数部长度:" + decS);
       /* 长度 */
@@ -299,28 +290,52 @@ public class BigNum implements Comparable<BigNum> {
 
       int an = 0;
       /* 小数部 */
-      for (int idx = decS; idx > 0; idx --) {
-        if (0 <= (this.scale + idx) && (this.scale + idx) < this.length) {
-          an = an + this.datas[this.scale + idx];
+      for (
+        int idx = decS, idt = this.scale + decS, ida = augend.scale + decS, ido = 1 + scaleS + decS;
+        idx > 0;
+        idx --, idt --, ida --, ido --) {
+        if (0 <= idt && idt < this.length) {
+          an = an + this.datas[idt];
         }
-        if (0 <= (augend.scale + idx) && (augend.scale + idx) < augend.length) {
-          an = an + augend.datas[augend.scale + idx];
+        if (0 <= ida && ida < augend.length) {
+          an = an + augend.datas[ida];
         }
-        dataS[1 + scaleS + idx] = an % 10;
-        an /= 10;
+        if (an >= 20) {
+          // TODO:ERROR
+          System.out.println("ERROR by an.");
+        } else if (an >= 10) {
+          dataS[ido] = an - 10;
+          an = 1;
+        } else {
+          dataS[ido] = an;
+          an = 0;
+        }
       }
       /* 整数部 */
-      for (int idx = 0; idx <= scaleS; idx ++) {
-        if (0 <= (this.scale - idx) && (this.scale - idx) < this.datas.length) {
-          an = an + this.datas[this.scale - idx];
+      for (
+        int idx = 0, idt = this.scale, ida = augend.scale, ido = 1 + scaleS;
+        idx <= scaleS;
+        idx ++, idt --, ida --, ido --) {
+        if (0 <= idt && idt < this.datas.length) {
+          an = an + this.datas[idt];
         }
-        if (0 <= (augend.scale - idx)  && (augend.scale - idx) < augend.datas.length) {
-          an = an + augend.datas[augend.scale - idx];
+        if (0 <= ida && ida < augend.datas.length) {
+          an = an + augend.datas[ida];
         }
-        if ((1 + scaleS - idx) < dataS.length) {
-          dataS[1 + scaleS - idx] = an % 10;
+        if (an >= 20) {
+          // TODO:ERROR
+          System.out.println("ERROR by an.");
+        } else if (an >= 10) {
+          if (ido < dataS.length) {
+            dataS[ido] = an - 10;
+          }
+          an = 1;
+        } else {
+          if (ido < dataS.length) {
+            dataS[ido] = an;
+          }
+          an = 0;
         }
-        an /= 10;
       }
       dataS[0] = an;
 
@@ -350,47 +365,66 @@ public class BigNum implements Comparable<BigNum> {
       return this;
     }
     if (this.isZero) {
-    	// 0 + a = a
+      // 0 + a = a
       return augend;
     }
 
     if (this.signed == augend.signed) {
+      /*
+       *  aaa.aa  (5,3)2
+       *   bb.bbb (5,2)3
+       *    c.c   (2,1)1
+       * dddd.d   (5,4)1
+       */
       /* 整数部长度 */
-      int scaleS = this.scale;
-      if (augend.scale > scaleS) {
-        scaleS = augend.scale;
+      int scaleSx = this.scale;
+      int scaleSn = augend.scale;
+      if (scaleSn > scaleSx) {
+        scaleSx = scaleSn;
+        scaleSn = this.scale;
       }
       /* 小数部长度 */
-      int decS = this.length - this.scale - 1;
-      if ((augend.length - augend.scale - 1) > decS) {
-        decS = augend.length - augend.scale - 1;;
+      int decT = this.length - this.scale - 1;
+      int decA = augend.length - augend.scale - 1;
+      int decS = decT;
+      if (decA > decS) {
+        decS = decA;
       }
       // System.out.println("整数部长度:" + scaleS + "小数部长度:" + decS);
       /* 长度 */
-      int lengthS = 2 + scaleS + decS;
+      int lengthS = 2 + scaleSx + decS;
       int[] tdata = new int[lengthS];
       int[] adata = new int[lengthS];
       int[] dataS = new int[lengthS];
 
-      for (int idxt = 0; idxt < this.datas.length; idxt ++) {
-        tdata[idxt + 1 + scaleS - this.scale] = this.datas[idxt];
+      for (int idxt = 0, idt = 1 + scaleSx - this.scale; idxt < this.length; idxt ++, idt ++) {
+        tdata[idt] = this.datas[idxt];
       }
-      for (int idxt = 0; idxt < augend.datas.length; idxt ++) {
-        adata[idxt + 1 + scaleS - augend.scale] = augend.datas[idxt];
+      for (int idxt = 0, ida = 1 + scaleSx - augend.scale; idxt < augend.length; idxt ++, ida ++) {
+        adata[ida] = augend.datas[idxt];
       }
 
       int an = 0;
-      /* 小数部 */
+      /* 整数部+小数部 */
       for (int idx = lengthS - 1; idx > 0; idx --) {
-        an = an + tdata[idx] + adata[idx];
-        dataS[idx] =  (an % 10);
-        an /= 10;
+         an = an + tdata[idx] + adata[idx];
+        if (an >= 20) {
+          // TODO:ERROR
+          System.out.println("ERROR by an>=20." + an);
+        } else 
+        if (an >= 10) {
+          dataS[idx] =  an - 10;
+          an = 1;
+        } else {
+          dataS[idx] =  an;
+          an = 0;
+        }
       }
       dataS[0] = an;
 
-      scaleS ++;
+      scaleSx ++;
 
-      BigNum res = new BigNum(this.signed, dataS, scaleS);
+      BigNum res = new BigNum(this.signed, dataS, scaleSx);
 //      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
       return res;
     } else {
@@ -1395,6 +1429,9 @@ public class BigNum implements Comparable<BigNum> {
    */
   @Override
   public String toString() {
+    System.out.println("长度:" + this.length);
+    System.out.println("小数点位置:" + this.scale);
+    System.out.println("=0:" + this.isZero);
     StringBuffer buf = new StringBuffer();
     if (this.signed == -1) {
       buf.append("-");
