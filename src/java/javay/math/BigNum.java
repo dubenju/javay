@@ -131,7 +131,7 @@ public class BigNum implements Comparable<BigNum> {
       this.length = res.length;
       this.scale = res.scale;
     }
-    
+
     // check is zero.
     this.isZero = chkIsZero();
   }
@@ -183,20 +183,21 @@ public class BigNum implements Comparable<BigNum> {
     this.scale = dotpos;
 
     int start = 0;
-    for (; start < dotpos && in[start] == 0; start ++) ;
+    while (start < dotpos && in[start] == 0) {
+      start ++;
+    }
     this.scale -= start;
 
     int end = in.length - 1;
-    for (;end > dotpos && in[end] == 0; end --) ;
+    while (end > dotpos && in[end] == 0) {
+       end --;
+    }
 
     this.isZero = in[start] == 0 && in[end] == 0;
     this.length = end - start + 1;
     this.datas = new int[this.length];
     for (int idxi = start, idxr = 0; idxr < this.length; idxi ++, idxr ++) {
       this.datas[idxr] = in[idxi];
-//      if (this.isZero && this.datas[idxr] != 0) {
-//        this.isZero = false;
-//      }
     }
   }
 
@@ -262,7 +263,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param augend 加数
    * @return 和
    */
-  public BigNum add(BigNum augend) {
+  public BigNum addxz(BigNum augend) {
     if (augend.isZero) {
       // a + 0 = a
       return this;
@@ -411,7 +412,7 @@ public class BigNum implements Comparable<BigNum> {
         if (an >= 20) {
           // TODO:ERROR
           System.out.println("ERROR by an>=20." + an);
-        } else 
+        } else
         if (an >= 10) {
           dataS[idx] =  an - 10;
           an = 1;
@@ -443,7 +444,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param augend 加数
    * @return 和
    */
-  public BigNum addxx(BigNum augend) {
+  public BigNum add(BigNum augend) {
     if (augend.isZero) {
       // a + 0 = a
       return this;
@@ -461,22 +462,15 @@ public class BigNum implements Comparable<BigNum> {
        * dddd.d   (5,4)1
        */
       /* 整数部长度 */
-      int scaleS = this.scale;
-      if (augend.scale > scaleS) {
-        scaleS = augend.scale;
-      }
+      int scaleS = (augend.scale > this.scale) ? augend.scale : this.scale;
       scaleS ++;
+
       /* 小数部长度 */
       int decT = this.length - this.scale;
       int decA = augend.length - augend.scale;
-      int decS = decT;
-      if (decA > decS) {
-        decS = decA;
-      }
-      // System.out.println("整数部长度:" + scaleS + "小数部长度:" + decS);
+
       /* 长度 */
-      int lengthS = scaleS + decS;
-      int[] dataS = new int[lengthS];
+      int[] dataS = new int[scaleS + ( (decA > decT) ? decA : decT )];
 
       int offT = scaleS - this.scale;
       int offA = scaleS - augend.scale;
@@ -484,18 +478,16 @@ public class BigNum implements Comparable<BigNum> {
       int posT = offT + this.length;
       int posA = offA + augend.length;
 
-      int posC = posT;
       int posD = posA;
       int[] read = this.datas;
       int   readof = offT;
-      if (posA > posC) {
-        posC = posA;
+      if (posA > posT) {
         posD = posT;
         read = augend.datas;
         readof = offA;
       }
 
-      int idx = lengthS - 1;
+      int idx = dataS.length - 1;
       while(idx >= posD) {
         dataS[idx] = read[idx - readof];
         idx --;
@@ -553,9 +545,116 @@ public class BigNum implements Comparable<BigNum> {
    */
   public BigNum subtract(BigNum subtrahendi) {
     if (subtrahendi.isZero) {
+      // a - 0 = a
       return this;
     }
     if (this.isZero) {
+      // 0 -a = -a
+      return new BigNum((0x00 - subtrahendi.signed), subtrahendi.datas,
+           subtrahendi.scale);
+    }
+    if (this.signed == subtrahendi.signed) {
+      int signeds = 0x01;
+      // 大小调整
+      BigNum minuend = this;
+      BigNum subtrahend = subtrahendi;
+      if (minuend.abs().compareTo(subtrahendi.abs()) < 0) {
+        minuend = subtrahendi;
+        subtrahend = this;
+        signeds = -1;
+      }
+
+      /* 整数部长度 */
+      int scaleS = (subtrahend.scale > minuend.scale) ? subtrahend.scale : minuend.scale;
+      scaleS ++;
+
+      /* 小数部长度 */
+      int decM = minuend.length - minuend.scale;
+      int decS = subtrahend.length - subtrahend.scale;
+
+      /* 长度 */
+      int[] dataS = new int[scaleS + ( (decS > decM) ? decS : decM)];
+
+      int offM = scaleS - minuend.scale;
+      int offA = scaleS - subtrahend.scale;
+
+      int posM = offM + minuend.length;
+      int posA = offA + subtrahend.length;
+
+      int idx = dataS.length - 1;
+      int carry = 0;
+      if (posA > posM) {
+        while(idx >= posM) {
+            dataS[idx] = carry - subtrahend.datas[idx - offA];
+            carry = 0;
+            if (dataS[idx] < 0) {
+              dataS[idx] += 10;
+              carry = -1;
+            }
+            idx --;
+          }
+      } else {
+        while(idx >= posA) {
+            dataS[idx] = minuend.datas[idx - offM];
+            idx --;
+          }
+      }
+
+      int posE = (offA > offM) ? offA : offM;
+
+      while(idx >= posE) {
+        dataS[idx] = carry + minuend.datas[idx - offM] - subtrahend.datas[idx - offA];
+        carry = 0;
+        if (dataS[idx] < 0) {
+        	dataS[idx] +=  10;
+        	carry = -1;
+        }
+        idx --;
+      }
+
+      if (offA > offM) {
+        while(idx > 0) {
+            dataS[idx] = carry  + minuend.datas[idx - offM];
+            carry = 0;
+            if (dataS[idx] < 0) {
+              dataS[idx] +=  10;
+              carry = -1;
+            }
+            idx --;
+          }
+      } else {
+          while(idx > 0) {
+              dataS[idx] =  carry - subtrahend.datas[idx - offA];
+              carry = 0;
+              if (dataS[idx] < 0) {
+              	dataS[idx] +=  10;
+              	carry = -1;
+              }
+              idx --;
+            }
+      }
+      dataS[0] = carry;
+
+      BigNum res = new BigNum(signeds, dataS,  scaleS);
+//      check(this, subtrahendi, res, "-", 0, RoundingMode.UNNECESSARY);
+      return res;
+    } else {
+      return this.add(new BigNum((0x00 - subtrahendi.signed),
+          subtrahendi.datas,  subtrahendi.scale));
+    }
+  }
+  /**
+   * subtract.
+   * @param subtrahendi BigNum
+   * @return BigNum
+   */
+  public BigNum subtractxx(BigNum subtrahendi) {
+    if (subtrahendi.isZero) {
+      // a - 0 = a
+      return this;
+    }
+    if (this.isZero) {
+      // 0 -a = -a
       return new BigNum((0x00 - subtrahendi.signed), subtrahendi.datas,
            subtrahendi.scale);
     }
@@ -1320,6 +1419,7 @@ public class BigNum implements Comparable<BigNum> {
     if (this.signed < on.signed) {
       return -1;
     }
+
     int max = this.scale;
     int pre = max - on.scale;
     boolean blReadThis = true;
