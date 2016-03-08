@@ -755,35 +755,39 @@ public class BigNum implements Comparable<BigNum> {
    */
   public BigNum multiply(BigNum multiplicand) {
     if (multiplicand.isZero) {
+      // a * 0 = 0
       return multiplicand;
     }
     if (multiplicand.equals(BigNum.ONE)) {
+      // a * 1 = a
       return this;
     }
     if (this.isZero) {
+      // 0 * a = 0
       return this;
     }
     if (this.equals(BigNum.ONE)) {
+      // 1 * a = a
       return multiplicand;
     }
+    // TODO: after
+    // a * (-1) = -a
+    // (-1) * a = -a
+
     /* 符号 */
     int signed1 = this.signed;
     int signed2 = multiplicand.signed;
     final int signed = (signed1 * signed2);
 
     /* 长度 */
-    int len1 = this.length;
-    int len2 = multiplicand.length;
-    int len = len1 + len2 + 1;
+    int len = this.length + multiplicand.length;
 
     /* 小数点位置 */
-    int scale1 = this.scale;
-    int scale2 = multiplicand.scale;
     // 小数部长度
-    final int decimalLen = len - ((len1 - scale1) + (len2 - scale2));
+    final int decimalLen = len - ((this.length - this.scale) + (multiplicand.length - multiplicand.scale));
 
     /* 数据 */
-    long[][] data = new long[len][len];
+    long[][] data = new long[multiplicand.length][len - 1];
     int xn = 0;
     int yn = 0;
     for (int idx = multiplicand.length - 1; idx >= 0; idx --) {
@@ -794,10 +798,14 @@ public class BigNum implements Comparable<BigNum> {
       xn ++;
       yn = xn;
     }
+//    printary(data);
+//    System.out.println("xn=" + xn + ",yn=" + yn);
 
-    long[] dat = new long[len];
+    int[] result = new int[len];
+    int jn = len - 1;
     long carry = 0;
-    for (int n = 0; n < data[0].length; n ++) {
+    int n = 0;
+    for (; n < data[0].length; n ++) {
       long value = carry;
       carry = 0;
       for (int m = 0; m < data.length; m ++) {
@@ -807,48 +815,14 @@ public class BigNum implements Comparable<BigNum> {
           value %= 10;
         }
       }
-      dat[n] = value;
+      result[jn - n] = (int) value;
     }
+    result[jn - n] = (int) carry;
+//    System.out.println("carry=" + carry + ",n=" + n);
+//    printary(result);
 
-    int[] result = new int[len];
-    if (carry != 0) {
-      // carry是最高位。
-      len ++;
-      result = new int[len];
-    }
-    long carry2 = 0;
-    int jn = len - 1;
-    for (int i = 0; i < dat.length; i ++) {
-      if ((dat[i] + carry2) >= 10) {
-        result[jn - i] = (int) (( dat[i] + carry2 ) % 10);
-        carry2 = dat[i] / 10;
-      } else {
-        result[jn - i] = (int) (dat[i] + carry2);
-      }
-    }
-    if (jn - dat.length >= 0) {
-      if ((carry + carry2)  >= 10) {
-        result[jn - dat.length] = (int) ((carry + carry2 ) % 10);
-        carry2 = (carry + carry2) / 10;
-        if (carry2 != 0) {
-          // TODO:ERROR
-        }
-      } else {
-        result[jn - dat.length] = (int) (carry + carry2);
-      }
-    } else {
-      // TODO:ERROR
-    }
-
-    /*
-    // remove zero;
-    byte[] result1 = removeFirstZero(result, decimalLen);
-
-    BigNum res = new BigNum(signed, result1, result1.length,
-        result1.length - result.length + decimalLen);
-    */
     BigNum res = new BigNum(signed, result,  decimalLen);
-    check(this, multiplicand, res, "*", 0, RoundingMode.UNNECESSARY);
+    // check(this, multiplicand, res, "*", 0, RoundingMode.UNNECESSARY);
     return res;
   }
 
@@ -909,7 +883,7 @@ public class BigNum implements Comparable<BigNum> {
     if (odecimalCnt < 0) {
     	odecimalCnt = 0;
     }
-    System.out.println("@div:odecimalCnt=" + odecimalCnt + ",olen=" +olen);
+//    System.out.println("@div:odecimalCnt=" + odecimalCnt + ",olen=" +olen);
     int[] out = new int[olen];
 
     int idx = 0;
@@ -927,7 +901,7 @@ public class BigNum implements Comparable<BigNum> {
 
     while (true) {
       int cn = cmp_ary(tmp, lenTmp, tmpDivi);
-      System.out.println("@div:cn=" + cn);
+//      System.out.println("@div:cn=" + cn);
       if (cn >= 0) {
         out[ido] = (int) (out[ido] + 1);
         // shift postition
@@ -952,14 +926,14 @@ public class BigNum implements Comparable<BigNum> {
           oscale = ido + 1;
         }
 
-        System.out.println("idx=" + idx + ",this.datas.length=" + this.datas.length);
+//        System.out.println("idx=" + idx + ",this.datas.length=" + this.datas.length);
         if (idx < this.datas.length) {
           System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
         } else {
           if (BigNumRound.HALF_EVENT.equals(roundmode)) {
             // 银行家算法
             // ==5, after is zero?
-            System.out.println("(oscale + decimalLen)=" + (oscale + decimalLen) + ",(oscale + decimalLen)=" + (oscale + decimalLen) + ",ido=" + ido);
+//            System.out.println("(oscale + decimalLen)=" + (oscale + decimalLen) + ",(oscale + decimalLen)=" + (oscale + decimalLen) + ",ido=" + ido);
             if (0 <= (oscale + decimalLen) && (oscale + decimalLen) < ido) {
               if (out[oscale + decimalLen] == 5) {
                 if (out[ido] != 0) {
@@ -972,7 +946,7 @@ public class BigNum implements Comparable<BigNum> {
             } // if (0 <= (oscale + decimalLen) && (oscale + decimalLen) < ido) {
           }
           // 向小数部延长
-          System.out.println("odecimalCnt=" + odecimalCnt + ",maxDecimalLen=" + maxDecimalLen);
+//          System.out.println("odecimalCnt=" + odecimalCnt + ",maxDecimalLen=" + maxDecimalLen);
           if (odecimalCnt > maxDecimalLen) {
             // 超过指定长度结束。
             // banker
@@ -1637,9 +1611,10 @@ public class BigNum implements Comparable<BigNum> {
    */
   @Override
   public String toString() {
-    System.out.println("长度:" + this.length);
-    System.out.println("小数点位置:" + this.scale);
-    System.out.println("=0:" + this.isZero);
+//    System.out.println("长度:" + this.length);
+//    System.out.println("小数点位置:" + this.scale);
+//    System.out.println("=0:" + this.isZero);
+
     StringBuffer buf = new StringBuffer();
     if (this.signed == -1) {
       buf.append("-");

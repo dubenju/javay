@@ -309,11 +309,13 @@ public class BigNumTest {
     System.out.println(new BigNum("123450").toScientificNotation());
   }
   public void testAddxx() {
-	  BigNum a = new BigNum("1.1");
-	  BigNum b = new BigNum( "10000000000000000000000000.0000000000000001");
-	  BigNum c = a.addxx(b);
-	  System.out.println(c);
-	  System.out.println(a.toString());
+	  BigNum a = new BigNum("45.6");
+	  BigNum b = new BigNum("78.9");
+	  a = new BigNum("99.9");
+	  b = new BigNum("99.9");
+	  BigNum c = a.multiply(b);
+	  System.out.println(a + "*" + b + "=" + c);
+//	  System.out.println(a.toString());
   }
 //  public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
   /**
