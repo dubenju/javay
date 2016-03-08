@@ -359,7 +359,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param augend 加数
    * @return 和
    */
-  public BigNum addxx(BigNum augend) {
+  public BigNum addxy(BigNum augend) {
     if (augend.isZero) {
       // a + 0 = a
       return this;
@@ -425,6 +425,114 @@ public class BigNum implements Comparable<BigNum> {
       scaleSx ++;
 
       BigNum res = new BigNum(this.signed, dataS, scaleSx);
+//      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
+      return res;
+    } else {
+      if (this.signed < 0) {
+        return augend.subtract(new BigNum((0x00 - this.signed), this.datas,
+             this.scale));
+      } else {
+        return this.subtract(new BigNum((0x00 - augend.signed),
+            augend.datas,  augend.scale));
+      }
+    }
+  }
+
+  /**
+   * 加法.
+   * @param augend 加数
+   * @return 和
+   */
+  public BigNum addxx(BigNum augend) {
+    if (augend.isZero) {
+      // a + 0 = a
+      return this;
+    }
+    if (this.isZero) {
+      // 0 + a = a
+      return augend;
+    }
+
+    if (this.signed == augend.signed) {
+      /*
+       *  aaa.aa  (5,3)2
+       *   bb.bbb (5,2)3
+       *    c.c   (2,1)1
+       * dddd.d   (5,4)1
+       */
+      /* 整数部长度 */
+      int scaleS = this.scale;
+      if (augend.scale > scaleS) {
+        scaleS = augend.scale;
+      }
+      scaleS ++;
+      /* 小数部长度 */
+      int decT = this.length - this.scale;
+      int decA = augend.length - augend.scale;
+      int decS = decT;
+      if (decA > decS) {
+        decS = decA;
+      }
+      // System.out.println("整数部长度:" + scaleS + "小数部长度:" + decS);
+      /* 长度 */
+      int lengthS = scaleS + decS;
+      int[] dataS = new int[lengthS];
+
+      int offT = scaleS - this.scale;
+      int offA = scaleS - augend.scale;
+
+      int posT = offT + this.length;
+      int posA = offA + augend.length;
+
+      int posC = posT;
+      int posD = posA;
+      int[] read = this.datas;
+      int   readof = offT;
+      if (posA > posC) {
+        posC = posA;
+        posD = posT;
+        read = augend.datas;
+        readof = offA;
+      }
+
+      int idx = lengthS - 1;
+      while(idx >= posD) {
+        dataS[idx] = read[idx - readof];
+        idx --;
+      }
+
+      int posE = offT;
+      read = augend.datas;
+      readof = offA;
+      if (offA > posE) {
+        posE = offA;
+        read = this.datas;
+        readof = offT;
+      }
+
+      int an = 0;
+      while(idx >= posE) {
+        dataS[idx] = an + this.datas[idx - offT] + augend.datas[idx - offA];
+        an = 0;
+        if (dataS[idx] >= 10) {
+          dataS[idx] -=  10;
+          an = 1;
+        }
+        idx --;
+      }
+
+      while(idx > 0) {
+        dataS[idx] = an + read[idx - readof];
+        an = 0;
+        if (dataS[idx] >= 10) {
+          dataS[idx] -= 10;
+          an = 1;
+        }
+        idx --;
+      }
+      dataS[0] = an;
+
+      BigNum res = new BigNum(this.signed, dataS, scaleS);
 //      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
       return res;
     } else {
