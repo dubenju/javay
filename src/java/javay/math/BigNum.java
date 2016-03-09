@@ -143,14 +143,14 @@ public class BigNum implements Comparable<BigNum> {
       signed = -0x01;
       an = -in;
     }
-    int lengt = 1;
+//    int lengt = 1;
     int scal = 1;
     int[] datas = null;
     if (an < 10) {
       datas = new int[1];
       datas[0] =  in;
     } else if (an < 100) {
-      lengt = 2;
+//      lengt = 2;
       scal = 2;
       datas = new int[2];
       if (an < 20) {
@@ -257,187 +257,6 @@ public class BigNum implements Comparable<BigNum> {
   /* ********************************************
    * Option
    * ********************************************/
-
-  /**
-   * 加法.
-   * @param augend 加数
-   * @return 和
-   */
-  public BigNum addxz(BigNum augend) {
-    if (augend.isZero) {
-      // a + 0 = a
-      return this;
-    }
-    if (this.isZero) {
-      // 0 + a = a
-      return augend;
-    }
-
-    if (this.signed == augend.signed) {
-      /* 整数部长度 */
-      int scaleS = this.scale;
-      if (augend.scale > scaleS) {
-        scaleS = augend.scale;
-      }
-      /* 小数部长度 */
-      int decS = this.length - this.scale - 1;
-      if ((augend.length - augend.scale - 1) > decS) {
-        decS = augend.length - augend.scale - 1;
-      }
-      // System.out.println("整数部长度:" + scaleS + "小数部长度:" + decS);
-      /* 长度 */
-      int lengthS = 2 + scaleS + decS;
-      int[] dataS = new int[lengthS];
-
-      int an = 0;
-      /* 小数部 */
-      for (
-        int idx = decS, idt = this.scale + decS, ida = augend.scale + decS, ido = 1 + scaleS + decS;
-        idx > 0;
-        idx --, idt --, ida --, ido --) {
-        if (0 <= idt && idt < this.length) {
-          an = an + this.datas[idt];
-        }
-        if (0 <= ida && ida < augend.length) {
-          an = an + augend.datas[ida];
-        }
-        if (an >= 20) {
-          // TODO:ERROR
-          System.out.println("ERROR by an.");
-        } else if (an >= 10) {
-          dataS[ido] = an - 10;
-          an = 1;
-        } else {
-          dataS[ido] = an;
-          an = 0;
-        }
-      }
-      /* 整数部 */
-      for (
-        int idx = 0, idt = this.scale, ida = augend.scale, ido = 1 + scaleS;
-        idx <= scaleS;
-        idx ++, idt --, ida --, ido --) {
-        if (0 <= idt && idt < this.datas.length) {
-          an = an + this.datas[idt];
-        }
-        if (0 <= ida && ida < augend.datas.length) {
-          an = an + augend.datas[ida];
-        }
-        if (an >= 20) {
-          // TODO:ERROR
-          System.out.println("ERROR by an.");
-        } else if (an >= 10) {
-          if (ido < dataS.length) {
-            dataS[ido] = an - 10;
-          }
-          an = 1;
-        } else {
-          if (ido < dataS.length) {
-            dataS[ido] = an;
-          }
-          an = 0;
-        }
-      }
-      dataS[0] = an;
-
-      scaleS ++;
-      BigNum res = new BigNum(this.signed, dataS, scaleS);
-//      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
-      return res;
-    } else {
-      if (this.signed < 0) {
-        return augend.subtract(new BigNum((0x00 - this.signed), this.datas,
-             this.scale));
-      } else {
-        return this.subtract(new BigNum((0x00 - augend.signed),
-            augend.datas,  augend.scale));
-      }
-    }
-  }
-
-  /**
-   * 加法.
-   * @param augend 加数
-   * @return 和
-   */
-  public BigNum addxy(BigNum augend) {
-    if (augend.isZero) {
-      // a + 0 = a
-      return this;
-    }
-    if (this.isZero) {
-      // 0 + a = a
-      return augend;
-    }
-
-    if (this.signed == augend.signed) {
-      /*
-       *  aaa.aa  (5,3)2
-       *   bb.bbb (5,2)3
-       *    c.c   (2,1)1
-       * dddd.d   (5,4)1
-       */
-      /* 整数部长度 */
-      int scaleSx = this.scale;
-      int scaleSn = augend.scale;
-      if (scaleSn > scaleSx) {
-        scaleSx = scaleSn;
-        scaleSn = this.scale;
-      }
-      /* 小数部长度 */
-      int decT = this.length - this.scale - 1;
-      int decA = augend.length - augend.scale - 1;
-      int decS = decT;
-      if (decA > decS) {
-        decS = decA;
-      }
-      // System.out.println("整数部长度:" + scaleS + "小数部长度:" + decS);
-      /* 长度 */
-      int lengthS = 2 + scaleSx + decS;
-      int[] tdata = new int[lengthS];
-      int[] adata = new int[lengthS];
-      int[] dataS = new int[lengthS];
-
-      for (int idxt = 0, idt = 1 + scaleSx - this.scale; idxt < this.length; idxt ++, idt ++) {
-        tdata[idt] = this.datas[idxt];
-      }
-      for (int idxt = 0, ida = 1 + scaleSx - augend.scale; idxt < augend.length; idxt ++, ida ++) {
-        adata[ida] = augend.datas[idxt];
-      }
-
-      int an = 0;
-      /* 整数部+小数部 */
-      for (int idx = lengthS - 1; idx > 0; idx --) {
-         an = an + tdata[idx] + adata[idx];
-        if (an >= 20) {
-          // TODO:ERROR
-          System.out.println("ERROR by an>=20." + an);
-        } else
-        if (an >= 10) {
-          dataS[idx] =  an - 10;
-          an = 1;
-        } else {
-          dataS[idx] =  an;
-          an = 0;
-        }
-      }
-      dataS[0] = an;
-
-      scaleSx ++;
-
-      BigNum res = new BigNum(this.signed, dataS, scaleSx);
-//      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
-      return res;
-    } else {
-      if (this.signed < 0) {
-        return augend.subtract(new BigNum((0x00 - this.signed), this.datas,
-             this.scale));
-      } else {
-        return this.subtract(new BigNum((0x00 - augend.signed),
-            augend.datas,  augend.scale));
-      }
-    }
-  }
 
   /**
    * 加法.
@@ -643,110 +462,6 @@ public class BigNum implements Comparable<BigNum> {
           subtrahendi.datas,  subtrahendi.scale));
     }
   }
-  /**
-   * subtract.
-   * @param subtrahendi BigNum
-   * @return BigNum
-   */
-  public BigNum subtractxx(BigNum subtrahendi) {
-    if (subtrahendi.isZero) {
-      // a - 0 = a
-      return this;
-    }
-    if (this.isZero) {
-      // 0 -a = -a
-      return new BigNum((0x00 - subtrahendi.signed), subtrahendi.datas,
-           subtrahendi.scale);
-    }
-    if (this.signed == subtrahendi.signed) {
-      int signeds = 0x01;
-      // 大小调整
-      BigNum minuend = this;
-      BigNum subtrahend = subtrahendi;
-      if (minuend.abs().compareTo(subtrahendi.abs()) < 0) {
-        minuend = subtrahendi;
-        subtrahend = this;
-        signeds = -1;
-      }
-
-      /* 整数部长度 */
-      int scaleS = minuend.scale;
-      if (subtrahend.scale > scaleS) {
-        scaleS = subtrahend.scale;
-      }
-      /* 小数部长度 */
-      int decS = minuend.length - minuend.scale - 1;
-      if ((subtrahend.length - subtrahend.scale - 1) > decS) {
-        decS = subtrahend.length - subtrahend.scale;
-      }
-      /* 长度 */
-      int lengthS = 2 + scaleS + decS;
-      int[] dataS = new int[lengthS];
-      int[] carryS = new int[lengthS];
-
-      long an = 0;
-      int carry = 0;
-      /* 小数部 */
-      for (int idx = decS; idx > 0; idx --) {
-        if (0 <= (minuend.scale + idx) && (minuend.scale + idx) < minuend.length) {
-          an = an + minuend.datas[minuend.scale + idx];
-        }
-        if (0 <= (subtrahend.scale + idx) && (subtrahend.scale + idx) < subtrahend.length) {
-          an = an - subtrahend.datas[subtrahend.scale + idx];
-        }
-        if (an < 0) {
-          an = 10 + an;
-          carry = -1;
-        }
-        dataS[1 + scaleS + idx] = (int) (0xFF & (an % 10));
-        carryS[1 + scaleS + idx] = carry;
-        an = an / 10;
-        an = an + carry;
-        carry = 0;
-      }
-      /* 整数部 */
-      for (int idx = 0; idx <= scaleS; idx ++) {
-        if ((minuend.scale - idx) >= 0 && (minuend.scale - idx) < minuend.datas.length) {
-          an = an + minuend.datas[minuend.scale - idx];
-        }
-        if ((subtrahend.scale - idx) >= 0 && (subtrahend.scale - idx) < subtrahend.datas.length) {
-          an = an - subtrahend.datas[subtrahend.scale - idx];
-        }
-        if (an < 0) {
-          an = 10 + an;
-          carry = -1;
-        }
-        if ((1 + scaleS - idx) < dataS.length) {
-          dataS[1 + scaleS - idx] = (int) (0xFF & (an % 10));
-          carryS[1 + scaleS - idx] = carry;
-        }
-        an = an / 10;
-        an = an + carry;
-        carry = 0;
-      }
-
-      if (an < 0) {
-        an = 10 + an;
-        carry = -1;
-      }
-      dataS[0] = (int) (0xFF & an);
-      carryS[0] = carry;
-
-      scaleS += 1;
-      /*
-      byte[] dataS1 = removeFirstZero(dataS, scaleS);
-
-      BigNum res = new BigNum(signeds, dataS1, dataS1.length,
-          dataS1.length - dataS.length + scaleS);
-      */
-      BigNum res = new BigNum(signeds, dataS,  scaleS);
-//      check(this, subtrahendi, res, "-", 0, RoundingMode.UNNECESSARY);
-      return res;
-    } else {
-      return this.add(new BigNum((0x00 - subtrahendi.signed),
-          subtrahendi.datas,  subtrahendi.scale));
-    }
-  }
 
   /**
    * multiply.
@@ -853,32 +568,19 @@ public class BigNum implements Comparable<BigNum> {
       return this;
     }
 
-    // 符号
-    int osigned = 0x01;
-    if (this.signed != divisor.signed) {
-      osigned = -1;
-    }
-
-    // 小数点位置
-    int tscale  = this.scale;
-    // 被除数同步
-    tscale += divisor.length - divisor.scale;
-
     // 最大精度，小数部长度
-    int maxDecimalLen = decimalLen;
-    if (BigNumRound.HALF_EVENT.equals(roundmode)) {
-      maxDecimalLen ++;
-    }
+    int maxDecimalLen = (BigNumRound.HALF_EVENT.equals(roundmode)) ? decimalLen + 1: decimalLen;
+    // 符号
+    int osigned = (this.signed != divisor.signed) ? -1 : 1;
 
-//    int dlen  = divisor.length;
-    int[] tmpDivi = this.removeFirstZero(divisor.datas, divisor.datas.length);
-//    dlen = tmpDivi.length;
+    // 小数点位置 被除数同步
+    int tscale  = this.scale + divisor.length - divisor.scale;
 
     int ido = 0;
     int oscale = 0; // 小数点位置
     int odecimalCnt = -1; // 小数位数
     // 假定商的位数＝被除数的整数部－除数的长度（已无小数）＋1（至少是个数所以+1）
-    int olen = tscale - tmpDivi.length + 1;
+    int olen = tscale - divisor.datas.length + 1;
     if (olen <= 0) {
       olen = 2 - olen; // 0.0
       oscale = 1;
@@ -891,33 +593,29 @@ public class BigNum implements Comparable<BigNum> {
     int[] out = new int[olen];
 
     int idx = 0;
-    int idxNext = 0;
-    int[] tmp = new int[tmpDivi.length];
-    int lenTmp = tmp.length;
+    int[] tmp = new int[divisor.datas.length];
     if (this.datas.length < tmp.length) {
       // 不足位零补齐
       System.arraycopy(this.datas, idx, tmp, idx, this.datas.length);
     } else {
-      System.arraycopy(this.datas, idx, tmp, idx, lenTmp);
+      System.arraycopy(this.datas, idx, tmp, idx, tmp.length);
     }
 
-    idxNext = lenTmp;
-
+    int idxNext = tmp.length;
     while (true) {
-      printary(tmp);
-      int cn = cmp_ary(tmp, lenTmp, tmpDivi);
-      if (cn >= 0) {
+//      printary(tmp);
+      if (divide_cmp_ary(tmp, divisor.datas) >= 0) {
         out[ido] = out[ido] + 1;
         // shift postition
-        tmp = sub_ary(tmp, lenTmp, tmpDivi);
+        tmp = divide_sub_ary(tmp, tmp.length, divisor.datas);
       } else {
         int[] temp;
         if (tmp[0] == 0) {
           temp = new int[tmp.length];
           System.arraycopy(tmp, 1, temp, 0, tmp.length - 1);
         } else {
-          temp = new int[lenTmp + 1];
-          System.arraycopy(tmp, 0, temp, 0, lenTmp);
+          temp = new int[tmp.length + 1];
+          System.arraycopy(tmp, 0, temp, 0, tmp.length);
         }
 
         if (odecimalCnt >= 0) {
@@ -930,7 +628,8 @@ public class BigNum implements Comparable<BigNum> {
         }
 
         if (idx < this.datas.length) {
-          System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
+//          System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
+          temp[temp.length - 1] = this.datas[idx];
         } else {
           if (BigNumRound.HALF_EVENT.equals(roundmode)) {
             // 银行家算法
@@ -964,7 +663,7 @@ public class BigNum implements Comparable<BigNum> {
         ido ++;
 
         tmp = temp;
-        lenTmp = tmp.length;
+//        lenTmp = tmp.length;
       }
     }
 
@@ -1032,12 +731,13 @@ public class BigNum implements Comparable<BigNum> {
       }
       // （1）要求保留位数的后一位如果是4，则舍去。例如5.214保留两位小数为5.21。
     }
-    int[] out3 = new int[(oscale + decimalLen)];
-    System.arraycopy(out, 0, out3, 0, out3.length);
-    int[] out2 = removeFirstZero(out3, oscale);
-    oscale = oscale - out3.length + out2.length;
+//    int[] out3 = new int[(oscale + decimalLen)];
+//    System.arraycopy(out, 0, out3, 0, out3.length);
+//    int[] out2 = removeFirstZero(out3, oscale);
+//    oscale = oscale - out3.length + out2.length;
 
-    BigNum res = new BigNum(osigned, out2,  oscale);
+    BigNum res = new BigNum(osigned, out,  oscale);
+//    BigNum res = new BigNum(osigned, out2,  oscale);
 //    check(this, divisor, res, "/", decimalLen, rm);
 //    double dres = res.toDouble(16);
 //    double t1 = this.toDouble(14);
@@ -1051,63 +751,51 @@ public class BigNum implements Comparable<BigNum> {
   }
 
   /**
-   * cmp_ary.
+   * divide_cmp_ary.
    * @param a int[]
-   * @param lena int
    * @param b int[]
    * @return 1: a > b, 0: a = b, -1:a < b
    */
-  protected int cmp_ary(int[] an, int lena, int[] bn) {
-    int cn = 0;
-    int offset = 0;
-
+  protected int divide_cmp_ary(int[] an, int[] bn) {
 //    printary(an);
 //    printary(bn);
 
-    while (lena > (bn.length + offset)) {
-      if (an[offset] > 0) {
-        cn = 1;
-        break;
+    int offseta = 0;
+    while ((bn.length + offseta) < an.length) {
+      if (an[offseta] > 0) {
+        return 1;
       }
-      offset ++;
-    }
-    if (cn != 0) {
-      return cn;
+      offseta ++;
     }
 
     int offsetb = 0;
-    while (bn.length > (lena + offsetb)) {
+    while ((an.length + offsetb) < bn.length) {
       if (bn[offsetb] > 0) {
-        cn = -1;
-        break;
+        return -1;
       }
       offsetb ++;
     }
-    if (cn != 0) {
-      return cn;
-    }
+
     for (int idx = 0; idx < bn.length; idx ++) {
-      if (an[idx + offset] > bn[idx + offsetb]) {
-        cn = 1;
-        break;
+      if (an[idx + offseta] > bn[idx + offsetb]) {
+        return 1;
       }
-      if (an[idx + offset] < bn[idx + offsetb]) {
-        cn = -1;
-        break;
+      if (an[idx + offseta] < bn[idx + offsetb]) {
+        return -1;
       }
     }
 
-    return cn;
+    return 0;
   }
 
   /**
-   * sub_ary.
+   * divide_sub_ary.
    * @param an int[]
    * @param lena int
    * @param bn int[]
    * @return a - b
    */
-  protected int[] sub_ary(int[] an, int lena, int[] bn) {
+  protected int[] divide_sub_ary(int[] an, int lena, int[] bn) {
     int[] c2 = new int[lena];
     long mn = 0;
     long carry = 0;
@@ -1156,7 +844,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param dotpos 整数部的长度
    * @return 格式化后的数据
    */
-  protected int[] removeFirstZero(int[] in, int dotpos) {
+  protected int[] removeFirstZerox(int[] in, int dotpos) {
     int decimalLen = in.length - dotpos;
     int inu = 0;
     boolean blFlag = false;
@@ -1253,11 +941,11 @@ public class BigNum implements Comparable<BigNum> {
     int[] out = new int[olen];
     int ido = 0;
     while (true) {
-      int cn = cmp_ary(tmp, lenTmp, divisor.datas);
+      int cn = divide_cmp_ary(tmp, divisor.datas);
       if (cn >= 0) {
         out[ido] = (int) (out[ido] + 1);
         // shift postition
-        tmp = sub_ary(tmp, lenTmp, divisor.datas);
+        tmp = divide_sub_ary(tmp, lenTmp, divisor.datas);
       }
       if (cn < 0) {
     	  int[] temp;
@@ -2524,18 +2212,6 @@ public class BigNum implements Comparable<BigNum> {
       res[i] = (char) ('0' + in[i]);
     }
     return res;
-  }
-
-  /**
-   * test_cmp_ary.
-   */
-  public void test_cmp_ary() {
-    int[] an = { 2, 4};
-    int[] bn = { 0, 3, 0};
-    System.out.println(cmp_ary(an, 2, bn));
-    an = new int[] {1, 5, 0};
-    bn = new int[] {1, 8, 0, 0};
-    System.out.println(cmp_ary(an, 3, bn));
   }
 
   /**
