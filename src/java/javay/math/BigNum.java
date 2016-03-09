@@ -792,6 +792,11 @@ public class BigNum implements Comparable<BigNum> {
     int yn = 0;
     for (int idx = multiplicand.length - 1; idx >= 0; idx --) {
       for (int idy = this.length - 1; idy >= 0; idy --) {
+        /*
+         *   a * b
+         * = a * (2^m + n)
+         * = a * 2^m + a * n (0 <= n < 2)
+         */
         data[xn][yn] = multiplicand.datas[idx] * this.datas[idy];
         yn ++;
       }
