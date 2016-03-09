@@ -844,10 +844,12 @@ public class BigNum implements Comparable<BigNum> {
       throw new ArithmeticException("Division by zero");
     }
     if (divisor.equals(BigNum.ONE)) {
+      // a / 1 = a
       return this;
     }
-    // -1
+    // TODO:-1
     if (this.isZero) {
+      // 0 / a = 0
       return this;
     }
 
@@ -858,11 +860,9 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     // 小数点位置
-    int dscale  = divisor.scale;
     int tscale  = this.scale;
-
     // 被除数同步
-    tscale += divisor.length - dscale;
+    tscale += divisor.length - divisor.scale;
 
     // 最大精度，小数部长度
     int maxDecimalLen = decimalLen;
@@ -870,15 +870,15 @@ public class BigNum implements Comparable<BigNum> {
       maxDecimalLen ++;
     }
 
-    int dlen  = divisor.length;
+//    int dlen  = divisor.length;
     int[] tmpDivi = this.removeFirstZero(divisor.datas, divisor.datas.length);
-    dlen = tmpDivi.length;
+//    dlen = tmpDivi.length;
 
     int ido = 0;
     int oscale = 0; // 小数点位置
     int odecimalCnt = -1; // 小数位数
     // 假定商的位数＝被除数的整数部－除数的长度（已无小数）＋1（至少是个数所以+1）
-    int olen = tscale - dlen + 1;
+    int olen = tscale - tmpDivi.length + 1;
     if (olen <= 0) {
       olen = 2 - olen; // 0.0
       oscale = 1;
@@ -886,14 +886,13 @@ public class BigNum implements Comparable<BigNum> {
       ido = odecimalCnt;
     }
     if (odecimalCnt < 0) {
-    	odecimalCnt = 0;
+      odecimalCnt = 0;
     }
-//    System.out.println("@div:odecimalCnt=" + odecimalCnt + ",olen=" +olen);
     int[] out = new int[olen];
 
     int idx = 0;
     int idxNext = 0;
-    int[] tmp = new int[dlen];
+    int[] tmp = new int[tmpDivi.length];
     int lenTmp = tmp.length;
     if (this.datas.length < tmp.length) {
       // 不足位零补齐
@@ -905,14 +904,13 @@ public class BigNum implements Comparable<BigNum> {
     idxNext = lenTmp;
 
     while (true) {
+      printary(tmp);
       int cn = cmp_ary(tmp, lenTmp, tmpDivi);
-//      System.out.println("@div:cn=" + cn);
       if (cn >= 0) {
-        out[ido] = (int) (out[ido] + 1);
+        out[ido] = out[ido] + 1;
         // shift postition
         tmp = sub_ary(tmp, lenTmp, tmpDivi);
-      }
-      if (cn < 0) {
+      } else {
         int[] temp;
         if (tmp[0] == 0) {
           temp = new int[tmp.length];
@@ -931,14 +929,12 @@ public class BigNum implements Comparable<BigNum> {
           oscale = ido + 1;
         }
 
-//        System.out.println("idx=" + idx + ",this.datas.length=" + this.datas.length);
         if (idx < this.datas.length) {
           System.arraycopy(this.datas, idx, temp, temp.length - 1, 1);
         } else {
           if (BigNumRound.HALF_EVENT.equals(roundmode)) {
             // 银行家算法
             // ==5, after is zero?
-//            System.out.println("(oscale + decimalLen)=" + (oscale + decimalLen) + ",(oscale + decimalLen)=" + (oscale + decimalLen) + ",ido=" + ido);
             if (0 <= (oscale + decimalLen) && (oscale + decimalLen) < ido) {
               if (out[oscale + decimalLen] == 5) {
                 if (out[ido] != 0) {
@@ -951,7 +947,6 @@ public class BigNum implements Comparable<BigNum> {
             } // if (0 <= (oscale + decimalLen) && (oscale + decimalLen) < ido) {
           }
           // 向小数部延长
-//          System.out.println("odecimalCnt=" + odecimalCnt + ",maxDecimalLen=" + maxDecimalLen);
           if (odecimalCnt > maxDecimalLen) {
             // 超过指定长度结束。
             // banker
@@ -1044,10 +1039,10 @@ public class BigNum implements Comparable<BigNum> {
 
     BigNum res = new BigNum(osigned, out2,  oscale);
 //    check(this, divisor, res, "/", decimalLen, rm);
-    double dres = res.toDouble(16);
-    double t1 = this.toDouble(14);
-    double t2 = divisor.toDouble(14);
-    double chksum = t1 / t2;
+//    double dres = res.toDouble(16);
+//    double t1 = this.toDouble(14);
+//    double t2 = divisor.toDouble(14);
+//    double chksum = t1 / t2;
 //    if (dres != chksum) {
 //      throw new ArithmeticException("[ERROR]" + this + "/" + divisor + "="
 //          + res + "=>" + dres + "<>" + chksum + "=" + t1 + "/" + t2);
@@ -1065,8 +1060,10 @@ public class BigNum implements Comparable<BigNum> {
   protected int cmp_ary(int[] an, int lena, int[] bn) {
     int cn = 0;
     int offset = 0;
-    printary(an);
-    printary(bn);
+
+//    printary(an);
+//    printary(bn);
+
     while (lena > (bn.length + offset)) {
       if (an[offset] > 0) {
         cn = 1;
@@ -1768,7 +1765,7 @@ public class BigNum implements Comparable<BigNum> {
     }
     buf.append("e");
     buf.append(nn);
-    System.out.println(nn);
+//    System.out.println(nn);
     return buf.toString();
   }
 

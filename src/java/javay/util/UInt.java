@@ -76,9 +76,9 @@ public class UInt {
 		int lenb = getLength(b);
 		int newb = 1 << lenb;
 		System.out.println(newb);
-		while () {
-
-		}
+//		while () {
+//
+//		}
 		return res;
 	}
 }

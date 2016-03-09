@@ -312,9 +312,11 @@ public class BigNumTest {
 	  BigNum a = new BigNum("45.6");
 	  BigNum b = new BigNum("78.9");
 	  a = new BigNum("99.9");
-	  b = new BigNum("99.9");
-	  BigNum c = a.multiply(b);
-	  System.out.println(a + "*" + b + "=" + c);
+	  b = new BigNum("2.0");
+//	  BigNum c = a.multiply(b);
+//	  System.out.println(a + "*" + b + "=" + c);
+	  BigNum c = a.divide(b, 2, BigNumRound.HALF_EVENT);
+	  System.out.println(a + "/" + b + "=" + c);
 //	  System.out.println(a.toString());
   }
 //  public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
