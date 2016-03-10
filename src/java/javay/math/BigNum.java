@@ -26,6 +26,24 @@ public class BigNum implements Comparable<BigNum> {
   /** zero */
   private int isZero;
 
+  public static final int[] TBL_C2I = {
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+     0,  1,  2,  3,   4,  5,  6,  7,   8,  9, -1, -1,  -1, -1, -1, -1, 
+    -1, 10, 11, 12,  13, 14, 15, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, 10, 11, 12,  13, 14, 15, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1  
+  };
   public static final BigNum ZERO = new BigNum("0");
   public static final BigNum ONE  = new BigNum("1");
 
@@ -65,19 +83,39 @@ public class BigNum implements Comparable<BigNum> {
     } else if (in[idx] == '+') {
       this.signed = 1;
       idx ++;
+    } else {
+      // default is plus.
+      this.signed = 1;
     }
+//    System.out.println("符号:" + this.signed);
 
     /* 数值变换  */
     this.scale = -1;
     this.isZero = 1;
+
+    int[] dats = new int[len + 2]; // default:0.0
     int idy = 0;
-    int[] dats = new int[len];
+    int start = -1, end = -1, control = 1;
     while (idx < len) {
       if (in[idx] == '.') {
         if (this.scale != -1) {
+          // when .. or .0.
           throw new NumberFormatException();
         }
+        System.out.println("@. start=" + start);
+        // start < 0 . or .0 => 0.
+        // start < 0 0. or 00. or 0.0 or 00.0 => 0.
+        // start = 0 1. or 01. or 1.0 or 01.0 => 1.
         this.scale = idy;
+        if (control == 1) {
+          if (this.isZero == 0) {
+            this.scale ++;
+          }
+          if (start < 0) {
+            start = 0;
+          }
+          control = 2;
+        }
         idx ++;
         continue;
       }
@@ -87,9 +125,23 @@ public class BigNum implements Comparable<BigNum> {
       } else if (in[idx] > '0' && in[idx] <= '9') {
         dats[idy] = (in[idx] - '0');
         this.isZero = 0;
+        if (control == 2) {
+          end = idy;
+        }
+        if (control == 1) {
+          start = idy;
+          control = 2;
+        }
       } else if (in[idx] >= 'A' && in[idx] <= 'F') {
         dats[idy] =  (in[idx] - 'A' + 10);
         this.isZero = 0;
+        if (control == 2) {
+          end = idy;
+        }
+        if (control == 1) {
+          start = idy;
+          control = 2;
+        }
       } else {
         throw new NumberFormatException();
       }
@@ -97,31 +149,42 @@ public class BigNum implements Comparable<BigNum> {
       idy ++;
       idx ++;
     } // while
-
-    printary(dats);
-    this.length = idy;
-    if (this.scale <= 0 || this.scale == this.length) {
-      // .0 or .
-      // 整数a.的时候，补成a.0的形式。
-      this.scale = this.length;
+    
+    System.out.println("after parser:start =" + start + ",end =" + end + ",this.scale=" + this.scale + ",this.isZero=" + this.isZero + ",idx =" + idx + ",idy=" + idy);
+    
+    if(start < 0) {
+      start = 0;
+    }
+    if (end < 1) {
+      end = 1;
+    }
+    if (this.scale < 0) {
+      this.scale = end;
+    }
+    this.length = end - start + 1;
+    if (this.scale < 0) {
+      this.scale = end - 1;
+      // 调整完还调整？
       this.length ++;
-      this.datas = new int[this.length];
-      int size = (this.length > dats.length) ? dats.length : this.length;
-      this.datas[this.datas.length - 1] = 0;
-      System.arraycopy(dats, 0, this.datas, 0, size);
-      dats = null;
-    } else {
-      this.datas = new int[idy];
-      System.arraycopy(dats, 0, this.datas, 0, idy);
-      dats = null;
+    }
+    if (this.scale == 0) {
+      this.scale = 1;
     }
 
-//    this.datas = this.removeLastZero(this.datas, this.scale);
-    // TODO:??
-//    this.datas = this.trimZero(this.datas, this.scale);
-    this.length = this.datas.length;
-    printary(this.datas);
+//    System.out.println("parse String:");
+    printary(dats);
+    System.out.println("小数点位置:" + this.scale + ",是否为零:" + this.isZero + "(" + start + "," + end + ")");
+
+    int max = (dats.length <= end) ? dats.length - 1: end;
+    int min = (start < 0) ? 0 : start;
     
+    this.datas = new int[this.length];
+    for (int posi = min, poso = 0; posi <= max; posi ++, poso ++) {
+      this.datas[poso] = dats[posi];
+    }
+    printary(this.datas);
+    System.out.println("length=" + this.length + ",dot pos=" + this.scale);
+
     if (numberSystem != 10) {
       BigNum res = this.createNum(0);
       BigNum ns   = this.createNum(numberSystem);
@@ -137,9 +200,6 @@ public class BigNum implements Comparable<BigNum> {
       this.length = res.length;
       this.scale = res.scale;
     }
-
-    // check is zero.
-    // this.isZero = chkIsZero();
   }
 
   private BigNum createNum(int in) {
@@ -225,6 +285,7 @@ public class BigNum implements Comparable<BigNum> {
    */
   public BigNum(String str) {
     this(str.toCharArray(), 0 , str.toCharArray().length, 10);
+    System.out.println("字符串:" + str);
   }
 
   public BigNum(String str, int numberSystem) {
@@ -1312,7 +1373,7 @@ public class BigNum implements Comparable<BigNum> {
   public String toString() {
     System.out.println("长度:" + this.length);
     System.out.println("小数点位置:" + this.scale);
-    System.out.println("=0:" + this.isZero);
+    System.out.println("==0:" + this.isZero);
 
     StringBuffer buf = new StringBuffer();
     if (this.signed == -1) {
