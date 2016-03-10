@@ -24,7 +24,7 @@ public class BigNum implements Comparable<BigNum> {
   /** 小数点的起始位置. */
   private int scale;
   /** zero */
-  private boolean isZero;
+  private int isZero;
 
   public static final BigNum ZERO = new BigNum("0");
   public static final BigNum ONE  = new BigNum("1");
@@ -55,54 +55,58 @@ public class BigNum implements Comparable<BigNum> {
    * @param len 长度
    * @param numberSystem 进制系统
    */
-  public BigNum(char[] in, int offset, int len, int numberSystem) {
+  private BigNum(char[] in, int offset, int len, int numberSystem) {
     /* 初始化 */
-    this.signed = 0x01;
-
-    /* 符号判断 */
     int idx = offset;
+    /* 符号判断 */
     if (in[idx] == '-') {
       this.signed = -1;
       idx ++;
     } else if (in[idx] == '+') {
+      this.signed = 1;
       idx ++;
     }
 
     /* 数值变换  */
-    int idy = 0;
     this.scale = -1;
-    int cnt = 0;
+    this.isZero = 1;
+    int idy = 0;
     int[] dats = new int[len];
-    for (; idx < len; idx ++) {
+    while (idx < len) {
       if (in[idx] == '.') {
         if (this.scale != -1) {
           throw new NumberFormatException();
         }
-        this.scale = cnt;
+        this.scale = idy;
+        idx ++;
         continue;
       }
-      cnt ++;
 
-      if (in[idx] >= '0' && in[idx] <= '9') {
+      if (in[idx] == '0') {
         dats[idy] = (in[idx] - '0');
+      } else if (in[idx] > '0' && in[idx] <= '9') {
+        dats[idy] = (in[idx] - '0');
+        this.isZero = 0;
       } else if (in[idx] >= 'A' && in[idx] <= 'F') {
         dats[idy] =  (in[idx] - 'A' + 10);
+        this.isZero = 0;
       } else {
         throw new NumberFormatException();
       }
-      idy ++;
-    }
 
+      idy ++;
+      idx ++;
+    } // while
+
+    printary(dats);
     this.length = idy;
     if (this.scale <= 0 || this.scale == this.length) {
+      // .0 or .
       // 整数a.的时候，补成a.0的形式。
       this.scale = this.length;
       this.length ++;
       this.datas = new int[this.length];
-      int size = this.length;
-      if (size > dats.length) {
-        size = dats.length;
-      }
+      int size = (this.length > dats.length) ? dats.length : this.length;
       this.datas[this.datas.length - 1] = 0;
       System.arraycopy(dats, 0, this.datas, 0, size);
       dats = null;
@@ -116,6 +120,8 @@ public class BigNum implements Comparable<BigNum> {
     // TODO:??
 //    this.datas = this.trimZero(this.datas, this.scale);
     this.length = this.datas.length;
+    printary(this.datas);
+    
     if (numberSystem != 10) {
       BigNum res = this.createNum(0);
       BigNum ns   = this.createNum(numberSystem);
@@ -133,7 +139,7 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     // check is zero.
-    this.isZero = chkIsZero();
+    // this.isZero = chkIsZero();
   }
 
   private BigNum createNum(int in) {
@@ -168,7 +174,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param len 长度
    * @param sca 小数点位置
    */
-  public BigNum(int si, int[] da, int len, int sca) {
+  private BigNum(int si, int[] da, int len, int sca) {
     this.signed = si;
     this.datas = da;
     this.length = len;
@@ -178,7 +184,7 @@ public class BigNum implements Comparable<BigNum> {
   }
 
   // TODO:0.0
-  public BigNum(int si, int[] in, int dotpos) {
+  private BigNum(int si, int[] in, int dotpos) {
     this.signed = si;
     this.scale = dotpos;
 
@@ -193,7 +199,7 @@ public class BigNum implements Comparable<BigNum> {
        end --;
     }
 
-    this.isZero = in[start] == 0 && in[end] == 0;
+    this.isZero = (in[start] == 0 && in[end] == 0 ) ? 1 : 0;
     this.length = end - start + 1;
     this.datas = new int[this.length];
     for (int idxi = start, idxr = 0; idxr < this.length; idxi ++, idxr ++) {
@@ -264,11 +270,11 @@ public class BigNum implements Comparable<BigNum> {
    * @return 和
    */
   public BigNum add(BigNum augend) {
-    if (augend.isZero) {
+    if (augend.isZero == 1) {
       // a + 0 = a
       return this;
     }
-    if (this.isZero) {
+    if (this.isZero == 1) {
       // 0 + a = a
       return augend;
     }
@@ -358,20 +364,22 @@ public class BigNum implements Comparable<BigNum> {
   }
 
   /**
-   * subtract.
-   * @param subtrahendi BigNum
-   * @return BigNum
+   * 减法.
+   * @param subtrahendi 减数
+   * @return 差.
    */
   public BigNum subtract(BigNum subtrahendi) {
-    if (subtrahendi.isZero) {
+    if (subtrahendi.isZero == 1) {
       // a - 0 = a
       return this;
     }
-    if (this.isZero) {
-      // 0 -a = -a
+    if (this.isZero == 1) {
+      // 0 - a = -a
       return new BigNum((0x00 - subtrahendi.signed), subtrahendi.datas,
            subtrahendi.scale);
     }
+    // a - a = 0
+    
     if (this.signed == subtrahendi.signed) {
       int signeds = 0x01;
       // 大小调整
@@ -464,12 +472,12 @@ public class BigNum implements Comparable<BigNum> {
   }
 
   /**
-   * multiply.
-   * @param multiplicand BigNum
-   * @return BigNum
+   * 乘法.
+   * @param multiplicand 乘数
+   * @return 积
    */
   public BigNum multiply(BigNum multiplicand) {
-    if (multiplicand.isZero) {
+    if (multiplicand.isZero == 1) {
       // a * 0 = 0
       return multiplicand;
     }
@@ -477,7 +485,7 @@ public class BigNum implements Comparable<BigNum> {
       // a * 1 = a
       return this;
     }
-    if (this.isZero) {
+    if (this.isZero == 1) {
       // 0 * a = 0
       return this;
     }
@@ -548,13 +556,13 @@ public class BigNum implements Comparable<BigNum> {
 
   /**
    * 除法.
-   * @param divisor BigNum
-   * @param decimalLen int
-   * @param roundmode BigNumRound
-   * @return BigNum
+   * @param divisor 除数
+   * @param decimalLen 小数部位数
+   * @param roundmode 舍入模式
+   * @return 商
    */
   public BigNum divide(BigNum divisor, int decimalLen, BigNumRound roundmode) {
-    if (divisor.isZero) {
+    if (divisor.isZero == 1) {
       // 除数为零时
       throw new ArithmeticException("Division by zero");
     }
@@ -563,10 +571,13 @@ public class BigNum implements Comparable<BigNum> {
       return this;
     }
     // TODO:-1
-    if (this.isZero) {
+    if (this.isZero == 1) {
       // 0 / a = 0
       return this;
     }
+    // a / a = 1
+    // -a / a = -1
+    // a / -a = -1
 
     // 最大精度，小数部长度
     int maxDecimalLen = (BigNumRound.HALF_EVENT.equals(roundmode)) ? decimalLen + 1: decimalLen;
@@ -603,7 +614,7 @@ public class BigNum implements Comparable<BigNum> {
 
     int idxNext = tmp.length;
     while (true) {
-//      printary(tmp);
+      printary(tmp);
       if (divide_cmp_ary(tmp, divisor.datas) >= 0) {
         out[ido] = out[ido] + 1;
         // shift postition
@@ -827,15 +838,13 @@ public class BigNum implements Comparable<BigNum> {
    * chkIsZero.
    * @return boolean
    */
-  public boolean chkIsZero() {
-    boolean result = true;
+  public int chkIsZero() {
     for (int b : this.datas) {
       if (b != 0) {
-        result = false;
-        break ;
+        return 0;
       }
     }
-    return result;
+    return 1;
   }
 
   /**
@@ -896,14 +905,14 @@ public class BigNum implements Comparable<BigNum> {
    * @return BigNum
    */
   public BigNum mod(BigNum divisor) {
-    if (divisor.isZero) {
+    if (divisor.isZero == 1) {
       // 除数为零时
       throw new ArithmeticException("Division by zero");
     }
     if (divisor.equals(BigNum.ONE)) {
       return this;
     }
-    if (this.isZero) {
+    if (this.isZero == 1) {
       return this;
     }
 
@@ -1037,7 +1046,7 @@ public class BigNum implements Comparable<BigNum> {
       return new BigNum("1.0").divide(pow(nn.negate()), 40, BigNumRound.HALF_EVENT);
     }
     BigNum result = new BigNum("1");
-    if (nn.isZero) {
+    if (nn.isZero == 1) {
       return result;
     }
     BigNum idx = new BigNum("0");
@@ -1301,9 +1310,9 @@ public class BigNum implements Comparable<BigNum> {
    */
   @Override
   public String toString() {
-//    System.out.println("长度:" + this.length);
-//    System.out.println("小数点位置:" + this.scale);
-//    System.out.println("=0:" + this.isZero);
+    System.out.println("长度:" + this.length);
+    System.out.println("小数点位置:" + this.scale);
+    System.out.println("=0:" + this.isZero);
 
     StringBuffer buf = new StringBuffer();
     if (this.signed == -1) {
@@ -1330,6 +1339,7 @@ public class BigNum implements Comparable<BigNum> {
     if (idx == this.scale) {
       buf.append("0");
     }
+    System.out.println(buf);
     return buf.toString();
   }
 
