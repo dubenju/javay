@@ -124,7 +124,7 @@ public class TestBigNum {
 	}
 	public void testDivb() {
 		BigNum a = new BigNum(STR);
-		BigNum b = new BigNum(STR3);
+		BigNum b = new BigNum(STR2);
 		long st = System.currentTimeMillis();
 		for (int i = 0; i < MAX_CNT2; i ++) {
 			b = b.divide(a, 20, BigNumRound.HALF_EVENT);
@@ -144,17 +144,17 @@ public class TestBigNum {
 		proc.testNewa();
 		proc.testNewb();
 
-//		proc.testAdda();
-//		proc.testAddb();
-//
-//		proc.testSubtracta();
-//		proc.testSubtractb();
+		proc.testAdda();
+		proc.testAddb();
 		
-//		proc.testMula();
-//		proc.testMulb();
+		proc.testSubtracta();
+		proc.testSubtractb();
+
+		proc.testMula();
+		proc.testMulb();
 		
-//		proc.testDiva();
-//		proc.testDivb();
+		proc.testDiva();
+		proc.testDivb();
 		proc = null;
 		System.gc();
 	}

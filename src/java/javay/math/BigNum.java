@@ -26,24 +26,24 @@ public class BigNum implements Comparable<BigNum> {
   /** zero */
   private int isZero;
 
-  public static final int[] TBL_C2I = {
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-     0,  1,  2,  3,   4,  5,  6,  7,   8,  9, -1, -1,  -1, -1, -1, -1, 
-    -1, 10, 11, 12,  13, 14, 15, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, 10, 11, 12,  13, 14, 15, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1  
-  };
+//  public static final int[] TBL_C2I = {
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//     0,  1,  2,  3,   4,  5,  6,  7,   8,  9, -1, -1,  -1, -1, -1, -1, 
+//    -1, 10, 11, 12,  13, 14, 15, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, 10, 11, 12,  13, 14, 15, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
+//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1  
+//  };
   public static final BigNum ZERO = new BigNum("0");
   public static final BigNum ONE  = new BigNum("1");
 
@@ -74,7 +74,6 @@ public class BigNum implements Comparable<BigNum> {
    * @param numberSystem 进制系统
    */
   private BigNum(char[] in, int offset, int len, int numberSystem) {
-//    System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     /* 初始化 */
     int idx = offset;
     /* 符号判断 */
@@ -88,7 +87,6 @@ public class BigNum implements Comparable<BigNum> {
       // default is plus.
       this.signed = 1;
     }
-//    System.out.println("符号:" + this.signed);
 
     /* 数值变换  */
     this.scale = -1;
@@ -102,7 +100,6 @@ public class BigNum implements Comparable<BigNum> {
           // when .. or .0.
           throw new NumberFormatException();
         }
-//        System.out.println("@. start=" + start + ",idx=" + idx + ",idy="+idy +",this.scale="+this.scale+",this.isZero="+this.isZero);
         if (start == -1) {
           idy ++;
         }
@@ -130,8 +127,8 @@ public class BigNum implements Comparable<BigNum> {
         dats[idy] = (in[idx] - '0');
         if (control == 1) {
           start = 0;
-          }
-      } else if (in[idx] > '0' && in[idx] <= '9') {
+        }
+      } else if ('0' < in[idx] && in[idx] <= '9') {
         dats[idy] = (in[idx] - '0');
         this.isZero = 0;
         if (control == 2) {
@@ -141,7 +138,7 @@ public class BigNum implements Comparable<BigNum> {
           start = idy;
           control = 2;
         }
-      } else if (in[idx] >= 'A' && in[idx] <= 'F') {
+      } else if ('A' <= in[idx] && in[idx] <= 'F') {
         dats[idy] =  (in[idx] - 'A' + 10);
         this.isZero = 0;
         if (control == 2) {
@@ -151,16 +148,24 @@ public class BigNum implements Comparable<BigNum> {
           start = idy;
           control = 2;
         }
-      } else {
+      } else if ('a' <= in[idx] && in[idx] <= 'f') {
+          dats[idy] =  (in[idx] - 'a' + 10);
+          this.isZero = 0;
+          if (control == 2) {
+            end = idy;
+          }
+          if (control == 1) {
+            start = idy;
+            control = 2;
+          }
+        } else {
         throw new NumberFormatException();
       }
 
       idy ++;
       idx ++;
     } // while
-    
-//    System.out.println("after parser:start =" + start + ",end =" + end + ",this.scale=" + this.scale + ",this.isZero=" + this.isZero + ",idx =" + idx + ",idy=" + idy);
-    
+
     if(start < 0) {
       start = 0;
     }
@@ -176,28 +181,10 @@ public class BigNum implements Comparable<BigNum> {
       }
     }
     this.length = end - start + 1;
-    if (this.scale < 0) {
-      this.scale = end - 1;
-      // 调整完还调整？
-      this.length ++;
-    }
-    if (this.scale == 0) {
-      this.scale = 1;
-    }
-
-//    System.out.println("parse String:");
-//    printary(dats);
-//    System.out.println("小数点位置:" + this.scale + ",是否为零:" + this.isZero + "(" + start + "," + end + ")");
-
-    int max = (dats.length <= end) ? dats.length - 1: end;
-    int min = (start < 0) ? 0 : start;
-    
     this.datas = new int[this.length];
-    for (int posi = min, poso = 0; posi <= max; posi ++, poso ++) {
+    for (int posi = start, poso = 0; posi <= end; posi ++, poso ++) {
       this.datas[poso] = dats[posi];
     }
-//    printary(this.datas);
-//    System.out.println("length=" + this.length + ",dot pos=" + this.scale);
 
     if (numberSystem != 10) {
       BigNum res = this.createNum(0);
@@ -248,7 +235,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param len 长度
    * @param sca 小数点位置
    */
-  private BigNum(int si, int[] da, int len, int sca) {
+  public BigNum(int si, int[] da, int len, int sca) {
     this.signed = si;
     this.datas = da;
     this.length = len;
@@ -362,66 +349,71 @@ public class BigNum implements Comparable<BigNum> {
        * dddd.d   (5,4)1
        */
       /* 整数部长度 */
-      int scaleS = (augend.scale > this.scale) ? augend.scale : this.scale;
-      scaleS ++;
-
+      int scaleS = (augend.scale > this.scale) ? augend.scale + 1 : this.scale + 1;
       /* 小数部长度 */
       int decT = this.length - this.scale;
       int decA = augend.length - augend.scale;
-
       /* 长度 */
       int[] dataS = new int[scaleS + ( (decA > decT) ? decA : decT )];
 
       int offT = scaleS - this.scale;
       int offA = scaleS - augend.scale;
-
       int posT = offT + this.length;
       int posA = offA + augend.length;
 
-      int posD = posA;
-      int[] read = this.datas;
-      int   readof = offT;
-      if (posA > posT) {
-        posD = posT;
-        read = augend.datas;
-        readof = offA;
-      }
-
       int idx = dataS.length - 1;
-      while(idx >= posD) {
-        dataS[idx] = read[idx - readof];
-        idx --;
-      }
-
-      int posE = offT;
-      read = augend.datas;
-      readof = offA;
-      if (offA > posE) {
-        posE = offA;
-        read = this.datas;
-        readof = offT;
+      if (posA > posT) {
+        while(idx >= posT) {
+            dataS[idx] = augend.datas[idx - offA];
+            idx --;
+        }
+      } else {
+        while(idx >= posA) {
+            dataS[idx] = this.datas[idx - offT];
+            idx --;
+        }
       }
 
       int an = 0;
-      while(idx >= posE) {
-        dataS[idx] = an + this.datas[idx - offT] + augend.datas[idx - offA];
-        an = 0;
-        if (dataS[idx] >= 10) {
-          dataS[idx] -=  10;
-          an = 1;
+      if (offA > offT) {
+          while(idx >= offA) {
+              dataS[idx] = an + this.datas[idx - offT] + augend.datas[idx - offA];
+              an = 0;
+              if (dataS[idx] >= 10) {
+                dataS[idx] -=  10;
+                an = 1;
+              }
+              idx --;
+          }
+          while(idx > 0) {
+              dataS[idx] = an + this.datas[idx - offT];
+              an = 0;
+              if (dataS[idx] >= 10) {
+                dataS[idx] -= 10;
+                an = 1;
+              }
+              idx --;
+            }
+        } else {
+            while(idx >= offT) {
+                dataS[idx] = an + this.datas[idx - offT] + augend.datas[idx - offA];
+                an = 0;
+                if (dataS[idx] >= 10) {
+                  dataS[idx] -=  10;
+                  an = 1;
+                }
+                idx --;
+            }
+          while(idx > 0) {
+              dataS[idx] = an + augend.datas[idx - offA];
+              an = 0;
+              if (dataS[idx] >= 10) {
+                dataS[idx] -= 10;
+                an = 1;
+              }
+              idx --;
+            }
         }
-        idx --;
-      }
-
-      while(idx > 0) {
-        dataS[idx] = an + read[idx - readof];
-        an = 0;
-        if (dataS[idx] >= 10) {
-          dataS[idx] -= 10;
-          an = 1;
-        }
-        idx --;
-      }
       dataS[0] = an;
 
       BigNum res = new BigNum(this.signed, dataS, scaleS);
@@ -467,19 +459,15 @@ public class BigNum implements Comparable<BigNum> {
       }
 
       /* 整数部长度 */
-      int scaleS = (subtrahend.scale > minuend.scale) ? subtrahend.scale : minuend.scale;
-      scaleS ++;
-
+      int scaleS = (subtrahend.scale > minuend.scale) ? subtrahend.scale + 1: minuend.scale + 1;
       /* 小数部长度 */
       int decM = minuend.length - minuend.scale;
       int decS = subtrahend.length - subtrahend.scale;
-
       /* 长度 */
       int[] dataS = new int[scaleS + ( (decS > decM) ? decS : decM)];
 
       int offM = scaleS - minuend.scale;
       int offA = scaleS - subtrahend.scale;
-
       int posM = offM + minuend.length;
       int posA = offA + subtrahend.length;
 
@@ -502,19 +490,17 @@ public class BigNum implements Comparable<BigNum> {
           }
       }
 
-      int posE = (offA > offM) ? offA : offM;
-
-      while(idx >= posE) {
-        dataS[idx] = carry + minuend.datas[idx - offM] - subtrahend.datas[idx - offA];
-        carry = 0;
-        if (dataS[idx] < 0) {
-        	dataS[idx] +=  10;
-        	carry = -1;
-        }
-        idx --;
-      }
-
       if (offA > offM) {
+          while(idx >= offA) {
+              dataS[idx] = carry + minuend.datas[idx - offM] - subtrahend.datas[idx - offA];
+              carry = 0;
+              if (dataS[idx] < 0) {
+                dataS[idx] +=  10;
+                carry = -1;
+              }
+              idx --;
+            }
+
         while(idx > 0) {
             dataS[idx] = carry  + minuend.datas[idx - offM];
             carry = 0;
@@ -525,6 +511,16 @@ public class BigNum implements Comparable<BigNum> {
             idx --;
           }
       } else {
+          while(idx >= offM) {
+              dataS[idx] = carry + minuend.datas[idx - offM] - subtrahend.datas[idx - offA];
+              carry = 0;
+              if (dataS[idx] < 0) {
+                dataS[idx] +=  10;
+                carry = -1;
+              }
+              idx --;
+            }
+
           while(idx > 0) {
               dataS[idx] =  carry - subtrahend.datas[idx - offA];
               carry = 0;
@@ -645,7 +641,7 @@ public class BigNum implements Comparable<BigNum> {
       // a / 1 = a
       return this;
     }
-    // TODO:-1
+    // TODO:a / -1 = -a
     if (this.isZero == 1) {
       // 0 / a = 0
       return this;
@@ -689,7 +685,7 @@ public class BigNum implements Comparable<BigNum> {
 
     int idxNext = tmp.length;
     while (true) {
-      printary(tmp);
+//      printary(tmp);
       if (divide_cmp_ary(tmp, divisor.datas) >= 0) {
         out[ido] = out[ido] + 1;
         // shift postition
