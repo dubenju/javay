@@ -74,6 +74,7 @@ public class BigNum implements Comparable<BigNum> {
    * @param numberSystem 进制系统
    */
   private BigNum(char[] in, int offset, int len, int numberSystem) {
+//    System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     /* 初始化 */
     int idx = offset;
     /* 符号判断 */
@@ -92,7 +93,6 @@ public class BigNum implements Comparable<BigNum> {
     /* 数值变换  */
     this.scale = -1;
     this.isZero = 1;
-
     int[] dats = new int[len + 2]; // default:0.0
     int idy = 0;
     int start = -1, end = -1, control = 1;
@@ -102,7 +102,10 @@ public class BigNum implements Comparable<BigNum> {
           // when .. or .0.
           throw new NumberFormatException();
         }
-        System.out.println("@. start=" + start);
+//        System.out.println("@. start=" + start + ",idx=" + idx + ",idy="+idy +",this.scale="+this.scale+",this.isZero="+this.isZero);
+        if (start == -1) {
+          idy ++;
+        }
         // start < 0 . or .0 => 0.
         // start < 0 0. or 00. or 0.0 or 00.0 => 0.
         // start = 0 1. or 01. or 1.0 or 01.0 => 1.
@@ -110,6 +113,9 @@ public class BigNum implements Comparable<BigNum> {
         if (control == 1) {
           if (this.isZero == 0) {
             this.scale ++;
+          } else {
+            start = idy - 1;
+            this.scale = 1;
           }
           if (start < 0) {
             start = 0;
@@ -122,6 +128,9 @@ public class BigNum implements Comparable<BigNum> {
 
       if (in[idx] == '0') {
         dats[idy] = (in[idx] - '0');
+        if (control == 1) {
+          start = 0;
+          }
       } else if (in[idx] > '0' && in[idx] <= '9') {
         dats[idy] = (in[idx] - '0');
         this.isZero = 0;
@@ -150,16 +159,21 @@ public class BigNum implements Comparable<BigNum> {
       idx ++;
     } // while
     
-    System.out.println("after parser:start =" + start + ",end =" + end + ",this.scale=" + this.scale + ",this.isZero=" + this.isZero + ",idx =" + idx + ",idy=" + idy);
+//    System.out.println("after parser:start =" + start + ",end =" + end + ",this.scale=" + this.scale + ",this.isZero=" + this.isZero + ",idx =" + idx + ",idy=" + idy);
     
     if(start < 0) {
       start = 0;
     }
     if (end < 1) {
       end = 1;
-    }
-    if (this.scale < 0) {
-      this.scale = end;
+      if (this.scale < 0) {
+        this.scale = end;
+      }
+    } else {
+      if (this.scale < 0) {
+        end ++;
+        this.scale = end;
+      }
     }
     this.length = end - start + 1;
     if (this.scale < 0) {
@@ -172,8 +186,8 @@ public class BigNum implements Comparable<BigNum> {
     }
 
 //    System.out.println("parse String:");
-    printary(dats);
-    System.out.println("小数点位置:" + this.scale + ",是否为零:" + this.isZero + "(" + start + "," + end + ")");
+//    printary(dats);
+//    System.out.println("小数点位置:" + this.scale + ",是否为零:" + this.isZero + "(" + start + "," + end + ")");
 
     int max = (dats.length <= end) ? dats.length - 1: end;
     int min = (start < 0) ? 0 : start;
@@ -182,8 +196,8 @@ public class BigNum implements Comparable<BigNum> {
     for (int posi = min, poso = 0; posi <= max; posi ++, poso ++) {
       this.datas[poso] = dats[posi];
     }
-    printary(this.datas);
-    System.out.println("length=" + this.length + ",dot pos=" + this.scale);
+//    printary(this.datas);
+//    System.out.println("length=" + this.length + ",dot pos=" + this.scale);
 
     if (numberSystem != 10) {
       BigNum res = this.createNum(0);
@@ -285,7 +299,7 @@ public class BigNum implements Comparable<BigNum> {
    */
   public BigNum(String str) {
     this(str.toCharArray(), 0 , str.toCharArray().length, 10);
-    System.out.println("字符串:" + str);
+//    System.out.println("字符串:" + str);
   }
 
   public BigNum(String str, int numberSystem) {
@@ -1371,9 +1385,9 @@ public class BigNum implements Comparable<BigNum> {
    */
   @Override
   public String toString() {
-    System.out.println("长度:" + this.length);
-    System.out.println("小数点位置:" + this.scale);
-    System.out.println("==0:" + this.isZero);
+//    System.out.println("长度:" + this.length);
+//    System.out.println("小数点位置:" + this.scale);
+//    System.out.println("==0:" + this.isZero);
 
     StringBuffer buf = new StringBuffer();
     if (this.signed == -1) {
@@ -1400,7 +1414,7 @@ public class BigNum implements Comparable<BigNum> {
     if (idx == this.scale) {
       buf.append("0");
     }
-    System.out.println(buf);
+//    System.out.println(buf);
     return buf.toString();
   }
 

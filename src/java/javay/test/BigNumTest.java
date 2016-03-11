@@ -325,6 +325,7 @@ public class BigNumTest {
     BigNum a = new BigNum(input);
     String str2 = a.toString();
     if(!plan.equals(str2)) throw new Exception("ERROR-- " + testno + " --" + input + "=" + plan + " vs " + str2);
+    else System.out.println("-- " + testno + " --" + input + "=" + plan + " vs " + str2);
   }
 
   public void testStr() throws Exception {
@@ -362,6 +363,31 @@ public class BigNumTest {
     test(31,  "45.67", "45.67");
     test(32, "+45.67", "45.67");
     test(33, "-45.67", "-45.67");
+
+    test(34,   "00.",    "0.0");
+    test(35,  "+00.",    "0.0");
+    test(36,  "-00.",   "-0.0");
+    test(37,    ".00",   "0.0");
+    test(38,   "+.00",   "0.0");
+    test(39,   "-.00",  "-0.0");
+    test(40,   "00",     "0.0");
+    test(41,  "+00",     "0.0");
+    test(42,  "-00",    "-0.0");
+    test(43,   "00.0",   "0.0");
+    test(44,  "+00.0",   "0.0");
+    test(45,  "-00.0",  "-0.0");
+    test(46,  "45.00",  "45.0");
+    test(47, "+45.00",  "45.0");
+    test(48, "-45.00", "-45.0");
+    test(49,   "00.67",  "0.67");
+    test(50,  "+00.67",  "0.67");
+    test(51,  "-00.67", "-0.67");
+    test(52,   "00.00",   "0.0");
+    test(53,  "+00.00",   "0.0");
+    test(54,  "-00.00",  "-0.0");
+    test(55,   "0.00",   "0.0");
+    test(56,  "+0.00",   "0.0");
+    test(57,  "-0.00",  "-0.0");
   }
 
 //  public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
