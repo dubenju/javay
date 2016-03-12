@@ -364,7 +364,6 @@ public class BigNumTest {
     test(31,  "45.67", "45.67");
     test(32, "+45.67", "45.67");
     test(33, "-45.67", "-45.67");
-
     test(34,   "00.",    "0.0");
     test(35,  "+00.",    "0.0");
     test(36,  "-00.",   "-0.0");
@@ -389,6 +388,9 @@ public class BigNumTest {
     test(55,   "0.00",   "0.0");
     test(56,  "+0.00",   "0.0");
     test(57,  "-0.00",  "-0.0");
+    test(58,   "10",     "10.0");
+    test(59,  "+10",     "10.0");
+    test(60,  "-10",    "-10.0");
   }
 
 //  public static BigNum pi = new BigNum("3.14159265358979323846264338327950288419716939937510");
@@ -399,7 +401,7 @@ public class BigNumTest {
 //    BigNum e = new BigNum("test");
 //    BigNum test = new BigNum("0.0T");
     BigNumTest proc = new BigNumTest();
-//    proc.testStr();
+    proc.testStr();
 //    proc.testbyte();
 ////    proc.testshort();
 ////    proc.testint();

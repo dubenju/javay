@@ -1291,8 +1291,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         } else {
             // Add common parts of both numbers
             while (yIndex > 0) {
-                sum = (x[--xIndex] & LONG_MASK) +
-                      (y[--yIndex] & LONG_MASK) + (sum >>> 32);
+                sum = (x[--xIndex] & LONG_MASK) + (y[--yIndex] & LONG_MASK) + (sum >>> 32);
                 result[xIndex] = (int)sum;
             }
         }

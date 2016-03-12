@@ -12,58 +12,27 @@ import java.util.Stack;
  * 0123456789
  * -abc.edfhi = len:8, dot pos:4
  * @author DBJ
- *
+ * 
+ * immutable不可变的
+ * 定义成final，避免被继承。
+ * 所有的成员变量应该被定义成final。
+ * 不要提供可以改变类状态(成员变量)的方法。【get 方法不要把类里的成员变量让外部客服端引用,当需要访问成员变量时，返回成员变量的copy】
+ * 构造函数不要引用外部可变对象。如果需要引用可以在外部改变值的变量，应该在构造函数里进行defensive copy。
  */
-public class BigNum implements Comparable<BigNum> {
+public final class BigNum implements Comparable<BigNum> {
   /** 符号:正号:1,负号:-1. */
-  private int signed;
+  private final int signed;
   /** 数据 十进制 一位对应一位. */
-  private int[] datas;
+  public final int[] datas;
   /** 数据的长度. */
-  private int length;
+  private final int length;
   /** 小数点的起始位置. */
-  private int scale;
+  private final int scale;
 
   /** zero */
   private transient int isZero = 1;
   private transient String cache;
 
-//  public static final int[] TBL_C2I = {
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//     0,  1,  2,  3,   4,  5,  6,  7,   8,  9, -1, -1,  -1, -1, -1, -1, 
-//    -1, 10, 11, 12,  13, 14, 15, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, 10, 11, 12,  13, 14, 15, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
-//    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1  
-//  };
-//  public static final String[] TBL_I2C = {
-//	    "0", "1", "2", "3",  "4", "5", "6", "7",  "8", "9", "A", "B",  "C", "D", "E", "F", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "0", "1",  "2",  "3",  "4",  "5",  "6",  "7",   "8",  "9", "", "",  "", "", "", "", 
-//	    "", "A", "B", "C",  "D", "E", "F", "G",  "H", "I", "J", "K", "L", "M", "N", "O", 
-//	    "P", "Q", "R", "S",  "T", "U", "V", "W",  "X", "Y", "Z", "",  "", "", "", "", 
-//	    "", "a", "b", "c",  "d", "e", "f", "g",  "h", "i", "j", "k",  "l", "m", "n", "o", 
-//	    "p", "a", "r", "s",  "t", "u", "v", "w",  "x", "y", "z", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
-//  };
   public static final BigNum ZERO = new BigNum("0");
   public static final BigNum ONE  = new BigNum("1");
 
@@ -109,14 +78,14 @@ public class BigNum implements Comparable<BigNum> {
     }
 
     /* 数值变换  */
-    this.scale = -1;
+    int dotpos = -1;
     this.isZero = 1;
     int[] dats = new int[len + 2]; // default:0.0
     int idy = 0;
     int start = -1, end = -1, control = 1;
     while (idx < len) {
       if (in[idx] == '.') {
-        if (this.scale != -1) {
+        if (dotpos != -1) {
           // when .. or .0.
           throw new NumberFormatException();
         }
@@ -126,13 +95,13 @@ public class BigNum implements Comparable<BigNum> {
         // start < 0 . or .0 => 0.
         // start < 0 0. or 00. or 0.0 or 00.0 => 0.
         // start = 0 1. or 01. or 1.0 or 01.0 => 1.
-        this.scale = idy;
+        dotpos = idy;
         if (control == 1) {
           if (this.isZero == 0) {
-            this.scale ++;
+        	  dotpos ++;
           } else {
             start = idy - 1;
-            this.scale = 1;
+            dotpos = 1;
           }
           if (start < 0) {
             start = 0;
@@ -147,6 +116,8 @@ public class BigNum implements Comparable<BigNum> {
         dats[idy] = (in[idx] - '0');
         if (control == 1) {
           start = 0;
+        } else {
+          end = idy;
         }
       } else if ('0' < in[idx] && in[idx] <= '9') {
         dats[idy] = (in[idx] - '0');
@@ -191,13 +162,13 @@ public class BigNum implements Comparable<BigNum> {
     }
     if (end < 1) {
       end = 1;
-      if (this.scale < 0) {
-        this.scale = end;
+      if (dotpos < 0) {
+    	  dotpos = end;
       }
     } else {
-      if (this.scale < 0) {
+      if (dotpos < 0) {
         end ++;
-        this.scale = end;
+        dotpos = end;
       }
     }
     this.length = end - start + 1;
@@ -205,22 +176,23 @@ public class BigNum implements Comparable<BigNum> {
     for (int posi = start, poso = 0; posi <= end; posi ++, poso ++) {
       this.datas[poso] = dats[posi];
     }
+    this.scale = dotpos;
 
-    if (numberSystem != 10) {
-      BigNum res = this.createNum(0);
-      BigNum ns   = this.createNum(numberSystem);
-      int indx = 0;
-      for (int i = this.scale - 1; i >= 0; i --, indx ++) {
-        res = res.add(ns.pow(i).multiply(this.createNum(this.datas[indx])));
-      }
-      for (int i = 1; i <= (this.length - this.scale); i ++, indx ++) {
-        res = res.add(
-            this.createNum(this.datas[indx]).divide(ns.pow(i), 40, BigNumRound.HALF_EVENT));
-      }
-      this.datas = res.datas;
-      this.length = res.length;
-      this.scale = res.scale;
-    }
+//    if (numberSystem != 10) {
+//      BigNum res = this.createNum(0);
+//      BigNum ns   = this.createNum(numberSystem);
+//      int indx = 0;
+//      for (int i = this.scale - 1; i >= 0; i --, indx ++) {
+//        res = res.add(ns.pow(i).multiply(this.createNum(this.datas[indx])));
+//      }
+//      for (int i = 1; i <= (this.length - this.scale); i ++, indx ++) {
+//        res = res.add(
+//            this.createNum(this.datas[indx]).divide(ns.pow(i), 40, BigNumRound.HALF_EVENT));
+//      }
+//      this.datas = res.datas;
+//      this.length = res.length;
+//      this.scale = res.scale;
+//    }
   }
 
   private BigNum createNum(int in) {
@@ -257,7 +229,7 @@ public class BigNum implements Comparable<BigNum> {
    */
   public BigNum(int si, int[] da, int len, int sca) {
     this.signed = si;
-    this.datas = da;
+    this.datas = da.clone();
     this.length = len;
     this.scale = sca;
     // check is zero.
@@ -267,13 +239,12 @@ public class BigNum implements Comparable<BigNum> {
   // TODO:0.0,01.10
   private BigNum(int si, int[] in, int dotpos) {
     this.signed = si;
-    this.scale = dotpos;
 
     int start = 0;
     while (start < dotpos && in[start] == 0) {
       start ++;
     }
-    this.scale -= start;
+    this.scale = dotpos - start;
 
     int end = in.length - 1;
     while (end > dotpos && in[end] == 0) {
@@ -295,7 +266,7 @@ public class BigNum implements Comparable<BigNum> {
   public BigNum(BigNum on) {
     this.scale = on.scale;
     this.signed = on.signed;
-    this.datas = on.datas;
+    this.datas = on.datas.clone();
     this.length = on.length;
     this.isZero = on.isZero;
   }
@@ -394,47 +365,41 @@ public class BigNum implements Comparable<BigNum> {
         }
       }
 
-      int an = 0;
       if (offA > offT) {
           while(idx >= offA) {
-              dataS[idx] = an + this.datas[idx - offT] + augend.datas[idx - offA];
-              an = 0;
+              dataS[idx] = dataS[idx] + this.datas[idx - offT] + augend.datas[idx - offA];
               if (dataS[idx] >= 10) {
-                dataS[idx] -=  10;
-                an = 1;
+                dataS[idx] -= 10;
+                dataS[idx - 1] = 1;
               }
               idx --;
           }
           while(idx > 0) {
-              dataS[idx] = an + this.datas[idx - offT];
-              an = 0;
+              dataS[idx] = dataS[idx] + this.datas[idx - offT];
               if (dataS[idx] >= 10) {
                 dataS[idx] -= 10;
-                an = 1;
+                dataS[idx - 1] = 1;
               }
               idx --;
             }
         } else {
             while(idx >= offT) {
-                dataS[idx] = an + this.datas[idx - offT] + augend.datas[idx - offA];
-                an = 0;
+                dataS[idx] = dataS[idx] + this.datas[idx - offT] + augend.datas[idx - offA];
                 if (dataS[idx] >= 10) {
                   dataS[idx] -=  10;
-                  an = 1;
+                  dataS[idx - 1] = 1;
                 }
                 idx --;
             }
           while(idx > 0) {
-              dataS[idx] = an + augend.datas[idx - offA];
-              an = 0;
+              dataS[idx] = dataS[idx] + augend.datas[idx - offA];
               if (dataS[idx] >= 10) {
                 dataS[idx] -= 10;
-                an = 1;
+                dataS[idx - 1] = 1;
               }
               idx --;
             }
         }
-      dataS[0] = an;
 
       BigNum res = new BigNum(this.signed, dataS, scaleS);
 //      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
@@ -492,18 +457,17 @@ public class BigNum implements Comparable<BigNum> {
       int posA = offA + subtrahend.length;
 
       int idx = dataS.length - 1;
-      int carry = 0;
       if (posA > posM) {
         while(idx >= posM) {
-            dataS[idx] = carry - subtrahend.datas[idx - offA];
-            carry = 0;
+            dataS[idx] = dataS[idx] - subtrahend.datas[idx - offA];
             if (dataS[idx] < 0) {
               dataS[idx] += 10;
-              carry = -1;
+              dataS[idx - 1] = dataS[idx - 1] - 1;
             }
             idx --;
           }
       } else {
+        // run ?
         while(idx >= posA) {
             dataS[idx] = minuend.datas[idx - offM];
             idx --;
@@ -512,46 +476,42 @@ public class BigNum implements Comparable<BigNum> {
 
       if (offA > offM) {
           while(idx >= offA) {
-              dataS[idx] = carry + minuend.datas[idx - offM] - subtrahend.datas[idx - offA];
-              carry = 0;
+              dataS[idx] = dataS[idx] + minuend.datas[idx - offM] - subtrahend.datas[idx - offA];
               if (dataS[idx] < 0) {
                 dataS[idx] +=  10;
-                carry = -1;
+                dataS[idx - 1] = dataS[idx - 1] - 1;
               }
               idx --;
             }
 
         while(idx > 0) {
-            dataS[idx] = carry  + minuend.datas[idx - offM];
-            carry = 0;
+            dataS[idx] = dataS[idx]  + minuend.datas[idx - offM];
             if (dataS[idx] < 0) {
               dataS[idx] +=  10;
-              carry = -1;
+              dataS[idx - 1] = dataS[idx - 1] - 1;
             }
             idx --;
           }
       } else {
+          // run ?
           while(idx >= offM) {
-              dataS[idx] = carry + minuend.datas[idx - offM] - subtrahend.datas[idx - offA];
-              carry = 0;
+              dataS[idx] = dataS[idx] + minuend.datas[idx - offM] - subtrahend.datas[idx - offA];
               if (dataS[idx] < 0) {
                 dataS[idx] +=  10;
-                carry = -1;
+                dataS[idx - 1] = dataS[idx - 1] - 1;
               }
               idx --;
             }
 
           while(idx > 0) {
-              dataS[idx] =  carry - subtrahend.datas[idx - offA];
-              carry = 0;
+              dataS[idx] =  dataS[idx] - subtrahend.datas[idx - offA];
               if (dataS[idx] < 0) {
-              	dataS[idx] +=  10;
-              	carry = -1;
+                dataS[idx] +=  10;
+                dataS[idx - 1] = dataS[idx - 1] - 1;
               }
               idx --;
             }
       }
-      dataS[0] = carry;
 
       BigNum res = new BigNum(signeds, dataS,  scaleS);
 //      check(this, subtrahendi, res, "-", 0, RoundingMode.UNNECESSARY);
@@ -1413,14 +1373,12 @@ public class BigNum implements Comparable<BigNum> {
 //    System.out.println("小数点位置:" + this.scale);
 //    System.out.println("==0:" + this.isZero);
 
-//    StringBuffer buf = new StringBuffer();
     StringBuilder buf = new StringBuilder(this.length + 1);
     if (this.signed == -1) {
       buf.append("-");
     }
     int idx = 0;
     for (; idx < this.scale; idx ++) {
-//        buf.append((char)('0' + this.datas[idx]));
       if (this.datas[idx] >= 62) {
       } else if (this.datas[idx] >= 36) {
     	  buf.append((char)('a' + this.datas[idx] - 36));
@@ -1429,11 +1387,9 @@ public class BigNum implements Comparable<BigNum> {
       } else {
         buf.append((char)('0' + this.datas[idx]));
       }
-//    	buf.append(TBL_I2C[this.datas[idx]]);
     } // for
       buf.append(".");
       for (; idx < this.length; idx ++) {
-//    	  buf.append((char)('0' + this.datas[idx]));
         if (this.datas[idx] >= 62) {
         } else if (this.datas[idx] >= 36) {
       	  buf.append((char)('a' + this.datas[idx] - 36));
@@ -1442,12 +1398,11 @@ public class BigNum implements Comparable<BigNum> {
         } else {
           buf.append((char)('0' + this.datas[idx]));
         }
-//        buf.append(TBL_I2C[this.datas[idx]]);
     } // for
-
-//    if (idx == this.scale) {
-//      buf.append("0");
-//    }
+    if (idx == this.scale) {
+      //45. 
+      buf.append("0");
+    }
 //    System.out.println(buf);
     return buf.toString();
   }

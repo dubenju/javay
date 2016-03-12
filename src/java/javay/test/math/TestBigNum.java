@@ -60,6 +60,19 @@ public class TestBigNum {
 		b
 		= null;
 	}
+	public void testSubtracta1() {
+		BigDecimal a = new BigDecimal(STR);
+		BigDecimal b = new BigDecimal("0.0");
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < MAX_CNT; i ++) {
+			b = b.subtract(a);
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(b + ":" + ed + "ms");
+		a = null;
+		b
+		= null;
+	}
 	public void testMula() {
 		BigDecimal a = new BigDecimal(STR);
 		BigDecimal b = new BigDecimal(STR);
@@ -132,6 +145,18 @@ public class TestBigNum {
 		a = null;
 		b = null;
 	}
+	public void testSubtractb1() {
+		BigNum a = new BigNum(STR);
+		BigNum b = new BigNum("0.0");
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < MAX_CNT; i ++) {
+			b = b.subtract(a);
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(b + ":" + ed + "ms");
+		a = null;
+		b = null;
+	}
 	public void testMulb() {
 		BigNum a = new BigNum(STR);
 		BigNum b = new BigNum(STR);
@@ -172,9 +197,12 @@ public class TestBigNum {
 		proc.testAdda();
 		proc.testAddb();
 		
-//		proc.testSubtracta();
-//		proc.testSubtractb();
-//
+		proc.testSubtracta();
+		proc.testSubtractb();
+
+		proc.testSubtracta1();
+		proc.testSubtractb1();
+
 //		proc.testMula();
 //		proc.testMulb();
 //		

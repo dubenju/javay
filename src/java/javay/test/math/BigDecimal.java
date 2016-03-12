@@ -4468,9 +4468,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             }
         }
         BigInteger sum = fst.add(snd);
-        return (fst.signum == snd.signum) ?
-                new BigDecimal(sum, INFLATED, rscale, 0) :
-                valueOf(sum, rscale, 0);
+        return (fst.signum == snd.signum) ? new BigDecimal(sum, INFLATED, rscale, 0) : valueOf(sum, rscale, 0);
     }
 
     private static BigInteger bigMultiplyPowerTen(long value, int n) {
