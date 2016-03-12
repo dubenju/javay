@@ -23,8 +23,10 @@ public class BigNum implements Comparable<BigNum> {
   private int length;
   /** 小数点的起始位置. */
   private int scale;
+
   /** zero */
-  private int isZero;
+  private transient int isZero = 1;
+  private transient String cache;
 
 //  public static final int[] TBL_C2I = {
 //    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
@@ -43,6 +45,24 @@ public class BigNum implements Comparable<BigNum> {
 //    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
 //    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1, 
 //    -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1,  -1, -1, -1, -1  
+//  };
+//  public static final String[] TBL_I2C = {
+//	    "0", "1", "2", "3",  "4", "5", "6", "7",  "8", "9", "A", "B",  "C", "D", "E", "F", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "0", "1",  "2",  "3",  "4",  "5",  "6",  "7",   "8",  "9", "", "",  "", "", "", "", 
+//	    "", "A", "B", "C",  "D", "E", "F", "G",  "H", "I", "J", "K", "L", "M", "N", "O", 
+//	    "P", "Q", "R", "S",  "T", "U", "V", "W",  "X", "Y", "Z", "",  "", "", "", "", 
+//	    "", "a", "b", "c",  "d", "e", "f", "g",  "h", "i", "j", "k",  "l", "m", "n", "o", 
+//	    "p", "a", "r", "s",  "t", "u", "v", "w",  "x", "y", "z", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
+//	    "", "", "", "",  "", "", "", "",  "", "", "", "",  "", "", "", "", 
 //  };
   public static final BigNum ZERO = new BigNum("0");
   public static final BigNum ONE  = new BigNum("1");
@@ -244,7 +264,7 @@ public class BigNum implements Comparable<BigNum> {
     this.isZero = chkIsZero();
   }
 
-  // TODO:0.0
+  // TODO:0.0,01.10
   private BigNum(int si, int[] in, int dotpos) {
     this.signed = si;
     this.scale = dotpos;
@@ -1293,7 +1313,8 @@ public class BigNum implements Comparable<BigNum> {
    * @return String
    */
   public String toBinaryString() {
-    StringBuffer buf = new StringBuffer();
+    //StringBuffer buf = new StringBuffer();
+	  StringBuilder buf = new StringBuilder();
     if (this.signed > 0) {
       buf.append("+");
     } else {
@@ -1337,7 +1358,7 @@ public class BigNum implements Comparable<BigNum> {
    * @return String
    */
   public String toOctalString() {
-    StringBuffer buf = new StringBuffer();
+	  StringBuilder buf = new StringBuilder();
     if (this.signed > 0) {
       buf.append("+");
     } else {
@@ -1381,35 +1402,52 @@ public class BigNum implements Comparable<BigNum> {
    */
   @Override
   public String toString() {
+    String res = cache;
+    if (res == null) {
+      cache = res = toStringx();
+    }
+    return res;
+  }
+  public String toStringx() {
 //    System.out.println("长度:" + this.length);
 //    System.out.println("小数点位置:" + this.scale);
 //    System.out.println("==0:" + this.isZero);
 
-    StringBuffer buf = new StringBuffer();
+//    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder(this.length + 1);
     if (this.signed == -1) {
       buf.append("-");
     }
     int idx = 0;
-    String tmp;
-    for (idx = 0; idx < this.length; idx ++) {
-      int ch = this.datas[idx];
-      if (ch >= 62) {
-        tmp = ch + ",";
-      } else if (ch >= 36) {
-        tmp = String.valueOf((char)('a' + ch - 36));
-      } else if (ch >= 10) {
-        tmp = String.valueOf((char)('A' + ch - 10));
+    for (; idx < this.scale; idx ++) {
+//        buf.append((char)('0' + this.datas[idx]));
+      if (this.datas[idx] >= 62) {
+      } else if (this.datas[idx] >= 36) {
+    	  buf.append((char)('a' + this.datas[idx] - 36));
+      } else if (this.datas[idx] >= 10) {
+          buf.append((char)('A' + this.datas[idx] - 10));
       } else {
-        tmp = String.valueOf((char)('0' + ch));
+        buf.append((char)('0' + this.datas[idx]));
       }
-      buf.append(tmp);
-      if ((idx + 1) == this.scale) {
-        buf.append(".");
-      }
-    }
-    if (idx == this.scale) {
-      buf.append("0");
-    }
+//    	buf.append(TBL_I2C[this.datas[idx]]);
+    } // for
+      buf.append(".");
+      for (; idx < this.length; idx ++) {
+//    	  buf.append((char)('0' + this.datas[idx]));
+        if (this.datas[idx] >= 62) {
+        } else if (this.datas[idx] >= 36) {
+      	  buf.append((char)('a' + this.datas[idx] - 36));
+        } else if (this.datas[idx] >= 10) {
+            buf.append((char)('A' + this.datas[idx] - 10));
+        } else {
+          buf.append((char)('0' + this.datas[idx]));
+        }
+//        buf.append(TBL_I2C[this.datas[idx]]);
+    } // for
+
+//    if (idx == this.scale) {
+//      buf.append("0");
+//    }
 //    System.out.println(buf);
     return buf.toString();
   }
@@ -1419,7 +1457,7 @@ public class BigNum implements Comparable<BigNum> {
    * @return String
    */
   public String toHexString() {
-    StringBuffer buf = new StringBuffer();
+	  StringBuilder buf = new StringBuilder();
     if (this.signed > 0) {
       buf.append("+");
     } else {
@@ -1486,7 +1524,7 @@ public class BigNum implements Comparable<BigNum> {
    */
   public String toScientificNotation() {
     // aen
-    StringBuffer buf = new StringBuffer();
+	  StringBuilder buf = new StringBuilder();
     if (this.signed < 0) {
       buf.append("-");
     }

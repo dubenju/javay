@@ -4,10 +4,12 @@ package javay.test.java;
 public class TestLoop {
 
 	public static void main(String[] args) {
-		TestForCnt test = new TestForCnt();
+		TestLoopForCnt test = new TestLoopForCnt();
 //		test.testa();
 //		test.testb();
-		test.testc();
+//		test.testc();
+		test.testd();
+		test.teste();
 		/*
 		int count = 0;
 		TestFor proc = new TestFor();
@@ -28,14 +30,14 @@ public class TestLoop {
 	
 }
 
-class TestFor {
-	private TestData[] data;
-	public TestFor() {
-		data = new TestData[10000000];
+class TestLoopProcFor {
+	private TestLoopData[] data;
+	public TestLoopProcFor() {
+		data = new TestLoopData[10000000];
 		int idx = 0;
 		int max = data.length;
 		for (idx = 0; idx < max; idx ++) {
-			data[idx] = new TestData();
+			data[idx] = new TestLoopData();
 			data[idx].setBy((byte)1);
 		}
 
@@ -62,14 +64,14 @@ class TestFor {
 		long a = System.currentTimeMillis();
 
 
-		for ( TestData by : data) {
+		for ( TestLoopData by : data) {
 			by.setBy((byte) cnt);
 		}
 
 		System.out.print((System.currentTimeMillis() - a)  + "\t");
 	}
 }
-class TestData {
+class TestLoopData {
 	private byte by;
 
 	/**
@@ -105,8 +107,9 @@ class TestData {
  * @author dubenju
  *
  */
-class TestForCnt {
+class TestLoopForCnt {
 	public static long MAX_CNT = 10000000000L;
+	public static int MAX_CNT2 = 1000000000;
 	public void testa() {
 		int a = 0;
 		long st = System.currentTimeMillis();
@@ -137,6 +140,31 @@ class TestForCnt {
 				break;
 			}
 			i ++;
+		}
+		System.out.println(":" + (System.currentTimeMillis() - st) + "ms");
+	}
+	
+	public void testd() {
+		int a = 0;
+		long st = System.currentTimeMillis();
+		for (long i = 0; i < MAX_CNT2; i ++) {
+			a = 1;
+			for (int j = 0; j < 5; j ++) {
+				a ++;
+			}
+			
+		}
+		System.out.println(":" + (System.currentTimeMillis() - st) + "ms");
+	}
+	public void teste() {
+		int a = 0;
+		long st = System.currentTimeMillis();
+		for (long i = 0; i < MAX_CNT2; i ++) {
+			a = 1;
+			for (int j = 0; j < 42; j ++) {
+				a ++;
+			}
+			
 		}
 		System.out.println(":" + (System.currentTimeMillis() - st) + "ms");
 	}

@@ -23,6 +23,17 @@ public class TestBigNum {
 		System.out.println(a + ":" + ed + "ms");
 		a = null;
 	}
+	public void testToStra() {
+		BigDecimal a = new BigDecimal(STR);
+		String str = null;
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < MAX_CNT; i ++) {
+			str = a.toString();
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(str + ":" + ed + "ms");
+		a = null;
+	}
 
 	public void testAdda() {
 		BigDecimal a = new BigDecimal(STR);
@@ -82,6 +93,17 @@ public class TestBigNum {
 		}
 		long ed = System.currentTimeMillis() - st;
 		System.out.println(a + ":" + ed + "ms");
+		a = null;
+	}
+	public void testToStrb() {
+		BigNum a = new BigNum(STR);
+		String str = null;
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < MAX_CNT; i ++) {
+			str = a.toString();
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(str + ":" + ed + "ms");
 		a = null;
 	}
 
@@ -144,17 +166,21 @@ public class TestBigNum {
 		proc.testNewa();
 		proc.testNewb();
 
+		proc.testToStra();
+		proc.testToStrb();
+		
 		proc.testAdda();
 		proc.testAddb();
 		
-		proc.testSubtracta();
-		proc.testSubtractb();
+//		proc.testSubtracta();
+//		proc.testSubtractb();
+//
+//		proc.testMula();
+//		proc.testMulb();
+//		
+//		proc.testDiva();
+//		proc.testDivb();
 
-		proc.testMula();
-		proc.testMulb();
-		
-		proc.testDiva();
-		proc.testDivb();
 		proc = null;
 		System.gc();
 	}
