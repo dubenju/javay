@@ -1257,15 +1257,15 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     public BigDecimal add(BigDecimal augend) {
         if (this.intCompact != INFLATED) {
             if ((augend.intCompact != INFLATED)) {
-                return add(this.intCompact, this.scale, augend.intCompact, augend.scale);
+                return add1(this.intCompact, this.scale, augend.intCompact, augend.scale);
             } else {
-                return add(this.intCompact, this.scale, augend.intVal, augend.scale);
+                return add2(this.intCompact, this.scale, augend.intVal, augend.scale);
             }
         } else {
             if ((augend.intCompact != INFLATED)) {
-                return add(augend.intCompact, augend.scale, this.intVal, this.scale);
+                return add2(augend.intCompact, augend.scale, this.intVal, this.scale);
             } else {
-                return add(this.intVal, this.scale, augend.intVal, augend.scale);
+                return add3(this.intVal, this.scale, augend.intVal, augend.scale);
             }
         }
     }
@@ -1404,18 +1404,18 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     public BigDecimal subtract(BigDecimal subtrahend) {
         if (this.intCompact != INFLATED) {
             if ((subtrahend.intCompact != INFLATED)) {
-                return add(this.intCompact, this.scale, -subtrahend.intCompact, subtrahend.scale);
+                return add1(this.intCompact, this.scale, -subtrahend.intCompact, subtrahend.scale);
             } else {
-                return add(this.intCompact, this.scale, subtrahend.intVal.negate(), subtrahend.scale);
+                return add2(this.intCompact, this.scale, subtrahend.intVal.negate(), subtrahend.scale);
             }
         } else {
             if ((subtrahend.intCompact != INFLATED)) {
                 // Pair of subtrahend values given before pair of
                 // values from this BigDecimal to avoid need for
                 // method overloading on the specialized add method
-                return add(-subtrahend.intCompact, subtrahend.scale, this.intVal, this.scale);
+                return add2(-subtrahend.intCompact, subtrahend.scale, this.intVal, this.scale);
             } else {
-                return add(this.intVal, this.scale, subtrahend.intVal.negate(), subtrahend.scale);
+                return add3(this.intVal, this.scale, subtrahend.intVal.negate(), subtrahend.scale);
             }
         }
     }
@@ -4401,7 +4401,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         return new BigDecimal(BigInteger.valueOf(xs).add(ys), scale);
     }
 
-    private static BigDecimal add(final long xs, int scale1, final long ys, int scale2) {
+    private static BigDecimal add1(final long xs, int scale1, final long ys, int scale2) {
         long sdiff = (long) scale1 - scale2;
         if (sdiff == 0) {
             return add(xs, ys, scale1);
@@ -4430,7 +4430,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         }
     }
 
-    private static BigDecimal add(final long xs, int scale1, BigInteger snd, int scale2) {
+    private static BigDecimal add2(final long xs, int scale1, BigInteger snd, int scale2) {
         int rscale = scale1;
         long sdiff = (long)rscale - scale2;
         boolean sameSigns =  (Long.signum(xs) == snd.signum);
@@ -4454,7 +4454,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             valueOf(sum, rscale, 0);
     }
 
-    private static BigDecimal add(BigInteger fst, int scale1, BigInteger snd, int scale2) {
+    private static BigDecimal add3(BigInteger fst, int scale1, BigInteger snd, int scale2) {
         int rscale = scale1;
         long sdiff = (long)rscale - scale2;
         if (sdiff != 0) {

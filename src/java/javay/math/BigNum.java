@@ -21,13 +21,13 @@ import java.util.Stack;
  */
 public final class BigNum implements Comparable<BigNum> {
   /** 符号:正号:1,负号:-1. */
-  private final int signed;
+  public final int signed;
   /** 数据 十进制 一位对应一位. */
   public final int[] datas;
   /** 数据的长度. */
-  private final int length;
+  public final int length;
   /** 小数点的起始位置. */
-  private final int scale;
+  public final int scale;
 
   /** zero */
   private transient int isZero = 1;

@@ -10,12 +10,12 @@ public class TestBigNum2 {
 //		BigNum n16 = new BigNum("16.0");
 //		BigNum c = num.divide(n16, 0, BigNumRound.DOWN);
 //		System.out.println("c=" + c);
-		System.out.println(new BigNum("9876543219876543219876543210.0").toHexString());
-		System.out.println(new BigNum("9999999999.0").toHexString());
+//		System.out.println(new BigNum("9876543219876543219876543210.0").toHexString());
+//		System.out.println(new BigNum("9999999999.0").toHexString());
 		
 		BigInteger bi = new BigInteger("9876541239876543129876543210" , 10);
 		System.out.println(bi.toString(16).toUpperCase());
-		BigNum num = new BigNum("987654321987654321987654321.0"); // 
+		BigNum num = new BigNum("987654123987654312987654321.0"); // 
 		BigNum2 num2 = new BigNum2(num);
 		
 //		long e = 10;

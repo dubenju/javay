@@ -437,17 +437,20 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if (magnitude[numWords - 1] < 0)
             throw new NumberFormatException("Illegal digit");
 
+//        BigNum2.printAry(magnitude);
         // Process remaining digit groups
         int superRadix = intRadix[radix];
         int groupVal = 0;
         while (cursor < len) {
             group = val.substring(cursor, cursor += digitsPerInt[radix]);
-            System.out.println("grp=" + group);
+            System.out.println("grpB=" + group);
             groupVal = Integer.parseInt(group, radix);
             if (groupVal < 0)
                 throw new NumberFormatException("Illegal digit");
 
+            BigNum2.printAry(magnitude);
             destructiveMulAdd(magnitude, superRadix, groupVal);
+            
         }
         BigNum2.printAry(magnitude);
 
@@ -569,27 +572,28 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
     };
 
     // Multiply x array times word y in place, and add word z
-    private static void destructiveMulAdd(int[] x, int y, int z) {
+    public static void destructiveMulAdd(int[] x, int y, int z) {
         // Perform the multiplication word by word
         long ylong = y & LONG_MASK;
         long zlong = z & LONG_MASK;
+        System.out.println("y=" + ylong + ",z=" + zlong);
         int len = x.length;
 
         long product = 0;
         long carry = 0;
         for (int i = len-1; i >= 0; i--) {
             product = ylong * (x[i] & LONG_MASK) + carry;
-            x[i] = (int)product;
+            x[i] = (int) product;
             carry = product >>> 32;
         }
 
         // Perform the addition
         long sum = (x[len-1] & LONG_MASK) + zlong;
-        x[len-1] = (int)sum;
+        x[len-1] = (int) sum;
         carry = sum >>> 32;
         for (int i = len-2; i >= 0; i--) {
             sum = (x[i] & LONG_MASK) + carry;
-            x[i] = (int)sum;
+            x[i] = (int) sum;
             carry = sum >>> 32;
         }
     }
@@ -1316,7 +1320,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
      * a new int array to hold the answer and returns a reference to that
      * array.
      */
-    private static int[] add(int[] x, int[] y) {
+    public static int[] add(int[] x, int[] y) {
         // If x is shorter, swap the two arrays
         if (x.length < y.length) {
             int[] tmp = x;
@@ -4157,7 +4161,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         0x75db9c97,
         0x40000000,
         0x17179149,
-        0x3b9aca00,
+        0x3b9aca00, // 10
          0xcc6db61,
         0x19a10000,
         0x309f1021,
