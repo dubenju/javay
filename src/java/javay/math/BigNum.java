@@ -430,14 +430,22 @@ public final class BigNum implements Comparable<BigNum> {
       return new BigNum((0x00 - subtrahendi.signed), subtrahendi.datas,
            subtrahendi.scale);
     }
-    // a - a = 0
     
+    // TODO:2.0-1.6
     if (this.signed == subtrahendi.signed) {
-      int signeds = 0x01;
+      int signeds = 1;
       // 大小调整
-      BigNum minuend = this;
-      BigNum subtrahend = subtrahendi;
-      if (minuend.abs().compareTo(subtrahendi.abs()) < 0) {
+      BigNum minuend = null;
+      BigNum subtrahend = null;
+      int icmp = this.abs().compareTo(subtrahendi.abs());
+      if (icmp == 0) {
+        // a - a = 0
+        return ZERO;
+      } else if (icmp > 0) {
+        minuend = this;
+        subtrahend = subtrahendi;
+        subtrahend = subtrahendi;
+      } else if (icmp < 0) {
         minuend = subtrahendi;
         subtrahend = this;
         signeds = -1;
@@ -1263,9 +1271,9 @@ public final class BigNum implements Comparable<BigNum> {
    * @return BigNum
    */
   public BigNum integral() {
-    int[] data = new int[this.scale];
+    int[] data = new int[this.scale + 1];
     System.arraycopy(this.datas, 0, data, 0, this.scale);
-    return new BigNum(this.signed, data, this.scale, this.scale);
+    return new BigNum(this.signed, data, this.scale + 1, this.scale);
   }
 
   /**
@@ -1369,9 +1377,9 @@ public final class BigNum implements Comparable<BigNum> {
     return res;
   }
   public String toStringx() {
-//    System.out.println("长度:" + this.length);
-//    System.out.println("小数点位置:" + this.scale);
-//    System.out.println("==0:" + this.isZero);
+    System.out.println("长度:" + this.length);
+    System.out.println("小数点位置:" + this.scale);
+    System.out.println("==0:" + this.isZero);
 
     StringBuilder buf = new StringBuilder(this.length + 1);
     if (this.signed == -1) {
@@ -1412,26 +1420,40 @@ public final class BigNum implements Comparable<BigNum> {
    * @return String
    */
   public String toHexString() {
-	  StringBuilder buf = new StringBuilder();
+    StringBuilder buf = new StringBuilder();
     if (this.signed > 0) {
       buf.append("+");
     } else {
       buf.append("-");
     }
-    BigNum n2 = new BigNum("16.0");
+
+    // TODO:System.out.println(new BigNum("9876543219876540.0").toHexString());
+    // +00316A9EA3AC2BC
+    //   2316A9EA3AC2BC
     BigNum zn = this.integral();
-    BigNum xn = null;
-    xn = this.subtract(zn);
+    System.out.println("zn=" + zn);
+    BigNum xn = this.subtract(zn);
+    System.out.println("xn=" + xn);
+
     Stack<Integer> stk = new Stack<Integer>();
     if (zn.compareTo(BigNum.ZERO) == 0) {
       stk.push(0);
     }
+    BigNum n2 = new BigNum("16.0");
     while (zn.compareTo(BigNum.ZERO) > 0) {
       BigNum sn = zn.divide(n2, 0, BigNumRound.DOWN);
-      BigNum yn = zn.subtract(sn.multiply(n2));
+//      System.out.println("sn=" + sn);
+      BigNum jn = sn.multiply(n2);
+      BigNum yn = zn.subtract(jn);
+      System.out.println(">>>>>>>>>>>yn=" + yn + "=(" + zn +"-" + jn + ")");
       stk.push(yn.toInt());
       zn = sn;
+      if (zn.compareTo(n2) < 0) {
+        stk.push(zn.toInt());
+        break;
+      }
     }
+
     while (!stk.isEmpty()) {
       int ch = stk.pop();
       String tmp = "";
