@@ -3,6 +3,7 @@ package javay.test.math;
 import java.util.Arrays;
 
 import javay.math.BigNum;
+import javay.util.UArys;
 
 public class BigNum2 {
 	private final int signum;
@@ -20,7 +21,7 @@ public class BigNum2 {
 		for (int i = 0; i < ids.length; i ++) {
 			add1(dats, ids[i]);
 		}
-		printAry(dats);
+		UArys.printAry(dats);
 		this.signum = in.signed;
 		this.scale = in.length - in.scale;
 	}
@@ -38,20 +39,7 @@ public class BigNum2 {
 
 		return in;
 	}
-	public static void printAry(int[] in) {
-		System.out.print(" ");
-		for (int i = 0; i< in.length; i++) {
-			System.out.print(Integer.toHexString(in[i]).toUpperCase());
-		}
-		System.out.println(",len=" + in.length);
-	}
-	public static void printAry2(int[] in) {
-		System.out.print(" ");
-		for (int i = 0; i< in.length; i++) {
-			System.out.print(in[i]);
-		}
-		System.out.println(",len=" + in.length);
-	}
+
 	public BigNum2 add(BigNum2 augend) {
         int rscale = this.scale;
         long sdiff = (long) rscale - augend.scale;

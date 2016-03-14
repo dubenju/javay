@@ -7,6 +7,8 @@ import java.io.ObjectStreamField;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javay.util.UArys;
 import sun.misc.DoubleConsts;
 import sun.misc.FloatConsts;
 
@@ -448,11 +450,11 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
             if (groupVal < 0)
                 throw new NumberFormatException("Illegal digit");
 
-            BigNum2.printAry(magnitude);
+            UArys.printAry(magnitude);
             destructiveMulAdd(magnitude, superRadix, groupVal);
             
         }
-        BigNum2.printAry(magnitude);
+        UArys.printAry(magnitude);
 
         // Required for cases where the array was overallocated.
         mag = trustedStripLeadingZeroInts(magnitude);
@@ -1496,12 +1498,14 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         int xlen = mag.length;
 
         if (val == this && xlen > MULTIPLY_SQUARE_THRESHOLD) {
+            // 长度>20数的平方
             return square();
         }
 
         int ylen = val.mag.length;
 
         if ((xlen < KARATSUBA_THRESHOLD) || (ylen < KARATSUBA_THRESHOLD)) {
+            // 有一个操作数的长度小于80karatsuba
             int resultSign = signum == val.signum ? 1 : -1;
             if (val.mag.length == 1) {
                 return multiplyByInt(mag,val.mag[0], resultSign);
@@ -1509,12 +1513,12 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
             if (mag.length == 1) {
                 return multiplyByInt(val.mag,mag[0], resultSign);
             }
-            int[] result = multiplyToLen(mag, xlen,
-                                         val.mag, ylen, null);
+            int[] result = multiplyToLen(mag, xlen, val.mag, ylen, null);
             result = trustedStripLeadingZeroInts(result);
             return new BigInteger(result, resultSign);
         } else {
             if ((xlen < TOOM_COOK_THRESHOLD) && (ylen < TOOM_COOK_THRESHOLD)) {
+            	// 有一个操作数的长度小于240toomcook3
                 return multiplyKaratsuba(this, val);
             } else {
                 return multiplyToomCook3(this, val);
