@@ -225,17 +225,105 @@ public class BigNum2 {
 	public String toString() {
 		return "";
 	}
+	private static BigInteger longRadix[] = {
+        null,
+        null,
+        valueOf(0x4000000000000000L),
+        valueOf(0x383d9170b85ff80bL),
+        valueOf(0x4000000000000000L),
+        valueOf(0x6765c793fa10079dL),
+        valueOf(0x41c21cb8e1000000L),
+        valueOf(0x3642798750226111L),
+        valueOf(0x1000000000000000L),
+        valueOf(0x12bf307ae81ffd59L),
+        valueOf( 0xde0b6b3a7640000L), // 10
+        valueOf(0x4d28cb56c33fa539L),
+        valueOf(0x1eca170c00000000L),
+        valueOf(0x780c7372621bd74dL),
+        valueOf(0x1e39a5057d810000L),
+        valueOf(0x5b27ac993df97701L),
+        valueOf(0x1000000000000000L),
+        valueOf(0x27b95e997e21d9f1L),
+        valueOf(0x5da0e1e53c5c8000L),
+        valueOf( 0xb16a458ef403f19L),
+        valueOf(0x16bcc41e90000000L),
+        valueOf(0x2d04b7fdd9c0ef49L),
+        valueOf(0x5658597bcaa24000L),
+        valueOf( 0x6feb266931a75b7L),
+        valueOf( 0xc29e98000000000L),
+        valueOf(0x14adf4b7320334b9L),
+        valueOf(0x226ed36478bfa000L),
+        valueOf(0x383d9170b85ff80bL),
+        valueOf(0x5a3c23e39c000000L),
+        valueOf( 0x4e900abb53e6b71L),
+        valueOf( 0x7600ec618141000L),
+        valueOf( 0xaee5720ee830681L),
+        valueOf(0x1000000000000000L),
+        valueOf(0x172588ad4f5f0981L),
+        valueOf(0x211e44f7d02c1000L),
+        valueOf(0x2ee56725f06e5c71L),
+        valueOf(0x41c21cb8e1000000L)
+    };
+private static int digitsPerLong[] = {
+         0, // 0
+         0, // 1
+        62, // 2 01
+        39, // 3 012
+        31, // 4 0123
+        27, // 5 01234
+        24, // 6 012345
+        22, // 7 0123456
+        20, // 8 01234567
+        19, // 9 012345678
+        18, //10 0123456789
+        18, //11 0123456789A
+        17, //12 0123456789AB
+        17, //13 0123456789ABC
+        16, //14 0123456789ABCD
+        16, //15 0123456789ABCDE
+        15, //16 0123456789ABCDEF
+        15, //17 0123456789ABCDEFG
+        15, //18 0123456789ABCDEFGH
+        14, //19 0123456789ABCDEFGHI
+        14, //20 0123456789ABCDEFGHIJ
+        14, //21 0123456789ABCDEFGHIJK
+        14, //22 0123456789ABCDEFGHIJKL
+        13, //23 0123456789ABCDEFGHIJKLM
+        13, //24 0123456789ABCDEFGHIJKLMN
+        13, //25 0123456789ABCDEFGHIJKLMNO
+        13, //26 0123456789ABCDEFGHIJKLMNOP
+        13, //27 0123456789ABCDEFGHIJKLMNOPQ
+        13, //28 0123456789ABCDEFGHIJKLMNOPQR
+        12, //29 0123456789ABCDEFGHIJKLMNOPQRS
+        12, //30 0123456789ABCDEFGHIJKLMNOPQRST
+        12, //31 0123456789ABCDEFGHIJKLMNOPQRSTU
+        12, //32 0123456789ABCDEFGHIJKLMNOPQRSTUV
+        12, //33 0123456789ABCDEFGHIJKLMNOPQRSTUVW
+        12, //34 0123456789ABCDEFGHIJKLMNOPQRSTUVWX
+        12, //35 0123456789ABCDEFGHIJKLMNOPQRSTUVWXY
+        12  //36 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    };
+    /* zero[i] is a string of i consecutive zeros. */
+    private static String zeros[] = new String[64];
+    static {
+        zeros[63] =
+            "000000000000000000000000000000000000000000000000000000000000000";
+        for (int i=0; i < 63; i++) {
+            zeros[i] = zeros[63].substring(0, i);
+        }
+    }
+
     private String smallToString(int radix) {
         if (signum == 0) {
             return "0";
         }
 
         // Compute upper bound on number of digit groups and allocate space
-        int maxNumDigitGroups = (4*mag.length + 6)/7;
+        int maxNumDigitGroups = (4 * this.dats.length + 6) / 7;
         String digitGroup[] = new String[maxNumDigitGroups];
 
         // Translate number to string, a digit group at a time
-        BigInteger tmp = this.abs();
+        int[] tmp = this.dats;
         int numGroups = 0;
         while (tmp.signum != 0) {
             BigInteger d = longRadix[radix];
