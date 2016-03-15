@@ -22,6 +22,8 @@ public class BigNum2 {
 			add1(dats, ids[i]);
 		}
 		UArys.printAry(dats);
+		UArys.printAry2(dats);
+		UArys.printAry3(dats);
 		this.signum = in.signed;
 		this.scale = in.length - in.scale;
 	}
@@ -41,24 +43,25 @@ public class BigNum2 {
 	}
 
 	public BigNum2 add(BigNum2 augend) {
-        int rscale = this.scale;
-        long sdiff = (long) rscale - augend.scale;
-        int[] fst;
-        int[] snd;
-        if (sdiff != 0) {
-            if (sdiff < 0) {
-//                int raise = BigDecimal.checkScale(fst, -sdiff);
-                int raise = (int) -sdiff;
-                rscale = augend.scale;
-                fst = bigMultiplyPowerTen(fst, raise);
-            } else {
-//                int raise = BigDecimal.checkScale(snd, sdiff);
-                int raise = sdiff
-                snd = bigMultiplyPowerTen(snd, raise);
-            }
-        }
-        int[] sum = BigInteger.add(fst, snd);
-        return (this.signum == augend.signum) ? new BigDecimal(sum, INFLATED, rscale, 0) : valueOf(sum, rscale, 0);
+//        int rscale = this.scale;
+//        long sdiff = (long) rscale - augend.scale;
+//        int[] fst;
+//        int[] snd;
+//        if (sdiff != 0) {
+//            if (sdiff < 0) {
+////                int raise = BigDecimal.checkScale(fst, -sdiff);
+//                int raise = (int) -sdiff;
+//                rscale = augend.scale;
+//                fst = bigMultiplyPowerTen(fst, raise);
+//            } else {
+////                int raise = BigDecimal.checkScale(snd, sdiff);
+//                int raise = sdiff
+//                snd = bigMultiplyPowerTen(snd, raise);
+//            }
+//        }
+//        int[] sum = BigInteger.add(fst, snd);
+//        return (this.signum == augend.signum) ? new BigDecimal(sum, INFLATED, rscale, 0) : valueOf(sum, rscale, 0);
+		return null;
 	}
 	private static final long[] LONG_TEN_POWERS_TABLE = {
 	        1,                     // 0 / 10^0
@@ -151,7 +154,119 @@ public class BigNum2 {
             return pows[n];
         }
     }
+    public static int[] add(int[] x, int[] y) {
+        // If x is shorter, swap the two arrays
+        if (x.length < y.length) {
+            int[] tmp = x;
+            x = y;
+            y = tmp;
+        }
+
+        int xIndex = x.length;
+        int yIndex = y.length;
+        int result[] = new int[xIndex];
+        long sum = 0;
+        if (yIndex == 1) {
+            sum = (x[--xIndex] & 0xFFFFFFFFL) + (y[0] & 0xFFFFFFFFL) ;
+            result[xIndex] = (int)sum;
+        } else {
+            // Add common parts of both numbers
+            while (yIndex > 0) {
+                sum = (x[--xIndex] & 0xFFFFFFFFL) + (y[--yIndex] & 0xFFFFFFFFL) + (sum >>> 32);
+                result[xIndex] = (int) sum;
+            }
+        }
+        // Copy remainder of longer number while carry propagation is required
+        boolean carry = (sum >>> 32 != 0);
+        while (xIndex > 0 && carry) {
+            carry = ((result[--xIndex] = x[xIndex] + 1) == 0);
+        }
+
+        // Copy remainder of longer number
+        while (xIndex > 0) {
+            result[--xIndex] = x[xIndex];
+        }
+
+        // Grow result if necessary
+        if (carry) {
+            int bigger[] = new int[result.length + 1];
+            System.arraycopy(result, 0, bigger, 1, result.length);
+            bigger[0] = 0x01;
+            return bigger;
+        }
+        return result;
+    }
+    private static int[] subtract(int[] big, int[] little) {
+        int bigIndex = big.length;
+        int result[] = new int[bigIndex];
+        int littleIndex = little.length;
+        long difference = 0;
+
+        // Subtract common parts of both numbers
+        while (littleIndex > 0) {
+            difference = (big[--bigIndex] & 0xFFFFFFFFL) -
+                         (little[--littleIndex] & 0xFFFFFFFFL) +
+                         (difference >> 32);
+            result[bigIndex] = (int)difference;
+        }
+
+        // Subtract remainder of longer number while borrow propagates
+        boolean borrow = (difference >> 32 != 0);
+        while (bigIndex > 0 && borrow)
+            borrow = ((result[--bigIndex] = big[bigIndex] - 1) == -1);
+
+        // Copy remainder of longer number
+        while (bigIndex > 0)
+            result[--bigIndex] = big[bigIndex];
+
+        return result;
+    }
+
 	public String toString() {
 		return "";
 	}
+    private String smallToString(int radix) {
+        if (signum == 0) {
+            return "0";
+        }
+
+        // Compute upper bound on number of digit groups and allocate space
+        int maxNumDigitGroups = (4*mag.length + 6)/7;
+        String digitGroup[] = new String[maxNumDigitGroups];
+
+        // Translate number to string, a digit group at a time
+        BigInteger tmp = this.abs();
+        int numGroups = 0;
+        while (tmp.signum != 0) {
+            BigInteger d = longRadix[radix];
+
+            MutableBigInteger q = new MutableBigInteger(),
+                              a = new MutableBigInteger(tmp.mag),
+                              b = new MutableBigInteger(d.mag);
+            MutableBigInteger r = a.divide(b, q);
+            BigInteger q2 = q.toBigInteger(tmp.signum * d.signum);
+            BigInteger r2 = r.toBigInteger(tmp.signum * d.signum);
+
+            digitGroup[numGroups++] = Long.toString(r2.longValue(), radix);
+            tmp = q2;
+        }
+
+        // Put sign (if any) and first digit group into result buffer
+        StringBuilder buf = new StringBuilder(numGroups*digitsPerLong[radix]+1);
+        if (signum < 0) {
+            buf.append('-');
+        }
+        buf.append(digitGroup[numGroups-1]);
+
+        // Append remaining digit groups padded with leading zeros
+        for (int i=numGroups-2; i >= 0; i--) {
+            // Prepend (any) leading zeros for this digit group
+            int numLeadingZeros = digitsPerLong[radix]-digitGroup[i].length();
+            if (numLeadingZeros != 0) {
+                buf.append(zeros[numLeadingZeros]);
+            }
+            buf.append(digitGroup[i]);
+        }
+        return buf.toString();
+    }
 }

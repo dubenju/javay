@@ -3575,9 +3575,9 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         if (signum < 0) {
             toString(this.negate(), sb, radix, 0);
             sb.insert(0, '-');
-        }
-        else
+        } else {
             toString(this, sb, radix, 0);
+        }
 
         return sb.toString();
     }
@@ -3641,8 +3641,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
      * @param radix  The base to convert to.
      * @param digits The minimum number of digits to pad to.
      */
-    private static void toString(BigInteger u, StringBuilder sb, int radix,
-                                 int digits) {
+    private static void toString(BigInteger u, StringBuilder sb, int radix, int digits) {
         /* If we're smaller than a certain threshold, use the smallToString
            method, padding with leading zeroes when necessary. */
         if (u.mag.length <= SCHOENHAGE_BASE_CONVERSION_THRESHOLD) {

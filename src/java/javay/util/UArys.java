@@ -15,4 +15,11 @@ public class UArys {
 		}
 		System.out.println(",len=" + in.length);
 	}
+	public static void printAry3(int[] in) {
+		System.out.print(" ");
+		for (int i = 0; i< in.length; i++) {
+			System.out.print((in[i]) + " ");
+		}
+		System.out.println(",len=" + in.length);
+	}
 }
