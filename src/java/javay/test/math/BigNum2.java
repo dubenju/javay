@@ -16,17 +16,18 @@ public class BigNum2 {
 	public BigNum2(BigNum in) {
 		int[] ids = in.datas;
 		int len = ids.length;
+		// int 8 0xFFFFFFFFL
 		int leno = len / 8;
 		if (len % 8 != 0) {
 			leno ++;
 		}
 		this.datas = new int[leno];
 		for (int i = 0; i < ids.length; i ++) {
-			add1(datas, ids[i]);
+			UArys.add(datas, ids[i]);
 		}
+		UArys.printAryH(datas);
+		UArys.printAryL(datas);
 		UArys.printAry(datas);
-		UArys.printAry2(datas);
-		UArys.printAry3(datas);
 		this.signed = in.signed;
 		this.scale = in.length - in.scale;
 		this.length = in.length;
@@ -48,68 +49,8 @@ public class BigNum2 {
 	  }
 
 	  
-	public static int[] add1(int[] in, int n) {
-		long p = 0;
-		long c = n & 0XFFFFFFFFL;
-		for (int i = in.length - 1;i >= 0; i --) {
-			p = ( (in[i] & 0xFFFFFFFFL) * 10) + c;
-			in[i] = (int) p;
-			c = p >>> 32;
-		}
-		return in;
-	}
-	public static int[] add11(int[] in, int n) {
-		long c = n & 0XFFFFFFFFL;
-		for (int i = in.length - 1;i >= 0; i --) {
-			long p = ( (in[i] & 0xFFFFFFFFL) * 10) + c;
-			in[i] = (int) p;
-			c = p >>> 32;
-		}
-		return in;
-	}
 
-    public static int[] add(int[] x, int[] y) {
-        // If x is shorter, swap the two arrays
-        if (x.length < y.length) {
-            int[] tmp = x;
-            x = y;
-            y = tmp;
-        }
 
-        int xIndex = x.length;
-        int yIndex = y.length;
-        int result[] = new int[xIndex];
-        long sum = 0;
-        if (yIndex == 1) {
-            sum = (x[--xIndex] & 0xFFFFFFFFL) + (y[0] & 0xFFFFFFFFL) ;
-            result[xIndex] = (int) sum;
-        } else {
-            // Add common parts of both numbers
-            while (yIndex > 0) {
-                sum = (x[--xIndex] & 0xFFFFFFFFL) + (y[--yIndex] & 0xFFFFFFFFL) + (sum >>> 32);
-                result[xIndex] = (int) sum;
-            }
-        }
-        // Copy remainder of longer number while carry propagation is required
-        boolean carry = (sum >>> 32 != 0);
-        while (xIndex > 0 && carry) {
-            carry = ((result[--xIndex] = x[xIndex] + 1) == 0);
-        }
-
-        // Copy remainder of longer number
-        while (xIndex > 0) {
-            result[--xIndex] = x[xIndex];
-        }
-
-        // Grow result if necessary
-        if (carry) {
-            int bigger[] = new int[result.length + 1];
-            System.arraycopy(result, 0, bigger, 1, result.length);
-            bigger[0] = 0x01;
-            return bigger;
-        }
-        return result;
-    }
 //	public BigNum2 add(BigNum2 augend) {
 ////        int rscale = this.scale;
 ////        long sdiff = (long) rscale - augend.scale;
@@ -159,62 +100,71 @@ public class BigNum2 {
 	      /* 小数部长度 */
 	      int decT = this.length - this.scale;
 	      int decA = augend.length - augend.scale;
-	      /* 长度 */
-	      int[] dataS = new int[scaleS + ( (decA > decT) ? decA : decT )];
-
-	      int offT = scaleS - this.scale;
-	      int offA = scaleS - augend.scale;
-	      int posT = offT + this.length;
-	      int posA = offA + augend.length;
-
-	      int idx = dataS.length - 1;
-	      if (posA > posT) {
-	        while(idx >= posT) {
-	            dataS[idx] = augend.datas[idx - offA];
-	            idx --;
-	        }
-	      } else {
-	        while(idx >= posA) {
-	            dataS[idx] = this.datas[idx - offT];
-	            idx --;
-	        }
-	      }
-
-	      if (offA > offT) {
-	          while(idx >= offA) {
-	              dataS[idx] = dataS[idx] + this.datas[idx - offT] + augend.datas[idx - offA];
-	              if (dataS[idx] >= 10) {
-	                dataS[idx] -= 10;
-	                dataS[idx - 1] = 1;
-	              }
-	              idx --;
+	      int diff = decT - decA;
+	      if ( diff != 0) {
+	          if (diff < 0) {
+	              // t
+	          } else {
+	              // a
 	          }
-	          while(idx > 0) {
-	              dataS[idx] = dataS[idx] + this.datas[idx - offT];
-	              if (dataS[idx] >= 10) {
-	                dataS[idx] -= 10;
-	                dataS[idx - 1] = 1;
-	              }
-	              idx --;
-	            }
-	        } else {
-	            while(idx >= offT) {
-	                dataS[idx] = dataS[idx] + this.datas[idx - offT] + augend.datas[idx - offA];
-	                if (dataS[idx] >= 10) {
-	                  dataS[idx] -=  10;
-	                  dataS[idx - 1] = 1;
-	                }
-	                idx --;
-	            }
-	          while(idx > 0) {
-	              dataS[idx] = dataS[idx] + augend.datas[idx - offA];
-	              if (dataS[idx] >= 10) {
-	                dataS[idx] -= 10;
-	                dataS[idx - 1] = 1;
-	              }
-	              idx --;
-	            }
-	        }
+	      }
+	      /* 长度 */
+//	      int[] dataS = new int[scaleS + ( (decA > decT) ? decA : decT )];
+	      int[] dataS = UArys.add(this.datas, augend.datas);
+
+//	      int offT = scaleS - this.scale;
+//	      int offA = scaleS - augend.scale;
+//	      int posT = offT + this.length;
+//	      int posA = offA + augend.length;
+//
+//	      int idx = dataS.length - 1;
+//	      if (posA > posT) {
+//	        while(idx >= posT) {
+//	            dataS[idx] = augend.datas[idx - offA];
+//	            idx --;
+//	        }
+//	      } else {
+//	        while(idx >= posA) {
+//	            dataS[idx] = this.datas[idx - offT];
+//	            idx --;
+//	        }
+//	      }
+//
+//	      if (offA > offT) {
+//	          while(idx >= offA) {
+//	              dataS[idx] = dataS[idx] + this.datas[idx - offT] + augend.datas[idx - offA];
+//	              if (dataS[idx] >= 10) {
+//	                dataS[idx] -= 10;
+//	                dataS[idx - 1] = 1;
+//	              }
+//	              idx --;
+//	          }
+//	          while(idx > 0) {
+//	              dataS[idx] = dataS[idx] + this.datas[idx - offT];
+//	              if (dataS[idx] >= 10) {
+//	                dataS[idx] -= 10;
+//	                dataS[idx - 1] = 1;
+//	              }
+//	              idx --;
+//	            }
+//	        } else {
+//	            while(idx >= offT) {
+//	                dataS[idx] = dataS[idx] + this.datas[idx - offT] + augend.datas[idx - offA];
+//	                if (dataS[idx] >= 10) {
+//	                  dataS[idx] -=  10;
+//	                  dataS[idx - 1] = 1;
+//	                }
+//	                idx --;
+//	            }
+//	          while(idx > 0) {
+//	              dataS[idx] = dataS[idx] + augend.datas[idx - offA];
+//	              if (dataS[idx] >= 10) {
+//	                dataS[idx] -= 10;
+//	                dataS[idx - 1] = 1;
+//	              }
+//	              idx --;
+//	            }
+//	        }
 
 	      BigNum2 res = new BigNum2(this.signed, dataS, dataS.length, scaleS);
 //	      check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
@@ -324,31 +274,6 @@ public class BigNum2 {
         }
     }
 
-    private static int[] subtract(int[] big, int[] little) {
-        int bigIndex = big.length;
-        int result[] = new int[bigIndex];
-        int littleIndex = little.length;
-        long difference = 0;
-
-        // Subtract common parts of both numbers
-        while (littleIndex > 0) {
-            difference = (big[--bigIndex] & 0xFFFFFFFFL) -
-                         (little[--littleIndex] & 0xFFFFFFFFL) +
-                         (difference >> 32);
-            result[bigIndex] = (int)difference;
-        }
-
-        // Subtract remainder of longer number while borrow propagates
-        boolean borrow = (difference >> 32 != 0);
-        while (bigIndex > 0 && borrow)
-            borrow = ((result[--bigIndex] = big[bigIndex] - 1) == -1);
-
-        // Copy remainder of longer number
-        while (bigIndex > 0)
-            result[--bigIndex] = big[bigIndex];
-
-        return result;
-    }
 
 	public String toString() {
 		return "";

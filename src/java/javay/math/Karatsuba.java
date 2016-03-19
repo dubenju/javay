@@ -119,29 +119,7 @@ public class Karatsuba {
         }
         return newMag;
     }
-    public static int[] multiplyByInt(int[] x, int y) {
-        if (Integer.bitCount(y) == 1) {
-            return shiftLeft(x, Integer.numberOfTrailingZeros(y));
-        }
-        int xlen = x.length;
-        int[] rmag =  new int[xlen + 1];
-        long carry = 0;
-        long yl = y & 0xFFFFFFFFL;
-        int rstart = rmag.length - 1;
-        for (int i = xlen - 1; i >= 0; i--) {
-            long product = (x[i] & 0xFFFFFFFFL) * yl + carry;
-            rmag[rstart--] = (int) product;
-            carry = product >>> 32;
-            System.out.println(product + "," + carry);
-        }
-        if (carry == 0L) {
-            // remove 0;
-            rmag = Arrays.copyOfRange(rmag, 1, rmag.length);
-        } else {
-            rmag[rstart] = (int) carry;
-        }
-        return rmag;
-    }
+
     public static int[] multiplyToLen(int[] x, int xlen, int[] y, int ylen, int[] z) {
         int xstart = xlen - 1;
         int ystart = ylen - 1;

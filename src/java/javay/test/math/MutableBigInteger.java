@@ -1115,8 +1115,7 @@ class MutableBigInteger {
         }
         int xlen = intLen;
         while (--xlen > 0) {
-            long dividendEstimate = (remLong << 32) |
-                    (value[offset + intLen - xlen] & LONG_MASK);
+            long dividendEstimate = (remLong << 32) | (value[offset + intLen - xlen] & LONG_MASK);
             int q;
             if (dividendEstimate >= 0) {
                 q = (int) (dividendEstimate / divisorLong);

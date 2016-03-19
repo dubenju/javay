@@ -6,6 +6,7 @@ import javay.math.BigNum;
 import javay.math.BigNumRound;
 
 public class TestBigNum {
+	/** MAX_CNT: 100w */
 	public static int MAX_CNT = 1000000;
 	public static int MAX_CNT2 = 100;
 	public static String STR = "10000000000000000000000000.0000000000000001";
@@ -132,7 +133,23 @@ public class TestBigNum {
 		a = null;
 		b = null;
 	}
-
+	public void testAddc() {
+		BigNum a = new BigNum(STR);
+		BigNum b = new BigNum(STR);
+		BigNum2 a2 = new BigNum2(a);
+		BigNum2 b2 = new BigNum2(b);
+		
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i ++) {
+			b2 = b2.add(a2);
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(b + ":" + ed + "ms");
+		a = null;
+		b = null;
+		a2 = null;
+		b2 = null;
+	}
 	public void testSubtractb() {
 		BigNum a = new BigNum(STR);
 		BigNum b = new BigNum(STR2);
@@ -188,20 +205,21 @@ public class TestBigNum {
 		System.out.println("Max Memory:" + ( Runtime.getRuntime().maxMemory() / (1024 * 1024 * 1024) ) + "GB");
 		TestBigNum proc = new TestBigNum();
 		
-		proc.testNewa();
-		proc.testNewb();
-
-		proc.testToStra();
-		proc.testToStrb();
+//		proc.testNewa();
+//		proc.testNewb();
+//
+//		proc.testToStra();
+//		proc.testToStrb();
 		
 		proc.testAdda();
 		proc.testAddb();
+		proc.testAddc();
 		
-		proc.testSubtracta();
-		proc.testSubtractb();
-
-		proc.testSubtracta1();
-		proc.testSubtractb1();
+//		proc.testSubtracta();
+//		proc.testSubtractb();
+//
+//		proc.testSubtracta1();
+//		proc.testSubtractb1();
 
 //		proc.testMula();
 //		proc.testMulb();
