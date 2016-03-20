@@ -136,8 +136,8 @@ public class TestBigNum {
 	public void testAddc() {
 		BigNum a = new BigNum(STR);
 		BigNum b = new BigNum(STR);
-		BigNum2 a2 = new BigNum2(a);
-		BigNum2 b2 = new BigNum2(b);
+		BigNum2 a2 = new BigNum2(STR);
+		BigNum2 b2 = new BigNum2(STR);
 		
 		long st = System.currentTimeMillis();
 		for (int i = 0; i < 1000000; i ++) {
@@ -153,6 +153,18 @@ public class TestBigNum {
 	public void testSubtractb() {
 		BigNum a = new BigNum(STR);
 		BigNum b = new BigNum(STR2);
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < MAX_CNT; i ++) {
+			b = b.subtract(a);
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(b + ":" + ed + "ms");
+		a = null;
+		b = null;
+	}
+	public void testSubtractc() {
+		BigNum2 a = new BigNum2(STR);
+		BigNum2 b = new BigNum2(STR2);
 		long st = System.currentTimeMillis();
 		for (int i = 0; i < MAX_CNT; i ++) {
 			b = b.subtract(a);
@@ -215,9 +227,10 @@ public class TestBigNum {
 		proc.testAddb();
 		proc.testAddc();
 		
-//		proc.testSubtracta();
-//		proc.testSubtractb();
-//
+		proc.testSubtracta();
+		proc.testSubtractb();
+		proc.testSubtractc();
+
 //		proc.testSubtracta1();
 //		proc.testSubtractb1();
 

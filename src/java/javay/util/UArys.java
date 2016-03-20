@@ -85,17 +85,16 @@ public class UArys {
         }
         return result;
     }
-    private static int[] subtract(int[] big, int[] little) {
+    public static int[] subtract(int[] big, int[] little) {
         int bigIndex = big.length;
         int result[] = new int[bigIndex];
         int littleIndex = little.length;
         long difference = 0;
-
+//printAry(big);
+//printAry(little);
         // Subtract common parts of both numbers
         while (littleIndex > 0) {
-            difference = (big[--bigIndex] & 0xFFFFFFFFL) -
-                         (little[--littleIndex] & 0xFFFFFFFFL) +
-                         (difference >> 32);
+            difference = (big[--bigIndex] & 0xFFFFFFFFL) - (little[--littleIndex] & 0xFFFFFFFFL) + (difference >> 32);
             result[bigIndex] = (int)difference;
         }
 
@@ -265,13 +264,13 @@ public class UArys {
             ud = subtract(ud, multiply(vd , qq));
             // (5)测试余数
             q[j] = qq;
-            if (D4 < 0) {
-                // (6)往回加
-                q[j] = q[j] - 1;
-                ud = add(ud , vd);
-            } else {
-                // (7)对j进行循环
-            }
+//            if (D4 < 0) {
+//                // (6)往回加
+//                q[j] = q[j] - 1;
+//                ud = add(ud , vd);
+//            } else {
+//                // (7)对j进行循环
+//            }
         }
         // (8)不规格化
         return q;
