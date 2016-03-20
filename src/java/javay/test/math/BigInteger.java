@@ -3589,7 +3589,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         }
 
         // Compute upper bound on number of digit groups and allocate space
-        int maxNumDigitGroups = (4*mag.length + 6)/7;
+        int maxNumDigitGroups = (4 * mag.length + 6) / 7;
         String digitGroup[] = new String[maxNumDigitGroups];
 
         // Translate number to string, a digit group at a time
@@ -3610,7 +3610,7 @@ public class BigInteger extends Number implements Comparable<BigInteger> {
         }
 
         // Put sign (if any) and first digit group into result buffer
-        StringBuilder buf = new StringBuilder(numGroups*digitsPerLong[radix]+1);
+        StringBuilder buf = new StringBuilder(numGroups * digitsPerLong[radix] + 1);
         if (signum < 0) {
             buf.append('-');
         }

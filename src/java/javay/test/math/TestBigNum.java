@@ -109,8 +109,29 @@ public class TestBigNum {
 		System.out.println(a + ":" + ed + "ms");
 		a = null;
 	}
+	public void testNewc() {
+		BigNum2 a = null;
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < MAX_CNT; i ++) {
+			a = new BigNum2(STR);
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(a + ":" + ed + "ms");
+		a = null;
+	}
 	public void testToStrb() {
 		BigNum a = new BigNum(STR);
+		String str = null;
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < MAX_CNT; i ++) {
+			str = a.toString();
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(str + ":" + ed + "ms");
+		a = null;
+	}
+	public void testToStrc() {
+		BigNum2 a = new BigNum2(STR);
 		String str = null;
 		long st = System.currentTimeMillis();
 		for (int i = 0; i < MAX_CNT; i ++) {
@@ -134,8 +155,6 @@ public class TestBigNum {
 		b = null;
 	}
 	public void testAddc() {
-		BigNum a = new BigNum(STR);
-		BigNum b = new BigNum(STR);
 		BigNum2 a2 = new BigNum2(STR);
 		BigNum2 b2 = new BigNum2(STR);
 		
@@ -144,9 +163,7 @@ public class TestBigNum {
 			b2 = b2.add(a2);
 		}
 		long ed = System.currentTimeMillis() - st;
-		System.out.println(b + ":" + ed + "ms");
-		a = null;
-		b = null;
+		System.out.println(b2 + ":" + ed + "ms");
 		a2 = null;
 		b2 = null;
 	}
@@ -198,6 +215,18 @@ public class TestBigNum {
 		a = null;
 		b = null;
 	}
+	public void testMulc() {
+		BigNum2 a = new BigNum2(STR);
+		BigNum2 b = new BigNum2(STR);
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < MAX_CNT2; i ++) {
+			b = b.multiply(a);
+		}
+		long ed = System.currentTimeMillis() - st;
+		System.out.println(b + ":" + ed + "ms");
+		a = null;
+		b = null;
+	}
 	public void testDivb() {
 		BigNum a = new BigNum(STR);
 		BigNum b = new BigNum(STR2);
@@ -217,25 +246,28 @@ public class TestBigNum {
 		System.out.println("Max Memory:" + ( Runtime.getRuntime().maxMemory() / (1024 * 1024 * 1024) ) + "GB");
 		TestBigNum proc = new TestBigNum();
 		
-//		proc.testNewa();
-//		proc.testNewb();
-//
-//		proc.testToStra();
-//		proc.testToStrb();
+		proc.testNewa();
+		proc.testNewb();
+		proc.testNewc();
+
+		proc.testToStra();
+		proc.testToStrb();
+		proc.testToStrc();
 		
 		proc.testAdda();
 		proc.testAddb();
 		proc.testAddc();
 		
-		proc.testSubtracta();
-		proc.testSubtractb();
-		proc.testSubtractc();
+//		proc.testSubtracta();
+//		proc.testSubtractb();
+//		proc.testSubtractc();
 
 //		proc.testSubtracta1();
 //		proc.testSubtractb1();
 
 //		proc.testMula();
 //		proc.testMulb();
+//		proc.testMulc();
 //		
 //		proc.testDiva();
 //		proc.testDivb();

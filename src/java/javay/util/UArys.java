@@ -123,7 +123,7 @@ public class UArys {
             long product = (x[i] & 0xFFFFFFFFL) * yl + carry;
             rmag[rstart--] = (int) product;
             carry = product >>> 32;
-            System.out.println(product + "," + carry);
+//            System.out.println(product + "," + carry);
         }
         if (carry == 0L) {
             // remove 0;
@@ -156,6 +156,19 @@ public class UArys {
       }
       return rmag;
   }
+    public static int[] multiply(int[] x, int[] y) {
+        int[] z = new int[x.length + y.length];
+        for (int i = x.length - 1; i >= 0; i --) {
+            long carry = 0;
+            for (int j = y.length - 1, k= y.length + i; j >= 0; j --, k --) {
+                long product = (y[j] & 0xFFFFFFFFL) * (x[i] & 0xFFFFFFFFL) + (z[k] & 0xFFFFFFFFL) + carry;
+                z[k] = (int) product;
+                carry = product >>> 32;
+            }
+            z[i] = (int) carry;
+        }
+        return z;
+    }
     public static int[] dividea(int[] x, int y) {
         int n = x.length;
         long b = 0xFFFFFFFFL + 1;
@@ -180,7 +193,7 @@ public class UArys {
             remLong = rem & 0xFFFFFFFFL;
         }
         int xlen = x.length;
-        while (--xlen > 0) {
+        while (-- xlen > 0) {
             long dividendEstimate = (remLong << 32) | (x[0 + x.length - xlen] & 0xFFFFFFFFL);
             int q;
             if (dividendEstimate >= 0) {
@@ -295,4 +308,57 @@ for (j = 0 to m) {
   }
 }
      */
+    private static char[] TBL_CH= {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+            'U', 'V', 'W', 'X', 'Y', 'Z'
+        };
+    public static String toStringx(int[] in, int radix) {
+        StringBuilder buf = new StringBuilder();
+        for (int i =  in.length - 1; i >= 0; i --) {
+            long m = in[i];
+            long a = 0;
+            int b = 0;
+            do {
+                a = m / radix;
+                b = (int) (m - a * radix);
+                buf.insert(0, TBL_CH[b]);
+                m = a;
+            } while(a > 0);
+        }
+        buf.append(",len=" + buf.length() + "," + radix + "进制数");
+        return buf.toString();
+    }
+    public static boolean isZero(int[] in) {
+        boolean bRes = true;
+        for (int i : in) {
+            if(i != 0) {
+                bRes = false;
+                break;
+            }
+        }
+        return bRes;
+    }
+    public static String toString(int[] in, int radix) {
+        StringBuilder buf = new StringBuilder();
+        int[] tmp = in;
+        while (isZero(tmp) == false) {
+//            System.out.print("-----------tmp=");
+//            printAry(tmp);
+            int[] q = divide(tmp, radix);
+//            System.out.print("q=");
+//            printAry(q);
+            int[] u = multiply(q, radix);
+//            System.out.print("u=");
+//            printAry(u);
+            int[] c = subtract(tmp, u);
+//            System.out.print("c=");
+//            printAry(c);
+            buf.insert(0, c[c.length - 1]);
+            tmp = q;
+        }
+//        buf.append(",len=" + buf.length() + "," + radix + "进制数");
+        return buf.toString();
+    }
 }

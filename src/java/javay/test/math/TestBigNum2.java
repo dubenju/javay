@@ -14,7 +14,9 @@ public class TestBigNum2 {
 //		proc.testb();
 //		proc.testc();
 //		proc.testd();
-		proc.teste();
+//		proc.teste();
+//		proc.testf();
+		proc.testg();
 
 //		BigNum n16 = new BigNum("16.0");
 //		BigNum c = num.divide(n16, 0, BigNumRound.DOWN);
@@ -181,5 +183,27 @@ class TestBigNum2Proc {
 		int b = 2147483647;
 		int[] c = UArys.divide(a, b);
 		UArys.printAryL(c);
+	}
+	public void testf() {
+		int[]  c = null;
+		long st = System.currentTimeMillis();
+		for (int i = 0; i < 100000000; i ++) {
+		int[] a = {
+				9,9
+		};
+		c = UArys.multiply(a, a);
+		}
+		long ed = System.currentTimeMillis() - st;
+		UArys.printAryL(c);
+		System.out.println(ed + "ms");
+	}
+	public void testg() {
+		int[] a = {
+				//9,9
+				 0, 293873, -1770791086, -478206960, 18681856, 1000
+		};
+		String str = UArys.toString(a, 10);
+		System.out.println(str);
+//		System.out.println(4294967296L * 9 + 9);
 	}
 }

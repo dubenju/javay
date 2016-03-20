@@ -3395,17 +3395,12 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
      */
     private String layoutChars(boolean sci) {
         if (scale == 0)                      // zero scale is trivial
-            return (intCompact != INFLATED) ?
-                Long.toString(intCompact):
-                intVal.toString();
-        if (scale == 2  &&
-            intCompact >= 0 && intCompact < Integer.MAX_VALUE) {
+            return (intCompact != INFLATED) ? Long.toString(intCompact): intVal.toString();
+        if (scale == 2  && intCompact >= 0 && intCompact < Integer.MAX_VALUE) {
             // currency fast path
             int lowInt = (int)intCompact % 100;
             int highInt = (int)intCompact / 100;
-            return (Integer.toString(highInt) + '.' +
-                    StringBuilderHelper.DIGIT_TENS[lowInt] +
-                    StringBuilderHelper.DIGIT_ONES[lowInt]) ;
+            return (Integer.toString(highInt) + '.' + StringBuilderHelper.DIGIT_TENS[lowInt] + StringBuilderHelper.DIGIT_ONES[lowInt]) ;
         }
 
         StringBuilderHelper sbHelper = threadLocalStringBuilderHelper.get();
@@ -3428,7 +3423,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
         if (signum() < 0)             // prefix '-' if negative
             buf.append('-');
         int coeffLen = coeff.length - offset;
-        long adjusted = -(long)scale + (coeffLen -1);
+        long adjusted = -(long) scale + (coeffLen -1);
         if ((scale >= 0) && (adjusted >= -6)) { // plain number
             int pad = scale - coeffLen;         // count of padding zeros
             if (pad >= 0) {                     // 0.xxx form

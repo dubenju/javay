@@ -9,10 +9,10 @@ import javay.util.UArys;
 
 public class BigNum2 {
 	/** 符号:正号:1,负号:-1. */
-	public final int signed;
+	private final int signed;
 	private int[] datas;
 	/** 数据的长度. */
-	public final int length;
+	private final int length;
 	private final int scale;
 
 	  /** zero */
@@ -550,42 +550,43 @@ public class BigNum2 {
 	    final int decimalLen = len - ((this.length - this.scale) + (multiplicand.length - multiplicand.scale));
 
 	    /* 数据 */
-	    long[][] data = new long[multiplicand.length][len - 1];
-	    int xn = 0;
-	    int yn = 0;
-	    for (int idx = multiplicand.length - 1; idx >= 0; idx --) {
-	      for (int idy = this.length - 1; idy >= 0; idy --) {
-	        /*
-	         *   a * b
-	         * = a * (2^m + n)
-	         * = a * 2^m + a * n (0 <= n < 2)
-	         */
-	        data[xn][yn] = multiplicand.datas[idx] * this.datas[idy];
-	        yn ++;
-	      }
-	      xn ++;
-	      yn = xn;
-	    }
-//	    printary(data);
-//	    System.out.println("xn=" + xn + ",yn=" + yn);
-
-	    int[] result = new int[len];
-	    int jn = len - 1;
-	    long carry = 0;
-	    int n = 0;
-	    for (; n < data[0].length; n ++) {
-	      long value = carry;
-	      carry = 0;
-	      for (int m = 0; m < data.length; m ++) {
-	        value = value + data[m][n];
-	        if (value >= 10) {
-	          carry += value / 10;
-	          value %= 10;
-	        }
-	      }
-	      result[jn - n] = (int) value;
-	    }
-	    result[jn - n] = (int) carry;
+	    int[] result = UArys.multiply(this.datas, multiplicand.datas);
+//	    long[][] data = new long[multiplicand.length][len - 1];
+//	    int xn = 0;
+//	    int yn = 0;
+//	    for (int idx = multiplicand.length - 1; idx >= 0; idx --) {
+//	      for (int idy = this.length - 1; idy >= 0; idy --) {
+//	        /*
+//	         *   a * b
+//	         * = a * (2^m + n)
+//	         * = a * 2^m + a * n (0 <= n < 2)
+//	         */
+//	        data[xn][yn] = multiplicand.datas[idx] * this.datas[idy];
+//	        yn ++;
+//	      }
+//	      xn ++;
+//	      yn = xn;
+//	    }
+////	    printary(data);
+////	    System.out.println("xn=" + xn + ",yn=" + yn);
+//
+//	    int[] result = new int[len];
+//	    int jn = len - 1;
+//	    long carry = 0;
+//	    int n = 0;
+//	    for (; n < data[0].length; n ++) {
+//	      long value = carry;
+//	      carry = 0;
+//	      for (int m = 0; m < data.length; m ++) {
+//	        value = value + data[m][n];
+//	        if (value >= 10) {
+//	          carry += value / 10;
+//	          value %= 10;
+//	        }
+//	      }
+//	      result[jn - n] = (int) value;
+//	    }
+//	    result[jn - n] = (int) carry;
 //	    System.out.println("carry=" + carry + ",n=" + n);
 //	    printary(result);
 
@@ -996,8 +997,56 @@ public class BigNum2 {
 
 
 	public String toString() {
-		return "";
+	    String res = cache;
+	    if (res == null) {
+	      cache = res = toStringx();
+	    }
+	    return res;
 	}
+	  public String toStringx() {
+		    System.out.println("长度:" + this.length);
+		    System.out.println("小数点位置:" + this.scale);
+		    System.out.println("==0:" + this.isZero);
+
+		    StringBuilder buf = new StringBuilder(this.length + 1);
+		    if (this.signed == -1) {
+		      buf.append("-");
+		    }
+
+		    String str = UArys.toString(this.datas, 10);
+//		    System.out.println(str);
+		    buf.append(str.substring(0, this.scale));
+		    buf.append(".");
+		    buf.append(str.substring(this.scale));
+//		    int idx = 0;
+//		    for (; idx < this.scale; idx ++) {
+//		      if (this.datas[idx] >= 62) {
+//		      } else if (this.datas[idx] >= 36) {
+//		    	  buf.append((char)('a' + this.datas[idx] - 36));
+//		      } else if (this.datas[idx] >= 10) {
+//		          buf.append((char)('A' + this.datas[idx] - 10));
+//		      } else {
+//		        buf.append((char)('0' + this.datas[idx]));
+//		      }
+//		    } // for
+//		      buf.append(".");
+//		      for (; idx < this.length; idx ++) {
+//		        if (this.datas[idx] >= 62) {
+//		        } else if (this.datas[idx] >= 36) {
+//		      	  buf.append((char)('a' + this.datas[idx] - 36));
+//		        } else if (this.datas[idx] >= 10) {
+//		            buf.append((char)('A' + this.datas[idx] - 10));
+//		        } else {
+//		          buf.append((char)('0' + this.datas[idx]));
+//		        }
+//		    } // for
+//		    if (idx == this.scale) {
+//		      //45. 
+//		      buf.append("0");
+//		    }
+//		    System.out.println(buf);
+		    return buf.toString();
+		  }
 //	private static BigInteger longRadix[] = {
 //        null,
 //        null,
