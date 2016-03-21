@@ -142,6 +142,7 @@ public class BigNum2 {
       if (this.length % 8 != 0) {
         leno ++;
       }
+      UArys.printAry(dats);
       this.datas = new int[leno];
       for (int i = 0; i < dats.length; i ++) {
         UArys.add(this.datas, dats[i]);
@@ -290,6 +291,7 @@ public class BigNum2 {
         // 小数点的移动
         // int scaleS = (augend.scale > this.scale) ? augend.scale + 1 : this.scale + 1;
         int scaleS = (augend.scale > this.scale) ? augend.scale : this.scale;
+        
         /* 小数部长度 */
         int decT = this.length - this.scale;
         int decA = augend.length - augend.scale;
@@ -306,8 +308,9 @@ public class BigNum2 {
         /* 长度 */
 //        int[] dataS = new int[scaleS + ( (decA > decT) ? decA : decT )];
         int[] dataS = UArys.add(this.datas, augend.datas);
-
-        BigNum2 res = new BigNum2(this.signed, dataS, len, scaleS);
+//        System.out.println("(" + len +"," + scaleS + ")");
+        BigNum2 res = new BigNum2(this.signed, dataS, len, len - dec);
+        System.out.println(this + "(" + this.length +"," + this.scale + ") + " + augend + "(" + augend.length + "," +augend.scale + ") = " + res + "(" + len + "," + scaleS + ")");
 //        check(this, augend, res, "+", 0, RoundingMode.UNNECESSARY);
         return res;
       } else {
@@ -895,9 +898,9 @@ public class BigNum2 {
       return res;
     }
     public String toStringx() {
-        System.out.println("长度:" + this.length);
-        System.out.println("小数点位置:" + this.scale);
-        System.out.println("==0:" + this.isZero);
+//        System.out.println("长度:" + this.length);
+//        System.out.println("小数点位置:" + this.scale);
+//        System.out.println("==0:" + this.isZero);
 
         StringBuilder buf = new StringBuilder(this.length + 1);
         if (this.signed == -1) {
@@ -905,7 +908,7 @@ public class BigNum2 {
         }
 
         String str = UArys.toString(this.datas, 10);
-//        System.out.println(str);
+        System.out.println("[" +str + "]");
         buf.append(str.substring(0, this.scale));
         buf.append(".");
         buf.append(str.substring(this.scale));

@@ -16,7 +16,8 @@ public class TestBigNum2 {
 //		proc.testd();
 //		proc.teste();
 //		proc.testf();
-		proc.testg();
+//		proc.testg();
+		proc.testh();
 
 //		BigNum n16 = new BigNum("16.0");
 //		BigNum c = num.divide(n16, 0, BigNumRound.DOWN);
@@ -205,5 +206,19 @@ class TestBigNum2Proc {
 		String str = UArys.toString(a, 10);
 		System.out.println(str);
 //		System.out.println(4294967296L * 9 + 9);
+	}
+	public void testh() {
+		BigNum2 n = new BigNum2("0.0");
+		int a = 0;
+		for (int i = 0; i <= 100; i ++) {
+			n = n.add(new BigNum2("" + i + ""));
+			a = a + i;
+		}
+		System.out.println(n + "," + a);
+	}
+	public void testi() {
+		BigNum2 n = new BigNum2("1");
+		int a = 0;
+		System.out.println(n + "," + a);
 	}
 }

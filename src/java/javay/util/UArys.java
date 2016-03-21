@@ -343,18 +343,23 @@ for (j = 0 to m) {
     public static String toString(int[] in, int radix) {
         StringBuilder buf = new StringBuilder();
         int[] tmp = in;
+        if (isZero(tmp)) {
+            buf.append("00");
+        }
         while (isZero(tmp) == false) {
-//            System.out.print("-----------tmp=");
-//            printAry(tmp);
             int[] q = divide(tmp, radix);
-//            System.out.print("q=");
-//            printAry(q);
             int[] u = multiply(q, radix);
-//            System.out.print("u=");
-//            printAry(u);
             int[] c = subtract(tmp, u);
-//            System.out.print("c=");
-//            printAry(c);
+
+            System.out.print("-----------tmp=");
+            printAry(tmp);
+            System.out.print("q=");
+            printAry(q);
+            System.out.print("u=");
+            printAry(u);
+            System.out.print("c=");
+            printAry(c);
+
             buf.insert(0, c[c.length - 1]);
             tmp = q;
         }
