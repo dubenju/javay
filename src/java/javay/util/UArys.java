@@ -176,7 +176,7 @@ public class UArys {
         int r = 0;
         for (int j = 1; j <= n; j ++) {
             q[j] = (int) (b * r + x[j]) / y;
-            r = (int) (b * r + x[j]) % y; 
+            r = (int) (b * r + x[j]) % y;
         }
         return q;
     }
@@ -263,7 +263,7 @@ public class UArys {
             if (u[j] == v[0]) {
                 qq = (int) base - 1;
             } else {
-                qq = (int) (ud[j] * base + ud[j + 1]) / vd[0]; 
+                qq = (int) (ud[j] * base + ud[j + 1]) / vd[0];
             }
             int rr = (int) (ud[j] * base + ud[j + 1]) % vd[0];
             while(vd[1] * qq > (base * ud[j] + ud[j + 1] - qq * vd[0] * base + ud[j + 2])) {
@@ -290,12 +290,12 @@ public class UArys {
     }
 
     /**
-     * 
+     *
 for (j = 0 to m) {
   if(u(j) == v(1)) {
     qq = base - 1;
-  } else { 
-    qq={ (u(j)*base+u(j+1)) / v(1); 
+  } else {
+    qq={ (u(j)*base+u(j+1)) / v(1);
   }
   while ( qq * v(2) > (u(j) * base + u(j+1) - qq * v(1)) * base + u(j+2) ) {
     qq = qq - 1;

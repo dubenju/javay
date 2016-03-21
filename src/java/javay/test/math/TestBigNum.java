@@ -157,9 +157,9 @@ public class TestBigNum {
 	public void testAddc() {
 		BigNum2 a2 = new BigNum2(STR);
 		BigNum2 b2 = new BigNum2(STR);
-		
+
 		long st = System.currentTimeMillis();
-		for (int i = 0; i < 1000000; i ++) {
+		for (int i = 0; i < MAX_CNT; i ++) {
 			b2 = b2.add(a2);
 		}
 		long ed = System.currentTimeMillis() - st;
@@ -245,33 +245,41 @@ public class TestBigNum {
 		System.out.println("Tot Memory:" + ( Runtime.getRuntime().totalMemory() / (1024 * 1024) ) + "MB");
 		System.out.println("Max Memory:" + ( Runtime.getRuntime().maxMemory() / (1024 * 1024 * 1024) ) + "GB");
 		TestBigNum proc = new TestBigNum();
-		
+
+		System.out.println("-------创建");
 		proc.testNewa();
 		proc.testNewb();
 		proc.testNewc();
 
+		System.out.println("-------toString");
 		proc.testToStra();
 		proc.testToStrb();
 		proc.testToStrc();
-		
+
+		System.out.println("-------加法");
 		proc.testAdda();
 		proc.testAddb();
 		proc.testAddc();
-		
-//		proc.testSubtracta();
-//		proc.testSubtractb();
-//		proc.testSubtractc();
 
+		System.out.println("-------减法");
+		proc.testSubtracta();
+		proc.testSubtractb();
+		proc.testSubtractc();
+
+		System.out.println("-------减法2");
 //		proc.testSubtracta1();
 //		proc.testSubtractb1();
 
+		System.out.println("-------乘法");
 //		proc.testMula();
 //		proc.testMulb();
 //		proc.testMulc();
-//		
+//
+		System.out.println("-------除法");
 //		proc.testDiva();
 //		proc.testDivb();
 
+		System.out.println("-------模");
 		proc = null;
 		System.gc();
 	}

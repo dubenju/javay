@@ -3922,7 +3922,7 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
     }
 
     private static int checkScale(BigInteger intVal, long val) {
-        int asInt = (int)val;
+        int asInt = (int) val;
         if (asInt != val) {
             asInt = val>Integer.MAX_VALUE ? Integer.MAX_VALUE : Integer.MIN_VALUE;
             if (intVal.signum() != 0)
@@ -4456,10 +4456,10 @@ public class BigDecimal extends Number implements Comparable<BigDecimal> {
             if (sdiff < 0) {
                 int raise = checkScale(fst,-sdiff);
                 rscale = scale2;
-                fst = bigMultiplyPowerTen(fst,raise);
+                fst = bigMultiplyPowerTen(fst, raise);
             } else {
                 int raise = checkScale(snd,sdiff);
-                snd = bigMultiplyPowerTen(snd,raise);
+                snd = bigMultiplyPowerTen(snd, raise);
             }
         }
         BigInteger sum = fst.add(snd);
