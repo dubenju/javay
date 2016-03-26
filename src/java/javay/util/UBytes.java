@@ -5,7 +5,7 @@ public class UBytes {
 		StringBuffer buf = new StringBuffer();
 		for (byte by : in) {
 			//System.out.println("by" + by);
-			String str = Strings.format(Integer.toHexString(by), 2, '0');
+			String str = Strings.format(Integer.toHexString(by).toUpperCase(), 2, '0');
 			buf.append(str);
 			buf.append(" ");
 		}

@@ -13,8 +13,9 @@ public class FormatSubChunk {
 	private byte[] channels; // 2声道数目，1--单声道；2--双声道
 	private long numChannel;
 	private byte[] samplesPerSec; // 4采样频率
-	private byte[] avgBytesPerSec; //4每秒所需字节数== samplesPerSec * channels * bitsPerSample/8
-	private byte[] blockAlign; // 2数据块对齐单位(每个采样需要的字节数)== channels * bitsPerSample/8
+	private long sampleRate;
+	private byte[] avgBytesPerSec; //4每秒所需字节数== 采样频率 * 声道数 * 位(bit)数／样本 / 8
+	private byte[] blockAlign; // 2数据块对齐单位(每个采样需要的字节数)== 声道数 * 位(bit)数／样本 / 8
 	private long blockalign;
 	private byte[] bitsPerSample; // 2每个采样需要的bit数
 	private long bitsperSample;
@@ -40,6 +41,7 @@ public class FormatSubChunk {
 		System.arraycopy(in, 22, this.bitsPerSample, 0, 2);
 		
 		this.numChannel = UBytes.toLong(this.channels, 1);
+		this.sampleRate = UBytes.toLong(this.samplesPerSec, 1);
 		this.blockalign = UBytes.toLong(this.blockAlign, 1);
 		this.bitsperSample = UBytes.toLong(this.bitsPerSample, 1);
 	}
@@ -56,15 +58,15 @@ public class FormatSubChunk {
 		buf.append(UBytes.toLong(this.size, 1));
 		buf.append(",formatTag:");
 		buf.append(UBytes.toLong(this.formatTag, 1));
-		buf.append(",音频通道数:");
+		buf.append(",音频通道(声道)数:");
 		buf.append(UBytes.toLong(this.channels, 1));
 		buf.append(",采样速率:");
 		buf.append(UBytes.toLong(this.samplesPerSec, 1));
-		buf.append(",avgBytesPerSec:");
+		buf.append(",avgBytesPerSec(=采样频率 * 声道数 * 位(bit)数／样本 / 8):");
 		buf.append(UBytes.toLong(this.avgBytesPerSec, 1));
-		buf.append(",blockAlign:");
+		buf.append(",blockAlign(=声道数 * 位(bit)数／样本 / 8):");
 		buf.append(UBytes.toLong(this.blockAlign, 1));
-		buf.append(",位数／样本:");
+		buf.append(",位(bit)数／样本:");
 		buf.append(UBytes.toLong(this.bitsPerSample, 1));
 		return buf.toString();
 	}
@@ -96,4 +98,21 @@ public class FormatSubChunk {
 	public void setBitsperSample(long bitsperSample) {
 		this.bitsperSample = bitsperSample;
 	}
+
+	/**
+	 * @return the sampleRate
+	 */
+	public long getSampleRate() {
+		return sampleRate;
+	}
+
+	/**
+	 * @param sampleRate the sampleRate to set
+	 */
+	public void setSampleRate(long sampleRate) {
+		this.sampleRate = sampleRate;
+	}
+
+
+	
 }

@@ -17,8 +17,8 @@ public class TestWave {
 
 		int bytesum = 0;
 		int byteread = 0;
-		//String in = "./classes/javay/sound/shangxinlei.wav";
-		String in = "./classes/javay/sound/Windows Shutdown.wav";
+		String in = "./classes/javay/sound/shangxinlei.wav";
+		// String in = "./classes/javay/sound/Windows Shutdown.wav";
 		InputStream inStream = new FileInputStream(in);
 //		InputStream inStream = TestWave.class.getClassLoader().getResource("shangxinlei.wav");
 
@@ -70,7 +70,10 @@ public class TestWave {
 		bytesum  += byteread;
 		
 
-		// ListChunk
+		// 播放
+		PlayWave.print((float) (format.getSampleRate() * 1.0), (int) format.getBitsperSample(), (int) format.getNumChannel(), true, false, buffer);
+
+		// ListChunk,没有的时候？？
 		buffer = new byte[12];
 		if ( (byteread = inStream.read(buffer)) == -1) {
 			System.out.println("read error ListChunk");
