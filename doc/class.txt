@@ -1,0 +1,137 @@
+51  0x33  J2SE 7
+50  0x32  J2SE 6.0
+49  0x31  J2SE 5.0
+48  0x30  JDK 1.4
+47  0x2F  JDK 1.3
+46  0x2E  JDK 1.2
+45  0x2D  JDK 1.1
+
+
+tag中表示的数据类型：
+
+CONSTANT_Class_info                                  （7）、
+
+CONSTANT_Integer_info                              （3）、
+
+CONSTANT_Long_info                                   （5）、
+
+CONSTANT_Float_info                                  （4）、
+
+CONSTANT_Double_info                              （6）、
+
+CONSTANT_String_info                                 （8）、
+
+CONSTANT_Fieldref_info                              （9）、
+
+CONSTANT_Methodref_info                       （10）、
+
+CONSTANT_InterfaceMethodref_info      （11）、
+
+CONSTANT_NameAndType_info                （12）、
+
+CONSTANT_Utf8_info                                   （1）、
+
+
+ACC_PUBLIC
+
+0x0001
+
+pubilc，包外可访问。
+
+ACC_FINAL
+
+0x0010
+
+final，不能有子类。
+
+ACC_SUPER
+
+0x0020
+
+用于兼容早期编译器，新编译器都设置该标记，以在使用 invokespecial指令时对子类方法做特定处理。
+
+ACC_INTERFACE
+
+0x0200
+
+接口，同时需要设置：ACC_ABSTRACT。不可同时设置：ACC_FINAL、ACC_SUPER、ACC_ENUM
+
+ACC_ABSTRACT
+
+0x0400
+
+抽象类，无法实例化。不可和ACC_FINAL同时设置。
+
+ACC_SYNTHETIC
+
+0x1000
+
+synthetic，由编译器产生，不存在于源代码中。
+
+ACC_ANNOTATION
+
+0x2000
+
+注解类型（annotation），需同时设置：ACC_INTERFACE、ACC_ABSTRACT
+
+ACC_ENUM
+
+0x4000
+
+枚举类型
+
+
+
+ACC_PUBLIC
+
+0x0001
+
+pubilc，包外可访问。
+
+ACC_PRIVATE
+
+0x0002
+
+private，只可在类内访问。
+
+ACC_PROTECTED
+
+0x0004
+
+protected，类内和子类中可访问。
+
+ACC_STATIC
+
+0x0008
+
+static，静态。
+
+ACC_FINAL
+
+0x0010
+
+final，常量。
+
+ACC_VOILATIE
+
+0x0040
+
+volatile，直接读写内存，不可被缓存。不可和ACC_FINAL一起使用。
+
+ACC_TRANSIENT
+
+0x0080
+
+transient，在序列化中被忽略的字段。
+
+ACC_SYNTHETIC
+
+0x1000
+
+synthetic，由编译器产生，不存在于源代码中。
+
+ACC_ENUM
+
+0x4000
+
+enum，枚举类型字段

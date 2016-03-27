@@ -21,6 +21,12 @@ public class UBytes {
 		}
 		return buf.toString();
 	}
+	/**
+	 *
+	 * @param in
+	 * @param endian 1:Little endian,2:big endian
+	 * @return
+	 */
 	public static int toInt(byte[] in, int endian) {
 		int res = 0;
 		int pos = in.length - 1;
@@ -33,8 +39,9 @@ public class UBytes {
 		for (int i = pos; (endian == 2 ? i < in.length : i >= 0) ; i = i + step) {
 			//System.out.println(in[i]);
 			res = res * 256 + Byte.toUnsignedInt(in[i]);
+//			System.out.println(res);
 		}
-
+//		System.out.println(res);
 		return res;
 	}
 	/**

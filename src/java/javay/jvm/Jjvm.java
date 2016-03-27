@@ -1,5 +1,6 @@
 package javay.jvm;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,11 +23,15 @@ class JjvmProc {
 		String strFileName = "./classes/javay/math/BigNum.class";
 	    int bytesum = 0;
 	    int byteread = 0;
+	    File classFile = new File(strFileName);
+	    long classFileSize = classFile.length();
+	    byte[] buffer = new byte[(int) classFileSize]; // 4096];
+
 	    boolean blRes = false;
 	    try {
 	      InputStream inStream = new FileInputStream(strFileName);
 //	      FileOutputStream fs = new FileOutputStream(out);
-	      byte[] buffer = new byte[4096];
+	      
 	      while ( (byteread = inStream.read(buffer)) != -1) {
 	        bytesum  += byteread;
 	        System.out.println(bytesum);
@@ -42,6 +47,8 @@ class JjvmProc {
 	    } catch (IOException e) {
 	      e.printStackTrace();
 	    }
+	    ClassMagic cm = new ClassMagic(buffer);
+	    System.out.println(cm);
 		System.out.println(">> End <<.");
 	}
 }
