@@ -70,8 +70,8 @@ public class TestWave {
 		bytesum  += byteread;
 		
 
-		// 播放
-		PlayWave.print((float) (format.getSampleRate() * 1.0), (int) format.getBitsperSample(), (int) format.getNumChannel(), true, false, buffer);
+//		// 播放
+//		PlayWave.print((float) (format.getSampleRate() * 1.0), (int) format.getBitsperSample(), (int) format.getNumChannel(), true, false, buffer);
 
 		// ListChunk,没有的时候？？
 		buffer = new byte[12];
