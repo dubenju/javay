@@ -1,48 +1,49 @@
 package javay.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UArys {
-	public static void printAryH(int[] in) {
-		System.out.print(" ");
-		for (int i = 0; i< in.length; i++) {
-			System.out.print(Integer.toHexString(in[i]).toUpperCase());
-		}
-		System.out.println(",len=" + in.length);
-	}
-	public static void printAryL(int[] in) {
-		System.out.print(" ");
-		for (int i = 0; i< in.length; i++) {
-			System.out.print((in[i]&0xFFFFFFFFL) + " ");
-		}
-		System.out.println(",len=" + in.length);
-	}
-	public static void printAry(int[] in) {
-		System.out.print(" ");
-		for (int i = 0; i< in.length; i++) {
-			System.out.print((in[i]) + " ");
-		}
-		System.out.println(",len=" + in.length);
-	}
-	public static int[] add(int[] in, int n) {
-		long p = 0;
-		long c = n & 0XFFFFFFFFL;
-		for (int i = in.length - 1;i >= 0; i --) {
-			p = ( (in[i] & 0xFFFFFFFFL) * 10) + c;
-			in[i] = (int) p;
-			c = p >>> 32;
-		}
-		return in;
-	}
-	public static int[] add11(int[] in, int n) {
-		long c = n & 0XFFFFFFFFL;
-		for (int i = in.length - 1;i >= 0; i --) {
-			long p = ( (in[i] & 0xFFFFFFFFL) * 10) + c;
-			in[i] = (int) p;
-			c = p >>> 32;
-		}
-		return in;
-	}
+    public static void printAryH(int[] in) {
+        System.out.print(" ");
+        for (int i = 0; i< in.length; i++) {
+            System.out.print(Integer.toHexString(in[i]).toUpperCase());
+        }
+        System.out.println(",len=" + in.length);
+    }
+    public static void printAryL(int[] in) {
+        System.out.print(" ");
+        for (int i = 0; i< in.length; i++) {
+            System.out.print((in[i]&0xFFFFFFFFL) + " ");
+        }
+        System.out.println(",len=" + in.length);
+    }
+    public static void printAry(int[] in) {
+        System.out.print(" ");
+        for (int i = 0; i< in.length; i++) {
+            System.out.print((in[i]) + " ");
+        }
+        System.out.println(",len=" + in.length);
+    }
+    public static int[] add(int[] in, int n) {
+        long p = 0;
+        long c = n & 0XFFFFFFFFL;
+        for (int i = in.length - 1;i >= 0; i --) {
+            p = ( (in[i] & 0xFFFFFFFFL) * 10) + c;
+            in[i] = (int) p;
+            c = p >>> 32;
+        }
+        return in;
+    }
+    public static int[] add11(int[] in, int n) {
+        long c = n & 0XFFFFFFFFL;
+        for (int i = in.length - 1;i >= 0; i --) {
+            long p = ( (in[i] & 0xFFFFFFFFL) * 10) + c;
+            in[i] = (int) p;
+            c = p >>> 32;
+        }
+        return in;
+    }
     public static int[] add(int[] x, int[] y) {
         if (x.length < y.length) {
             // 如果x比较短的话,交换xy. a+b=b+a.
@@ -364,6 +365,110 @@ for (j = 0 to m) {
             tmp = q;
         }
 //        buf.append(",len=" + buf.length() + "," + radix + "进制数");
+        return buf.toString();
+    }
+
+    public static byte[][] split(byte[] in, byte[] keys) {
+        if ( in == null ) return null;
+        if ( keys == null || keys.length <= 0) return new byte[][] {in};
+        if (in.length < keys.length) return new byte[][] {in};
+        ArrayList<SplitedInfo> splited = new ArrayList<SplitedInfo>();
+        int pre_pos = 0;
+        int pos = 0;
+        int length = 0;
+        int len_in = in.length;
+        int len_keys = keys.length;
+        int max = (len_in - len_keys) + 1;
+
+        while(pos < max) {
+            // System.out.println("pos=" + pos + ",max=" + max);
+            if (compare(in, pos, keys) == true) {
+                // pos
+
+                // length
+                length = pos - pre_pos;
+                // System.out.println("★pos:" + pre_pos + ",length=" + length);
+                splited.add(new SplitedInfo(pre_pos, length));
+                pos += len_keys - 1;
+                pre_pos = pos + 1;
+            }
+            pos ++;
+        }
+        length = len_in - pre_pos;
+        if (length > 0) {
+            splited.add(new SplitedInfo(pre_pos, length));
+        }
+        // System.out.println("★pos:" + pre_pos + ",length=" + length);
+        byte[][] result = new byte[splited.size()][];
+        int i = 0;
+        for (SplitedInfo info : splited) {
+            if (info.getLength() == 0) {
+                result[i] = null;
+            } else {
+                result[i] = new byte[info.getLength()];
+                System.arraycopy(in, info.getPos(), result[i], 0, info.getLength());
+            }
+            i ++;
+        }
+        return result;
+    }
+    private static boolean compare(byte[] in, int pos, byte[] keys) {
+        int i = 0;
+        while(i < keys.length) {
+            if (keys[i] != in[pos + i]) {
+                return false;
+            }
+            i ++;
+        }
+        return true;
+    }
+}
+
+class SplitedInfo {
+    private int pos;
+    private int length;
+    public SplitedInfo() {
+        this.pos = -1;
+        this.length = -1;
+    }
+    public SplitedInfo(int pos, int length) {
+        this.pos = pos;
+        this.length = length;
+    }
+    /**
+     * @return pos
+     */
+    public int getPos() {
+        return pos;
+    }
+    /**
+     * @param pos  pos
+     */
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+    /**
+     * @return length
+     */
+    public int getLength() {
+        return length;
+    }
+    /**
+     * @param length  length
+     */
+    public void setLength(int length) {
+        this.length = length;
+    }
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append("pos=");
+        buf.append(this.pos);
+        buf.append(",length=");
+        buf.append(this.length);
         return buf.toString();
     }
 }
