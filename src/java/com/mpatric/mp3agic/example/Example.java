@@ -16,7 +16,8 @@ public class Example {
 
     public static void main(String[] args) throws UnsupportedTagException, InvalidDataException, IOException, NotSupportedException {
         Mp3File mp3file = null; //new Mp3File("src/test/resources/v1andv23tagswithalbumimage.mp3");
-        mp3file = new Mp3File("./out/01/f_00018.mp3");
+//        mp3file = new Mp3File("./out/01/f_00018.mp3");
+        mp3file = new Mp3File("src/test/resources/v1andv23tagswithalbumimage.mp3");
 
         System.out.println("Length of this mp3 is: " + mp3file.getLengthInSeconds() + " seconds");
         System.out.println("Bitrate: " + mp3file.getBitrate() + " kbps " + (mp3file.isVbr() ? "(VBR)" : "(CBR)"));

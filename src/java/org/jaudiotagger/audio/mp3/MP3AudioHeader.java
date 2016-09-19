@@ -127,7 +127,7 @@ public class MP3AudioHeader extends GenericAudioHeader {
      */
     public MP3AudioHeader(final File seekFile, long startByte) throws IOException, InvalidAudioFrameException {
         if (!seek(seekFile, startByte)) {
-            throw new InvalidAudioFrameException("No audio header found within" + seekFile.getName());
+            throw new InvalidAudioFrameException("No audio header found within " + seekFile.getName());
         }
     }
 

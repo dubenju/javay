@@ -80,7 +80,7 @@ public class FmtJava {
 						} else {
 							cmnFlg = 1;
 							outLine = tmp;
-							iPrev = 1;
+							iPrev = -1;
 							break LBL_CMN;
 						}
 					}
@@ -94,12 +94,14 @@ public class FmtJava {
 						os.write(outLine.getBytes());
 						lineByte = lineByte + outLine.length();
 						os.write((" /*LINECNT* " + lineCnt + " *LINECNT*/ ").getBytes());
-						if (outLine.endsWith(":") || outLine.endsWith("{") || outLine.endsWith("}") || outLine.endsWith("*/")) {
+						if (outLine.endsWith(";")
+						||  outLine.endsWith("{") || outLine.endsWith("}")
+						||  outLine.endsWith("*/")) {
 							os.write("\r\n".getBytes());
 						}
-						if (lineCnt >= 80) {
+						if (lineByte >= 80) {
 							os.write("\r\n".getBytes());
-							lineCnt = 0;
+							lineByte = 0;
 						}
 					}
 				} // LBL_LINE
