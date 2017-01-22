@@ -13,16 +13,16 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.SourceDataLine;
 
 public class Test01 {
-   public static void main(String[] args) {
-	   Test01Proc proc = new Test01Proc();
-//	   proc.test01();
+    public static void main(String[] args) {
+        Test01Proc proc = new Test01Proc();
+//        proc.test01();
 //	   proc.test02();
 //	   proc.test03();
 //	   proc.test04();
 //	   proc.test05();
-//	   proc.test07();
+        proc.test07();
 //	   proc.test08();
-	   proc.test09();
+//	   proc.test09();
    }
 }
 class Test01Proc {
@@ -46,7 +46,7 @@ class Test01Proc {
 	}
 	public void test02() {
 	      try{
-	         byte[] wave_data = new byte[44100*3];// 
+	         byte[] wave_data = new byte[44100*3];//
 	         double l1      = 44100.0/440.0;    // A 440hz
 	         double l2      = 44100.0/445.0;
 	         for(int i=0;i<wave_data.length;i++){
@@ -66,7 +66,7 @@ class Test01Proc {
 	}
 	public void test03() {
 	      try{
-	    	  byte[] pcm_data= new byte[44100*4]; 
+	    	  byte[] pcm_data= new byte[44100*4];
 	          double p1      = (440.0*Math.PI*2)/44100;
 	          double pv      = (5.0*Math.PI*2)/44100;
 	          double phase   = 0;
@@ -90,7 +90,7 @@ class Test01Proc {
 	}
 	public void test04() {
 	      try{
-	    	  byte[] pcm_data= new byte[44100*4]; 
+	    	  byte[] pcm_data= new byte[44100*4];
 	          double onkai[]={ -9,-7,-5,-4,-2,0,2,3 };// C,D,E,F,G,A,H,C
 	          double px[]   = new double[8];
 	          for(int i=0;i<8;++i){
@@ -147,31 +147,26 @@ class Test01Proc {
 	      }
 	      catch(Exception e){e.printStackTrace(System.err);}
 	}
-	public void test07() {
-	      try{
-	          byte[] pcm_data= new byte[44100*2];
-	          double L1      = 44100.0/440.0;
-	          double L2      = 44100.0/455.0;
-	          for(int i=0;i<pcm_data.length;i++){
-	             pcm_data[i]=  (byte)(55*Math.sin((i/L1)*Math.PI*2));
-	             pcm_data[i]+= (byte)(55*Math.sin((i/L2)*Math.PI*2));
-	             }
+    public void test07() {
+        try{
+            byte[] pcm_data= new byte[44100*2];
+            double L1      = 44100.0/440.0;
+            double L2      = 44100.0/455.0;
+            for(int i = 0;i < pcm_data.length; i ++) {
+                pcm_data[i] = (byte) (55 * Math.sin((i/L1) * Math.PI * 2));
+                pcm_data[i]+= (byte) (55 * Math.sin((i/L2) * Math.PI * 2));
+            }
 
-	          AudioFormat      frmt= new AudioFormat(44100,8,1,true,false);
-	          AudioInputStream ais = new AudioInputStream(
-	                     new ByteArrayInputStream(pcm_data)
-	                    ,frmt
-	                    ,pcm_data.length);
-	          AudioSystem.write(
-	                     ais
-	                    ,AudioFileFormat.Type.WAVE
-	                    ,new File("test07.wav"));
-	          }
-	       catch(Exception e){e.printStackTrace(System.err);}
+            AudioFormat      frmt= new AudioFormat(44100, 8, 1, true, false);
+            AudioInputStream ais = new AudioInputStream(new ByteArrayInputStream(pcm_data) ,frmt ,pcm_data.length);
+            AudioSystem.write(ais ,AudioFileFormat.Type.WAVE ,new File("/sndfile/test07.wav"));
+        } catch(Exception e) {
+            e.printStackTrace(System.err);
+        }
 	}
 	public void test08() {
 	      try{
-	          AudioInputStream ais 
+	          AudioInputStream ais
 	               = AudioSystem.getAudioInputStream(new File("test07.wav"));
 	          AudioFormat      frmt = ais.getFormat();
 	          DataLine.Info    info = new DataLine.Info(SourceDataLine.class,frmt);
@@ -190,13 +185,13 @@ class Test01Proc {
 	}
 	public void test09() {
 	      try{
-	          AudioInputStream ais 
+	          AudioInputStream ais
 	               = AudioSystem.getAudioInputStream(new File("test07.wav"));
 	          AudioFormat      frmt = ais.getFormat();
 	          byte[] buf= new byte[44100*4];
 	          int  len;
 	          int  dlen=0;
-	          while( (len=ais.read(buf,dlen,buf.length-dlen))!=-1 ){ 
+	          while( (len=ais.read(buf,dlen,buf.length-dlen))!=-1 ){
 	             dlen+=len;
 	             }
 

@@ -15,7 +15,7 @@ public class Test07 {
 
 		se.initCause(e);
 
-		throw se;//eclipse这里报错，不知道为什么
+//		throw se;//eclipse这里报错，不知道为什么
 
 		}
 

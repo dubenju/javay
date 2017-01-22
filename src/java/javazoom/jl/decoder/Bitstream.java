@@ -128,8 +128,7 @@ public final class Bitstream implements BitstreamErrors {
      * @param source The InputStream to read from.
      */
     public Bitstream(InputStream source) {
-        this.source = new PushbackInputStream(
-                new BufferedInputStream(source, 30000), BUFFER_INT_SIZE);
+        this.source = new PushbackInputStream(new BufferedInputStream(source, 30000), BUFFER_INT_SIZE);
         skipID3v2();
         firstframe = true;
         closeFrame();

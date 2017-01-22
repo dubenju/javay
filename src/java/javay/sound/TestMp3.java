@@ -35,7 +35,7 @@ public class TestMp3 {
         in = "c:/prj/mp3/001.mp3";
 
 
-//        test(in);
+        test(in);
 
 
 

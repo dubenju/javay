@@ -220,7 +220,7 @@ public class MyRecord extends JFrame implements ActionListener {
         try {
             //以当前的时间命名录音的名字
             //将录音的文件存放到F盘下语音文件夹下
-            File filePath = new File("C:/语音文件");
+            File filePath = new File("C:/sdfile");
             if(!filePath.exists()) {
                 //如果文件不存在，则创建该目录
                 filePath.mkdir();
