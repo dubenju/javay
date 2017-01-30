@@ -1,17 +1,57 @@
 package javay.sound;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+
+import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.SourceDataLine;
 
 import javay.util.UBytes;
 
 public class PlayWave {
-
-    public static void play(float sampleRate, int sampleSizeInBits, int channels, boolean signed, boolean bigEndian, byte[] wave_data) {
-        System.out.println("@PlayWave::play sampleRate=" + sampleRate + ",sampleSizeInBits=" + sampleSizeInBits + ",channels=" + channels + ",signed=" + signed + ",bigEndian=" + bigEndian);
+    public static void write(float sampleRate, int sampleSizeInBits, int channels, boolean signed, boolean bigEndian, byte[] wave_data, String filename) {
         AudioFormat   frmt= new AudioFormat(sampleRate, sampleSizeInBits, channels, signed, bigEndian);
+        System.out.println(PlayWave.class.getName() + ":" + frmt);
+        ByteArrayInputStream bais = new ByteArrayInputStream(wave_data);
+        AudioInputStream ais  = new AudioInputStream(bais, frmt, wave_data.length / frmt.getFrameSize());
+        //定义最终保存的文件名
+        File file = null;
+        //写入文件
+        try {
+//            //以当前的时间命名录音的名字
+//            //将录音的文件存放到F盘下语音文件夹下
+//            File filePath = new File("C:/sdfile");
+//            if(!filePath.exists()) {
+//                //如果文件不存在，则创建该目录
+//                filePath.mkdir();
+//            }
+            file = new File(filename);
+            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            //关闭流
+            try {
+                if(bais != null) {
+                    bais.close();
+                }
+                if(ais != null) {
+                    ais.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void play1(float sampleRate, int sampleSizeInBits, int channels, boolean signed, boolean bigEndian, byte[] wave_data) {
+        // System.out.println("@PlayWave::play sampleRate=" + sampleRate + ",sampleSizeInBits=" + sampleSizeInBits + ",channels=" + channels + ",signed=" + signed + ",bigEndian=" + bigEndian);
+        AudioFormat   frmt= new AudioFormat(sampleRate, sampleSizeInBits, channels, signed, bigEndian);
+        System.out.println(PlayWave.class.getName() + ":" + frmt);
         DataLine.Info info= new DataLine.Info(Clip.class, frmt);
         try {
             Clip clip = (Clip) AudioSystem.getLine(info);
@@ -24,6 +64,26 @@ public class PlayWave {
             }
             long en = System.currentTimeMillis() - st;
             System.out.println("@PlayWave::play 耗时:" + en + "ms");
+        } catch(Exception e) {
+            e.printStackTrace(System.err);
+        }
+    }
+
+    public static void play(float sampleRate, int sampleSizeInBits, int channels, boolean signed, boolean bigEndian, byte[] wave_data) {
+        // System.out.println("@PlayWave::play sampleRate=" + sampleRate + ",sampleSizeInBits=" + sampleSizeInBits + ",channels=" + channels + ",signed=" + signed + ",bigEndian=" + bigEndian);
+        AudioFormat   frmt= new AudioFormat(sampleRate, sampleSizeInBits, channels, signed, bigEndian);
+        System.out.println(PlayWave.class.getName() + ":" + frmt);
+        DataLine.Info info= new DataLine.Info(SourceDataLine.class, frmt);
+        try {
+            SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);
+            line.open(frmt);
+            line.start();
+            long st = System.currentTimeMillis();
+            line.write(wave_data, 0, wave_data.length);
+            long en = System.currentTimeMillis() - st;
+            System.out.println("@PlayWave::play 耗时:" + en + "ms");
+            line.drain();
+            line.close();
         } catch(Exception e) {
             e.printStackTrace(System.err);
         }

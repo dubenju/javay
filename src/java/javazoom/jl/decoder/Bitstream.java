@@ -192,15 +192,13 @@ public final class Bitstream implements BitstreamErrors {
                 }
                 firstframe = false;
             }
-        }
-        catch (BitstreamException ex) {
+        } catch (BitstreamException ex) {
             if ((ex.getErrorCode() == INVALIDFRAME)) {
                 // Try to skip this frame.
                 try {
                     closeFrame();
                     result = readNextFrame();
-                }
-                catch (BitstreamException e) {
+                } catch (BitstreamException e) {
                     if ((e.getErrorCode() != STREAM_EOF)) {
                         // wrap original exception so stack trace is maintained.
                         throw newBitstreamException(e.getErrorCode(), e);

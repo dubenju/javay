@@ -209,7 +209,7 @@ public class MyRecord extends JFrame implements ActionListener {
     //保存录音
     public void save() {
         //取得录音输入流
-	AudioFormat af = getAudioFormat();
+        AudioFormat af = getAudioFormat();
 
         byte audioData[] = baos.toByteArray();
         bais = new ByteArrayInputStream(audioData);

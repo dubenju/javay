@@ -48,58 +48,44 @@ public class JavaSoundAudioDevice extends AudioDeviceBase {
 
 	private byte[]			byteBuf = new byte[4096];
 
-	protected void setAudioFormat(AudioFormat fmt0)
-	{
+	protected void setAudioFormat(AudioFormat fmt0) {
 		fmt = fmt0;
 	}
 
-	protected AudioFormat getAudioFormat()
-	{
-		if (fmt==null)
-		{
+	protected AudioFormat getAudioFormat() {
+		if (fmt == null) {
 			Decoder decoder = getDecoder();
-			fmt = new AudioFormat(decoder.getOutputFrequency(),
-								  16,
-								  decoder.getOutputChannels(),
-								  true,
-								  false);
+			fmt = new AudioFormat(decoder.getOutputFrequency(), 16, decoder.getOutputChannels(), true,  false);
 		}
 		return fmt;
 	}
 
-	protected DataLine.Info getSourceLineInfo()
-	{
+	protected DataLine.Info getSourceLineInfo() {
 		AudioFormat fmt = getAudioFormat();
 		//DataLine.Info info = new DataLine.Info(SourceDataLine.class, fmt, 4000);
+		System.out.println(JavaSoundAudioDevice.class.getName() + fmt);
 		DataLine.Info info = new DataLine.Info(SourceDataLine.class, fmt);
 		return info;
 	}
 
-	public void open(AudioFormat fmt) throws JavaLayerException
-	{
-		if (!isOpen())
-		{
+	public void open(AudioFormat fmt) throws JavaLayerException {
+		if (!isOpen()) {
 			setAudioFormat(fmt);
 			openImpl();
 			setOpen(true);
 		}
 	}
 
-	protected void openImpl()
-		throws JavaLayerException
-	{
+	protected void openImpl() throws JavaLayerException {
 	}
 
 
 	// createSource fix.
-	protected void createSource() throws JavaLayerException
-    {
+	protected void createSource() throws JavaLayerException {
         Throwable t = null;
-        try
-        {
+        try {
 			Line line = AudioSystem.getLine(getSourceLineInfo());
-            if (line instanceof SourceDataLine)
-            {
+            if (line instanceof SourceDataLine) {
          		source = (SourceDataLine)line;
                 //source.open(fmt, millisecondsToBytes(fmt, 2000));
 				source.open(fmt);
@@ -112,16 +98,11 @@ public class JavaSoundAudioDevice extends AudioDeviceBase {
                 source.start();
 
             }
-        } catch (RuntimeException ex)
-          {
+        } catch (RuntimeException ex) {
 			  t = ex;
-          }
-          catch (LinkageError ex)
-          {
+          } catch (LinkageError ex) {
               t = ex;
-          }
-          catch (LineUnavailableException ex)
-          {
+          } catch (LineUnavailableException ex) {
               t = ex;
           }
 		if (source==null) throw new JavaLayerException("cannot obtain source audio line", t);
@@ -132,51 +113,42 @@ public class JavaSoundAudioDevice extends AudioDeviceBase {
 		return (int)(time*(fmt.getSampleRate()*fmt.getChannels()*fmt.getSampleSizeInBits())/8000.0);
 	}
 
-	protected void closeImpl()
-	{
-		if (source!=null)
-		{
+	protected void closeImpl() {
+		if (source!=null) {
 			source.close();
 		}
 	}
 
-	protected void writeImpl(short[] samples, int offs, int len)
-		throws JavaLayerException
-	{
-		if (source==null)
+	protected void writeImpl(short[] samples, int offs, int len) throws JavaLayerException {
+		if (source == null) {
 			createSource();
+		}
 
 		byte[] b = toByteArray(samples, offs, len);
-		source.write(b, 0, len*2);
+		source.write(b, 0, len * 2);
 	}
 
-	protected byte[] getByteArray(int length)
-	{
-		if (byteBuf.length < length)
-		{
+	protected byte[] getByteArray(int length) {
+		if (byteBuf.length < length) {
 			byteBuf = new byte[length+1024];
 		}
 		return byteBuf;
 	}
 
-	protected byte[] toByteArray(short[] samples, int offs, int len)
-	{
+	 protected byte[] toByteArray(short[] samples, int offs, int len) {
 		byte[] b = getByteArray(len*2);
 		int idx = 0;
 		short s;
-		while (len-- > 0)
-		{
+		while (len-- > 0) {
 			s = samples[offs++];
-			b[idx++] = (byte)s;
-			b[idx++] = (byte)(s>>>8);
+			b[idx++] = (byte) s;
+			b[idx++] = (byte) (s >>>8 );
 		}
 		return b;
 	}
 
-	protected void flushImpl()
-	{
-		if (source!=null)
-		{
+	protected void flushImpl() {
+		if (source!=null) {
 			source.drain();
 		}
 	}

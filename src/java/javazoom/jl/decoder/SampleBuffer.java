@@ -1,8 +1,8 @@
-/* 
+/*
  * 11/19/04	 1.0 moved to LGPL.
- * 
+ *
  * 12/12/99  Initial Version based on FileObuffer.	mdm@techie.com.
- * 
+ *
  * FileObuffer:
  * 15/02/99  Java Conversion by E.B ,javalayer@javazoom.net
  *
@@ -44,8 +44,9 @@ public class SampleBuffer extends Obuffer {
         channels = number_of_channels;
         frequency = sample_frequency;
 
-        for (int i = 0; i < number_of_channels; ++i)
+        for (int i = 0; i < number_of_channels; ++i) {
             bufferp[i] = (short) i;
+        }
 
     }
 
@@ -117,5 +118,13 @@ public class SampleBuffer extends Obuffer {
      *
      */
     public void set_stop_flag() {
+    }
+
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append(this.frequency);
+        buf.append(",");
+        buf.append(this.channels);
+        return buf.toString();
     }
 }

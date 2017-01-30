@@ -86,8 +86,9 @@ public class Decoder implements DecoderErrors {
      *                the customizable aspects of the decoder.
      */
     public Decoder(Params params0) {
-        if (params0 == null)
+        if (params0 == null) {
             params0 = DEFAULT_PARAMS;
+        }
 
         params = params0;
 
@@ -123,8 +124,7 @@ public class Decoder implements DecoderErrors {
      * @param stream The bistream that provides the bits for te body of the frame.
      * @return A SampleBuffer containing the decoded samples.
      */
-    public Obuffer decodeFrame(Header header, Bitstream stream)
-            throws DecoderException {
+    public Obuffer decodeFrame(Header header, Bitstream stream) throws DecoderException {
         if (!initialized) {
             initialize(header);
         }
@@ -324,9 +324,9 @@ public class Decoder implements DecoderErrors {
          */
         public Equalizer getInitialEqualizerSettings()
 		{
-			return equalizer;	
+			return equalizer;
 		}
-				
+
 	};
 }
 

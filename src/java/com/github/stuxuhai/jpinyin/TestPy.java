@@ -2,6 +2,7 @@ package com.github.stuxuhai.jpinyin;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import javazoom.jl.player.Player;
 /**
@@ -38,17 +39,20 @@ public class TestPy {
             if (snd[i] == null || snd[i].equals("。") || snd[i].equals("，") || snd[i].equals("！")) {
                 continue;
             }
+            try {
+                l1 = System.nanoTime();
+                String filename = "./in/" + snd[i] + ".mp3";
+                BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(filename));
+                Player player = new Player(buffer);
 
-            l1 = System.nanoTime();
-            String filename = "./in/" + snd[i] + ".mp3";
-            BufferedInputStream buffer = new BufferedInputStream(new FileInputStream(filename));
-            Player player = new Player(buffer);
+                l2 = System.nanoTime();
 
-            l2 = System.nanoTime();
-
-            player.play();
-            l3 = System.nanoTime();
-            System.out.println("-----load:" + (l2 - l1) / 1000000 + "ms,play:" + (l3 - l2) / 1000000 + "ms.");
+                player.play();
+                l3 = System.nanoTime();
+                System.out.println("-----load:" + (l2 - l1) / 1000000 + "ms,play:" + (l3 - l2) / 1000000 + "ms.");
+            } catch(FileNotFoundException ex) {
+                System.out.println(ex);
+            }
         }
 
 //        PlayerMusic p1 = new PlayerMusic("./in/ni3.mp3");

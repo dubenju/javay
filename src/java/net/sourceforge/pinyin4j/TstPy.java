@@ -25,6 +25,9 @@ public class TstPy {
      format.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
 
      String[] pinyin = PinyinHelper.toHanyuPinyinStringArray('重', format);
+     for(String py : pinyin) {
+         System.out.println(py);
+     }
     }
 
 }

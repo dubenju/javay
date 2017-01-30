@@ -283,8 +283,7 @@ public final class Header {
                 //System.out.println("VBR:"+xing+" Frames:"+ h_vbr_frames +" Size:"+h_vbr_bytes);
                 return true;
             }
-        }
-        catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             throw new BitstreamException("XingVBRHeader Corrupted", e);
         }
 
@@ -315,8 +314,7 @@ public final class Header {
                 // TODO
                 return true;
             }
-        }
-        catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             throw new BitstreamException("VBRIVBRHeader Corrupted", e);
         }
         return false;

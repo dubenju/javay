@@ -81,8 +81,7 @@ public class Main {
 		 * assigning the same file
 		 */
     if (inPath.equals(outPath)) {
-      System.err
-          .println("Input file and Output file are the same. Abort.");
+      System.err.println("Input file and Output file are the same. Abort.");
       return null;
     }
 
