@@ -10,9 +10,15 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import javay.util.UBytes;
 
 public class AesDemo {
-
+    private byte[] keys = {
+            0x0f,0x15,0x71,(byte)0xc9, 0x47,(byte)0xd9,(byte)0xe8,0x59,
+            0x0c,(byte)0xb7,(byte)0xad,(byte)0xd6,(byte)0xaf,0x7f,0x67,(byte)0x98
+        };
   //KeyGenerator 提供对称密钥生成器的功能，支持各种算法
   private KeyGenerator keygen;
   //SecretKey 负责保存对称密钥
@@ -24,12 +30,14 @@ public class AesDemo {
 
   public AesDemo() throws NoSuchAlgorithmException, NoSuchPaddingException{
     Security.addProvider(new com.sun.crypto.provider.SunJCE());
-    //实例化支持DES算法的密钥生成器(算法名称命名需按规定，否则抛出异常)
-    keygen = KeyGenerator.getInstance("AES");
-    //生成密钥
-    deskey = keygen.generateKey();
+//    //实例化支持DES算法的密钥生成器(算法名称命名需按规定，否则抛出异常)
+//    keygen = KeyGenerator.getInstance("AES");
+//    //生成密钥
+//    deskey = keygen.generateKey();
+    deskey= new SecretKeySpec(keys, "AES");
+    System.out.println("密钥:" + UBytes.toHexString(deskey.getEncoded()));
     //生成Cipher对象,指定其支持的DES算法
-    c = Cipher.getInstance("AES");
+    c = Cipher.getInstance("AES/ECB/NOPADDING"); // PKCS5Padding
   }
 
   /**
@@ -46,8 +54,10 @@ public class AesDemo {
     // 根据密钥，对Cipher对象进行初始化，ENCRYPT_MODE表示加密模式
     c.init(Cipher.ENCRYPT_MODE, deskey);
     byte[] src = str.getBytes();
+    System.out.println("明文:" + UBytes.toHexString(src));
     // 加密，结果保存进cipherByte
     cipherByte = c.doFinal(src);
+    System.out.println("密文:" + UBytes.toHexString(cipherByte));
     return cipherByte;
   }
 
@@ -78,9 +88,10 @@ public class AesDemo {
    */
   public static void main(String[] args) throws Exception {
     AesDemo de1 = new AesDemo();
-    String msg ="www.suning.com/index.jsp";
+    String msg ="abcdefghijklmnop";
     byte[] encontent = de1.Encrytor(msg);
     byte[] decontent = de1.Decryptor(encontent);
+    System.out.println("解密:" + UBytes.toHexString(decontent));
     System.out.println("明文是:" + msg);
     System.out.println("加密后:" + new String(encontent));
     System.out.println("解密后:" + new String(decontent));

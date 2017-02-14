@@ -26,16 +26,17 @@ public class TestPy2 {
 
     public static void main(String[] args) throws Exception {
         String str = "你好世界";
-        str = "在老家上班，虽然不用挤春运，可也少了过年那份回家的期待。那种期待感其实挺美好的。";
-//        str = "洪洞";
+//        str = "在老家上班，虽然不用挤春运，可也少了过年那份回家的期待。那种期待感其实挺美好的。";
+        str = "洪洞";
 //        str = "特别高，高到你无法想象！";
 //        str = "快过年了还叫我出来出差，关键是要处理的东西完全没接触过，我做起来一脸懵逼，这对客户也不负责任吧。";
 //        str = "曾小明小朋友，早上好"; // NG:céng,xiǎo,míng,xiǎo,péng,yǒu,，,zǎo,shàng,hǎo
-//        str = "下班喽，明天回家";
+        str = "下班喽，明天回家";
 //        str = "好";
-        str = "产业链已经不止一次的传出消息，今年苹果要推出的iPhone 8要支持无线充电功能，这虽说这个功能已经在不少安卓手机上实现，但果粉对于它的实现还是兴奋不已。当然了，苹果的魅力在于，对于现有技术重新包装，改进使用体验，并最终推动整个行业的发展，比如iPhone 8上的无线充电功能，其最大的魅力在于真正的摆脱线材，实现无拘束的无线充电。";
+//        str = "产业链已经不止一次的传出消息，今年苹果要推出的iPhone 8要支持无线充电功能，这虽说这个功能已经在不少安卓手机上实现，但果粉对于它的实现还是兴奋不已。当然了，苹果的魅力在于，对于现有技术重新包装，改进使用体验，并最终推动整个行业的发展，比如iPhone 8上的无线充电功能，其最大的魅力在于真正的摆脱线材，实现无拘束的无线充电。";
 //        str = "大年初一";
-        str = "祝大家一帆风顺，二龙腾飞，三羊开泰，四季平安，五福临门，六六大顺，七星高照，八方来财，九九同心，十全十美，百事亨通，千事吉祥，万事如意!";
+//        str = "祝大家一帆风顺，二龙腾飞，三羊开泰，四季平安，五福临门，六六大顺，七星高照，八方来财，九九同心，十全十美，百事亨通，千事吉祥，万事如意!";
+//        str = "《断桥残雪》作者：凉子江南霁景游断桥，缠绵西子恋人老。雪潭映月如翘角，切别闻香知春晓。白堤尘雪皓渺渺，顺笔落笺难挥毫。一把长笛奏仙谣，独赏残雪留情梢。西窗忆雪旧红颜，相思济济没桥帘。湖心雾浓人自醉，青瓦朱栏朝飞檐。断桥残雪一线牵，神话流转恋千年。如今初踏断桥前，不见白蛇与许仙。";
 
         long st = System.nanoTime();
         String str1 = PinyinHelper.convertToPinyinString(str, ",", PinyinFormat.WITH_TONE_MARK);
@@ -59,7 +60,9 @@ public class TestPy2 {
         for (int i = 0; i < snd.length; i ++) {
             System.out.println(snd[i]);
             if (snd[i] == null || snd[i].equals("。") || snd[i].equals("，")
-             || snd[i].equals("！") || snd[i].equals("!")) {
+             || snd[i].equals("！") || snd[i].equals("!")
+             || snd[i].equals("《") || snd[i].equals("》")
+             || snd[i].equals("：")) {
                 continue;
             }
 
@@ -127,8 +130,10 @@ public class TestPy2 {
         byte[] pbys = baos.toByteArray();
         // PlayWave.play(output_fmt.getSampleRate(), 16, output_fmt.getChannels(), true,  false, pbys);
         String filename = "./out/" + System.currentTimeMillis() + ".wav";
-        PlayWave.write(output_fmt.getSampleRate(), 16, output_fmt.getChannels(), true,  false, pbys, filename);
-        Main.main(new String[] {filename, filename + ".mp3"});
+        if (output_fmt != null) {
+            PlayWave.write(output_fmt.getSampleRate(), 16, output_fmt.getChannels(), true,  false, pbys, filename);
+            Main.main(new String[] {filename, filename + ".mp3"});
+        }
     }
     static byte[] toByteArray(short[] samples, int offs, int len)  {
         byte[] b = new byte[len * 2 + 1024];

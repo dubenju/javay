@@ -1,7 +1,7 @@
 package javay.regex;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import javay.util.regex.Matcher;
+import javay.util.regex.Pattern;
 
 public class RM6_1 {
     public static void main(String[] args) {
@@ -21,6 +21,7 @@ public class RM6_1 {
         // 按指定模式在字符串查找
         String line = "开启 开关闭开 谢开落";
         String pattern = "\\b开";
+        pattern = "";
 
         // 创建 Pattern 对象
         Pattern r = Pattern.compile(pattern, flag);
